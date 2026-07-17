@@ -1,0 +1,36 @@
+{
+  "name": "@heitorimidio/sites-skills",
+  "version": "0.1.0",
+  "description": "A collection of Claude Code skills for building distinctive marketing websites: interactive web effects, design guidance, animation, and workflow skills.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skills",
+    "web-design",
+    "animation",
+    "react-bits",
+    "interactive-effects"
+  ],
+  "license": "MIT",
+  "author": "heitorimidio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heitorimidio/sites.git"
+  },
+  "bin": {
+    "sites-skills": "bin/install.js"
+  },
+  "files": [
+    ".claude/skills",
+    "bin",
+    "README.md"
+  ],
+  "scripts": {
+    "install:skills": "node bin/install.js",
+    "install:project": "node bin/install.js --project",
+    "list": "node bin/install.js --list"
+  },
+  "engines": {
+    "node": ">=16.7.0"
+  }
+}

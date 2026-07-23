@@ -1,0 +1,30 @@
+{
+  "//": "Copie para config.json e ajuste. Também dá para usar variáveis de ambiente (ver README).",
+
+  "root": "./studio-data/Instagram-Studio",
+
+  "ai": {
+    "//": "Agrupamento e sugestões. Sem chave, roda em modo heurístico (dry-run inteligente).",
+    "provider": "claude",
+    "model": "claude-opus-4-8",
+    "apiKeyEnv": "ANTHROPIC_API_KEY"
+  },
+
+  "transcribe": {
+    "//": "Transcrição de fala (Whisper). Sem chave, gera um placeholder de transcrição.",
+    "provider": "openai-whisper",
+    "model": "whisper-1",
+    "apiKeyEnv": "OPENAI_API_KEY"
+  },
+
+  "vision": {
+    "//": "Descrição da cena. Usa o mesmo provider de IA (Claude vision) quando há chave.",
+    "enabled": true
+  },
+
+  "email": {
+    "//": "Envio das sugestões por email. Sem SMTP configurado, apenas escreve o resumo em disco.",
+    "enabled": false,
+    "to": "voce@exemplo.com"
+  }
+}

@@ -26,5 +26,17 @@
     "//": "Envio das sugestões por email. Sem SMTP configurado, apenas escreve o resumo em disco.",
     "enabled": false,
     "to": "voce@exemplo.com"
+  },
+
+  "metricool": {
+    "//": "Agendamento/postagem. Sem token, `publish` roda em dry-run (mostra o payload).",
+    "tokenEnv": "METRICOOL_USER_TOKEN",
+    "userId": "",
+    "blogId": "",
+    "timezone": "America/Sao_Paulo",
+    "autoPublish": true,
+    "draft": false,
+    "//publicBaseUrl": "URL pública onde o serviço serve /media para o Metricool baixar (ex.: https://studio.seudominio.com). Sem isso, forneça media-url.txt por post.",
+    "publicBaseUrl": ""
   }
 }

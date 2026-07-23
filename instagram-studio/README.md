@@ -43,6 +43,7 @@ node src/cli.js scaffold        # cria o esquema de pastas
 node src/cli.js ingest --move   # FASE 1: organiza e move as mídias para cada post
 # você aprova: move a pasta p/ 02_aprovados/ e adiciona legenda.txt
 node src/cli.js edit            # FASE 2: edita por template + monta o cronograma
+node src/cli.js publish         # agenda o cronograma no Metricool (dry-run sem token)
 node src/cli.js status          # quantos itens há em cada pasta
 node src/cli.js serve           # sobe o serviço HTTP para o n8n chamar
 ```
@@ -163,7 +164,10 @@ n8n chama:
 - **Fase 2** — gatilho (aprovação em `02_aprovados/` ou agenda) → `POST /edit` →
   edição por template + cronograma → Gmail com o resumo. Idempotente (`?force=1`
   refaz um post).
-- **serviço HTTP** → `src/server.js` (`/health`, `/ingest`, `/edit`).
+- **Postagem** — agenda → `POST /publish` → agenda o cronograma no **Metricool**
+  (legenda sua + mídia editada) → Gmail com o resultado. Dry-run sem token.
+- **serviço HTTP** → `src/server.js` (`/health`, `/ingest`, `/edit`, `/publish`,
+  e `/media/<post>/<arquivo>` para o Metricool baixar a mídia).
 
 Em produção 24/7 você quer as APIs por baixo (como aqui), não um MCP amarrado a
 uma sessão. Os quatro workflows prontos (Fases 1 e 2, gatilho de Drive ou
@@ -179,6 +183,7 @@ src/
 ├─ scaffold.js         cria/mantém o esquema de pastas
 ├─ pipeline.js         FASE 1 — orquestra a ingestão
 ├─ edit.js             FASE 2 — orquestra a edição por template
+├─ publish.js          POSTAGEM — agenda o cronograma no Metricool
 ├─ notify/email.js     monta o resumo das sugestões
 └─ lib/
    ├─ media.js         detecta mídia na inbox
@@ -190,6 +195,7 @@ src/
    ├─ render.js        monta o plano de edição (ffmpeg) por template
    ├─ ffmpeg.js        adapter de ffmpeg (detecta, monta e roda)
    ├─ schedule.js      cronograma por melhores horários
+   ├─ metricool.js     adapter da API do Metricool (agendar/postar)
    └─ log.js           log
 n8n/                   workflows importáveis + guia de setup
 ```

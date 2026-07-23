@@ -158,10 +158,59 @@ pasta `02_aprovados`.
 O nó **Editou algo novo?** libera o Gmail só quando `novos > 0` — rodadas sem
 aprovação nova não geram email.
 
-> **Próximo slice (postagem):** o `cronograma` já traz `iso` por post. Para
-> agendar a publicação de fato, ligue um nó do **Metricool/Publer** (ou a Graph
-> API na Fase 4) consumindo `cronograma` + os arquivos de `03_editados/`. Isso
-> precisa da sua conta nesses serviços — me avise quando quiser montar.
+## Postagem — agendar no Metricool
+
+Último elo: pegar o cronograma da Fase 2 e agendar de verdade no Metricool.
+
+```
+Agenda ─▶ HTTP POST /publish ─▶ tem o que agendar? ─▶ Gmail (resultado)
+              │
+   lê 03_editados/cronograma.json, monta o payload do Metricool
+   (legenda sua + mídia editada), agenda e verifica
+```
+
+Workflow: **`phase2-publish-schedule.json`** (a cada 30 min → `POST /publish`).
+
+**Pré-requisitos (seus):**
+
+1. **Plano do Metricool com API.** O acesso à API é de planos pagos. Pegue o
+   `userToken` em **Configurações → API**, e o `blogId`/`userId` da marca
+   (ou liste com `GET /api/v2/settings/brands`).
+2. **Instagram conectado como Business/Creator** no Metricool — necessário para
+   auto-publicar (`autoPublish: true`).
+3. **URL pública para a mídia.** O Metricool baixa o arquivo por URL. Duas opções:
+   - Ligue `metricool.publicBaseUrl` no config + `STUDIO_MEDIA_TOKEN`: o serviço
+     serve `GET /media/<post>/<arquivo>?token=…` e monta a URL sozinho. A URL
+     precisa ser alcançável pelo Metricool (proxy reverso/túnel no VPS).
+   - Ou coloque um `media-url.txt` (uma URL por linha) na pasta do post em
+     `03_editados/` — útil se você usa links públicos do Drive.
+4. **Variáveis no serviço:** `METRICOOL_USER_TOKEN`, `METRICOOL_USER_ID`,
+   `METRICOOL_BLOG_ID` (e `STUDIO_MEDIA_TOKEN` se usar a opção de servir mídia).
+
+Sem `METRICOOL_USER_TOKEN`, `/publish` roda em **dry-run**: devolve o payload
+exato que enviaria, sem tocar no Metricool — dá para testar tudo antes.
+
+### O que `POST /publish` devolve
+
+```json
+{
+  "ok": true,
+  "count": 2,
+  "agendados": 2,
+  "dryRun": false,
+  "subject": "Instagram-Studio — 2/2 post(s) agendados no Metricool",
+  "summary": "# Agendamento no Metricool — ...markdown...",
+  "results": [
+    { "post": "post_2026-07-24_review-livro", "quando": "sáb., 25/07, 19:00",
+      "igType": "REEL", "status": "agendado", "httpStatus": 200,
+      "mediaUrls": ["https://studio.seudominio.com/media/post_.../reel.mp4?token=…"] }
+  ]
+}
+```
+
+> O Metricool responde **200 mesmo em falha silenciosa** — por isso o serviço
+> também guarda a resposta em `03_editados/agendamentos.json`. Confira sempre o
+> calendário do Metricool antes da publicação.
 
 ## Segurança
 

@@ -13,6 +13,7 @@ const JANELAS = {
 
 // Distribui os posts em dias/horários sem empilhar dois no mesmo slot.
 export function schedule(plans, config, from = new Date()) {
+  const timezone = config?.metricool?.timezone || config?.timezone || "America/Sao_Paulo";
   const usados = new Set();
   const out = [];
 
@@ -24,6 +25,7 @@ export function schedule(plans, config, from = new Date()) {
     const janelas = JANELAS[formato] || JANELAS.reel;
 
     let slot = null;
+    let chosenHora = janelas[0];
     // procura o primeiro dia/horário livre
     for (let d = 0; d < 30 && !slot; d++) {
       const data = addDays(dia, d);
@@ -32,17 +34,22 @@ export function schedule(plans, config, from = new Date()) {
         if (!usados.has(key)) {
           usados.add(key);
           slot = atHour(data, hora);
+          chosenHora = hora;
           break;
         }
       }
     }
-    if (!slot) slot = atHour(addDays(dia, 30), janelas[0]);
+    if (!slot) slot = atHour(addDays(dia, 30), (chosenHora = janelas[0]));
 
     out.push({
       post: plan.post,
       template: plan.templateId,
       formato,
       quando: formatLocal(slot),
+      // Fonte da verdade para o Metricool: relógio de parede local + timezone.
+      // (Independe do fuso do servidor — o horário escolhido é sempre local.)
+      dateTimeLocal: `${ymd(slot)}T${pad2(chosenHora)}:00:00`,
+      timezone,
       iso: slot.toISOString(),
     });
     // avança o "cursor" de dia para espalhar os posts
@@ -50,6 +57,10 @@ export function schedule(plans, config, from = new Date()) {
   }
 
   return out;
+}
+
+function pad2(n) {
+  return String(n).padStart(2, "0");
 }
 
 function startOfDay(d) {

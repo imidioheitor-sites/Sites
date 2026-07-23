@@ -14,6 +14,7 @@ import { loadConfig } from "./config.js";
 import { scaffold, paths, FOLDERS } from "./scaffold.js";
 import { ingest } from "./pipeline.js";
 import { edit } from "./edit.js";
+import { publish } from "./publish.js";
 import { startServer } from "./server.js";
 import { log } from "./lib/log.js";
 
@@ -45,6 +46,14 @@ async function main() {
       const dryRun = rest.includes("--dry-run");
       const force = rest.includes("--force");
       await edit(config, { dryRun, force });
+      break;
+    }
+
+    case "publish": {
+      await scaffold(config);
+      log.title("Agendamento no Metricool");
+      const dryRun = rest.includes("--dry-run");
+      await publish(config, { dryRun });
       break;
     }
 
@@ -91,12 +100,15 @@ Uso:
   node src/cli.js ingest --move   organiza e move as mídias para cada post
   node src/cli.js edit            edita os posts aprovados por template
   node src/cli.js edit --dry-run  só gera o plano, sem renderizar
+  node src/cli.js publish         agenda o cronograma no Metricool
+  node src/cli.js publish --dry-run  mostra o payload sem enviar
   node src/cli.js status          mostra quantos itens há em cada pasta
   node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 
 Configuração:
   copie config.example.json -> config.json e ajuste, ou use variáveis:
-  STUDIO_ROOT, ANTHROPIC_API_KEY, OPENAI_API_KEY, STUDIO_PORT, STUDIO_TOKEN
+  STUDIO_ROOT, ANTHROPIC_API_KEY, OPENAI_API_KEY, STUDIO_PORT, STUDIO_TOKEN,
+  METRICOOL_USER_TOKEN, METRICOOL_USER_ID, METRICOOL_BLOG_ID, STUDIO_MEDIA_TOKEN
 `);
 }
 

@@ -43,7 +43,8 @@ async function main() {
       await scaffold(config);
       log.title("Edição por template & cronograma");
       const dryRun = rest.includes("--dry-run");
-      await edit(config, { dryRun });
+      const force = rest.includes("--force");
+      await edit(config, { dryRun, force });
       break;
     }
 

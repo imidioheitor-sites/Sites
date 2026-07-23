@@ -155,17 +155,19 @@ formato de saída, dimensão, estilo de capa, trilha e tipo de legenda.
 
 ## Como isto se conecta ao n8n
 
-Cada peça é um adaptador isolado; o `serve` amarra tudo num endpoint que o n8n chama:
+Cada peça é um adaptador isolado; o `serve` amarra tudo em dois endpoints que o
+n8n chama:
 
-- **gatilho** → nó de Drive "arquivo novo" (ou agenda) → `POST /ingest`
-- **transcrição** → `src/lib/transcribe.js` (Whisper via HTTP)
-- **visão** → `src/lib/vision.js` (Claude vision)
-- **agrupamento** → `src/lib/group.js` (Claude, com fallback heurístico)
-- **serviço HTTP** → `src/server.js` (o que o n8n chama; devolve JSON + markdown)
-- **entrega** → nó Gmail do n8n envia o `suggestions` markdown
+- **Fase 1** — gatilho (Drive "arquivo novo" ou agenda) → `POST /ingest` →
+  transcrição/visão/agrupamento → Gmail com as sugestões.
+- **Fase 2** — gatilho (aprovação em `02_aprovados/` ou agenda) → `POST /edit` →
+  edição por template + cronograma → Gmail com o resumo. Idempotente (`?force=1`
+  refaz um post).
+- **serviço HTTP** → `src/server.js` (`/health`, `/ingest`, `/edit`).
 
 Em produção 24/7 você quer as APIs por baixo (como aqui), não um MCP amarrado a
-uma sessão. Os workflows prontos estão em [`n8n/`](n8n/).
+uma sessão. Os quatro workflows prontos (Fases 1 e 2, gatilho de Drive ou
+agendado) e o guia de setup estão em [`n8n/`](n8n/README.md).
 
 ## Estrutura do código
 

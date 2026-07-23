@@ -105,6 +105,64 @@ Ative o workflow. Pronto — Fase 1 rodando sozinha.
 O nó **Tem post novo?** só deixa passar para o Gmail quando `count > 0`, então
 gatilhos em inbox vazia não geram email.
 
+## Fase 2 — edição por template no n8n
+
+Mesma ideia da Fase 1, um degrau adiante: quando você **aprova** um post (move a
+pasta para `02_aprovados/` e solta a `legenda.txt`), o n8n dispara a edição e te
+manda o cronograma.
+
+```
+Gatilho (aprovação no Drive ou agenda) ─▶ HTTP POST /edit ─▶ editou algo novo? ─▶ Gmail
+                                              │                                    │
+                                    edita os posts novos,                 resumo + cronograma
+                                    monta o cronograma                   (o que foi editado e quando)
+```
+
+Workflows (mesma estrutura, muda o gatilho):
+
+| Arquivo | Gatilho | Quando usar |
+|---|---|---|
+| `phase2-schedule.json` | a cada 15 min | **Recomendado.** Sem credencial de Drive; roda o `/edit` idempotente. |
+| `phase2-drive-trigger.json` | arquivo novo em `02_aprovados/` | Dispara na hora que você aprova; exige credencial do Google Drive. |
+
+**Importante — ffmpeg no servidor.** A Fase 2 renderiza vídeo. Instale **ffmpeg**
+na máquina do serviço; sem ele, o `/edit` gera o plano + `render.sh` mas não
+produz o `reel.mp4`. O `/edit` é **idempotente**: posts já editados são pulados
+(`novos` conta só os desta rodada), então tanto o gatilho por arquivo quanto o
+agendado são seguros de repetir. Para refazer um post, chame `POST /edit?force=1`.
+
+Ajustes após importar: o nó **`studio /edit`** (URL + `x-studio-token`), o nó
+**Gmail** (credencial + `sendTo`; assunto/corpo vêm de `{{ $json.subject }}` e
+`{{ $json.summary }}`), e — só no drive-trigger — a credencial do Drive + o ID da
+pasta `02_aprovados`.
+
+### O que `POST /edit` devolve
+
+```json
+{
+  "ok": true,
+  "count": 2,
+  "novos": 1,
+  "subject": "Instagram-Studio — 2 post(s) editado(s) e agendado(s)",
+  "summary": "# Posts editados & agendados — ...markdown...",
+  "cronograma": [
+    { "post": "post_2026-07-24_review-livro", "formato": "reel", "quando": "sáb., 25/07, 19:00", "iso": "2026-07-25T19:00:00.000Z" }
+  ],
+  "posts": [
+    { "post": "post_2026-07-24_review-livro", "template": "review-livro", "saida": "reel",
+      "dimensao": "1080x1920", "outputs": ["reel.mp4", "capa.jpg"], "pendencias": 2, "pulado": false }
+  ]
+}
+```
+
+O nó **Editou algo novo?** libera o Gmail só quando `novos > 0` — rodadas sem
+aprovação nova não geram email.
+
+> **Próximo slice (postagem):** o `cronograma` já traz `iso` por post. Para
+> agendar a publicação de fato, ligue um nó do **Metricool/Publer** (ou a Graph
+> API na Fase 4) consumindo `cronograma` + os arquivos de `03_editados/`. Isso
+> precisa da sua conta nesses serviços — me avise quando quiser montar.
+
 ## Segurança
 
 - Defina sempre `STUDIO_TOKEN` num VPS — sem ele o endpoint fica aberto.

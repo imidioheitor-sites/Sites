@@ -51,8 +51,47 @@ export async function scaffold(config) {
     await writeFile(inboxReadme, INBOX_README, "utf8");
   }
 
+  // Fase 3: pasta de relatórios + exemplo de insights para você preencher.
+  const relDir = path.join(root, "relatorios");
+  await mkdir(relDir, { recursive: true });
+  const example = path.join(relDir, "insights.example.json");
+  if (!(await exists(example))) {
+    await writeFile(example, INSIGHTS_EXAMPLE, "utf8");
+  }
+
   return root;
 }
+
+const INSIGHTS_EXAMPLE = JSON.stringify(
+  [
+    {
+      post: "post_2026-07-20_review-livro",
+      formato: "reel",
+      publishedAt: "2026-07-20T19:00:00",
+      views: 1200,
+      reach: 900,
+      likes: 80,
+      comments: 5,
+      saves: 30,
+      shares: 8,
+      retentionPct: 45,
+    },
+    {
+      post: "post_2026-07-21_dicas-de-estudo",
+      formato: "carrossel",
+      publishedAt: "2026-07-21T12:00:00",
+      views: 800,
+      reach: 700,
+      likes: 60,
+      comments: 3,
+      saves: 55,
+      shares: 4,
+      retentionPct: null,
+    },
+  ],
+  null,
+  2
+);
 
 export function paths(config) {
   const p = {};

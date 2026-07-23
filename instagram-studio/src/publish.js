@@ -13,6 +13,7 @@ import path from "node:path";
 import { log } from "./lib/log.js";
 import { paths } from "./scaffold.js";
 import { metricoolConfigured, buildSchedulePayload, schedulePost } from "./lib/metricool.js";
+import { cleanCaption } from "./lib/inputs.js";
 
 export async function publish(config, opts = {}) {
   const dirs = paths(config);
@@ -35,7 +36,7 @@ export async function publish(config, opts = {}) {
     const postDir = path.join(dirs.editados, item.post);
     const outputs = await mediaOutputs(postDir);
     const mediaUrls = await resolveMediaUrls(config, item.post, outputs);
-    const caption = (await readText(path.join(postDir, "legenda.txt")))?.trim() || "";
+    const caption = cleanCaption(await readText(path.join(postDir, "legenda.txt")));
     const igType = item.formato === "carrossel" ? "POST" : "REEL";
 
     const payload = buildSchedulePayload({

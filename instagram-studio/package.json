@@ -12,6 +12,8 @@
     "ingest": "node src/cli.js ingest",
     "edit": "node src/cli.js edit",
     "publish": "node src/cli.js publish",
+    "report": "node src/cli.js report",
+    "doctor": "node src/cli.js doctor",
     "status": "node src/cli.js status",
     "serve": "node src/cli.js serve"
   },

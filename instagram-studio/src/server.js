@@ -18,6 +18,7 @@ import { scaffold, paths } from "./scaffold.js";
 import { ingest } from "./pipeline.js";
 import { edit } from "./edit.js";
 import { publish } from "./publish.js";
+import { report } from "./report.js";
 import { log } from "./lib/log.js";
 
 const PORT = Number(process.env.STUDIO_PORT || 4599);
@@ -138,6 +139,24 @@ export function startServer() {
       }
     }
 
+    if (req.method === "POST" && url.pathname === "/report") {
+      try {
+        const config = await loadConfig();
+        await scaffold(config);
+        const result = await report(config, {});
+        return send(res, 200, {
+          ok: true,
+          count: result.count,
+          subject: result.subject || "",
+          summary: result.summary || "",
+          janelas: result.janelas || {},
+        });
+      } catch (e) {
+        log.err(e.stack || e.message);
+        return send(res, 500, { ok: false, error: e.message });
+      }
+    }
+
     return send(res, 404, { ok: false, error: "rota não encontrada" });
   });
 
@@ -147,6 +166,7 @@ export function startServer() {
     log.info(`  POST /ingest?move=1   ${TOKEN ? "(exige token)" : "(sem token)"}`);
     log.info(`  POST /edit?force=1    ${TOKEN ? "(exige token)" : "(sem token)"}`);
     log.info(`  POST /publish?dryRun=1 ${TOKEN ? "(exige token)" : "(sem token)"}`);
+    log.info(`  POST /report          ${TOKEN ? "(exige token)" : "(sem token)"}`);
     log.info(`  GET  /media/<post>/<arquivo>?token=…  (para o Metricool baixar)`);
     if (!TOKEN) log.warn("STUDIO_TOKEN não setado — o endpoint está aberto. Ok em rede local; num VPS, defina um token.");
   });

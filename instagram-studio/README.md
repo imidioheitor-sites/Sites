@@ -1,13 +1,13 @@
-# Automatizador de Instagram — Fases 1 e 2
+# Automatizador de Instagram — Fases 1, 2 e 3
 
 Você despeja o material bagunçado; o sistema **entende** (voz + visão), **agrupa**
-em posts completos, **sugere** o template (Fase 1), **edita** por template e
-**agenda** nos melhores horários (Fase 2) — mas **nunca cria** a legenda, a fala
-ou a imagem. Isso é sempre seu.
+e **sugere** o template (Fase 1), **edita** por template e **agenda** (Fase 2),
+**posta** via Metricool e **analisa** seus números para melhorar os horários
+(Fase 3) — mas **nunca cria** a legenda, a fala ou a imagem. Isso é sempre seu.
 
-> Fundação do pipeline descrito no documento de arquitetura. As fases seguintes
-> (postagem via Graph API, relatórios) se conectam a partir das pastas que estas
-> fases mantêm.
+> **Onde coloco meus inputs?** → veja **[`INPUTS.md`](INPUTS.md)** (chaves no
+> `.env`, legenda por post, números em `insights.json`). Rode `node src/cli.js
+> doctor` para ver o que falta.
 
 ## A regra de ouro
 
@@ -44,9 +44,15 @@ node src/cli.js ingest --move   # FASE 1: organiza e move as mídias para cada p
 # você aprova: move a pasta p/ 02_aprovados/ e adiciona legenda.txt
 node src/cli.js edit            # FASE 2: edita por template + monta o cronograma
 node src/cli.js publish         # agenda o cronograma no Metricool (dry-run sem token)
+node src/cli.js report          # FASE 3: analisa seus números + melhores horários
+node src/cli.js doctor          # diz o que está configurado e o que falta
 node src/cli.js status          # quantos itens há em cada pasta
 node src/cli.js serve           # sobe o serviço HTTP para o n8n chamar
 ```
+
+**Primeiro passo:** copie `.env.example` → `.env` e preencha o que tiver; copie
+`config.example.json` → `config.json` para ajustes não-secretos. `doctor` mostra
+o que falta e onde por. Detalhes em [`INPUTS.md`](INPUTS.md).
 
 Requer **Node 18+** (usa `fetch` e `FormData` nativos). Sem dependências obrigatórias.
 A Fase 2 usa **ffmpeg** quando presente; sem ele, gera o plano + `render.sh`.
@@ -181,9 +187,12 @@ src/
 ├─ server.js           serviço HTTP para o n8n (POST /ingest)
 ├─ config.js           carrega config + variáveis de ambiente
 ├─ scaffold.js         cria/mantém o esquema de pastas
+├─ config.js           config + carrega o .env (segredos num lugar só)
 ├─ pipeline.js         FASE 1 — orquestra a ingestão
 ├─ edit.js             FASE 2 — orquestra a edição por template
 ├─ publish.js          POSTAGEM — agenda o cronograma no Metricool
+├─ report.js           FASE 3 — analisa seus números + melhores horários
+├─ doctor.js           diagnóstico dos seus inputs
 ├─ notify/email.js     monta o resumo das sugestões
 └─ lib/
    ├─ media.js         detecta mídia na inbox
@@ -191,11 +200,13 @@ src/
    ├─ vision.js        Claude vision (adapter)
    ├─ group.js         agrupamento (Claude + heurística)
    ├─ claude.js        cliente Anthropic (carregado sob demanda)
+   ├─ inputs.js        seus inputs por post (legenda etc.)
    ├─ templates.js     os quadros + specs de render
    ├─ render.js        monta o plano de edição (ffmpeg) por template
    ├─ ffmpeg.js        adapter de ffmpeg (detecta, monta e roda)
-   ├─ schedule.js      cronograma por melhores horários
+   ├─ schedule.js      cronograma (usa melhores-horarios.json da Fase 3)
    ├─ metricool.js     adapter da API do Metricool (agendar/postar)
    └─ log.js           log
-n8n/                   workflows importáveis + guia de setup
+INPUTS.md              mapa de todos os seus inputs
+n8n/                   workflows importáveis (Fases 1-3) + guia de setup
 ```

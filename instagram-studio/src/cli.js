@@ -15,6 +15,8 @@ import { scaffold, paths, FOLDERS } from "./scaffold.js";
 import { ingest } from "./pipeline.js";
 import { edit } from "./edit.js";
 import { publish } from "./publish.js";
+import { report } from "./report.js";
+import { doctor } from "./doctor.js";
 import { startServer } from "./server.js";
 import { log } from "./lib/log.js";
 
@@ -54,6 +56,19 @@ async function main() {
       log.title("Agendamento no Metricool");
       const dryRun = rest.includes("--dry-run");
       await publish(config, { dryRun });
+      break;
+    }
+
+    case "report": {
+      await scaffold(config);
+      log.title("Relatório de performance");
+      const dryRun = rest.includes("--dry-run");
+      await report(config, { dryRun });
+      break;
+    }
+
+    case "doctor": {
+      await doctor(config);
       break;
     }
 
@@ -102,6 +117,8 @@ Uso:
   node src/cli.js edit --dry-run  só gera o plano, sem renderizar
   node src/cli.js publish         agenda o cronograma no Metricool
   node src/cli.js publish --dry-run  mostra o payload sem enviar
+  node src/cli.js report          FASE 3: analisa seus números + melhores horários
+  node src/cli.js doctor          diz o que está configurado e o que falta
   node src/cli.js status          mostra quantos itens há em cada pasta
   node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 

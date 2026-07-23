@@ -10,6 +10,7 @@ import { describe } from "./lib/vision.js";
 import { groupMedia } from "./lib/group.js";
 import { paths } from "./scaffold.js";
 import { deliverSuggestions, renderSubject } from "./notify/email.js";
+import { ensureLegendaTemplate } from "./lib/inputs.js";
 
 export async function ingest(config, opts = {}) {
   const dirs = paths(config);
@@ -63,6 +64,8 @@ export async function ingest(config, opts = {}) {
     await writeFile(path.join(dest, "_ideia.md"), renderIdea(g), "utf8");
     // Manifesto legível por máquina — a Fase 2 (edição) lê daqui, não do markdown.
     await writeFile(path.join(dest, "post.json"), JSON.stringify(manifest(g, folderName), null, 2), "utf8");
+    // Deixa o "lugar do seu input" pronto: um legenda.txt de rascunho p/ preencher.
+    await ensureLegendaTemplate(dest);
     log.you(`${folderName}/ — ${g.template.nome}. Pede: ${g.pedido || g.template.you}`);
     groupsOut.push({ ...g, folder: folderName });
   }

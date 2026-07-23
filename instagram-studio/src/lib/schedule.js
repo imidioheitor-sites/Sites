@@ -1,19 +1,38 @@
 // Cronograma: encaixa cada post editado num horário que costuma render mais,
-// por formato. Heurística simples e honesta — a Fase 3 (relatórios) vai
-// substituir esses horários pelos SEUS números reais de engajamento.
+// por formato. A Fase 3 (relatórios) grava relatorios/melhores-horarios.json com
+// os SEUS números reais — se existir, ele substitui as janelas-padrão abaixo.
+
+import { readFileSync } from "node:fs";
+import path from "node:path";
 
 // Melhores janelas por formato (horário local), do mais forte para o mais fraco.
 // Base: padrões comuns de perfis lifestyle/estudo BR; ajuste conforme seus dados.
-const JANELAS = {
+const JANELAS_PADRAO = {
   reel: [19, 12, 21],       // fim de tarde/noite renda bem para Reels
   carrossel: [12, 18, 20],  // almoço e início de noite para conteúdo salvável
   feed: [12, 19],
   story: [8, 12, 18],
 };
 
+// Lê o override da Fase 3, se existir. Formato: { reel:[19,12], carrossel:[...] }.
+function loadJanelas(config) {
+  try {
+    const file = path.join(config.root, "relatorios", "melhores-horarios.json");
+    const data = JSON.parse(readFileSync(file, "utf8"));
+    const janelas = data.janelas || data;
+    if (janelas && typeof janelas === "object") {
+      return { ...JANELAS_PADRAO, ...janelas, _fonte: "relatorio" };
+    }
+  } catch {
+    // sem override — usa o padrão
+  }
+  return { ...JANELAS_PADRAO, _fonte: "padrao" };
+}
+
 // Distribui os posts em dias/horários sem empilhar dois no mesmo slot.
 export function schedule(plans, config, from = new Date()) {
   const timezone = config?.metricool?.timezone || config?.timezone || "America/Sao_Paulo";
+  const JANELAS = loadJanelas(config);
   const usados = new Set();
   const out = [];
 

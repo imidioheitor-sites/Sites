@@ -10,6 +10,7 @@ import { templateById } from "./lib/templates.js";
 import { buildPlan, renderPlanArtifacts } from "./lib/render.js";
 import { hasFfmpeg, run } from "./lib/ffmpeg.js";
 import { schedule } from "./lib/schedule.js";
+import { readCaption } from "./lib/inputs.js";
 
 export async function edit(config, opts = {}) {
   const dirs = paths(config);
@@ -176,7 +177,7 @@ async function listApprovedPosts(dir) {
       (f) => !f.startsWith(".") && !f.endsWith(".transcricao.txt") && f !== "post.json" && f !== "_ideia.md"
     );
 
-    const legendaTxt = await readText(path.join(postDir, "legenda.txt"));
+    const legenda = await readCaption(postDir);
     const capaTxt = (await readText(path.join(postDir, "capa.txt")))?.trim();
 
     posts.push({
@@ -184,7 +185,7 @@ async function listApprovedPosts(dir) {
       manifest,
       render: template?.render || {},
       files: files.filter((f) => f !== "legenda.txt" && f !== "capa.txt" && f !== "plano-de-edicao.md" && f !== "render.sh"),
-      legenda: { presente: !!legendaTxt, texto: legendaTxt || "" },
+      legenda,
       capaTitulo: capaTxt || null,
     });
   }

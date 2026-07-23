@@ -1,0 +1,107 @@
+{
+  "name": "Instagram-Studio — Fase 1 (Agendado)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Fase 1 — Ingestão & Sugestões (gatilho agendado)\n\nA cada 10 min chama o serviço `instagram-studio` (`node src/cli.js serve`), que lê a pasta `00_inbox` sincronizada do Drive, organiza em posts e devolve o resumo. Se houver post novo, envia por Gmail.\n\n**Antes de ativar:**\n1. Suba o serviço no mesmo servidor: `STUDIO_TOKEN=... node src/cli.js serve`\n2. No nó HTTP, ajuste a URL e o `x-studio-token`.\n3. No nó Gmail, selecione sua credencial e o destinatário.",
+        "height": 300,
+        "width": 380
+      },
+      "id": "note1",
+      "name": "Leia-me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 60]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "minutes", "minutesInterval": 10 }]
+        }
+      },
+      "id": "trigger",
+      "name": "A cada 10 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [140, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4599/ingest?move=1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-studio-token", "value": "COLE_SEU_STUDIO_TOKEN" }]
+        },
+        "options": {}
+      },
+      "id": "http",
+      "name": "studio /ingest",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [400, 420]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-count",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "iff",
+      "name": "Tem post novo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [660, 420]
+    },
+    {
+      "parameters": {
+        "sendTo": "voce@exemplo.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.suggestions }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "gmail",
+      "name": "Gmail: enviar sugestões",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [920, 340]
+    },
+    {
+      "parameters": {},
+      "id": "noop",
+      "name": "Nada novo",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [920, 520]
+    }
+  ],
+  "connections": {
+    "A cada 10 min": {
+      "main": [[{ "node": "studio /ingest", "type": "main", "index": 0 }]]
+    },
+    "studio /ingest": {
+      "main": [[{ "node": "Tem post novo?", "type": "main", "index": 0 }]]
+    },
+    "Tem post novo?": {
+      "main": [
+        [{ "node": "Gmail: enviar sugestões", "type": "main", "index": 0 }],
+        [{ "node": "Nada novo", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {}
+}

@@ -39,9 +39,23 @@ node src/cli.js scaffold        # cria o esquema de pastas
 node src/cli.js ingest          # organiza (mantém os originais na inbox)
 node src/cli.js ingest --move   # organiza e move as mídias para cada post
 node src/cli.js status          # quantos itens há em cada pasta
+node src/cli.js serve           # sobe o serviço HTTP para o n8n chamar
 ```
 
 Requer **Node 18+** (usa `fetch` e `FormData` nativos). Sem dependências obrigatórias.
+
+## Rodando sozinho (n8n) — a Fase 1 completa
+
+O comando manual acima já organiza e sugere. Para o loop automático que o
+documento define — **você joga no Drive e recebe as pastas + sugestões por email,
+sem tocar em nada** — suba o serviço e importe um dos workflows do n8n:
+
+```bash
+STUDIO_TOKEN=um-segredo node src/cli.js serve   # expõe POST /ingest
+```
+
+Depois importe `n8n/phase1-schedule.json` (ou `n8n/phase1-drive-trigger.json`) no
+seu n8n. O passo a passo completo está em **[`n8n/README.md`](n8n/README.md)**.
 
 ## Esquema de pastas
 
@@ -94,28 +108,30 @@ Seus formatos viram templates nomeados que o agrupador reconhece e o editor
 | `review-livro` | Review de livro | capa com título/nota, cortes, trilha calma | foto do livro, resenha falada, a nota |
 | `quickstart-materia` | Quickstart de matéria | formato "aula rápida", capa numerada | a explicação gravada |
 
-## Como isto vira o n8n da Fase 1
+## Como isto se conecta ao n8n
 
-Cada peça é um adaptador isolado, pronta para virar um nó do n8n em produção:
+Cada peça é um adaptador isolado; o `serve` amarra tudo num endpoint que o n8n chama:
 
-- **gatilho** → nó de Drive "arquivo novo" chama `ingest`
+- **gatilho** → nó de Drive "arquivo novo" (ou agenda) → `POST /ingest`
 - **transcrição** → `src/lib/transcribe.js` (Whisper via HTTP)
 - **visão** → `src/lib/vision.js` (Claude vision)
 - **agrupamento** → `src/lib/group.js` (Claude, com fallback heurístico)
-- **entrega** → `src/notify/email.js` (hoje escreve `_sugestoes.md`; troque por Gmail/SMTP)
+- **serviço HTTP** → `src/server.js` (o que o n8n chama; devolve JSON + markdown)
+- **entrega** → nó Gmail do n8n envia o `suggestions` markdown
 
 Em produção 24/7 você quer as APIs por baixo (como aqui), não um MCP amarrado a
-uma sessão.
+uma sessão. Os workflows prontos estão em [`n8n/`](n8n/).
 
 ## Estrutura do código
 
 ```
 src/
-├─ cli.js              entrada (scaffold | ingest | status)
+├─ cli.js              entrada (scaffold | ingest | status | serve)
+├─ server.js           serviço HTTP para o n8n (POST /ingest)
 ├─ config.js           carrega config + variáveis de ambiente
 ├─ scaffold.js         cria/mantém o esquema de pastas
 ├─ pipeline.js         orquestra a ingestão
-├─ notify/email.js     entrega das sugestões
+├─ notify/email.js     monta o resumo das sugestões
 └─ lib/
    ├─ media.js         detecta mídia na inbox
    ├─ transcribe.js    Whisper (adapter)
@@ -124,4 +140,5 @@ src/
    ├─ claude.js        cliente Anthropic (carregado sob demanda)
    ├─ templates.js     os quadros
    └─ log.js           log
+n8n/                   workflows importáveis + guia de setup
 ```

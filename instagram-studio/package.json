@@ -10,7 +10,8 @@
   "scripts": {
     "scaffold": "node src/cli.js scaffold",
     "ingest": "node src/cli.js ingest",
-    "status": "node src/cli.js status"
+    "status": "node src/cli.js status",
+    "serve": "node src/cli.js serve"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,0 +1,113 @@
+{
+  "name": "Instagram-Studio — Fase 1 (Gatilho de Drive)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Fase 1 — Ingestão & Sugestões (gatilho de Drive)\n\nQuando um arquivo novo aparece na pasta `00_inbox` do Google Drive, chama o serviço `instagram-studio`, que organiza e devolve o resumo; se houver post novo, envia por Gmail.\n\n**Antes de ativar:**\n1. A pasta `00_inbox` do Drive deve estar sincronizada no servidor (Drive para Desktop ou rclone) — o serviço lê o disco local.\n2. Selecione a credencial do Google Drive e cole o ID da pasta `00_inbox`.\n3. No nó HTTP, ajuste a URL e o `x-studio-token`.\n4. No nó Gmail, selecione a credencial e o destinatário.\n\nO gatilho dispara por arquivo; a ingestão é idempotente (inbox vazia = nada acontece), então rajadas de upload são seguras.",
+        "height": 340,
+        "width": 380
+      },
+      "id": "note1",
+      "name": "Leia-me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 40]
+    },
+    {
+      "parameters": {
+        "pollTimes": { "item": [{ "mode": "everyMinute" }] },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "id",
+          "value": "COLE_O_ID_DA_PASTA_00_inbox"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "trigger",
+      "name": "Drive: arquivo novo na inbox",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [140, 440]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4599/ingest?move=1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-studio-token", "value": "COLE_SEU_STUDIO_TOKEN" }]
+        },
+        "options": {}
+      },
+      "id": "http",
+      "name": "studio /ingest",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [420, 440]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-count",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "iff",
+      "name": "Tem post novo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 440]
+    },
+    {
+      "parameters": {
+        "sendTo": "voce@exemplo.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.suggestions }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "gmail",
+      "name": "Gmail: enviar sugestões",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 360]
+    },
+    {
+      "parameters": {},
+      "id": "noop",
+      "name": "Nada novo",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [940, 540]
+    }
+  ],
+  "connections": {
+    "Drive: arquivo novo na inbox": {
+      "main": [[{ "node": "studio /ingest", "type": "main", "index": 0 }]]
+    },
+    "studio /ingest": {
+      "main": [[{ "node": "Tem post novo?", "type": "main", "index": 0 }]]
+    },
+    "Tem post novo?": {
+      "main": [
+        [{ "node": "Gmail: enviar sugestões", "type": "main", "index": 0 }],
+        [{ "node": "Nada novo", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {}
+}

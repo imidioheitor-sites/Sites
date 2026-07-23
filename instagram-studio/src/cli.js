@@ -5,12 +5,14 @@
 //   node src/cli.js ingest          organiza a inbox (mídias ficam na inbox)
 //   node src/cli.js ingest --move   organiza e move as mídias para os posts
 //   node src/cli.js status          mostra o estado das pastas
+//   node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { loadConfig } from "./config.js";
 import { scaffold, paths, FOLDERS } from "./scaffold.js";
 import { ingest } from "./pipeline.js";
+import { startServer } from "./server.js";
 import { log } from "./lib/log.js";
 
 async function main() {
@@ -32,6 +34,13 @@ async function main() {
       log.title("Ingestão & agrupamento");
       const move = rest.includes("--move");
       await ingest(config, { move });
+      break;
+    }
+
+    case "serve": {
+      // O serviço lê a config por requisição; só garantimos as pastas na subida.
+      await scaffold(config);
+      startServer();
       break;
     }
 
@@ -70,10 +79,11 @@ Uso:
   node src/cli.js ingest          organiza a inbox (não move os originais)
   node src/cli.js ingest --move   organiza e move as mídias para cada post
   node src/cli.js status          mostra quantos itens há em cada pasta
+  node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 
 Configuração:
   copie config.example.json -> config.json e ajuste, ou use variáveis:
-  STUDIO_ROOT, ANTHROPIC_API_KEY, OPENAI_API_KEY
+  STUDIO_ROOT, ANTHROPIC_API_KEY, OPENAI_API_KEY, STUDIO_PORT, STUDIO_TOKEN
 `);
 }
 

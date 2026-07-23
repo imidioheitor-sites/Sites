@@ -9,7 +9,7 @@ import { transcribe } from "./lib/transcribe.js";
 import { describe } from "./lib/vision.js";
 import { groupMedia } from "./lib/group.js";
 import { paths } from "./scaffold.js";
-import { deliverSuggestions } from "./notify/email.js";
+import { deliverSuggestions, renderSubject } from "./notify/email.js";
 
 export async function ingest(config, opts = {}) {
   const dirs = paths(config);
@@ -18,7 +18,7 @@ export async function ingest(config, opts = {}) {
   const items = await scanInbox(dirs.inbox);
   if (items.length === 0) {
     log.warn(`Nada em ${path.relative(config._projectDir, dirs.inbox)}. Jogue mídias lá e rode de novo.`);
-    return { mode: "empty", groups: [] };
+    return { mode: "empty", groups: [], count: 0, subject: "", suggestions: "" };
   }
   log.bot(`${items.length} arquivo(s) de mídia encontrado(s).`);
 
@@ -66,7 +66,10 @@ export async function ingest(config, opts = {}) {
   }
 
   const result = { mode: grouped.mode, groups: groupsOut };
-  await deliverSuggestions(config, result);
+  const { markdown } = await deliverSuggestions(config, result);
+  result.count = groupsOut.length;
+  result.subject = renderSubject(result);
+  result.suggestions = markdown;
 
   if (!opts.move) {
     log.info(

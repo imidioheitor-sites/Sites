@@ -7,22 +7,30 @@ import path from "node:path";
 import { log } from "../lib/log.js";
 
 export async function deliverSuggestions(config, result) {
-  const md = renderMarkdown(result);
+  const markdown = renderSuggestions(result);
   const out = path.join(config.root, "_sugestoes.md");
-  await writeFile(out, md, "utf8");
+  await writeFile(out, markdown, "utf8");
   log.ok("Resumo salvo em " + path.relative(config._projectDir, out));
 
   if (config?.email?.enabled) {
-    // Gancho para envio real (SMTP/Gmail). Ainda não implementado nesta fase.
-    log.warn(
-      `Envio por email está ligado no config, mas o transporte ainda não foi configurado. ` +
-        `Por enquanto o resumo fica em _sugestoes.md para ${config.email.to || "voce@exemplo.com"}.`
+    // O envio real por email é responsabilidade do n8n (nó Gmail), que lê o
+    // markdown devolvido pelo serviço HTTP. Aqui apenas registramos a intenção.
+    log.info(
+      `(email ligado no config → o nó Gmail do n8n envia para ${config.email.to || "voce@exemplo.com"})`
     );
   }
-  return out;
+  return { path: out, markdown };
 }
 
-function renderMarkdown(result) {
+// Assunto curto para o email, com base no resultado.
+export function renderSubject(result) {
+  const n = result.groups.length;
+  if (n === 0) return "Instagram-Studio — nada novo na inbox";
+  const nomes = [...new Set(result.groups.map((g) => g.template.nome))].slice(0, 3).join(", ");
+  return `Instagram-Studio — ${n} post(s) prontos: ${nomes}`;
+}
+
+export function renderSuggestions(result) {
   const when = new Date().toLocaleString("pt-BR");
   const lines = [];
   lines.push(`# Sugestões de posts — ${when}`);

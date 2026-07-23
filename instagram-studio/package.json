@@ -1,0 +1,30 @@
+{
+  "name": "instagram-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Automatizador de Instagram — Fase 1: ingestão e agrupamento automático de conteúdo do Google Drive. Organiza, entende (voz + visão) e propõe posts. Nunca cria o conteúdo publicado.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "demo": "node demo.js",
+    "demo:clean": "rm -rf out && node demo.js"
+  },
+  "keywords": [
+    "instagram",
+    "automation",
+    "content-pipeline",
+    "n8n",
+    "claude"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "optionalProductionDependencies": {
+    "_comment": "Instaladas só no modo 'live' (produção). O demo roda com zero dependências.",
+    "@anthropic-ai/sdk": "para agrupamento e briefs via Claude",
+    "googleapis": "cliente do Google Drive (listar inbox, criar pastas, mover arquivos)",
+    "openai": "transcrição de voz (Whisper) — provider default, trocável",
+    "fluent-ffmpeg": "extração de keyframes de vídeo para a visão"
+  }
+}

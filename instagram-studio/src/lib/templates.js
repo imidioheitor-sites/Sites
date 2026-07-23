@@ -10,6 +10,7 @@ export const TEMPLATES = [
     gatilhos: ["hoje", "meu dia", "agenda", "rotina", "vou fazer", "plano do dia"],
     robot: "Corta os clipes da manhã, legenda dinâmica, capa \"AGENDA\".",
     you: "A fala/gravação do plano do dia.",
+    render: { saida: "reel", dimensao: "1080x1920", capa: "AGENDA", trilha: "energetica", legenda: "dinamica" },
   },
   {
     id: "comentario-noticia",
@@ -18,6 +19,7 @@ export const TEMPLATES = [
     gatilhos: ["notícia", "aconteceu", "vi que", "reação", "opinião", "tech", "empreendedorismo"],
     robot: "Sugere a notícia de tech/empreendedorismo do dia; monta lower-third.",
     you: "Sua opinião gravada. A opinião é sempre sua.",
+    render: { saida: "reel", dimensao: "1080x1920", capa: "lower-third", trilha: "neutra", legenda: "lower-third" },
   },
   {
     id: "dicas-de-estudo",
@@ -26,6 +28,7 @@ export const TEMPLATES = [
     gatilhos: ["dica", "estudo", "estudar", "método", "produtividade", "como aprender"],
     robot: "Template de bullets animados + capa da série.",
     you: "A dica e a gravação.",
+    render: { saida: "carrossel", dimensao: "1080x1350", capa: "serie", trilha: "nenhuma", legenda: "bullets" },
   },
   {
     id: "review-livro",
@@ -34,6 +37,7 @@ export const TEMPLATES = [
     gatilhos: ["livro", "review", "resenha", "li", "leitura", "autor", "nota"],
     robot: "Capa com título/nota, cortes, trilha calma.",
     you: "Foto do livro, sua resenha falada e a nota.",
+    render: { saida: "reel", dimensao: "1080x1920", capa: "titulo-nota", trilha: "calma", legenda: "dinamica" },
   },
   {
     id: "quickstart-materia",
@@ -42,6 +46,7 @@ export const TEMPLATES = [
     gatilhos: ["matéria", "aula", "explicando", "resumo", "quickstart", "conceito", "tópico"],
     robot: "Formato \"aula rápida\", marcadores de tópico, capa numerada.",
     you: "A explicação gravada da matéria.",
+    render: { saida: "reel", dimensao: "1080x1920", capa: "numerada", trilha: "neutra", legenda: "dinamica" },
   },
 ];
 

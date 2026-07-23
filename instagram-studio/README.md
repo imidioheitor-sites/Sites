@@ -1,12 +1,13 @@
-# Automatizador de Instagram — Fase 1
+# Automatizador de Instagram — Fases 1 e 2
 
-Ingestão & organização automática do Drive. Você despeja o material bagunçado;
-o sistema **entende** (voz + visão), **agrupa** em posts completos e **sugere** o
-template — mas **nunca cria** a legenda, a fala ou a imagem. Isso é sempre seu.
+Você despeja o material bagunçado; o sistema **entende** (voz + visão), **agrupa**
+em posts completos, **sugere** o template (Fase 1), **edita** por template e
+**agenda** nos melhores horários (Fase 2) — mas **nunca cria** a legenda, a fala
+ou a imagem. Isso é sempre seu.
 
-> Esta é a fundação do pipeline descrito no documento de arquitetura. As fases
-> seguintes (edição por template, agendamento, postagem via Graph API, relatórios)
-> se conectam a partir das pastas que esta fase mantém.
+> Fundação do pipeline descrito no documento de arquitetura. As fases seguintes
+> (postagem via Graph API, relatórios) se conectam a partir das pastas que estas
+> fases mantêm.
 
 ## A regra de ouro
 
@@ -18,16 +19,19 @@ você fez.
 ## O que roda hoje
 
 ```
-inbox bagunçada ──▶ transcrição (Whisper) ──▶ visão (Claude) ──▶ agrupamento (Claude)
-                                                                        │
-                                                          pastas por post + _ideia.md
-                                                                        │
-                                                              _sugestoes.md (o "email")
+FASE 1  inbox ─▶ transcrição (Whisper) ─▶ visão (Claude) ─▶ agrupamento (Claude)
+                                                                   │
+                                              01_agrupados/  pastas + _ideia.md + post.json
+                                                                   │
+                                    VOCÊ aprova: move p/ 02_aprovados/ + legenda.txt
+                                                                   │
+FASE 2  edição por template (ffmpeg) ─▶ 03_editados/ (reel/slides + capa) ─▶ cronograma.json
 ```
 
-Funciona **sem nenhuma chave de API** em modo heurístico: agrupa por proximidade de
-tempo de gravação + palavras-chave dos seus quadros. Com as chaves, o Claude passa a
-raciocinar de verdade sobre o conteúdo.
+A Fase 1 funciona **sem nenhuma chave de API** em modo heurístico (agrupa por
+proximidade de tempo + palavras-chave); com as chaves, o Claude raciocina de
+verdade. A Fase 2 funciona **sem ffmpeg** gerando o *plano de edição* + um
+`render.sh` executável; com ffmpeg presente, renderiza de verdade.
 
 ## Uso
 
@@ -36,13 +40,15 @@ cd instagram-studio
 
 node src/cli.js scaffold        # cria o esquema de pastas
 # jogue fotos/vídeos/áudios em studio-data/Instagram-Studio/00_inbox/
-node src/cli.js ingest          # organiza (mantém os originais na inbox)
-node src/cli.js ingest --move   # organiza e move as mídias para cada post
+node src/cli.js ingest --move   # FASE 1: organiza e move as mídias para cada post
+# você aprova: move a pasta p/ 02_aprovados/ e adiciona legenda.txt
+node src/cli.js edit            # FASE 2: edita por template + monta o cronograma
 node src/cli.js status          # quantos itens há em cada pasta
 node src/cli.js serve           # sobe o serviço HTTP para o n8n chamar
 ```
 
 Requer **Node 18+** (usa `fetch` e `FormData` nativos). Sem dependências obrigatórias.
+A Fase 2 usa **ffmpeg** quando presente; sem ele, gera o plano + `render.sh`.
 
 ## Rodando sozinho (n8n) — a Fase 1 completa
 
@@ -57,19 +63,55 @@ STUDIO_TOKEN=um-segredo node src/cli.js serve   # expõe POST /ingest
 Depois importe `n8n/phase1-schedule.json` (ou `n8n/phase1-drive-trigger.json`) no
 seu n8n. O passo a passo completo está em **[`n8n/README.md`](n8n/README.md)**.
 
+## Fase 2 — edição por template & cronograma
+
+Depois que você **aprova** um post (move a pasta de `01_agrupados/` para
+`02_aprovados/` e escreve a legenda do feed), o `edit` faz a parte mecânica:
+
+1. lê o `post.json` (sabe o template) e classifica a mídia (vídeo/imagem/áudio);
+2. monta o **plano de edição** por template — 9:16 para Reels, 4:5 para carrossel,
+   lower-third/capa, cortes, e a composição certa (ex.: **foto + narração** para
+   um review de livro);
+3. escreve `plano-de-edicao.md` (legível) e `render.sh` (executável) em
+   `03_editados/`; com ffmpeg presente, já **renderiza** o `reel.mp4`/slides + capa;
+4. monta um `cronograma.json` encaixando cada post no melhor horário por formato.
+
+**O que você coloca na pasta ao aprovar:**
+
+| Arquivo | Obrigatório? | O quê |
+|---|---|---|
+| `legenda.txt` | recomendado | a legenda do feed — **sua**, a IA nunca escreve |
+| `capa.txt` | opcional | título do lower-third/capa (ex.: `O Efeito Composto — 9/10`) |
+| `trilha.mp3` | opcional | trilha de fundo (o passo final mistura em volume baixo) |
+| `*.srt` | opcional | legendas com timestamps para queimar (caption dinâmica) |
+
+Passos que dependem de assets ainda não fornecidos (trilha, caption palavra a
+palavra, bullets animados) saem marcados como **planejados** no plano, com a
+instrução do que falta — o robô nunca inventa esse conteúdo.
+
+> O cronograma usa horários-padrão por formato. A **Fase 3 (relatórios)** troca
+> esses horários pelos seus números reais de engajamento.
+
 ## Esquema de pastas
 
 ```
 studio-data/Instagram-Studio/
 ├─ 00_inbox/            você joga tudo aqui, sem pensar
-├─ 01_agrupados/        criado automaticamente
+├─ 01_agrupados/        criado automaticamente (Fase 1)
 │  └─ post_2026-07-24_review-livro/
 │     ├─ review-livro-capa.jpg
 │     ├─ resenha-falada.m4a
 │     ├─ resenha-falada.m4a.transcricao.txt   (gerado)
-│     └─ _ideia.md                            (sugestão do Claude p/ você)
-├─ 02_aprovados/        você move quando OK + capa/legenda
-├─ 03_editados/         saída do editor por template (fase 2)
+│     ├─ _ideia.md                            (sugestão do Claude p/ você)
+│     └─ post.json                            (manifesto p/ a Fase 2)
+├─ 02_aprovados/        você move quando OK + legenda.txt (capa.txt opcional)
+├─ 03_editados/         saída da Fase 2
+│  ├─ cronograma.json                         (melhores horários)
+│  └─ post_2026-07-24_review-livro/
+│     ├─ plano-de-edicao.md                   (passos legíveis)
+│     ├─ render.sh                            (executável com ffmpeg)
+│     ├─ reel.mp4 / slide-*.jpg               (se ffmpeg presente)
+│     └─ capa.jpg
 └─ 04_publicados/       arquivo do que já foi ao ar (fase 4)
 ```
 
@@ -100,13 +142,16 @@ node src/cli.js ingest
 Seus formatos viram templates nomeados que o agrupador reconhece e o editor
 (fase 2) vai saber aplicar:
 
-| id | Quadro | O robô faz | Você entrega |
+| id | Quadro | Saída (Fase 2) | Você entrega |
 |---|---|---|---|
-| `agenda-do-dia` | O que vou fazer no dia | corta clipes da manhã, legenda, capa "AGENDA" | a fala do plano do dia |
-| `comentario-noticia` | Comentário sobre notícia | sugere a notícia, monta lower-third | sua opinião gravada |
-| `dicas-de-estudo` | Dicas de estudo | bullets animados + capa da série | a dica e a gravação |
-| `review-livro` | Review de livro | capa com título/nota, cortes, trilha calma | foto do livro, resenha falada, a nota |
-| `quickstart-materia` | Quickstart de matéria | formato "aula rápida", capa numerada | a explicação gravada |
+| `agenda-do-dia` | O que vou fazer no dia | reel 9:16, capa "AGENDA", trilha enérgica | a fala do plano do dia |
+| `comentario-noticia` | Comentário sobre notícia | reel 9:16, lower-third da notícia | sua opinião gravada |
+| `dicas-de-estudo` | Dicas de estudo | carrossel 4:5 + capa da série | a dica e a gravação |
+| `review-livro` | Review de livro | reel 9:16 (foto + narração), capa título/nota | foto do livro, resenha falada, a nota |
+| `quickstart-materia` | Quickstart de matéria | reel 9:16 "aula rápida", capa numerada | a explicação gravada |
+
+Cada template carrega uma spec de render (`render` em `src/lib/templates.js`):
+formato de saída, dimensão, estilo de capa, trilha e tipo de legenda.
 
 ## Como isto se conecta ao n8n
 
@@ -126,11 +171,12 @@ uma sessão. Os workflows prontos estão em [`n8n/`](n8n/).
 
 ```
 src/
-├─ cli.js              entrada (scaffold | ingest | status | serve)
+├─ cli.js              entrada (scaffold | ingest | edit | status | serve)
 ├─ server.js           serviço HTTP para o n8n (POST /ingest)
 ├─ config.js           carrega config + variáveis de ambiente
 ├─ scaffold.js         cria/mantém o esquema de pastas
-├─ pipeline.js         orquestra a ingestão
+├─ pipeline.js         FASE 1 — orquestra a ingestão
+├─ edit.js             FASE 2 — orquestra a edição por template
 ├─ notify/email.js     monta o resumo das sugestões
 └─ lib/
    ├─ media.js         detecta mídia na inbox
@@ -138,7 +184,10 @@ src/
    ├─ vision.js        Claude vision (adapter)
    ├─ group.js         agrupamento (Claude + heurística)
    ├─ claude.js        cliente Anthropic (carregado sob demanda)
-   ├─ templates.js     os quadros
+   ├─ templates.js     os quadros + specs de render
+   ├─ render.js        monta o plano de edição (ffmpeg) por template
+   ├─ ffmpeg.js        adapter de ffmpeg (detecta, monta e roda)
+   ├─ schedule.js      cronograma por melhores horários
    └─ log.js           log
 n8n/                   workflows importáveis + guia de setup
 ```

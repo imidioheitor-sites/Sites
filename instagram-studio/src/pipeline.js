@@ -61,6 +61,8 @@ export async function ingest(config, opts = {}) {
     }
 
     await writeFile(path.join(dest, "_ideia.md"), renderIdea(g), "utf8");
+    // Manifesto legível por máquina — a Fase 2 (edição) lê daqui, não do markdown.
+    await writeFile(path.join(dest, "post.json"), JSON.stringify(manifest(g, folderName), null, 2), "utf8");
     log.you(`${folderName}/ — ${g.template.nome}. Pede: ${g.pedido || g.template.you}`);
     groupsOut.push({ ...g, folder: folderName });
   }
@@ -77,6 +79,19 @@ export async function ingest(config, opts = {}) {
     );
   }
   return result;
+}
+
+function manifest(g, folderName) {
+  return {
+    post: folderName,
+    templateId: g.template.id,
+    templateNome: g.template.nome,
+    formato: g.template.formato,
+    ideia: g.ideia,
+    pedido: g.pedido || g.template.you,
+    criadoEm: new Date().toISOString(),
+    arquivos: g.items.map((i) => ({ nome: i.name, tipo: i.kind })),
+  };
 }
 
 function renderIdea(g) {

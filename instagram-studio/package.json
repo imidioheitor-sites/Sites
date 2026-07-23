@@ -10,6 +10,7 @@
   "scripts": {
     "scaffold": "node src/cli.js scaffold",
     "ingest": "node src/cli.js ingest",
+    "edit": "node src/cli.js edit",
     "status": "node src/cli.js status",
     "serve": "node src/cli.js serve"
   },

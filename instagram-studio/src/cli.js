@@ -4,6 +4,7 @@
 //   node src/cli.js scaffold        cria o esquema de pastas
 //   node src/cli.js ingest          organiza a inbox (mídias ficam na inbox)
 //   node src/cli.js ingest --move   organiza e move as mídias para os posts
+//   node src/cli.js edit            edita os posts aprovados por template
 //   node src/cli.js status          mostra o estado das pastas
 //   node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 
@@ -12,6 +13,7 @@ import path from "node:path";
 import { loadConfig } from "./config.js";
 import { scaffold, paths, FOLDERS } from "./scaffold.js";
 import { ingest } from "./pipeline.js";
+import { edit } from "./edit.js";
 import { startServer } from "./server.js";
 import { log } from "./lib/log.js";
 
@@ -34,6 +36,14 @@ async function main() {
       log.title("Ingestão & agrupamento");
       const move = rest.includes("--move");
       await ingest(config, { move });
+      break;
+    }
+
+    case "edit": {
+      await scaffold(config);
+      log.title("Edição por template & cronograma");
+      const dryRun = rest.includes("--dry-run");
+      await edit(config, { dryRun });
       break;
     }
 
@@ -78,6 +88,8 @@ Uso:
   node src/cli.js scaffold        cria o esquema de pastas
   node src/cli.js ingest          organiza a inbox (não move os originais)
   node src/cli.js ingest --move   organiza e move as mídias para cada post
+  node src/cli.js edit            edita os posts aprovados por template
+  node src/cli.js edit --dry-run  só gera o plano, sem renderizar
   node src/cli.js status          mostra quantos itens há em cada pasta
   node src/cli.js serve           sobe o serviço HTTP para o n8n chamar
 

@@ -8,6 +8,7 @@ import { getClaude } from "./lib/claude.js";
 import { transcribe } from "./lib/transcribe.js";
 import { describe } from "./lib/vision.js";
 import { groupMedia } from "./lib/group.js";
+import { analyse } from "./lib/analyse.js";
 import { paths } from "./scaffold.js";
 import { deliverSuggestions, renderSubject } from "./notify/email.js";
 import { ensureLegendaTemplate } from "./lib/inputs.js";
@@ -28,20 +29,31 @@ export async function ingest(config, opts = {}) {
   else log.warn("Sem ANTHROPIC_API_KEY (ou SDK) — rodando em modo heurístico.");
 
   log.step("02", "Entendendo: voz + visão");
-  const analyzed = [];
+  const analyzedAll = [];
   for (const item of items) {
     const transcript = await transcribe(item, config);
     const scene = await describe(item, claude, config);
-    analyzed.push({ item, transcript, scene });
+    analyzedAll.push({ item, transcript, scene });
     log.bot(`${item.name} — ${summarize(transcript, scene)}`);
   }
 
-  log.step("03", "Agrupando em posts completos");
+  log.step("03", "Media Analiser: filtrando importante × ruído");
+  const enabled = config?.mediaAnaliser?.enabled !== false;
+  const filtered = enabled ? await analyse(analyzedAll, claude) : { mode: "off", keep: analyzedAll, noise: [] };
+  if (filtered.error) log.warn(`IA falhou (${filtered.error}); usei a heurística.`);
+  const analyzed = filtered.keep;
+  log.bot(`${analyzed.length} com conteúdo · ${filtered.noise.length} ruído [modo: ${filtered.mode}].`);
+  for (const n of filtered.noise) {
+    log.warn(`ruído: ${n.item.name} (${n.classificacao.categoria}) — ${n.classificacao.motivo}`);
+  }
+  const noiseInfo = await handleNoise(filtered.noise, dirs, opts, config);
+
+  log.step("04", "Agrupando em posts completos");
   const grouped = await groupMedia(analyzed, claude);
   if (grouped.error) log.warn(`IA falhou (${grouped.error}); usei a heurística.`);
   log.bot(`${grouped.groups.length} post(s) montado(s) [modo: ${grouped.mode}].`);
 
-  log.step("04", "Criando pastas e sugestões");
+  log.step("05", "Criando pastas e sugestões");
   const analyzedByName = new Map(analyzed.map((a) => [a.item.name, a]));
   const groupsOut = [];
   for (const g of grouped.groups) {
@@ -70,7 +82,7 @@ export async function ingest(config, opts = {}) {
     groupsOut.push({ ...g, folder: folderName });
   }
 
-  const result = { mode: grouped.mode, groups: groupsOut };
+  const result = { mode: grouped.mode, groups: groupsOut, ruido: noiseInfo };
   const { markdown } = await deliverSuggestions(config, result);
   result.count = groupsOut.length;
   result.subject = renderSubject(result);
@@ -82,6 +94,32 @@ export async function ingest(config, opts = {}) {
     );
   }
   return result;
+}
+
+// Lida com os trechos classificados como ruído: por padrão só marca (num
+// manifesto); com --move (ou onNoise:"move"), move para 01_agrupados/_ruido/.
+// Nada é apagado — você pode revisar e resgatar.
+async function handleNoise(noise, dirs, opts, config) {
+  const info = { total: noise.length, itens: noise.map((n) => ({ arquivo: n.item.name, ...n.classificacao })) };
+  if (noise.length === 0) return info;
+
+  const onNoise = config?.mediaAnaliser?.onNoise || (opts.move ? "move" : "mark");
+  const ruidoDir = path.join(dirs.agrupados, "_ruido");
+  await mkdir(ruidoDir, { recursive: true });
+
+  if (onNoise === "move" && opts.move) {
+    for (const n of noise) {
+      await safeRename(n.item.path, path.join(ruidoDir, n.item.name));
+    }
+    info.movido = true;
+  }
+  // Sempre deixa um registro do que foi filtrado e por quê.
+  await writeFile(
+    path.join(ruidoDir, "motivos.json"),
+    JSON.stringify(info.itens, null, 2),
+    "utf8"
+  );
+  return info;
 }
 
 function manifest(g, folderName) {

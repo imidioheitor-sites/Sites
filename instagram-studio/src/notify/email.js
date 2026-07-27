@@ -39,6 +39,13 @@ export function renderSuggestions(result) {
     `Modo de agrupamento: **${result.mode}**. ${result.groups.length} post(s) montado(s). ` +
       `A IA organizou e sugeriu — a criação é sua.`
   );
+  if (result.ruido && result.ruido.total > 0) {
+    lines.push("");
+    lines.push(
+      `O Media Analiser filtrou **${result.ruido.total} trecho(s) como ruído** ` +
+        `(${result.ruido.movido ? "movidos para `01_agrupados/_ruido/`" : "marcados em `_ruido/motivos.json`"}). Nada foi apagado.`
+    );
+  }
   lines.push("");
 
   for (const g of result.groups) {

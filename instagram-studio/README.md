@@ -9,6 +9,18 @@ e **sugere** o template (Fase 1), **edita** por template e **agenda** (Fase 2),
 > `.env`, legenda por post, números em `insights.json`). Rode `node src/cli.js
 > doctor` para ver o que falta.
 
+## O time de IA
+
+O bot é um time de papéis, cada um numa peça do código:
+
+| Papel | O que faz | Onde |
+|---|---|---|
+| **Media Analiser** | filtra o conteúdo importante do ruído (background/yapping) | `src/lib/analyse.js` |
+| **Idea Center** | (a construir) recebe ideias em texto e sugere template/formato | — |
+| **Organizador** | agrupa o que sobra em posts completos + sugere template | `src/lib/group.js` |
+| **Editor** | edita por template levando suas opiniões (`capa.txt`) + template | `src/edit.js` |
+| **Poster + Manager** | agenda no Metricool e analisa a performance | `src/publish.js`, `src/report.js` |
+
 ## A regra de ouro
 
 A IA organiza, entende e sugere. **Toda criação mora com você.** Cada post agrupado
@@ -19,8 +31,9 @@ você fez.
 ## O que roda hoje
 
 ```
-FASE 1  inbox ─▶ transcrição (Whisper) ─▶ visão (Claude) ─▶ agrupamento (Claude)
-                                                                   │
+FASE 1  inbox ─▶ transcrição (Whisper) ─▶ visão (Claude) ─▶ Media Analiser ─▶ agrupamento
+                                                            filtra importante × ruído        │
+                                                            (ruído → _ruido/)                 │
                                               01_agrupados/  pastas + _ideia.md + post.json
                                                                    │
                                     VOCÊ aprova: move p/ 02_aprovados/ + legenda.txt
@@ -198,6 +211,7 @@ src/
    ├─ media.js         detecta mídia na inbox
    ├─ transcribe.js    Whisper (adapter)
    ├─ vision.js        Claude vision (adapter)
+   ├─ analyse.js       Media Analiser (filtra importante × ruído)
    ├─ group.js         agrupamento (Claude + heurística)
    ├─ claude.js        cliente Anthropic (carregado sob demanda)
    ├─ inputs.js        seus inputs por post (legenda etc.)

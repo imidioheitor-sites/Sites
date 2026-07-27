@@ -1,0 +1,26 @@
+{
+  "name": "instagram-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fase 1 do Automatizador de Instagram: ingestão e organização automática do Drive (pasta local). O robô entende, agrupa e sugere; você cria.",
+  "type": "module",
+  "bin": {
+    "studio": "src/cli.js"
+  },
+  "scripts": {
+    "scaffold": "node src/cli.js scaffold",
+    "ingest": "node src/cli.js ingest",
+    "edit": "node src/cli.js edit",
+    "publish": "node src/cli.js publish",
+    "report": "node src/cli.js report",
+    "doctor": "node src/cli.js doctor",
+    "status": "node src/cli.js status",
+    "serve": "node src/cli.js serve"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "optionalDependencies": {
+    "@anthropic-ai/sdk": "^0.40.0"
+  }
+}

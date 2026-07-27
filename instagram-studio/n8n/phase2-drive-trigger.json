@@ -1,0 +1,113 @@
+{
+  "name": "Instagram-Studio — Fase 2 (Gatilho de aprovação)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Fase 2 — Edição por template (gatilho de aprovação)\n\nQuando um arquivo novo aparece na pasta `02_aprovados/` do Drive (você aprova movendo o post e soltando a `legenda.txt`), chama `POST /edit`. O serviço edita os posts novos, monta o cronograma e devolve o resumo; o Gmail te avisa.\n\n**Antes de ativar:**\n1. A pasta `02_aprovados/` do Drive deve estar sincronizada no servidor (o serviço lê o disco local, com ffmpeg).\n2. Selecione a credencial do Google Drive e cole o ID da pasta `02_aprovados`.\n3. No nó HTTP: URL e `x-studio-token`.\n4. No nó Gmail: credencial e destinatário.\n\nA edição é idempotente (posts já editados são pulados), então o gatilho disparar por arquivo é seguro.",
+        "height": 340,
+        "width": 380
+      },
+      "id": "note1",
+      "name": "Leia-me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 40]
+    },
+    {
+      "parameters": {
+        "pollTimes": { "item": [{ "mode": "everyMinute" }] },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "id",
+          "value": "COLE_O_ID_DA_PASTA_02_aprovados"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "trigger",
+      "name": "Drive: post aprovado",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [140, 440]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4599/edit",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-studio-token", "value": "COLE_SEU_STUDIO_TOKEN" }]
+        },
+        "options": {}
+      },
+      "id": "http",
+      "name": "studio /edit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [420, 440]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-novos",
+              "leftValue": "={{ $json.novos }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "iff",
+      "name": "Editou algo novo?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 440]
+    },
+    {
+      "parameters": {
+        "sendTo": "voce@exemplo.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.summary }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "gmail",
+      "name": "Gmail: editado & agendado",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 360]
+    },
+    {
+      "parameters": {},
+      "id": "noop",
+      "name": "Nada novo",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [940, 540]
+    }
+  ],
+  "connections": {
+    "Drive: post aprovado": {
+      "main": [[{ "node": "studio /edit", "type": "main", "index": 0 }]]
+    },
+    "studio /edit": {
+      "main": [[{ "node": "Editou algo novo?", "type": "main", "index": 0 }]]
+    },
+    "Editou algo novo?": {
+      "main": [
+        [{ "node": "Gmail: editado & agendado", "type": "main", "index": 0 }],
+        [{ "node": "Nada novo", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {}
+}

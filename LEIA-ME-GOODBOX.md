@@ -22,6 +22,13 @@ O mapa da seção Localização usa "Ribeirão Preto"; troque o endereço no `<i
 Gerado no Higgsfield (15s, 1080p, sem texto) e referenciado pela URL em `const VIDEO_URL`.
 Se quiser hospedar você mesmo, baixe o arquivo e troque a URL (pode ser um caminho local, ex.: `assets/hero.mp4`).
 
+## 🧊 Modelo 3D interativo (seção "Produto em 3D")
+O prato tem um **modelo 3D real** (.glb, gerado por IA) que gira com o cursor/arraste, via `<model-viewer>`.
+A URL fica em `const GLB_URL`. Se o modelo não carregar (rede/CORS) ou você **deixar `GLB_URL` vazio**,
+o site cai automaticamente no **turntable 3D em CSS** (também interativo) — nunca fica quebrado.
+Recomendo baixar o `.glb`, salvar em `assets/prato-frango-quiabo.glb` e apontar `GLB_URL = "assets/prato-frango-quiabo.glb"`
+(mais rápido e sem depender de CDN).
+
 ## 🖼️ Imagens
 As fotos dos pratos estão em `assets/` (fotos reais suas). Para trocar, substitua os arquivos mantendo os nomes.
 

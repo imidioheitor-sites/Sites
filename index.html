@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,500&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.0.0/dist/model-viewer.min.js"></script>
 
 <!-- ============================================================
      GOODBOX — site institucional + catálogo + pedido via WhatsApp
@@ -221,7 +222,11 @@ header.scrolled .nav{background:rgba(251,250,243,.92);box-shadow:var(--shadow-md
 .stage-disc{position:absolute;left:50%;top:58%;width:78%;height:78%;transform:translate(-50%,-50%) rotateX(72deg);border-radius:50%;
   background:radial-gradient(circle,rgba(var(--leaf-rgb),.4),rgba(var(--leaf-rgb),0) 68%);filter:blur(4px)}
 .stage-prod{position:absolute;left:50%;top:50%;width:82%;transform:translate(-50%,-50%) translateZ(60px);filter:drop-shadow(0 30px 34px rgba(31,77,39,.35));border-radius:22px}
-.chip{position:absolute;background:rgba(255,255,255,.92);border:1px solid rgba(var(--forest-rgb),.14);border-radius:13px;padding:8px 13px;font-size:.8rem;font-weight:700;color:var(--forest-deep);box-shadow:var(--shadow-md);opacity:0;transition:opacity .4s,transform .4s;white-space:nowrap}
+.chip{position:absolute;z-index:6;background:rgba(255,255,255,.92);border:1px solid rgba(var(--forest-rgb),.14);border-radius:13px;padding:8px 13px;font-size:.8rem;font-weight:700;color:var(--forest-deep);box-shadow:var(--shadow-md);opacity:0;transition:opacity .4s,transform .4s;white-space:nowrap}
+.stage .mv{position:absolute;inset:0;width:100%;height:100%;background:transparent;--poster-color:transparent;opacity:0;pointer-events:none;transition:opacity .7s ease;z-index:5;--mv-max-width:none}
+.stage.mv-on .mv{opacity:1;pointer-events:auto}
+.stage.mv-on .stage-prod{opacity:0}
+.stage.mv-on .stage-disc{opacity:.6}
 .chip small{color:var(--ink-soft);font-weight:600;display:block;font-size:.66rem}
 .stage.reveal .chip{opacity:1}
 .chip.c1{top:8%;left:2%;transform:translateZ(120px)}
@@ -609,10 +614,11 @@ footer ul a:hover{color:var(--leaf)}
           <div class="stage-ring r2"></div>
           <div class="stage-disc"></div>
           <img class="stage-prod" id="stageProd" src="assets/prato-frango-quiabo.jpg" alt="Prato GOODBOX em 3D interativo" />
-          <div class="chip c1">Frango grelhado<small>carne magra</small></div>
-          <div class="chip c2">Quiabo salteado<small>no azeite</small></div>
-          <div class="chip c3">Arroz &amp; feijão<small>equilíbrio na medida</small></div>
         </div>
+        <model-viewer id="mv3d" class="mv" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="26deg" interaction-prompt="none" disable-zoom shadow-intensity="0.9" exposure="1.05" environment-image="neutral" camera-orbit="0deg 75deg 110%" touch-action="pan-y" alt="Modelo 3D interativo do prato GOODBOX"></model-viewer>
+        <div class="chip c1">Frango grelhado<small>carne magra</small></div>
+        <div class="chip c2">Quiabo salteado<small>no azeite</small></div>
+        <div class="chip c3">Arroz &amp; feijão<small>equilíbrio na medida</small></div>
         <div class="stage-hint">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 3v6h6"/></svg>
           Passe o cursor / arraste pra girar
@@ -910,6 +916,7 @@ const MENU = [
 
 /* ▸▸▸ VÍDEO HERO (gerado no Higgsfield) — preenchido automaticamente ◂◂◂ */
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260723_233340_35cade4d-2fd2-4870-9f29-64025a30adf7.mp4"; /* Higgsfield 15s 1080p */
+const GLB_URL = "https://d3u0tzju9qaucj.cloudfront.net/7d051b5a-7bfe-49fe-a484-24e7b3a9458a/1e956b15-4b61-4ad2-a5fb-c79df8b607e4.glb"; /* modelo 3D (.glb) do prato — se vazio/erro, usa o turntable */
 
 /* ============================================================
    Helpers
@@ -1066,6 +1073,17 @@ if(!isTouch){
     ry+=(tRy-ry)*.08; rx+=(tRx-rx)*.08; apply();
     requestAnimationFrame(spin);
   })();
+})();
+
+/* ============================================================
+   Modelo 3D real (GLB via <model-viewer>) — fallback pro turntable
+   ============================================================ */
+(function(){
+  const mv=document.getElementById('mv3d'),stage=document.getElementById('stage');
+  if(!mv||!GLB_URL){ if(mv)mv.style.display='none'; return; }
+  mv.setAttribute('src',GLB_URL);
+  mv.addEventListener('load',()=>stage.classList.add('mv-on'));
+  mv.addEventListener('error',()=>{stage.classList.remove('mv-on');mv.style.display='none';});
 })();
 
 /* ============================================================

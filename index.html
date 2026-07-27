@@ -391,6 +391,49 @@ footer ul a:hover{color:var(--leaf)}
   body{padding-bottom:80px}
   .marquee{transform:rotate(-1.4deg) scale(1.08)}
 }
+/* ============ DEPOIMENTOS ============ */
+.tstm{background:linear-gradient(180deg,#eef2e4,var(--cream))}
+.tstm-wrap{max-width:820px;margin:0 auto;text-align:center}
+.tstm-card{background:var(--white);border-radius:var(--radius-lg);padding:clamp(28px,5vw,52px);box-shadow:var(--shadow-md);border:1px solid rgba(var(--forest-rgb),.08);position:relative;min-height:220px}
+.tstm-quote{font-size:4rem;font-family:var(--font-display);color:rgba(var(--leaf-rgb),.4);line-height:.6;height:26px}
+.tstm-text{font-family:var(--font-display);font-weight:600;font-size:clamp(1.15rem,2.6vw,1.7rem);color:var(--ink);letter-spacing:-.01em;margin:10px 0 20px;min-height:3em}
+.tstm-stars{color:var(--gold);letter-spacing:3px;font-size:1.1rem;margin-bottom:12px}
+.tstm-author{font-weight:700;color:var(--forest)}
+.tstm-author small{display:block;color:var(--ink-soft);font-weight:500;font-size:.85rem;margin-top:2px}
+.tstm-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:26px}
+.tstm-nav button{width:48px;height:48px;border-radius:14px;background:var(--white);border:1px solid rgba(var(--forest-rgb),.14);color:var(--forest);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-sm);transition:.2s}
+.tstm-nav button:hover{background:var(--forest);color:#fff;transform:translateY(-2px)}
+.tstm-nav button svg{width:22px;height:22px}
+.tstm-dots{display:flex;gap:8px}
+.tstm-dots span{width:9px;height:9px;border-radius:50%;background:rgba(var(--forest-rgb),.22);transition:.3s;cursor:pointer}
+.tstm-dots span.on{background:var(--forest);width:26px;border-radius:5px}
+
+/* ============ FAQ ============ */
+.faq-grid{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--white);border:1px solid rgba(var(--forest-rgb),.1);border-radius:18px;overflow:hidden;transition:box-shadow .3s,border-color .3s}
+.faq-item.open{box-shadow:var(--shadow-md);border-color:rgba(var(--leaf-rgb),.6)}
+.faq-q{width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;font-family:var(--font-display);font-weight:600;font-size:1.08rem;color:var(--ink)}
+.faq-q .pm{width:32px;height:32px;flex:none;border-radius:10px;background:rgba(var(--leaf-rgb),.16);color:var(--forest);display:flex;align-items:center;justify-content:center;transition:.3s;font-size:1.3rem;font-weight:700}
+.faq-item.open .pm{background:var(--forest);color:#fff;transform:rotate(135deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--ink-soft)}
+.faq-a div{padding:0 22px 22px;font-size:.98rem;line-height:1.6}
+
+/* ============ NEWSLETTER / CTA curvo ============ */
+.nl{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--forest),var(--forest-deep));color:#fff}
+.nl .wrap{text-align:center;padding:clamp(50px,8vw,90px) 24px}
+.nl h2{color:#fff;font-size:clamp(1.9rem,4.5vw,3rem);margin:12px 0}
+.nl p{color:rgba(255,255,255,.86);max-width:520px;margin:0 auto 28px;font-size:1.05rem}
+.nl .eyebrow{color:#bfe6b8}.nl .eyebrow::before{background:var(--leaf)}
+.nl-form{display:flex;gap:10px;max-width:520px;margin:0 auto;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:100px;padding:8px;backdrop-filter:blur(6px)}
+.nl-form input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#fff;font-family:inherit;font-size:1rem;padding:0 18px}
+.nl-form input::placeholder{color:rgba(255,255,255,.6)}
+.nl-form button{background:var(--leaf);color:var(--forest-deep);font-weight:800;padding:14px 24px;border-radius:100px;white-space:nowrap;transition:.2s}
+.nl-form button:hover{background:#fff;transform:scale(1.03)}
+.nl-blob{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(var(--leaf-rgb),.4),transparent 70%);filter:blur(30px);pointer-events:none}
+.nl-blob.b1{width:280px;height:280px;top:-80px;left:-60px}
+.nl-blob.b2{width:340px;height:340px;bottom:-140px;right:-80px}
+@media(max-width:520px){.nl-form{flex-direction:column;border-radius:22px}.nl-form input{padding:12px 18px;text-align:center}.nl-form button{width:100%}}
+
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.05s!important}}
 </style>
 </head>
@@ -647,6 +690,40 @@ footer ul a:hover{color:var(--leaf)}
   </div>
 </section>
 
+<!-- ================= DEPOIMENTOS ================= -->
+<section class="tstm sec-pad" id="depoimentos">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Depoimentos</span>
+      <h2>Quem prova, aprova 💚</h2>
+    </div>
+    <div class="tstm-wrap reveal d1">
+      <div class="tstm-card">
+        <div class="tstm-quote">&ldquo;</div>
+        <div class="tstm-stars">★★★★★</div>
+        <p class="tstm-text" id="tText">—</p>
+        <div class="tstm-author" id="tAuthor"></div>
+      </div>
+      <div class="tstm-nav">
+        <button id="tPrev" aria-label="Depoimento anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="tstm-dots" id="tDots"></div>
+        <button id="tNext" aria-label="Próximo depoimento"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec-pad" id="faq">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2>Tudo o que você precisa saber</h2>
+    </div>
+    <div class="faq-grid reveal d1" id="faqGrid"></div>
+  </div>
+</section>
+
 <!-- MARQUEE ALT -->
 <div class="marquee alt" aria-hidden="true">
   <div class="marquee-track">
@@ -722,6 +799,20 @@ footer ul a:hover{color:var(--leaf)}
         <p style="text-align:center;font-size:.78rem;color:var(--ink-soft);margin-top:12px">Você será redirecionado ao WhatsApp com o pedido pronto.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ================= NEWSLETTER / CTA ================= -->
+<section class="nl" id="novidades">
+  <div class="nl-blob b1"></div><div class="nl-blob b2"></div>
+  <div class="wrap">
+    <span class="eyebrow">Fique por dentro</span>
+    <h2>Receba o cardápio da semana</h2>
+    <p>Deixe seu e-mail e a gente te chama no WhatsApp com as novidades e combos da GOODBOX.</p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" id="nlEmail" placeholder="seu@email.com" aria-label="Seu e-mail" required>
+      <button type="submit">Quero receber</button>
+    </form>
   </div>
 </section>
 
@@ -1150,6 +1241,60 @@ document.body.insertAdjacentHTML('beforeend',`<nav class="dock">
   <a href="#localizacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Local</a>
   <a href="#pedido"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>Pedido</a>
 </nav>`);
+
+/* ============================================================
+   DEPOIMENTOS (exemplos — troque pelos depoimentos reais)
+   ============================================================ */
+const TESTIMONIALS=[
+  {t:"Comida maravilhosa e prática! Como bem todos os dias, sem complicação.", a:"Ana P.", r:"Cliente GOODBOX"},
+  {t:"A embalagem sem plástico me conquistou — e o sabor é de comida caseira de verdade.", a:"Rodrigo M.", r:"Cliente GOODBOX"},
+  {t:"Perfeito pra minha rotina: chego em casa e em minutos está pronto e saudável.", a:"Juliana S.", r:"Cliente GOODBOX"},
+  {t:"Sabor incrível e a pegada sustentável faz toda a diferença pra mim.", a:"Marina L.", r:"Cliente GOODBOX"},
+];
+(function(){
+  const txt=$('#tText'),auth=$('#tAuthor'),dots=$('#tDots');let i=0,timer;
+  TESTIMONIALS.forEach((_,k)=>{const d=document.createElement('span');d.onclick=()=>go(k);dots.appendChild(d);});
+  function render(){txt.style.opacity=0;setTimeout(()=>{const x=TESTIMONIALS[i];txt.textContent='“'+x.t+'”';auth.innerHTML=`${x.a}<small>${x.r}</small>`;txt.style.opacity=1;},180);
+    [...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));}
+  function go(k){i=(k+TESTIMONIALS.length)%TESTIMONIALS.length;render();restart();}
+  function restart(){clearInterval(timer);timer=setInterval(()=>go(i+1),6000);}
+  txt.style.transition='opacity .18s';
+  $('#tPrev').onclick=()=>go(i-1);$('#tNext').onclick=()=>go(i+1);
+  render();restart();
+})();
+
+/* ============================================================
+   FAQ accordion
+   ============================================================ */
+const FAQS=[
+  {q:"Como conservo e por quanto tempo?", a:"Mantenha no congelador. A validade é de aproximadamente 90 dias após a fabricação — confira sempre a data no rótulo."},
+  {q:"Como aqueço a marmita?", a:"Direto na embalagem de fibra de cana, no micro-ondas ou na air fryer. Sem risco de liberação de microplásticos no congelamento ou descongelamento."},
+  {q:"É sem óleo de verdade?", a:"Sim! Todas as preparações são feitas sem óleo — usamos apenas azeite de oliva."},
+  {q:"Como faço o pedido e o pagamento?", a:"Monte seu carrinho no cardápio e envie pelo WhatsApp. O pagamento é via Pix, combinado com a gente na conversa."},
+  {q:"Vocês entregam em quais regiões?", a:"Atendemos Ribeirão Preto e região. Fale com a gente no WhatsApp para confirmar a sua área de entrega."},
+];
+(function(){
+  const grid=$('#faqGrid');if(!grid)return;
+  grid.innerHTML=FAQS.map((f,k)=>`<div class="faq-item" data-fi="${k}">
+    <button class="faq-q" aria-expanded="false"><span>${f.q}</span><span class="pm" aria-hidden="true">+</span></button>
+    <div class="faq-a"><div>${f.a}</div></div></div>`).join('');
+  grid.addEventListener('click',e=>{const q=e.target.closest('.faq-q');if(!q)return;
+    const item=q.parentElement,a=item.querySelector('.faq-a'),open=item.classList.contains('open');
+    grid.querySelectorAll('.faq-item.open').forEach(it=>{it.classList.remove('open');it.querySelector('.faq-a').style.maxHeight=null;it.querySelector('.faq-q').setAttribute('aria-expanded','false');});
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';q.setAttribute('aria-expanded','true');}
+  });
+})();
+
+/* ============================================================
+   Newsletter -> WhatsApp
+   ============================================================ */
+(function(){
+  const f=$('#nlForm');if(!f)return;
+  f.addEventListener('submit',e=>{e.preventDefault();const email=$('#nlEmail').value.trim();
+    const msg=`Olá! Quero receber o cardápio da semana da GOODBOX 💚${email?`\nMeu e-mail: ${email}`:''}`;
+    window.open(`${waBase}?text=${encodeURIComponent(msg)}`,'_blank');
+    toast('Vamos te chamar no WhatsApp! 💚');f.reset();});
+})();
 </script>
 </body>
 </html>

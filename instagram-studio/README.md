@@ -51,6 +51,27 @@ muito salvo…) e **recomendações acionáveis**. Gera o **email HTML** em
 `out/report.html`. As recomendações são **direção** — nunca escrevem seu
 conteúdo.
 
+### Postagem automática (dry-run, offline)
+
+```bash
+node publish-demo.js
+```
+
+Une o cronograma ao estado de aprovação de cada post e mostra o que iria ao
+ar. O guarda (`src/publish.js`) **barra qualquer post sem a sua legenda** (e
+capa, quando o quadro pede) — é a regra de ouro vivendo na camada de postagem.
+Troque `DryRunPublisher` por `MetricoolPublisher` (`src/adapters/publisher.js`)
+para postar de verdade.
+
+### Testes
+
+```bash
+npm test        # node --test — 24 testes, zero dependências
+```
+
+Travam o comportamento do núcleo (agrupamento, cronograma, análise, guarda de
+postagem) antes de conectar as APIs reais.
+
 ## Como mapeia na arquitetura
 
 | Etapa | Onde está | Estado |
@@ -69,20 +90,33 @@ nuance. O prompt do Claude (`prompts.js`) carrega a regra de ouro no system.
 
 ```
 instagram-studio/
-├── demo.js                  # roda a Fase 1 offline contra fixtures
-├── fixtures/sample-inbox.json
+├── demo.js                  # Fase 1 — ingestão + agrupamento
+├── schedule-demo.js         # Fase 2 — cronograma + receita de edição
+├── report-demo.js           # Fase 3 — análise + email de performance
+├── publish-demo.js          # Fase 2/4 — guarda de postagem (dry-run)
+├── fixtures/                # sample-inbox.json, sample-insights.json
 ├── src/
 │   ├── quadros.js           # os 5 quadros como templates nomeados
 │   ├── grouping.js          # agrupamento heurístico (reconhece o quadro)
 │   ├── ideaBrief.js         # gera _ideia.md (dá a ideia, pede a criação)
 │   ├── prompts.js           # prompt de agrupamento do Claude (regra de ouro)
+│   ├── strategy.js          # janelas de horário, cadência, mix de formato
+│   ├── schedule.js          # monta o cronograma coordenado (Reels/feed/story)
+│   ├── renderRecipe.js      # receita de edição por template (+ esboço ffmpeg)
+│   ├── analyze.js           # análise de performance + recomendações
+│   ├── report.js            # resumo em texto + email HTML
+│   ├── publish.js           # guarda: só posta com a sua legenda/capa
 │   ├── pipeline.js          # orquestrador (planFromAssets / ingestFromDrive)
 │   ├── types.js             # modelo de dados (JSDoc)
 │   └── adapters/
 │       ├── drive.js         # Google Drive (listar, criar pasta, mover)
 │       ├── transcribe.js    # voz → texto (Whisper)
 │       ├── vision.js        # cena → tags + resumo (Claude Vision + ffmpeg)
-│       └── claude.js        # agrupamento via Claude
+│       ├── claude.js        # agrupamento via Claude
+│       ├── insights.js      # métricas via Instagram Graph API
+│       ├── email.js         # envio do relatório por Gmail
+│       └── publisher.js     # DryRun / Metricool (postagem real)
+├── test/                    # node --test — 24 testes, zero dependências
 └── n8n/phase1-ingest.md     # como o n8n orquestra este núcleo
 ```
 
@@ -118,9 +152,10 @@ Depois, um wrapper `run-ingest.js` (ver `n8n/phase1-ingest.md`) chama
 ## Roadmap
 
 - **Fase 1 — ingestão & agrupamento** — ✅ núcleo funcionando (`node demo.js`)
-- **Fase 2 — edição por template + cronograma** — 🟡 parcial: cronograma e
-  receitas de edição funcionando offline (`node schedule-demo.js`); falta o
-  renderizador real (ffmpeg) e a postagem (MVP via Metricool/Publer)
+- **Fase 2 — edição por template + cronograma + postagem** — 🟡 parcial:
+  cronograma, receitas de edição e o guarda de postagem funcionando offline
+  (`node schedule-demo.js`, `node publish-demo.js`); falta o renderizador real
+  (ffmpeg) e ligar o `MetricoolPublisher` com token
 - **Fase 3 — relatórios de performance por email** — 🟡 parcial: análise,
   recomendações e email HTML funcionando offline (`node report-demo.js`); falta
   ligar a Graph Insights real e o envio por Gmail (adaptadores prontos em

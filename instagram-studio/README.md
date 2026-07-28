@@ -26,6 +26,18 @@ Abra qualquer `out/01_agrupados/*/_ideia.md` para ver um brief real.
 Exemplo de saída: 9 arquivos soltos → 6 posts (rotina do dia, review de livro,
 quickstart de matéria, comentário de notícia, dica de estudo, e 1 "a classificar").
 
+### Cronograma + receita de edição (Fase 2, também offline)
+
+```bash
+node schedule-demo.js
+```
+
+Pega os posts da Fase 1, monta um **cronograma de 14 dias** coordenando
+Reels/feed + stories (melhores janelas, 1 post principal/dia, quadros
+alternados, fim de semana com horários próprios) e imprime uma **receita de
+edição por template** — inclusive um esboço de comando `ffmpeg`. A receita
+edita o **seu** material; o texto das legendas e a capa vêm de você.
+
 ## Como mapeia na arquitetura
 
 | Etapa | Onde está | Estado |
@@ -92,9 +104,10 @@ Depois, um wrapper `run-ingest.js` (ver `n8n/phase1-ingest.md`) chama
 
 ## Roadmap
 
-- **Fase 1 — ingestão & agrupamento** ← _você está aqui_ (núcleo funcionando)
-- **Fase 2** — edição por template dos quadros + cronograma + postagem (MVP via
-  Metricool/Publer)
+- **Fase 1 — ingestão & agrupamento** — ✅ núcleo funcionando (`node demo.js`)
+- **Fase 2 — edição por template + cronograma** — 🟡 parcial: cronograma e
+  receitas de edição funcionando offline (`node schedule-demo.js`); falta o
+  renderizador real (ffmpeg) e a postagem (MVP via Metricool/Publer)
 - **Fase 3** — relatórios de performance por email (Graph Insights → Claude → Gmail)
 - **Fase 4** — Graph API própria (postagem 100% autônoma) + recomendações de trend
 

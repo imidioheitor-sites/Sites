@@ -9,7 +9,8 @@
   },
   "scripts": {
     "demo": "node demo.js",
-    "demo:clean": "rm -rf out && node demo.js"
+    "demo:clean": "rm -rf out && node demo.js",
+    "demo:schedule": "node schedule-demo.js"
   },
   "keywords": [
     "instagram",

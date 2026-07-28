@@ -10,7 +10,8 @@
   "scripts": {
     "demo": "node demo.js",
     "demo:clean": "rm -rf out && node demo.js",
-    "demo:schedule": "node schedule-demo.js"
+    "demo:schedule": "node schedule-demo.js",
+    "demo:report": "node report-demo.js"
   },
   "keywords": [
     "instagram",

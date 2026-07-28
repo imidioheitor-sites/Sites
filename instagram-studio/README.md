@@ -38,6 +38,19 @@ alternados, fim de semana com horários próprios) e imprime uma **receita de
 edição por template** — inclusive um esboço de comando `ffmpeg`. A receita
 edita o **seu** material; o texto das legendas e a capa vêm de você.
 
+### Relatório de performance por email (Fase 3, também offline)
+
+```bash
+node report-demo.js
+```
+
+Lê métricas por post (como viriam da Graph API), analisa e produz:
+ranking por quadro, **melhores horários observados** (que realimentam a
+estratégia da Fase 2), destaques por post (gancho fraco, retenção baixa,
+muito salvo…) e **recomendações acionáveis**. Gera o **email HTML** em
+`out/report.html`. As recomendações são **direção** — nunca escrevem seu
+conteúdo.
+
 ## Como mapeia na arquitetura
 
 | Etapa | Onde está | Estado |
@@ -108,7 +121,10 @@ Depois, um wrapper `run-ingest.js` (ver `n8n/phase1-ingest.md`) chama
 - **Fase 2 — edição por template + cronograma** — 🟡 parcial: cronograma e
   receitas de edição funcionando offline (`node schedule-demo.js`); falta o
   renderizador real (ffmpeg) e a postagem (MVP via Metricool/Publer)
-- **Fase 3** — relatórios de performance por email (Graph Insights → Claude → Gmail)
+- **Fase 3 — relatórios de performance por email** — 🟡 parcial: análise,
+  recomendações e email HTML funcionando offline (`node report-demo.js`); falta
+  ligar a Graph Insights real e o envio por Gmail (adaptadores prontos em
+  `src/adapters/{insights,email}.js`)
 - **Fase 4** — Graph API própria (postagem 100% autônoma) + recomendações de trend
 
 Documento de arquitetura completo (visual): veja o artifact gerado na conversa.

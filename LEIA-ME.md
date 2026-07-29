@@ -7,7 +7,9 @@ ou CSS externas. Arraste para o Netlify e está no ar.
 
 ## 1. O que você PRECISA editar antes de publicar
 
-Abra `index.html` e procure por `CONFIGURAÇÃO` (perto do início da tag `<script>`).
+**Chave configurada:** `himidio@nd.edu` (titular HEITOR IMIDIO, Goianira).
+
+Para trocar, abra `index.html` e procure por `CONFIGURAÇÃO` (perto do início da tag `<script>`).
 
 ### Chave Pix — obrigatório
 

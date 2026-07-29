@@ -1279,15 +1279,14 @@ $("#confirm").addEventListener("click",()=>{
     ? {...current, id:"free_"+Date.now()}
     : current;
   reserve(entry,who,$("#msg").value.trim());
-  $("#mBody").innerHTML=`<div class="ok">
-      <div class="ico">✓</div>
-      <h3>Presente reservado</h3>
-      <p style="color:var(--slate);max-width:36ch;margin:0 auto 24px;font-size:15px">
-        Obrigado, ${esc(who)}. Seu recado já está no mural e o presente saiu da lista
-        pra todo mundo.</p>
-      <button class="btn ghost" onclick="document.getElementById('mClose').click()">Fechar</button>
-    </div>`;
+  // Troca de painel — o formulário continua no DOM para o próximo presente.
+  $("#doneMsg").textContent="Obrigado, "+who+". Seu recado já está no mural e o "+
+    "presente saiu da lista pra todo mundo.";
+  $("#mBody").style.display="none";
+  $("#mDone").style.display="block";
+  $(".sheet").scrollTop=0;
 });
+$("#doneClose").addEventListener("click",closeModal);
 
 /* ==================================================================
    COUNTDOWN

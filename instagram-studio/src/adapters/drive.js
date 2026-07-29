@@ -103,4 +103,53 @@ export class DriveClient {
     const prev = (cur.data.parents ?? []).join(',');
     await drive.files.update({ fileId, addParents: newParentId, removeParents: prev, fields: 'id' });
   }
+
+  /** Lista subpastas de uma pasta. */
+  async listSubfolders(parentId) {
+    const drive = await this._client();
+    const res = await drive.files.list({
+      q: `'${parentId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
+      fields: 'files(id,name)',
+      pageSize: 200,
+    });
+    return res.data.files ?? [];
+  }
+
+  /** Lista os arquivos (não-pasta) de uma pasta. */
+  async listChildren(parentId) {
+    const drive = await this._client();
+    const res = await drive.files.list({
+      q: `'${parentId}' in parents and mimeType != 'application/vnd.google-apps.folder' and trashed = false`,
+      fields: 'files(id,name,mimeType)',
+      pageSize: 200,
+    });
+    return res.data.files ?? [];
+  }
+
+  /** Lê o conteúdo de texto de um arquivo. */
+  async readText(fileId) {
+    const drive = await this._client();
+    const res = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'text' });
+    return typeof res.data === 'string' ? res.data : String(res.data ?? '');
+  }
+
+  /**
+   * Estado de aprovação: para cada subpasta de 02_aprovados, detecta a legenda
+   * (legenda.txt), a capa (capa.*) e os arquivos de mídia.
+   * @param {string} approvedFolderId
+   * @returns {Promise<{folderName:string,folderId:string,caption:string,hasCover:boolean,mediaFiles:{id:string,name:string,mimeType:string}[]}[]>}
+   */
+  async listApproved(approvedFolderId) {
+    const folders = await this.listSubfolders(approvedFolderId);
+    const out = [];
+    for (const f of folders) {
+      const files = await this.listChildren(f.id);
+      const legenda = files.find((x) => /^legenda\.txt$/i.test(x.name));
+      const caption = legenda ? (await this.readText(legenda.id)).trim() : '';
+      const hasCover = files.some((x) => /^capa\.(jpg|jpeg|png)$/i.test(x.name));
+      const mediaFiles = files.filter((x) => /^(video|image)\//.test(x.mimeType));
+      out.push({ folderName: f.name, folderId: f.id, caption, hasCover, mediaFiles });
+    }
+    return out;
+  }
 }

@@ -151,3 +151,21 @@ export function quadroById(id) {
   if (id === QUADRO_GERAL.id) return QUADRO_GERAL;
   return QUADROS.find((q) => q.id === id) ?? QUADRO_GERAL;
 }
+
+/** @param {string} slug */
+export function quadroBySlug(slug) {
+  if (slug === QUADRO_GERAL.slug) return QUADRO_GERAL;
+  return QUADROS.find((q) => q.slug === slug) ?? QUADRO_GERAL;
+}
+
+/**
+ * Extrai data e quadro do nome da pasta (post_YYYY-MM-DD_<slug>).
+ * @param {string} folderName
+ * @returns {{ date: string, quadro: import('./types.js').Quadro }}
+ */
+export function parseFolderName(folderName) {
+  const m = /^post_(\d{4}-\d{2}-\d{2})_(.+)$/.exec(folderName);
+  const date = m ? m[1] : '';
+  const slug = m ? m[2] : 'geral';
+  return { date, quadro: quadroBySlug(slug) };
+}

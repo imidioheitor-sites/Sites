@@ -12,6 +12,7 @@
 import { DriveClient } from './src/adapters/drive.js';
 import { ingestFromDrive } from './src/pipeline.js';
 import { loadConfig } from './src/config.js';
+import { Store } from './src/store.js';
 
 // Carrega o .env sem depender de flag (Node >= 20.12). Silencioso se não existir.
 try {
@@ -42,6 +43,14 @@ async function main() {
     dryRun: isDryRun,
     onLog: log,
   });
+
+  // Fecha o loop: registra folderName → quadroId para o relatório (Fase 3).
+  if (!isDryRun && process.env.STUDIO_STORE) {
+    const store = new Store(process.env.STUDIO_STORE).load();
+    for (const g of result.groups) store.recordIngest(g.folderName, g.quadroId);
+    store.save();
+    log(`Store atualizada: ${result.groups.length} post(s) registrado(s).`);
+  }
 
   // stdout = payload p/ o próximo nó do n8n (só o essencial, sem os briefs longos)
   process.stdout.write(

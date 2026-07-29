@@ -162,15 +162,35 @@ resultado (JSON) em stdout — pronto para o n8n consumir (ver `n8n/phase1-inges
 
 ## Roadmap
 
-- **Fase 1 — ingestão & agrupamento** — ✅ núcleo funcionando (`node demo.js`)
-- **Fase 2 — edição por template + cronograma + postagem** — 🟡 parcial:
-  cronograma, receitas de edição e o guarda de postagem funcionando offline
-  (`node schedule-demo.js`, `node publish-demo.js`); falta o renderizador real
-  (ffmpeg) e ligar o `MetricoolPublisher` com token
-- **Fase 3 — relatórios de performance por email** — 🟡 parcial: análise,
-  recomendações e email HTML funcionando offline (`node report-demo.js`); falta
-  ligar a Graph Insights real e o envio por Gmail (adaptadores prontos em
-  `src/adapters/{insights,email}.js`)
-- **Fase 4** — Graph API própria (postagem 100% autônoma) + recomendações de trend
+Toda a lógica das 4 fases está construída e testada (42 testes). O que falta é
+**integração** (contas + chaves) — ver **[SETUP.md](SETUP.md)**.
 
-Documento de arquitetura completo (visual): veja o artifact gerado na conversa.
+- **Fase 1 — ingestão & agrupamento** — ✅ lógica pronta · `run-ingest.js` liga ao Drive
+- **Fase 2 — edição + cronograma + postagem** — ✅ lógica pronta (renderizador
+  ffmpeg, legendas dinâmicas, cronograma, guarda de postagem) · `run-publish.js`
+- **Fase 3 — relatórios por email** — ✅ lógica pronta (análise, recomendações,
+  email HTML) · `run-report.js`
+- **Fase 4 — recomendações & trends + Graph API** — ✅ lógica pronta (modelos de
+  conteúdo, trends via RSS, `GraphPublisher`) · `run-recommend.js`
+
+Falta apenas ligar as credenciais e o n8n → **[SETUP.md](SETUP.md)**.
+Documento de arquitetura visual: veja o artifact gerado na conversa.
+
+## Todos os comandos
+
+```bash
+# Demos offline (zero dependências, zero credenciais)
+node demo.js            # Fase 1 — ingestão + agrupamento
+node schedule-demo.js   # Fase 2 — cronograma + receita de edição
+node render-demo.js     # Fase 2 — legendas dinâmicas + comando ffmpeg
+node publish-demo.js    # Fase 2 — guarda de postagem (dry-run)
+node report-demo.js     # Fase 3 — análise + email de performance
+node recommend-demo.js  # Fase 4 — recomendações + trends
+npm test                # 42 testes
+
+# Produção (precisam do .env — ver SETUP.md). Sempre --check → --dry-run → live
+node run-ingest.js --check
+node run-publish.js --check
+node run-report.js --dry-run
+node run-recommend.js --dry-run
+```

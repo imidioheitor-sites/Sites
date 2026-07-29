@@ -13,6 +13,7 @@
     "demo:schedule": "node schedule-demo.js",
     "demo:report": "node report-demo.js",
     "demo:publish": "node publish-demo.js",
+    "demo:render": "node render-demo.js",
     "test": "node --test"
   },
   "keywords": [

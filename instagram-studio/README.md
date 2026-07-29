@@ -146,8 +146,19 @@ Ainda não conectado — precisa de decisões e credenciais suas.
 cp .env.example .env      # preencha as chaves e os IDs das pastas
 npm i @anthropic-ai/sdk googleapis openai fluent-ffmpeg
 ```
-Depois, um wrapper `run-ingest.js` (ver `n8n/phase1-ingest.md`) chama
-`ingestFromDrive()` com os adaptadores reais — e o n8n dispara isso a cada lote.
+
+### Rodar a Fase 1 no Drive real (`run-ingest.js`)
+
+```bash
+node run-ingest.js --check     # só valida credenciais e conta a /00_inbox (seguro)
+node run-ingest.js --dry-run   # analisa e mostra o plano, SEM tocar nas pastas
+node run-ingest.js             # cria as pastas, escreve _ideia.md e move os arquivos
+```
+
+Comece sempre pelo `--check` (confirma que a service account enxerga a pasta),
+depois `--dry-run` (vê o agrupamento sem risco), e só então o modo completo.
+O `run-ingest.js` carrega o `.env` sozinho, loga o progresso em stderr e emite o
+resultado (JSON) em stdout — pronto para o n8n consumir (ver `n8n/phase1-ingest.md`).
 
 ## Roadmap
 

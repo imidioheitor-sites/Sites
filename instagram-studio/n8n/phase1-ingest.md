@@ -44,25 +44,19 @@ núcleo (via um passo "Execute Command"/serviço que roda `ingestFromDrive`).
 - Trocar Whisper por outro STT, ou a heurística pelo Claude, é mudar `src/`, sem
   reconstruir o workflow.
 
-## Wrapper sugerido (`run-ingest.js`, a criar quando conectarmos o Drive real)
+## Wrapper `run-ingest.js` (já existe na raiz do projeto)
 
-```js
-import { DriveClient } from './src/adapters/drive.js';
-import { ingestFromDrive } from './src/pipeline.js';
+O nó "Execute Command" chama `node run-ingest.js`. Ele carrega o `.env`, valida
+as credenciais, roda `ingestFromDrive()`, loga em stderr e emite o resultado
+(JSON) em stdout — pronto para o próximo nó. Suporta:
 
-const drive = new DriveClient({
-  inboxFolderId: process.env.DRIVE_INBOX_FOLDER_ID,
-  rootFolderId: process.env.DRIVE_ROOT_FOLDER_ID,
-});
-
-const result = await ingestFromDrive(drive, {
-  agrupadosFolderId: process.env.DRIVE_AGRUPADOS_FOLDER_ID,
-  useClaude: true,               // ou false p/ heurística
-  onLog: (m) => console.error(m), // stderr p/ o n8n capturar
-});
-
-process.stdout.write(JSON.stringify(result)); // n8n lê isso no próximo nó
+```bash
+node run-ingest.js --check     # valida acesso ao Drive e conta a inbox
+node run-ingest.js --dry-run   # analisa e mostra o plano, sem escrever
+node run-ingest.js             # executa: cria pastas, escreve briefs, move arquivos
 ```
+
+Antes de agendar no n8n, rode `--check` e `--dry-run` manualmente uma vez.
 
 ## Deploy do n8n (decisão default: self-hosted)
 

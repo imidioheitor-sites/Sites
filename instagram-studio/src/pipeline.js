@@ -44,6 +44,7 @@ export async function planFromAssets(assets, opts = {}) {
  * @param {{
  *   agrupadosFolderId: string,
  *   useClaude?: boolean,
+ *   dryRun?: boolean,
  *   transcribeOpts?: object,
  *   visionOpts?: object,
  *   onLog?: (msg: string) => void,
@@ -89,6 +90,12 @@ export async function ingestFromDrive(drive, opts) {
   const { groups, briefs, scored } = await planFromAssets(assets, {
     useClaude: opts.useClaude,
   });
+
+  if (opts.dryRun) {
+    log(`[dry-run] ${groups.length} post(s) proposto(s) — nenhuma pasta criada nem arquivo movido.`);
+    for (const g of groups) log(`[dry-run]   ${g.folderName} (${g.assetIds.length} item[s])`);
+    return { groups, briefs, scored, assetCount: assets.length, dryRun: true };
+  }
 
   for (const g of groups) {
     log(`Criando pasta ${g.folderName} (${g.assetIds.length} item[s])`);

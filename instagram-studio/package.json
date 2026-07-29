@@ -14,6 +14,7 @@
     "demo:report": "node report-demo.js",
     "demo:publish": "node publish-demo.js",
     "demo:render": "node render-demo.js",
+    "demo:recommend": "node recommend-demo.js",
     "test": "node --test"
   },
   "keywords": [

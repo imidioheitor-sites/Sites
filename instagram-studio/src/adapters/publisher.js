@@ -78,3 +78,56 @@ export class MetricoolPublisher {
     };
   }
 }
+
+/**
+ * Backend de produção via Instagram Graph API (Fase 4) — postagem oficial direta.
+ * Fluxo de 2 passos: cria o container de mídia e depois publica.
+ * Requer IG_USER_ID + IG_ACCESS_TOKEN e a permissão instagram_content_publish.
+ * As mídias precisam estar em URLs públicas acessíveis (image_url/video_url).
+ */
+export class GraphPublisher {
+  /** @param {{ igUserId?: string, accessToken?: string, base?: string }} [cfg] */
+  constructor(cfg = {}) {
+    this.igUserId = cfg.igUserId || process.env.IG_USER_ID;
+    this.token = cfg.accessToken || process.env.IG_ACCESS_TOKEN;
+    this.base = cfg.base || 'https://graph.facebook.com/v20.0';
+    if (!this.igUserId || !this.token)
+      throw new Error('IG_USER_ID / IG_ACCESS_TOKEN não configurados — GraphPublisher indisponível.');
+  }
+
+  /**
+   * @param {{ entry: any, approval: { caption: string, mediaUrls: string[] } }} job
+   * @returns {Promise<import('./publisher.js').PublishResult>}
+   */
+  async publish({ entry, approval }) {
+    const media = approval.mediaUrls?.[0];
+    if (!media) throw new Error(`Sem URL de mídia para ${entry.folderName}.`);
+
+    // 1) cria o container
+    const params = new URLSearchParams({ caption: approval.caption, access_token: this.token });
+    if (entry.format === 'reel') {
+      params.set('media_type', 'REELS');
+      params.set('video_url', media);
+    } else if (entry.format === 'story') {
+      params.set('media_type', 'STORIES');
+      params.set(/\.(mp4|mov)$/i.test(media) ? 'video_url' : 'image_url', media);
+    } else {
+      params.set('image_url', media);
+    }
+    const container = await postJson(`${this.base}/${this.igUserId}/media`, params);
+
+    // 2) publica o container
+    const pub = await postJson(
+      `${this.base}/${this.igUserId}/media_publish`,
+      new URLSearchParams({ creation_id: container.id, access_token: this.token }),
+    );
+
+    return { folderName: entry.folderName, status: 'posted', when: new Date().toISOString(), providerId: pub.id };
+  }
+}
+
+async function postJson(url, params) {
+  const res = await fetch(url, { method: 'POST', body: params });
+  if (!res.ok) throw new Error(`Graph API ${res.status}: ${await res.text()}`);
+  return res.json();
+}

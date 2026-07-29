@@ -9,7 +9,7 @@ const CONFIG = {
   pix: {
     // 👉 TROQUE AQUI: CPF (só números), telefone (+5511999999999),
     //    e-mail, ou chave aleatória do banco.
-    key: 'SUA-CHAVE-PIX-AQUI',
+    key: 'himidio@nd.edu',
     // Nome do titular da conta (máx. 25 caracteres, sem acento).
     name: 'HEITOR IMIDIO SILVA',
     // Cidade do titular (máx. 15 caracteres, sem acento).

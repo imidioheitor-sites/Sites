@@ -126,7 +126,9 @@ const t=(l,g,w)=>{const ok=(w===undefined? !!g : g===w); ok?pass++:fail++;
   const payload = await page.locator('#pixCode').innerText();
   t('payload Pix comeca com 000201', payload.slice(0,6), '000201');
   t('payload tem GUI do Pix', payload.includes('BR.GOV.BCB.PIX'));
-  t('aviso de chave nao configurada aparece', await page.locator('#pixWarn').isVisible());
+  // com a chave Pix real configurada, o aviso amarelo tem de sumir
+  t('aviso de chave placeholder NAO aparece', await page.locator('#pixWarn').isVisible(), false);
+  t('payload usa a chave real', payload.includes('himidio@nd.edu'), true);
   t('preco no modal', (await page.locator('#mPrice').innerText()).includes('50,00'));
 
   await page.fill('#mName', 'Julianna');

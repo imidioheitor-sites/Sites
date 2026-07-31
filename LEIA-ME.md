@@ -86,6 +86,28 @@ não precisa mexer em nada além de colocar o arquivo no lugar.
 
 ---
 
+## 3.5 As 15 fotos
+
+Crie a pasta `assets/fotos/` ao lado do `index.html` e salve as imagens como
+`01.jpg`, `02.jpg` … `15.jpg`. Cada vaga vazia mostra na tela **qual foto vai ali**
+— é só seguir o rótulo. Assim que o arquivo existir, o placeholder some sozinho.
+
+| # | Onde aparece | O que colocar |
+|---|---|---|
+| 01–02 | flutuando na hero | retrato seu · você de uniforme/formatura (verticais) |
+| 03 | destaque da galeria | você com a família (quadrada) |
+| 04–07 | galeria | turma · amigos · Goianira · dia da aprovação |
+| 08 | galeria (larga) | todo mundo reunido (deitada) |
+| 09–10 | galeria | o que você ama fazer · foto de criança |
+| 11–12 | ao lado da cúpula | campus/Golden Dome · algo de Notre Dame |
+| 13–15 | tira do rodapé | quem te ajudou · a despedida · livre |
+
+Podem faltar fotos: o site continua bonito com as vagas preenchidas aos poucos.
+Para mudar legendas ou o que se pede em cada vaga, edite a lista `PHOTOS` no
+topo do script.
+
+---
+
 ## 4. Trocar presentes, valores e desafios
 
 Tudo fica em listas no topo do script, fáceis de editar:

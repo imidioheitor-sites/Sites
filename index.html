@@ -82,6 +82,7 @@ a{color:inherit;text-decoration:none}
 #curDot{width:4px;height:4px;background:var(--gold-hi)}
 #cur,#curDot{opacity:0;transition-property:width,height,background,opacity}
 body.pointing #cur,body.pointing #curDot{opacity:1}
+body.mala #cur{opacity:0}
 #cur.big{width:76px;height:76px;background:rgba(201,151,0,.09);border-color:rgba(233,196,90,.9)}
 @media(hover:none){#cur,#curDot{display:none}}
 
@@ -177,13 +178,12 @@ nav a:hover{color:var(--cream)}nav a:hover::after{width:100%}
   display:grid;place-items:center}
 .portal-layer{position:absolute;inset:0;display:grid;place-items:center;
   padding:0 var(--pad);text-align:center}
-/* Layer A = Brazil side, visible first, gets masked away */
-.portal-a{background:var(--navy);z-index:2;
-  clip-path:circle(140% at 50% 50%);will-change:clip-path}
-/* Layer B = Notre Dame side, revealed through the aperture */
+/* Layer A = lado de ca, fica embaixo e some */
+.portal-a{background:var(--navy);z-index:1}
+/* Layer B = lado de la, cresce por cima como um portal se abrindo */
 .portal-b{background:
   radial-gradient(ellipse at 50% 60%,rgba(201,151,0,.20),transparent 62%),var(--navy-deep);
-  z-index:1}
+  z-index:2;clip-path:circle(0% at 50% 50%);will-change:clip-path}
 .portal h2{font-family:var(--f-display);font-weight:500;
   font-size:clamp(30px,6.6vw,86px);line-height:1.03;margin:0;letter-spacing:-.005em}
 .portal .lede{max-width:620px;margin:26px auto 0;color:var(--slate);font-size:16px}
@@ -192,6 +192,9 @@ nav a:hover{color:var(--cream)}nav a:hover::after{width:100%}
   border:1px solid rgba(201,151,0,.30);z-index:0;pointer-events:none}
 .ring:nth-of-type(2){width:min(58vmin,470px);border-color:rgba(201,151,0,.20)}
 .ring:nth-of-type(3){width:min(38vmin,320px);border-color:rgba(201,151,0,.14)}
+#pBtext{opacity:0}
+#pAtext,#pBtext{transition:opacity .12s linear}
+@media(prefers-reduced-motion:reduce){#pAtext,#pBtext{opacity:1!important}}
 
 /* ============================================================
    SECTION SHELL
@@ -264,10 +267,66 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
 .pass.taken .by{display:block}
 
 /* 3D reveal panel that follows the cursor */
-#reveal{position:fixed;width:250px;height:250px;pointer-events:none;z-index:850;
+#reveal{position:fixed;width:168px;height:168px;pointer-events:none;z-index:850;
   opacity:0;transform:scale(.82);transition:opacity .38s var(--ease),transform .38s var(--ease)}
 #reveal.on{opacity:1;transform:scale(1)}
 @media(hover:none),(max-width:900px){#reveal{display:none}}
+
+
+/* ============================================================
+   FOTOS — placeholders que dizem qual imagem vai em cada vaga
+   ============================================================ */
+.ph{position:relative;overflow:hidden;border-radius:14px;background:var(--navy-lift);
+  border:1px solid var(--navy-line);display:block;width:100%}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.1s var(--ease),opacity .7s var(--ease)}
+.ph.empty img{display:none}
+.ph .slot{position:absolute;inset:0;display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:9px;padding:18px;text-align:center;
+  border:1px dashed rgba(201,151,0,.42);border-radius:14px}
+.ph.empty .slot{display:flex}
+.ph .slot b{font-family:var(--f-mono);font-size:10px;letter-spacing:.26em;
+  color:var(--gold);font-weight:700}
+.ph .slot span{font-family:var(--f-body);font-size:12.5px;color:var(--slate);
+  line-height:1.5;max-width:24ch}
+.ph:not(.empty):hover img{transform:scale(1.05)}
+.ph::after{content:'';position:absolute;inset:0;border-radius:14px;
+  box-shadow:inset 0 0 0 1px rgba(201,151,0,.16);pointer-events:none}
+.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:16px 16px 14px;
+  background:linear-gradient(transparent,rgba(6,21,41,.92));
+  font-family:var(--f-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--cream);opacity:0;
+  transition:opacity .45s var(--ease)}
+.ph:not(.empty):hover .cap{opacity:1}
+
+/* galeria de memórias */
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.galeria .ph{aspect-ratio:3/4}
+.galeria .ph:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:1/1}
+.galeria .ph:nth-child(6){grid-column:span 2;aspect-ratio:2/1}
+@media(max-width:900px){
+  .galeria{grid-template-columns:repeat(2,1fr);gap:12px}
+  .galeria .ph:nth-child(1){grid-column:span 2;grid-row:auto}
+  .galeria .ph:nth-child(6){grid-column:span 2}
+}
+
+/* fotos flutuantes na hero */
+.hero-fotos{position:absolute;inset:0;z-index:1;pointer-events:none}
+.hero-fotos .ph{position:absolute;width:clamp(120px,13vw,196px);aspect-ratio:3/4;
+  pointer-events:auto;box-shadow:0 26px 60px rgba(0,0,0,.5)}
+.hero-fotos .ph:nth-child(1){right:5%;top:16%;transform:rotate(4deg)}
+.hero-fotos .ph:nth-child(2){right:15%;bottom:13%;transform:rotate(-6deg)}
+@media(max-width:1100px){.hero-fotos{display:none}}
+
+/* tira do rodapé */
+.tira{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:var(--maxw);margin:0 auto 56px}
+.tira .ph{aspect-ratio:4/3}
+@media(max-width:640px){.tira{grid-template-columns:1fr}}
+
+/* par ao lado da cúpula */
+.par{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
+.par .ph{aspect-ratio:1/1}
 
 /* ============================================================
    TOTAL PROGRESS
@@ -459,13 +518,14 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
       <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260729_020941_4feb023f-04f8-4951-b19b-64296a2b1cde.mp4" type="video/mp4">
     </video>
   </div>
+  <div class="hero-fotos" id="heroFotos"></div>
   <div class="hero-in">
     <div class="eyebrow mono"><span></span>Goianira, GO &nbsp;→&nbsp; South Bend, Indiana</div>
     <h1 id="tp" aria-label="Heitor">HEITOR</h1>
     <p class="script">Aniversário &amp; Despedida</p>
     <p class="hero-sub">Faço 18 anos e, poucos dias depois, embarco para estudar
       Engenharia Mecânica na University of Notre Dame. Não cabe muita coisa na mala —
-      mas cabe todo mundo que passou por aqui.</p>
+      mas cabem todas as memórias e contribuições que vocês fizeram na minha vida.</p>
 
     <div class="strip">
       <div><span class="k">Embarque</span><span class="v">16 · 08</span></div>
@@ -482,40 +542,60 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
   <div class="portal-stick">
     <div class="portal-layer portal-b">
       <div class="ring"></div><div class="ring"></div><div class="ring"></div>
-      <div>
+      <div id="pBtext">
         <div class="tag mono"><span></span>Do outro lado</div>
-        <h2>E do outro lado tem<br><span class="gold">uma cúpula dourada</span><br>me esperando.</h2>
-        <p class="lede">Cada presente aqui é um pedaço dessa travessia — do pão de queijo
+        <h2>E um diploma internacional da<br><span class="gold">melhor católica do mundo</span><br>lá.</h2>
+        <p class="lede">Cada presente aqui é um pedaço dessa travessia — do almoço
           no aeroporto à bicicleta que vai me levar pra aula. Você escolhe qual momento
           quer bancar.</p>
       </div>
     </div>
     <div class="portal-layer portal-a" id="pA">
-      <div>
+      <div id="pAtext">
         <div class="tag mono"><span></span>Deste lado</div>
-        <h2>Dezoito anos <span class="gold">aqui</span>.<br>O resto começa lá.</h2>
-        <p class="lede">Role para atravessar.</p>
+        <h2>Dezoito anos <span class="gold">aqui</span>.</h2>
+        <p class="lede">Muitas memórias e um incrível ensino médio.</p>
+        <div class="mono" style="margin-top:30px;color:var(--gold);opacity:.8">
+          Role para atravessar ↓</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 3D SHOWCASE -->
+<section class="band" id="memorias">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="tag mono"><span></span>Deste lado</div>
+        <h2>Dezoito anos que couberam aqui.</h2>
+      </div>
+      <p>Antes de falar do que vem pela frente: um pouco do que ficou. Escola,
+         família, os lugares e as pessoas que fizeram esses dezoito anos.</p>
+    </div>
+    <div class="galeria" id="galeria"></div>
+  </div>
+</section>
+
 <section class="band" id="cupula">
   <div class="wrap showcase">
     <div class="rv">
-      <div class="tag mono"><span></span>O destino</div>
+      <div class="tag mono"><span></span>Como funciona</div>
       <h2 style="font-family:var(--f-display);font-weight:500;margin:0 0 22px;
                  font-size:clamp(28px,4.6vw,58px);line-height:1.05">
-        A cúpula que eu<br>vou ver todo dia.</h2>
-      <p style="color:var(--slate);font-size:16px;max-width:44ch;margin:0 0 18px">
-        O Golden Dome fica no topo do prédio principal de Notre Dame, folheado a
-        ouro de verdade. É o primeiro ponto que aparece quando você entra no campus.</p>
-      <p style="color:var(--slate);font-size:16px;max-width:44ch;margin:0">
-        Gira ela aí. É o mais perto que eu chego dela por enquanto.</p>
-      <p class="hint" style="text-align:left">Arraste para girar · Role para aproximar</p>
+        Não cabe todo mundo na mala.<br>Mas dá pra pegar
+        <span style="color:var(--gold-hi)">um pedacinho de Notre Dame</span> pra você.</h2>
+      <p style="color:var(--slate);font-size:16px;max-width:46ch;margin:0 0 18px">
+        Cada presente aqui tem o valor real de algo que pode mudar minha vida
+        universitária — e vem com uma pequena lembrancinha como recompensa.
+        Quanto maior o presente, maior a lembrança que volta pra você.</p>
+      <p style="color:var(--cream);font-size:17px;margin:0 0 22px">Dá uma olhada:</p>
+      <a href="#presentes" class="pill" style="display:inline-block">Ver os presentes</a>
+      <p class="hint" style="text-align:left;margin-top:26px">Arraste a cúpula para girar</p>
     </div>
-    <div class="rv"><canvas id="stage"></canvas></div>
+    <div class="rv"><canvas id="stage"></canvas>
+      <div class="par" id="parFotos"></div>
+    </div>
   </div>
 </section>
 
@@ -583,6 +663,7 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
 </section>
 
 <footer>
+  <div class="tira rv" id="tiraFotos"></div>
   <div class="f-grid">
     <h3>Obrigado por<br>fazer parte.</h3>
     <div class="f-meta">
@@ -968,14 +1049,38 @@ const FIREBASE = {
 
 const DATA_EMBARQUE = "2026-08-16T07:30:00-03:00";
 
+/* 15 fotos. Salve os arquivos em assets/fotos/ com estes nomes e elas
+   aparecem sozinhas. Enquanto faltarem, a vaga mostra o que deve ir ali. */
+const PHOTOS = [
+  // hero — dois retratos flutuantes
+  {src:"assets/fotos/01.jpg", cap:"Heitor, 2026",            hint:"Um retrato seu, vertical. De preferência olhando pra câmera."},
+  {src:"assets/fotos/02.jpg", cap:"Ensino médio",            hint:"Você de uniforme ou na formatura, vertical."},
+  // galeria de memórias
+  {src:"assets/fotos/03.jpg", cap:"Família",                 hint:"A foto principal: você com a família. Quadrada ou perto disso."},
+  {src:"assets/fotos/04.jpg", cap:"A turma",                 hint:"Sua turma do ensino médio."},
+  {src:"assets/fotos/05.jpg", cap:"Os amigos",               hint:"Amigos de sempre, de preferência rindo."},
+  {src:"assets/fotos/06.jpg", cap:"Goianira",                hint:"Sua cidade: a matriz, a praça, a rua de casa."},
+  {src:"assets/fotos/07.jpg", cap:"O dia da aprovação",      hint:"A carta de admissão, a reação, a comemoração."},
+  {src:"assets/fotos/08.jpg", cap:"Todo mundo junto",        hint:"Foto larga (deitada): a família ou a turma reunida."},
+  {src:"assets/fotos/09.jpg", cap:"O que eu amo fazer",      hint:"Você fazendo algo seu: esporte, projeto, hobby."},
+  {src:"assets/fotos/10.jpg", cap:"Lá atrás",                hint:"Uma foto antiga, de criança."},
+  // ao lado da cúpula
+  {src:"assets/fotos/11.jpg", cap:"Notre Dame",              hint:"O campus, o Golden Dome ou o estádio."},
+  {src:"assets/fotos/12.jpg", cap:"O próximo capítulo",      hint:"Algo de Notre Dame: moletom, bandeira, caneca."},
+  // tira do rodapé
+  {src:"assets/fotos/13.jpg", cap:"Obrigado",                hint:"Você com quem te ajudou a chegar aqui."},
+  {src:"assets/fotos/14.jpg", cap:"Até já",                  hint:"Uma despedida: aeroporto, mala, abraço."},
+  {src:"assets/fotos/15.jpg", cap:"16 de agosto",            hint:"Livre — a que você mais gosta."}
+];
+
 const GIFTS = [
   {id:"g01",code:"ND-101",t:"Um café na Starbucks",v:50,
    n:"O primeiro de muitos. Provavelmente às 6 da manhã, antes de uma prova.",obj:"cup"},
-  {id:"g02",code:"ND-102",t:"Um pão de queijo no aeroporto",v:100,
-   n:"O último gosto de Goiás antes do portão de embarque.",obj:"sphere"},
+  {id:"g02",code:"ND-102",t:"Um almoço no aeroporto",v:60,
+   n:"A última refeição em solo brasileiro, antes do portão de embarque.",obj:"sphere"},
   {id:"g03",code:"ND-103",t:"Um par de meias pro frio de Notre Dame",v:80,
    n:"Indiana chega a -20°C. Isso aqui não é piada, é sobrevivência.",obj:"sock"},
-  {id:"g04",code:"ND-104",t:"Um lenço pras lágrimas da mamãe",v:100,
+  {id:"g04",code:"ND-104",t:"Um lenço de lágrimas pra mamãe",v:40,
    n:"Vai precisar de mais de um, sejamos honestos.",obj:"plane"},
   {id:"g05",code:"ND-105",t:"Ingresso pro jogo no estádio de Notre Dame",v:500,
    n:"80 mil pessoas cantando junto. Eu vou ser um deles.",obj:"helmet"},
@@ -1247,7 +1352,7 @@ function bindCards(){
       card.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px)`;
     });
     card.addEventListener("mouseleave",()=>{ card.style.transform=""; hideReveal(); });
-    card.addEventListener("mouseenter",()=>{ showReveal(card.dataset.obj||"star"); });
+    card.addEventListener("mouseenter",()=>{ showReveal(); });
   });
 }
 
@@ -1381,19 +1486,29 @@ $("#doneClose").addEventListener("click",closeModal);
    PORTAL — scroll-driven aperture
    ================================================================== */
 (function portal(){
-  const sec=$(".portal"), a=$("#pA"), rings=$$(".ring");
-  addEventListener("scroll",()=>{
+  const sec=$(".portal"), a=$("#pA"), bL=$(".portal-b"), rings=$$(".ring");
+  const tA=$("#pAtext"), tB=$("#pBtext");
+  // Sem isto os dois títulos aparecem sobrepostos no meio da travessia e
+  // nenhum dos dois fica legível. A troca é feita em relevo, não em cruzamento.
+  const ramp=(v,lo,hi)=>{ const t=Math.min(1,Math.max(0,(v-lo)/(hi-lo)));
+    return t*t*(3-2*t); };
+  const sync=()=>{
     const r=sec.getBoundingClientRect();
-    const total=sec.offsetHeight-innerHeight;
+    const total=Math.max(1,sec.offsetHeight-innerHeight);
     let p=Math.min(1,Math.max(0,-r.top/total));
-    // aperture closes from 140% down to 0 — you fall through the dome
-    const rad = 140 - Math.pow(p,1.25)*140;
-    a.style.clipPath=`circle(${rad}% at 50% 50%)`;
+    // o portal abre do centro para fora ate cobrir a tela inteira
+    const rad = Math.pow(p,.8)*150;
+    bL.style.clipPath=`circle(${rad}% at 50% 50%)`;
+    tA.style.opacity=String(1-ramp(p,.06,.34));
+    tB.style.opacity=String(ramp(p,.40,.72));
     rings.forEach((el,i)=>{
       el.style.transform=`scale(${1+p*(1.6+i*.5)}) rotate(${p*(40+i*24)}deg)`;
       el.style.opacity=String(Math.max(0,1-p*1.15));
     });
-  },{passive:true});
+  };
+  addEventListener("scroll",sync,{passive:true});
+  addEventListener("resize",sync,{passive:true});
+  sync();
 })();
 
 /* ==================================================================
@@ -1401,89 +1516,29 @@ $("#doneClose").addEventListener("click",closeModal);
    Renderizado pelo mini-motor G3 (canvas 2D, sem bibliotecas).
    ================================================================== */
 
-/* --- objetos procedurais: um por presente --- */
-function buildObject(kind){
-  const M=G3.mesh(), G=G3.GOLD, H=G3.GOLDHI, S=G3.STEEL;
-  switch(kind){
-    case "cup":
-      G3.lathe(M,[[.30,-.55],[.42,-.52],[.46,.10],[.52,.50],[.50,.55],[.44,.52],[.40,-.48],[.28,-.50]],26,G);
-      G3.ring(M,.54,.055,20,8,0,.50,0,"y",H); break;
-    case "sphere":
-      G3.sphere(M,.62,0,0,0,22,G); G3.ring(M,.60,.05,22,8,0,0,0,"x",H); break;
-    case "sock":
-      G3.cyl(M,.27,.30,.90,0,.20,0,18,G);
-      G3.sphere(M,.29,0,-.26,0,16,G);
-      G3.cyl(M,.27,.24,.56,.26,-.38,0,16,H); break;
-    case "plane":
-      G3.box(M,.10,.06,1.25,0,0,0,G);
-      G3.box(M,1.15,.05,.34,0,.02,.10,H);
-      G3.box(M,.42,.04,.20,0,.04,-.46,G);
-      G3.box(M,.05,.28,.22,0,.16,-.48,G); break;
-    case "helmet":
-      G3.sphere(M,.62,0,0,0,24,G,true);
-      G3.cyl(M,.62,.60,.14,0,-.05,0,24,G);
-      G3.ring(M,.34,.045,18,7,0,-.22,.34,"z",H);
-      G3.ring(M,.24,.04,16,7,0,-.36,.40,"z",H); break;
-    case "box":
-      G3.box(M,.90,.90,.90,0,0,0,G);
-      G3.box(M,.96,.13,.96,0,.16,0,H);
-      G3.box(M,.13,.96,.96,0,0,0,H);
-      G3.ring(M,.17,.06,14,7,0,.52,0,"y",H); break;
-    case "blanket":{
-      const v=[],f=[],N=11;
-      for(let i=0;i<=N;i++) for(let j=0;j<=N;j++){
-        const x=(i/N-.5)*1.5, z=(j/N-.5)*1.5;
-        v.push([x, Math.sin(x*3.4)*.14+Math.cos(z*2.8)*.12, z]);
-      }
-      for(let i=0;i<N;i++) for(let j=0;j<N;j++){
-        const a=i*(N+1)+j;
-        f.push([a,a+1,a+N+2,a+N+1]); f.push([a,a+N+1,a+N+2,a+1]);
-      }
-      const o=M.v.length; v.forEach(p=>M.v.push(p));
-      f.forEach(q=>M.f.push({i:q.map(i=>i+o),c:G})); break; }
-    case "slipper":
-      G3.cyl(M,.30,.34,.85,0,-.10,0,16,G);
-      G3.sphere(M,.33,0,.32,0,16,H,true);
-      G3.sphere(M,.31,0,-.46,0,16,G); break;
-    case "star":{
-      const v=[[0,0,.20],[0,0,-.20]],f=[];
-      for(let i=0;i<10;i++){ const r=i%2?.32:.80, a=i/10*Math.PI*2-Math.PI/2;
-        v.push([Math.cos(a)*r,Math.sin(a)*r,0]); }
-      for(let i=0;i<10;i++){ const a=2+i, b=2+(i+1)%10;
-        f.push([0,a,b]); f.push([1,b,a]); }
-      const o=M.v.length; v.forEach(p=>M.v.push(p));
-      f.forEach(q=>M.f.push({i:q.map(i=>i+o),c:i=>0}));
-      M.f.slice(-f.length).forEach(x=>x.c=G); break; }
-    case "train":
-      G3.box(M,1.20,.52,.52,0,0,0,G);
-      G3.cyl(M,.24,.24,.52,-.36,.30,0,18,H);
-      G3.box(M,.40,.34,.44,.34,.36,0,G);
-      [-.38,.38].forEach(x=>[-.28,.28].forEach(z=>
-        G3.ring(M,.15,.05,14,7,x,-.30,z,"z",S))); break;
-    case "bike":
-      [-.62,.62].forEach(x=>{
-        G3.ring(M,.44,.045,26,7,x,-.10,0,"z",G);
-        for(let i=0;i<6;i++){ const a=i/6*Math.PI;
-          G3.box(M,.024,.86,.024,x,-.10,0,H); }
-      });
-      G3.box(M,1.24,.05,.05,0,-.10,0,G);
-      G3.box(M,.05,.62,.05,-.26,.20,0,G);
-      G3.box(M,.05,.62,.05,.30,.18,0,G);
-      G3.box(M,.05,.42,.05,.62,.32,0,G);
-      G3.box(M,.36,.07,.16,-.30,.46,0,H);
-      G3.box(M,.06,.06,.46,.62,.52,0,H);
-      G3.ring(M,.13,.035,14,7,0,-.10,0,"z",H); break;
-    case "flower":
-      for(let i=0;i<6;i++){ const a=i/6*Math.PI*2;
-        G3.sphere(M,.23,Math.cos(a)*.33,.42,Math.sin(a)*.33,12,G); }
-      G3.sphere(M,.19,0,.44,0,14,H);
-      G3.cyl(M,.035,.055,.92,0,-.16,0,10,G);
-      G3.box(M,.30,.04,.12,.18,-.10,0,G); break;
-    default: G3.sphere(M,.66,0,0,0,16,G);
-  }
+/* --- a mala: um objeto so, usado como cursor sobre os presentes --- */
+const LEATHER=[142,96,52], LEATHER_D=[104,68,36];
+
+function buildSuitcase(){
+  const M=G3.mesh(), G=G3.GOLD, H=G3.GOLDHI, L=LEATHER, D=LEATHER_D;
+  // corpo, em duas metades para dar a linha de fechamento
+  G3.box(M,1.30,0.46,0.44, 0, 0.20,0, L);
+  G3.box(M,1.30,0.44,0.44, 0,-0.24,0, D);
+  G3.box(M,1.34,0.06,0.48, 0,-0.02,0, H);      // friso central
+  // cantoneiras
+  [-0.60,0.60].forEach(x=>[-0.40,0.42].forEach(y=>
+    G3.box(M,0.12,0.12,0.48,x,y,0,H)));
+  // cintas de couro
+  [-0.34,0.34].forEach(x=>G3.box(M,0.11,0.94,0.47,x,0,0,D));
+  [-0.34,0.34].forEach(x=>G3.box(M,0.07,0.94,0.49,x,0,0,H));
+  // alca
+  G3.box(M,0.07,0.20,0.07,-0.20,0.52,0,H);
+  G3.box(M,0.07,0.20,0.07, 0.20,0.52,0,H);
+  G3.box(M,0.48,0.08,0.10, 0,0.62,0,D);
+  // fechos
+  [-0.20,0.20].forEach(x=>G3.box(M,0.14,0.10,0.50,x,-0.02,0,H));
   return M;
 }
-
 /* --- Golden Dome interativo (3D Product Animation) --- */
 (function stage(){
   const cv=$("#stage"); if(!cv) return;
@@ -1566,10 +1621,10 @@ const Reveal=(function(){
   const cv=$("#reveal");
   if(!cv||matchMedia("(hover:none)").matches) return {show(){},hide(){}};
   const ctx=cv.getContext("2d");
-  const dpr=Math.min(devicePixelRatio||1,2), SZ=250;
+  const dpr=Math.min(devicePixelRatio||1,2), SZ=168;
   cv.width=SZ*dpr; cv.height=SZ*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
   let M=null,on=false,x=0,y=0,tx=0,ty=0,ry=0;
-  addEventListener("mousemove",e=>{ tx=e.clientX+34; ty=e.clientY-125; });
+  addEventListener("mousemove",e=>{ tx=e.clientX+16; ty=e.clientY-84; });
   (function l(){
     requestAnimationFrame(l);
     x+=(tx-x)/7; y+=(ty-y)/7;
@@ -1577,15 +1632,18 @@ const Reveal=(function(){
     if(!on||!M) return;
     ry+=.019;
     ctx.clearRect(0,0,SZ,SZ);
-    G3.render(ctx,M,Math.sin(Date.now()*.0011)*.26,ry,SZ,SZ,3.5,SZ*.60);
+    G3.render(ctx,M,Math.sin(Date.now()*.0011)*.20-.12,ry,SZ,SZ,2.75,SZ*.62);
   })();
+  const MALA=buildSuitcase();
   return {
-    show(kind){
-      M=buildObject(kind);
+    show(){
+      M=MALA;
       if(!on){ x=tx; y=ty; }        // aparece junto ao cursor, sem deslizar da origem
       on=true; cv.classList.add("on");
+      document.body.classList.add("mala");   // esconde o anel: a mala vira o cursor
     },
-    hide(){ on=false; cv.classList.remove("on"); }
+    hide(){ on=false; cv.classList.remove("on");
+      document.body.classList.remove("mala"); }
   };
 })();
 const showReveal=k=>Reveal.show(k), hideReveal=()=>Reveal.hide();
@@ -1620,9 +1678,65 @@ $$("#nav a").forEach(a=>a.addEventListener("click",()=>{
   v.play?.().catch(()=>{});
 })();
 
+/* ==================================================================
+   FOTOS — monta as vagas e some com o placeholder quando a imagem carrega
+   ================================================================== */
+function renderPhotos(){
+  const mk=(i)=>{
+    const ph=PHOTOS[i]; if(!ph) return "";
+    return `<figure class="ph empty rv" data-i="${i}" style="margin:0">
+        <img alt="${esc(ph.cap)}" loading="lazy" data-src="${esc(ph.src)}">
+        <figcaption class="cap">${esc(ph.cap)}</figcaption>
+        <div class="slot">
+          <b>FOTO ${String(i+1).padStart(2,"0")}</b>
+          <span>${esc(ph.hint)}</span>
+        </div>
+      </figure>`;
+  };
+  const fill=(id,from,to)=>{
+    const el=$("#"+id); if(!el) return;
+    let h=""; for(let i=from;i<=to;i++) h+=mk(i);
+    el.innerHTML=h;
+  };
+  fill("heroFotos",0,1);
+  fill("galeria",2,9);
+  fill("parFotos",10,11);
+  fill("tiraFotos",12,14);
+
+  // só troca o placeholder pela foto se ela existir de verdade
+  $$(".ph img").forEach(img=>{
+    const src=img.dataset.src;
+    if(!src) return;
+    img.addEventListener("load",()=>img.closest(".ph").classList.remove("empty"));
+    img.addEventListener("error",()=>img.closest(".ph").classList.add("empty"));
+    img.src=src;
+  });
+  observe();
+}
+
+/* leve paralaxe nas fotos da hero */
+(function heroParallax(){
+  if(matchMedia("(hover:none)").matches) return;
+  const box=$("#heroFotos"); if(!box) return;
+  let tx=0,ty=0,cx=0,cy=0;
+  addEventListener("mousemove",e=>{
+    tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5);
+  });
+  (function l(){
+    requestAnimationFrame(l);
+    cx+=(tx-cx)/16; cy+=(ty-cy)/16;
+    const ps=box.children;
+    for(let i=0;i<ps.length;i++){
+      const d=(i+1)*11, r=i?-6:4;
+      ps[i].style.transform=`translate(${-cx*d}px,${-cy*d}px) rotate(${r}deg)`;
+    }
+  })();
+})();
+
 /* BOOT */
 addEventListener("load",()=>setTimeout(()=>$("#pre").classList.add("done"),900));
 initFirebase();
+renderPhotos();
 observe();
 </script>
 </body>

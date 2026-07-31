@@ -86,25 +86,28 @@ não precisa mexer em nada além de colocar o arquivo no lugar.
 
 ---
 
-## 3.5 As 15 fotos
+## 3.5 As fotos
 
-Crie a pasta `assets/fotos/` ao lado do `index.html` e salve as imagens como
-`01.jpg`, `02.jpg` … `15.jpg`. Cada vaga vazia mostra na tela **qual foto vai ali**
-— é só seguir o rótulo. Assim que o arquivo existir, o placeholder some sozinho.
+As 11 fotos já estão em `assets/fotos/` (`01.jpg` … `11.jpg`), recortadas,
+otimizadas e distribuídas por conteúdo:
 
-| # | Onde aparece | O que colocar |
+| # | Onde aparece | Foto |
 |---|---|---|
-| 01–02 | flutuando na hero | retrato seu · você de uniforme/formatura (verticais) |
-| 03 | destaque da galeria | você com a família (quadrada) |
-| 04–07 | galeria | turma · amigos · Goianira · dia da aprovação |
-| 08 | galeria (larga) | todo mundo reunido (deitada) |
-| 09–10 | galeria | o que você ama fazer · foto de criança |
-| 11–12 | ao lado da cúpula | campus/Golden Dome · algo de Notre Dame |
-| 13–15 | tira do rodapé | quem te ajudou · a despedida · livre |
+| 01–02 | flutuando na hero | aeroporto · a medalha |
+| 03 | destaque quadrado da galeria | perfil com o avião ao fundo |
+| 04–07 | galeria | dia de sol · criança · Genebra · restaurante |
+| 08 | faixa larga da galeria | a bandeira do Brasil no palco |
+| 09–11 | tira do rodapé | terno com as bandeiras · mesa · a neve |
 
-Podem faltar fotos: o site continua bonito com as vagas preenchidas aos poucos.
-Para mudar legendas ou o que se pede em cada vaga, edite a lista `PHOTOS` no
-topo do script.
+A número 11 era um print de WhatsApp: recortei fora a interface do iPhone e
+ficou só a foto.
+
+**As legendas são um chute meu** — aparecem quando o mouse passa por cima.
+Troque na lista `PHOTOS`, no topo do script; só o campo `cap` de cada uma.
+A da foto 10 ("Mesa de sempre") é a que mais pede um nome de verdade.
+
+Havia uma 12ª foto na pasta do Drive que não entrou: o layout tem exatamente
+11 vagas. Para usá-la, salve como `12.jpg` e acrescente uma linha em `PHOTOS`.
 
 ---
 

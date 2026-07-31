@@ -115,9 +115,11 @@ Havia uma 12ª foto na pasta do Drive que não entrou: o layout tem exatamente
 
 Tudo fica em listas no topo do script, fáceis de editar:
 
-- `GIFTS` — os 13 presentes (código, título, valor, piada, objeto 3D do hover).
-- `CHALLENGES` — as metas coletivas. **Confira se você topa cumprir cada uma**
-  antes de publicar; são promessas suas.
+- `GIFTS` — os 13 presentes (código, título, valor, piada).
+- `CHALLENGES` — os 7 micos, de R$600 a R$3.000. O último tem `final:true` e
+  ocupa a linha inteira. **Confira se você topa cumprir cada um** antes de
+  publicar; são promessas suas.
+- `PHOTOS` — as 11 fotos e suas legendas.
 - `lembrancinha(v)` — a faixa de lembrancinha por valor doado.
 - `DATA_EMBARQUE` — alimenta a contagem regressiva.
 
@@ -127,6 +129,15 @@ qualquer outra quantia usa ele.
 ---
 
 ## 5. Publicar
+
+**Prévia no WhatsApp:** `assets/og.jpg` é a imagem que aparece quando alguém
+manda o link. Depois de publicar, troque as duas tags para a URL completa,
+senão alguns aplicativos não acham a imagem:
+
+```html
+<meta property="og:image" content="https://SEU-SITE.netlify.app/assets/og.jpg">
+<meta name="twitter:image" content="https://SEU-SITE.netlify.app/assets/og.jpg">
+```
 
 Netlify → *Add new site* → *Deploy manually* → arraste a pasta.
 Ou conecte este repositório e mande publicar a raiz do projeto.
@@ -139,15 +150,17 @@ Efeitos, todos escritos à mão, sem biblioteca:
 
 | Efeito | Onde |
 |---|---|
-| Object Reveal on Hover | objeto 3D distinto por presente, seguindo o cursor |
-| Portal Animation (scroll) | abertura circular atravessando a cúpula, Brasil → Notre Dame |
+| Object Reveal on Hover | mala 3D de couro que substitui o cursor sobre os presentes |
+| Portal Animation (scroll) | o lado de lá cresce em círculo por cima do lado de cá |
 | 3D Product Animation | Golden Dome interativo: arraste para girar, role para aproximar |
 | TextPressure | título "HEITOR" reage à proximidade do cursor |
 | Cursor interativo | anel + poeira dourada que se afasta do ponteiro |
+| Galeria editorial | fotos em duotone azul, cor plena e legenda no hover |
 
 O Three.js e a biblioteca de QR foram **removidos de propósito** e substituídos
 por implementações próprias: um renderizador 3D por software em canvas 2D e um
-encoder de QR completo. O site inteiro tem ~73 KB e funciona offline.
+encoder de QR completo. O `index.html` tem ~80 KB e não busca nada de fora além das fontes do Google.
+Com as 11 fotos e a imagem de compartilhamento, a pasta toda dá ~1,5 MB.
 
 Acessibilidade e robustez: sem rolagem horizontal em nenhuma largura, foco de
 teclado visível, `prefers-reduced-motion` respeitado, e todo texto de visitante é

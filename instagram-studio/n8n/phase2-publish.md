@@ -26,7 +26,9 @@ nada vai ao ar sem a sua legenda/capa.
 
 Antes de agendar: rode `node run-publish.js --check` e `--dry-run` na mão.
 
-**Pendência de produção:** o Metricool posta a partir de URLs de mídia
-acessíveis. É preciso hospedar os arquivos editados (03_editados) e preencher
-`mediaUrls` em `run-publish.js`. Alternativa: trocar por `GraphPublisher`
-(postagem direta pela Graph API — ver `src/adapters/publisher.js`).
+**Hospedagem de mídia:** resolvida por `DriveMediaHost` — no modo live o
+`run-publish.js` torna cada arquivo acessível por link e preenche `mediaUrls`
+sozinho. Para postagem oficial direta, troque `MetricoolPublisher` por
+`GraphPublisher` (ambos em `src/adapters/publisher.js`). Para vídeos grandes,
+se o link do Drive cair na tela de aviso do Google, troque o host por um bucket
+(S3/GCS/R2) — o contrato `publicUrl()` é o mesmo.

@@ -12,6 +12,7 @@ import { loadConfig } from './src/config.js';
 import { buildSchedule } from './src/schedule.js';
 import { planPublications, dispatch } from './src/publish.js';
 import { DryRunPublisher, MetricoolPublisher } from './src/adapters/publisher.js';
+import { DriveMediaHost } from './src/adapters/mediaHost.js';
 import { parseFolderName } from './src/quadros.js';
 import { Store } from './src/store.js';
 
@@ -63,6 +64,18 @@ async function main() {
     return { ok: true, ready: ready.length, blocked: blocked.length };
   }
 
+  // Fora do dry-run: hospeda a mídia (link público no Drive) e preenche mediaUrls.
+  if (!isDryRun && ready.length) {
+    const host = new DriveMediaHost(drive);
+    for (const r of ready) {
+      const ap = approved.find((a) => a.folderName === r.entry.folderName);
+      const urls = [];
+      for (const m of ap?.mediaFiles ?? []) urls.push(await host.publicUrl(m.id));
+      r.approval.mediaUrls = urls;
+      log(`   ${r.entry.folderName}: ${urls.length} mídia(s) hospedada(s).`);
+    }
+  }
+
   const publisher = isDryRun ? new DryRunPublisher() : new MetricoolPublisher();
   log(`Publicando (${isDryRun ? 'dry-run' : 'Metricool'})...`);
   const results = await dispatch(ready, publisher);
@@ -85,6 +98,7 @@ main()
     process.exit(1);
   });
 
-// NOTA (produção): o Metricool posta a partir de URLs de mídia acessíveis. É
-// preciso hospedar os arquivos editados (03_editados) e preencher `mediaUrls`.
-// Enquanto isso, --check e --dry-run já mostram o fluxo e o guarda funcionando.
+// Hospedagem de mídia: no modo live, DriveMediaHost torna cada arquivo acessível
+// por link e preenche `mediaUrls` automaticamente (o Metricool/Graph postam a
+// partir dessas URLs). Para vídeos grandes, se o link do Drive cair na tela de
+// aviso do Google, troque o host por um bucket — o contrato publicUrl() é o mesmo.

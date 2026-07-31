@@ -104,6 +104,13 @@ export class DriveClient {
     await drive.files.update({ fileId, addParents: newParentId, removeParents: prev, fields: 'id' });
   }
 
+  /** Torna um arquivo acessível por link (qualquer pessoa com o link, leitura). */
+  async makePublic(fileId) {
+    const drive = await this._client();
+    await drive.permissions.create({ fileId, requestBody: { role: 'reader', type: 'anyone' } });
+    return fileId;
+  }
+
   /** Lista subpastas de uma pasta. */
   async listSubfolders(parentId) {
     const drive = await this._client();

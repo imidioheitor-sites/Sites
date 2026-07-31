@@ -130,12 +130,13 @@ Crie 4 workflows, cada um com um *Schedule Trigger* + *Execute Command*
 chamando um dos `run-*.js`. Detalhes de cada fluxo em `n8n/`:
 `phase1-ingest.md`, `phase2-publish.md`, `phase3-report.md`, `phase4-recommend.md`.
 
-## Pendência conhecida (produção)
+## Hospedagem de mídia (já resolvida)
 
-O Metricool posta a partir de **URLs de mídia acessíveis**. É preciso hospedar os
-arquivos editados (`03_editados/`) e preencher `mediaUrls` em `run-publish.js`.
-Alternativa: usar o `GraphPublisher` (postagem direta pela Graph API). Isso a
-gente liga junto quando as chaves estiverem no lugar.
+O Metricool/Graph postam a partir de URLs públicas. Isso já está automatizado:
+no modo live, o `run-publish.js` usa `DriveMediaHost` para tornar cada mídia
+acessível por link e preencher `mediaUrls` sozinho — sem bucket extra. Se um
+vídeo grande cair na tela de aviso do Google Drive, dá para trocar por um bucket
+(S3/GCS/R2) sem mudar o resto (o contrato `publicUrl()` é o mesmo).
 
 ---
 

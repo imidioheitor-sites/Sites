@@ -361,6 +361,13 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
   transition:border-color .5s var(--ease)}
 .chal:hover{border-color:rgba(201,151,0,.45)}
 .chal.hit{border-color:var(--gold)}
+.chal.final{grid-column:1/-1;background:
+  linear-gradient(135deg,rgba(201,151,0,.14),rgba(18,48,85,.7));
+  border-color:rgba(201,151,0,.5);padding:clamp(26px,4vw,40px)}
+.chal.final h3{font-family:var(--f-display);font-weight:500;
+  font-size:clamp(20px,3vw,32px);line-height:1.2;max-width:24ch}
+.chal.final .goal{font-size:12px}
+@media(max-width:1000px){.chal.final{grid-column:auto}}
 .chal h3{font-family:var(--f-body);font-weight:400;font-size:17px;margin:0;line-height:1.42}
 .chal .goal{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--slate);
   display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
@@ -1103,9 +1110,14 @@ const GIFTS = [
 ];
 
 const CHALLENGES = [
-  {id:"c1",t:"Eu me jogo na piscina de roupa e tudo, na festa do dia 16.",goal:600},
-  {id:"c2",t:"Eu canto o hino de Notre Dame traduzido pro português, em vídeo.",goal:1800},
-  {id:"c3",t:"Eu mando um vídeo de agradecimento na frente do Golden Dome, com o nome de cada um.",goal:3000}
+  {id:"c1",goal:600,  t:"Me jogo na piscina de roupa e tudo, na festa do dia 16."},
+  {id:"c2",goal:900,  t:"Gravo uma dancinha em frente ao Golden Dome."},
+  {id:"c3",goal:1200, t:"Convenço meu colega de quarto gringo a cantar Evidências inteira — com refrão e tudo."},
+  {id:"c4",goal:1500, t:"Faço pão de queijo na cozinha do dormitório e gravo a cara dos americanos provando."},
+  {id:"c5",goal:1900, t:"Canto o hino de Notre Dame traduzido pro português, em vídeo."},
+  {id:"c6",goal:2400, t:"Vou ao jogo no estádio pintado de verde e amarelo — e mando a foto."},
+  {id:"c7",goal:3000, final:true,
+   t:"Gravo um vídeo de agradecimento na frente do Golden Dome, falando o nome de cada um que participou."}
 ];
 
 function lembrancinha(v){
@@ -1258,8 +1270,9 @@ function renderTotals(){
 function renderChallenges(total){
   $("#chalGrid").innerHTML = CHALLENGES.map(c=>{
     const pct=Math.min(100,(total/c.goal)*100), hit=total>=c.goal;
-    return `<div class="chal rv ${hit?"hit":""}">
-      <div class="done">✓ Desbloqueado — vou ter que cumprir</div>
+    return `<div class="chal rv ${hit?"hit":""} ${c.final?"final":""}">
+      <div class="done">&#10003; Desbloqueado &#8212; vou ter que cumprir</div>
+      ${c.final?'<div class="mono" style="color:var(--gold)">Meta final</div>':""}
       <h3>${esc(c.t)}</h3>
       <div class="bar"><i style="width:${pct}%"></i></div>
       <div class="goal"><span>${brl(total)} de ${brl(c.goal)}</span><b>${Math.round(pct)}%</b></div>

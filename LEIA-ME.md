@@ -1,7 +1,13 @@
 # Site de Aniversário & Despedida — Heitor Imídio · 16/08
 
-Arquivo único: **`index.html`**. Sem build, sem npm, sem dependências de JavaScript
-ou CSS externas. Arraste para o Netlify e está no ar.
+Arquivo único de verdade: **`index.html`** (2,8 MB) com as 23 fotos embutidas.
+Abre com duplo clique, sem servidor, sem pasta ao lado. Arraste para o Netlify e
+está no ar.
+
+> **Uma exceção:** a prévia do WhatsApp precisa de `assets/og.jpg` como arquivo
+> separado — imagem de compartilhamento não pode ser embutida, os aplicativos
+> exigem um endereço. Se publicar só o HTML, o site funciona igual, mas o link
+> vai sem miniatura.
 
 ---
 
@@ -88,42 +94,49 @@ não precisa mexer em nada além de colocar o arquivo no lugar.
 
 ## 3.5 As fotos
 
-São 23, já em `assets/fotos/` (`01.jpg` … `23.jpg`), recortadas, comprimidas
-(3,6 MB no total, com carregamento sob demanda) e distribuídas por conteúdo:
+As 23 estão **embutidas no `index.html`** em base64. Não precisa da pasta.
+
+Para trocar ou mexer nelas, o fluxo é:
+
+1. Edite **`fonte/index.html`** — é a versão legível, que referencia
+   `assets/fotos/NN.jpg`. Nunca edite o `index.html` direto: ele tem 2,8 MB de
+   base64 e é gerado.
+2. Rode `python3 embutir.py` (precisa de `pip install Pillow`).
+3. O `index.html` é regerado com tudo dentro.
+
+O script reduz cada foto para a largura em que ela realmente aparece na tela
+antes de converter. Embutir os arquivos originais dobraria o peso da página sem
+nenhum ganho visível.
 
 | # | Onde aparece | Foto |
 |---|---|---|
 | 01–02 | flutuando na hero | aeroporto · a medalha |
-| 03–20 | galeria de memórias | a jornada: ONU, MIT, Google, sala de controle, foguetes, palcos, Genebra, Boston — misturada com as pessoais |
+| 03–20 | galeria de memórias | ONU, MIT, Google, sala de controle, foguetes, palcos, Genebra, Boston — misturada com as pessoais |
 | 21–23 | tira do rodapé | bandeiras · mesa · a neve |
 
-A galeria repete um padrão a cada 6 fotos: um **destaque** grande (posições
-3, 9, 15), quatro retratos e uma **faixa larga** que atravessa a página
-(posições 8, 14, 20). Se for trocar fotos de lugar, respeite isso — as faixas
-largas precisam ser imagens deitadas, senão ficam muito cortadas.
+A galeria repete um padrão a cada 6: um **destaque** grande (posições 3, 9, 15),
+quatro retratos e uma **faixa larga** que atravessa a página (8, 14, 20). As
+faixas largas precisam ser fotos deitadas, senão ficam muito cortadas.
 
-A número 23 era um print de WhatsApp: recortei fora a interface do iPhone.
+**As legendas são um chute meu** — aparecem no hover. Troque em `PHOTOS`, campo
+`cap`, dentro de `fonte/index.html`. As que mais pedem um nome de verdade são a
+22 ("Mesa de sempre") e a 19 ("Entre um evento e outro").
 
-**As legendas são um chute meu** — aparecem no hover. Troque na lista `PHOTOS`,
-campo `cap`. As que mais pedem um nome de verdade são a 22 ("Mesa de sempre") e
-a 19 ("Entre um evento e outro").
-
-Sobraram 6 fotos do Drive que não entraram, por serem parecidas demais com as
-escolhidas (outro ângulo do mesmo foguete, outra selfie de escritório, outra
-foto do museu). Para usar alguma, salve com o número seguinte e acrescente uma
-linha em `PHOTOS`.
+Sobraram 6 fotos do Drive, parecidas demais com as escolhidas. Para usar alguma,
+salve em `assets/fotos/` com o número seguinte e acrescente uma linha em `PHOTOS`.
 
 ---
 
 ## 4. Trocar presentes, valores e desafios
 
-Tudo fica em listas no topo do script, fáceis de editar:
+Tudo fica em listas no topo do script de **`fonte/index.html`** (depois rode
+`python3 embutir.py`):
 
 - `GIFTS` — os 13 presentes (código, título, valor, piada).
 - `CHALLENGES` — os 7 micos, de R$600 a R$3.000. O último tem `final:true` e
   ocupa a linha inteira. **Confira se você topa cumprir cada um** antes de
   publicar; são promessas suas.
-- `PHOTOS` — as 23 fotos e suas legendas.
+- `PHOTOS` — as 23 fotos e suas legendas (em `fonte/index.html`).
 - `lembrancinha(v)` — a faixa de lembrancinha por valor doado.
 - `DATA_EMBARQUE` — alimenta a contagem regressiva.
 
@@ -163,9 +176,9 @@ Efeitos, todos escritos à mão, sem biblioteca:
 
 O Three.js e a biblioteca de QR foram **removidos de propósito** e substituídos
 por implementações próprias: um renderizador 3D por software em canvas 2D e um
-encoder de QR completo. O `index.html` tem ~80 KB e não busca nada de fora além das fontes do Google.
-Com as 23 fotos e a imagem de compartilhamento, a pasta toda dá ~3,7 MB —
-mas só carregam as fotos que entram na tela.
+encoder de QR completo. Com as 23 fotos embutidas o `index.html` dá 2,8 MB e não busca nada de fora
+além das fontes do Google e do vídeo. Verificado abrindo o arquivo por `file://`,
+sem servidor: fotos, cúpula 3D e QR Code funcionam todos.
 
 Acessibilidade e robustez: sem rolagem horizontal em nenhuma largura, foco de
 teclado visível, `prefers-reduced-motion` respeitado, e todo texto de visitante é

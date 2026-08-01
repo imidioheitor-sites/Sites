@@ -144,8 +144,10 @@ nav a:hover{color:var(--cream)}nav a:hover::after{width:100%}
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;
   justify-content:center;padding:120px var(--pad) 60px;overflow:hidden}
 .hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg video{width:100%;height:100%;object-fit:cover;opacity:.34;
-  filter:saturate(.85) contrast(1.05)}
+.hero-bg canvas{position:absolute;inset:0;width:100%;height:100%}
+.hero-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;filter:saturate(.85) contrast(1.05);transition:opacity 1.4s var(--ease)}
+.hero-bg video.pronto{opacity:.34}
 .hero-bg::after{content:'';position:absolute;inset:0;
   background:radial-gradient(ellipse at 50% 45%,transparent 0%,rgba(12,35,64,.72) 58%,var(--navy) 100%)}
 .hero-in{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;width:100%}
@@ -532,11 +534,11 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
 <!-- HERO -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <!-- Local file wins when present; the CDN copy keeps the site working meanwhile.
-         Baixe o mp4 e salve como assets/hero.mp4 para não depender do CDN. -->
-    <video id="heroVid" autoplay muted loop playsinline preload="metadata">
+    <!-- A animação do canvas roda sempre. Se assets/hero.mp4 existir, o vídeo
+         aparece por cima dela; se não existir, ninguém percebe falta. -->
+    <canvas id="heroCv"></canvas>
+    <video id="heroVid" autoplay muted loop playsinline preload="auto">
       <source src="assets/hero.mp4" type="video/mp4">
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260729_020941_4feb023f-04f8-4951-b19b-64296a2b1cde.mp4" type="video/mp4">
     </video>
   </div>
   <div class="hero-fotos" id="heroFotos"></div>
@@ -1705,11 +1707,71 @@ $$("#nav a").forEach(a=>a.addEventListener("click",()=>{
   document.body.classList.remove("locked");
 }));
 
-// hide hero video gracefully if the file isn't there yet
+/* O vídeo é um extra: só aparece quando dá para tocar. Antes eu escutava "error"
+   com captura, então o erro da fonte local escondia o vídeo antes de tentar a
+   seguinte -- e a hero ficava sem nada. */
 (function vid(){
-  const v=$("#heroVid");
-  v.addEventListener("error",()=>v.style.display="none",true);
+  const v=$("#heroVid"); if(!v) return;
+  v.addEventListener("canplay",()=>v.classList.add("pronto"),{once:true});
   v.play?.().catch(()=>{});
+})();
+
+/* ==================================================================
+   HERO — animação própria de fundo, sem depender de arquivo nenhum
+   ================================================================== */
+(function heroAmbient(){
+  const cv=$("#heroCv"); if(!cv) return;
+  const ctx=cv.getContext("2d");
+  const reduz=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  let W=0,H=0,dpr=Math.min(devicePixelRatio||1,2),ps=[],t=0,mx=.5,my=.5,cx=.5,cy=.5;
+  function medir(){
+    W=cv.clientWidth||1; H=cv.clientHeight||1;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const n = W<700 ? 26 : 54;
+    ps=Array.from({length:n},()=>({
+      x:Math.random(), y:Math.random(),
+      z:.25+Math.random()*.75,                 // profundidade: tamanho e paralaxe
+      r:.6+Math.random()*2.4,
+      vy:-(.008+Math.random()*.020),
+      a:.10+Math.random()*.42,
+      f:Math.random()*6.28
+    }));
+  }
+  new ResizeObserver(medir).observe(cv); medir();
+  addEventListener("mousemove",e=>{ mx=e.clientX/innerWidth; my=e.clientY/innerHeight; });
+  let visivel=true;
+  new IntersectionObserver(e=>visivel=e[0].isIntersecting,{threshold:.01}).observe(cv);
+
+  (function loop(){
+    requestAnimationFrame(loop);
+    if(!visivel||!W) return;
+    t+=reduz?0:.006;
+    cx+=(mx-cx)*.04; cy+=(my-cy)*.04;
+    ctx.clearRect(0,0,W,H);
+
+    // brilho central que respira
+    const rr=Math.min(W,H)*(.55+Math.sin(t*.7)*.05);
+    const g=ctx.createRadialGradient(W*.5,H*.46,0,W*.5,H*.46,rr);
+    g.addColorStop(0,"rgba(201,151,0,.13)");
+    g.addColorStop(.55,"rgba(201,151,0,.045)");
+    g.addColorStop(1,"rgba(201,151,0,0)");
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+
+    // poeira dourada com profundidade
+    for(const p of ps){
+      if(!reduz){ p.y+=p.vy*p.z; if(p.y<-.05) { p.y=1.05; p.x=Math.random(); } }
+      const par=(p.z-.5)*46;
+      const x=p.x*W + (cx-.5)*-par + Math.sin(t*1.6+p.f)*7*p.z;
+      const y=p.y*H + (cy-.5)*-par;
+      const raio=p.r*p.z*1.5;
+      ctx.beginPath(); ctx.arc(x,y,raio,0,6.283);
+      ctx.fillStyle=`rgba(233,196,90,${p.a*p.z})`; ctx.fill();
+      if(p.z>.82){                                  // halo nas mais proximas
+        ctx.beginPath(); ctx.arc(x,y,raio*4,0,6.283);
+        ctx.fillStyle=`rgba(201,151,0,${p.a*.07})`; ctx.fill();
+      }
+    }
+  })();
 })();
 
 /* ==================================================================

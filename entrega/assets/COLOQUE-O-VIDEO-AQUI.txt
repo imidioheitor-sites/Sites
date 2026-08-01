@@ -1,0 +1,14 @@
+O vídeo da hero é OPCIONAL. Sem ele o site funciona e a hero tem animação própria.
+
+Para ativá-lo:
+
+1. Baixe o arquivo deste endereço:
+
+https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260729_020941_4feb023f-04f8-4951-b19b-64296a2b1cde.mp4
+
+2. Salve nesta mesma pasta com o nome exato:  hero.mp4
+   (o caminho final tem que ficar  assets/hero.mp4 )
+
+3. Apague este arquivo de texto e suba a pasta.
+
+Pronto — o vídeo entra sozinho por cima da animação.

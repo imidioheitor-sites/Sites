@@ -88,26 +88,30 @@ não precisa mexer em nada além de colocar o arquivo no lugar.
 
 ## 3.5 As fotos
 
-As 11 fotos já estão em `assets/fotos/` (`01.jpg` … `11.jpg`), recortadas,
-otimizadas e distribuídas por conteúdo:
+São 23, já em `assets/fotos/` (`01.jpg` … `23.jpg`), recortadas, comprimidas
+(3,6 MB no total, com carregamento sob demanda) e distribuídas por conteúdo:
 
 | # | Onde aparece | Foto |
 |---|---|---|
 | 01–02 | flutuando na hero | aeroporto · a medalha |
-| 03 | destaque quadrado da galeria | perfil com o avião ao fundo |
-| 04–07 | galeria | dia de sol · criança · Genebra · restaurante |
-| 08 | faixa larga da galeria | a bandeira do Brasil no palco |
-| 09–11 | tira do rodapé | terno com as bandeiras · mesa · a neve |
+| 03–20 | galeria de memórias | a jornada: ONU, MIT, Google, sala de controle, foguetes, palcos, Genebra, Boston — misturada com as pessoais |
+| 21–23 | tira do rodapé | bandeiras · mesa · a neve |
 
-A número 11 era um print de WhatsApp: recortei fora a interface do iPhone e
-ficou só a foto.
+A galeria repete um padrão a cada 6 fotos: um **destaque** grande (posições
+3, 9, 15), quatro retratos e uma **faixa larga** que atravessa a página
+(posições 8, 14, 20). Se for trocar fotos de lugar, respeite isso — as faixas
+largas precisam ser imagens deitadas, senão ficam muito cortadas.
 
-**As legendas são um chute meu** — aparecem quando o mouse passa por cima.
-Troque na lista `PHOTOS`, no topo do script; só o campo `cap` de cada uma.
-A da foto 10 ("Mesa de sempre") é a que mais pede um nome de verdade.
+A número 23 era um print de WhatsApp: recortei fora a interface do iPhone.
 
-Havia uma 12ª foto na pasta do Drive que não entrou: o layout tem exatamente
-11 vagas. Para usá-la, salve como `12.jpg` e acrescente uma linha em `PHOTOS`.
+**As legendas são um chute meu** — aparecem no hover. Troque na lista `PHOTOS`,
+campo `cap`. As que mais pedem um nome de verdade são a 22 ("Mesa de sempre") e
+a 19 ("Entre um evento e outro").
+
+Sobraram 6 fotos do Drive que não entraram, por serem parecidas demais com as
+escolhidas (outro ângulo do mesmo foguete, outra selfie de escritório, outra
+foto do museu). Para usar alguma, salve com o número seguinte e acrescente uma
+linha em `PHOTOS`.
 
 ---
 
@@ -119,7 +123,7 @@ Tudo fica em listas no topo do script, fáceis de editar:
 - `CHALLENGES` — os 7 micos, de R$600 a R$3.000. O último tem `final:true` e
   ocupa a linha inteira. **Confira se você topa cumprir cada um** antes de
   publicar; são promessas suas.
-- `PHOTOS` — as 11 fotos e suas legendas.
+- `PHOTOS` — as 23 fotos e suas legendas.
 - `lembrancinha(v)` — a faixa de lembrancinha por valor doado.
 - `DATA_EMBARQUE` — alimenta a contagem regressiva.
 
@@ -160,7 +164,8 @@ Efeitos, todos escritos à mão, sem biblioteca:
 O Three.js e a biblioteca de QR foram **removidos de propósito** e substituídos
 por implementações próprias: um renderizador 3D por software em canvas 2D e um
 encoder de QR completo. O `index.html` tem ~80 KB e não busca nada de fora além das fontes do Google.
-Com as 11 fotos e a imagem de compartilhamento, a pasta toda dá ~1,5 MB.
+Com as 23 fotos e a imagem de compartilhamento, a pasta toda dá ~3,7 MB —
+mas só carregam as fotos que entram na tela.
 
 Acessibilidade e robustez: sem rolagem horizontal em nenhuma largura, foco de
 teclado visível, `prefers-reduced-motion` respeitado, e todo texto de visitante é

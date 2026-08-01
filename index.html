@@ -319,12 +319,12 @@ section.band{padding:clamp(80px,11vw,150px) var(--pad);position:relative;z-index
 /* galeria de memórias */
 .galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .galeria .ph{aspect-ratio:3/4}
-.galeria .ph:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:1/1}
-.galeria .ph:nth-child(6){grid-column:1/-1;aspect-ratio:16/6}
+.galeria .ph:nth-child(6n+1){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.galeria .ph:nth-child(6n){grid-column:1/-1;aspect-ratio:16/6}
 @media(max-width:900px){
   .galeria{grid-template-columns:repeat(2,1fr);gap:10px}
-  .galeria .ph:nth-child(1){grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
-  .galeria .ph:nth-child(6){aspect-ratio:3/2}
+  .galeria .ph:nth-child(6n+1){grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
+  .galeria .ph:nth-child(6n){aspect-ratio:3/2}
 }
 
 /* fotos flutuantes na hero */
@@ -591,8 +591,9 @@ footer{padding:clamp(60px,8vw,110px) var(--pad) 40px;border-top:1px solid var(--
         <div class="tag mono"><span></span>Deste lado</div>
         <h2>Dezoito anos que couberam aqui.</h2>
       </div>
-      <p>Antes de falar do que vem pela frente: um pouco do que ficou. Escola,
-         família, os lugares e as pessoas que fizeram esses dezoito anos.</p>
+      <p>Antes de falar do que vem pela frente: um pouco do que ficou. A escola,
+         a família, os laboratórios, os palcos e os aviões que me trouxeram até
+         aqui — e as pessoas que estavam junto em cada um.</p>
     </div>
     <div class="galeria" id="galeria"></div>
   </div>
@@ -1072,20 +1073,32 @@ const DATA_EMBARQUE = "2026-08-16T07:30:00-03:00";
 /* 15 fotos. Salve os arquivos em assets/fotos/ com estes nomes e elas
    aparecem sozinhas. Enquanto faltarem, a vaga mostra o que deve ir ali. */
 const PHOTOS = [
-  // hero — dois retratos flutuantes
+  // hero
   {src:"assets/fotos/01.jpg", cap:"No aeroporto"},
   {src:"assets/fotos/02.jpg", cap:"A medalha"},
-  // galeria de memorias (03 = destaque quadrado, 08 = faixa larga)
+  // galeria — 6n+1 sao os destaques quadrados, 6n as faixas largas
   {src:"assets/fotos/03.jpg", cap:"O proximo voo"},
-  {src:"assets/fotos/04.jpg", cap:"Dia de sol"},
-  {src:"assets/fotos/05.jpg", cap:"La atras"},
-  {src:"assets/fotos/06.jpg", cap:"Genebra"},
-  {src:"assets/fotos/07.jpg", cap:"Entre uma prova e outra"},
+  {src:"assets/fotos/04.jpg", cap:"Engenharia de verdade"},
+  {src:"assets/fotos/05.jpg", cap:"Dia de sol"},
+  {src:"assets/fotos/06.jpg", cap:"La atras"},
+  {src:"assets/fotos/07.jpg", cap:"MIT"},
   {src:"assets/fotos/08.jpg", cap:"Levando o Brasil"},
+  {src:"assets/fotos/09.jpg", cap:"Assembleia Geral da ONU"},
+  {src:"assets/fotos/10.jpg", cap:"No palco"},
+  {src:"assets/fotos/11.jpg", cap:"Google"},
+  {src:"assets/fotos/12.jpg", cap:"Genebra"},
+  {src:"assets/fotos/13.jpg", cap:"Visita tecnica"},
+  {src:"assets/fotos/14.jpg", cap:"Sala de controle"},
+  {src:"assets/fotos/15.jpg", cap:"Traje de gala"},
+  {src:"assets/fotos/16.jpg", cap:"Boston"},
+  {src:"assets/fotos/17.jpg", cap:"Tapete vermelho"},
+  {src:"assets/fotos/18.jpg", cap:"Nas maos"},
+  {src:"assets/fotos/19.jpg", cap:"Entre um evento e outro"},
+  {src:"assets/fotos/20.jpg", cap:"No museu"},
   // tira do rodape
-  {src:"assets/fotos/09.jpg", cap:"Representando"},
-  {src:"assets/fotos/10.jpg", cap:"Mesa de sempre"},
-  {src:"assets/fotos/11.jpg", cap:"A primeira neve"}
+  {src:"assets/fotos/21.jpg", cap:"Representando"},
+  {src:"assets/fotos/22.jpg", cap:"Mesa de sempre"},
+  {src:"assets/fotos/23.jpg", cap:"A primeira neve"}
 ];
 
 const GIFTS = [
@@ -1717,8 +1730,8 @@ function renderPhotos(){
     el.innerHTML=h;
   };
   fill("heroFotos",0,1);
-  fill("galeria",2,7);
-  fill("tiraFotos",8,10);
+  fill("galeria",2,19);
+  fill("tiraFotos",20,22);
 
   // só troca o placeholder pela foto se ela existir de verdade
   $$(".ph img").forEach(img=>{

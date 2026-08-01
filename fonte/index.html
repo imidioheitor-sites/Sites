@@ -1713,7 +1713,14 @@ $$("#nav a").forEach(a=>a.addEventListener("click",()=>{
    seguinte -- e a hero ficava sem nada. */
 (function vid(){
   const v=$("#heroVid"); if(!v) return;
-  v.addEventListener("canplay",()=>v.classList.add("pronto"),{once:true});
+  const mostrar=()=>v.classList.add("pronto");
+  // O HTML tem alguns MB: o video pode ficar pronto ANTES deste script rodar,
+  // e ai o canplay ja passou. Por isso checa o readyState antes de escutar.
+  if(v.readyState>=3) mostrar();
+  else{
+    v.addEventListener("canplay",mostrar,{once:true});
+    v.addEventListener("loadeddata",()=>{ if(v.readyState>=3) mostrar(); },{once:true});
+  }
   v.play?.().catch(()=>{});
 })();
 

@@ -4,10 +4,10 @@ Arquivo único de verdade: **`index.html`** (2,8 MB) com as 23 fotos embutidas.
 Abre com duplo clique, sem servidor, sem pasta ao lado. Arraste para o Netlify e
 está no ar.
 
-> **Uma exceção:** a prévia do WhatsApp precisa de `assets/og.jpg` como arquivo
-> separado — imagem de compartilhamento não pode ser embutida, os aplicativos
-> exigem um endereço. Se publicar só o HTML, o site funciona igual, mas o link
-> vai sem miniatura.
+Junto vão dois arquivos que ficam de fora dele de propósito: `assets/hero.mp4`
+(vídeo grande demais para embutir sem travar a abertura da página) e
+`assets/og.jpg` (a miniatura do WhatsApp precisa de um endereço próprio, não
+pode ser embutida).
 
 ---
 
@@ -78,26 +78,25 @@ O modo de teste padrão expira em 30 dias e libera o banco inteiro — não deix
 
 ## 3. O vídeo da hero
 
-A hero tem **animação própria em canvas** (poeira dourada com profundidade e
-paralaxe no mouse). Ela roda sempre, sem depender de arquivo nenhum — o site
-nunca fica com um buraco escuro em cima.
+**Já está pronto e dentro do pacote** — `assets/hero.mp4`, 1,8 MB.
 
-O vídeo de 15 s gerado por IA é um **extra opcional**. Se o arquivo existir, ele
-aparece por cima da animação; se não existir, ninguém percebe falta.
+O original tinha 20 MB (1920×1080, 10,7 Mbps e ainda com faixa de áudio, sendo
+que ele toca mudo). Recomprimi para 720p sem áudio: 1,8 MB, visualmente
+indistinguível na tela, já que ele aparece a 34% de opacidade atrás do texto.
 
-Para ativá-lo:
+A hero também tem **animação própria em canvas** (poeira dourada com
+profundidade e paralaxe no mouse), que roda por baixo. O vídeo entra por cima
+com um fade quando fica pronto. Se um dia o arquivo sumir, a hero continua viva.
 
-1. Baixe: <https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260729_020941_4feb023f-04f8-4951-b19b-64296a2b1cde.mp4>
-2. Salve como **`assets/hero.mp4`**, ao lado do `index.html`.
-3. Pronto. Nada mais a configurar.
+### Por que o vídeo não está embutido no index.html
 
-> Eu não consegui baixar esse arquivo para dentro do projeto: a política de rede
-> da sessão em que trabalhei bloqueia o domínio do Higgsfield. O arquivo está lá
-> e íntegro — só precisa passar por você.
+Em base64 ele cresceria para 2,4 MB e, pior, **base64 no HTML bloqueia a
+renderização**: a página só apareceria depois de baixar tudo. Como arquivo
+separado, o site abre na hora e o vídeo entra transmitindo por trás.
 
-Antes eu deixava o endereço do CDN como fonte de reserva no HTML, mas não tinha
-como testar se ele entrega o arquivo para visitantes de fora. Tirei: um site que
-vai ao ar em duas semanas não deve depender de algo que ninguém verificou.
+Se você precisar mesmo de um arquivo avulso, o pacote traz
+`index-arquivo-unico.html` (4,0 MB, com vídeo e fotos dentro). Para o site no
+ar, prefira o `index.html`.
 
 ---
 

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Gera o index.html unico, com as 23 fotos embutidas em base64.
 
-    python3 embutir.py
+    python3 embutir.py            -> index.html (fotos embutidas, video como arquivo)
+    python3 embutir.py --video    -> index-arquivo-unico.html (video dentro tambem)
 
 Edite sempre fonte/index.html (que referencia assets/fotos/NN.jpg) e rode este
 script para regerar o index.html que vai para o ar. Cada foto e reduzida para a
@@ -29,6 +30,9 @@ def embutir(n: int) -> str:
     im.save(buf, 'JPEG', quality=70, optimize=True, progressive=True)
     return 'data:image/jpeg;base64,' + base64.b64encode(buf.getvalue()).decode()
 
+COM_VIDEO = '--video' in sys.argv
+SAIDA = 'index-arquivo-unico.html' if COM_VIDEO else 'index.html'
+
 html = io.open('fonte/index.html', encoding='utf-8').read()
 if 'assets/fotos/' not in html:
     sys.exit('fonte/index.html nao referencia assets/fotos/ -- nada a embutir')
@@ -41,5 +45,13 @@ def troca(m):
 html = re.sub(r'src:"assets/fotos/(\d+)\.jpg"', troca, html)
 html = html.replace('<img alt="${esc(ph.cap)}" loading="${i<2?"eager":"lazy"}" data-src="${esc(ph.src)}">',
                     '<img alt="${esc(ph.cap)}" data-src="${esc(ph.src)}">')
-io.open('index.html', 'w', encoding='utf-8').write(html)
-print('%d fotos embutidas -> index.html (%.2f MB)' % (len(vistas), len(html) / 1e6))
+if COM_VIDEO:
+    # versao leve: o video e fundo a 34% de opacidade, nao precisa de 720p
+    dados = open('assets/hero-leve.mp4', 'rb').read()
+    uri = 'data:video/mp4;base64,' + base64.b64encode(dados).decode()
+    html = html.replace('<source src="assets/hero.mp4" type="video/mp4">',
+                        '<source src="%s" type="video/mp4">' % uri)
+
+io.open(SAIDA, 'w', encoding='utf-8').write(html)
+print('%d fotos%s embutidas -> %s (%.2f MB)'
+      % (len(vistas), ' + video' if COM_VIDEO else '', SAIDA, len(html) / 1e6))

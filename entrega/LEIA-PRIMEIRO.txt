@@ -1,27 +1,33 @@
 COMO PUBLICAR  —  app.netlify.com/drop
 
-1. Arraste ESTA PASTA inteira (não o zip, a pasta descompactada)
-   para a área do Netlify Drop.
-2. Em segundos ele devolve um endereço tipo  algo-aleatorio.netlify.app
-3. Esse é o link para mandar no grupo da família.
+Arraste ESTA PASTA inteira (descompactada, não o zip) para a área do Netlify
+Drop. Em segundos ele devolve um endereço tipo algo-aleatorio.netlify.app.
+Esse é o link para mandar no grupo da família.
+
+Está tudo pronto: chave Pix, 23 fotos e o vídeo já dentro do pacote.
 
 O QUE TEM AQUI
 
-  index.html   o site inteiro, com as 23 fotos dentro dele
-  assets/og.jpg   a miniatura que aparece quando o link é enviado no WhatsApp
-  assets/COLOQUE-O-VIDEO-AQUI.txt   instruções para ativar o vídeo (opcional)
-  LEIA-ME.md   documentação completa
+  index.html                 o site. Use ESTE. As 23 fotos estão dentro dele.
+  assets/hero.mp4            o vídeo da hero (1,8 MB)
+  assets/og.jpg              miniatura que aparece ao mandar o link no WhatsApp
+  index-arquivo-unico.html   alternativa: TUDO num arquivo só, vídeo incluso.
+                             Só use se precisar de um arquivo avulso. É mais
+                             lento de abrir (4 MB antes de aparecer qualquer
+                             coisa). Para o site no ar, prefira o index.html.
+  LEIA-ME.md                 documentação completa
 
-DEPOIS DE PUBLICAR  (2 minutos)
+DEPOIS DE PUBLICAR  (2 minutos, importante)
 
   a) Abra o site, clique no café de R$ 50 e escaneie o QR com o app do seu
-     banco. Tem que aparecer seu nome como destinatário. Se disser "chave não
-     encontrada", a chave himidio@nd.edu não está cadastrada no seu banco —
-     troque por CPF ou telefone dentro do index.html.
+     banco. Tem que aparecer SEU NOME como destinatário.
+     Se disser "chave não encontrada", a chave himidio@nd.edu não está
+     cadastrada no seu banco — troque por CPF ou telefone na linha 1058
+     do index.html.
 
   b) Para a miniatura do WhatsApp funcionar em todos os aplicativos, abra o
-     index.html num editor de texto, procure por "og:image" e troque as duas
-     linhas pelo endereço completo do seu site. Exemplo:
+     index.html num editor de texto, procure "og:image" e troque as duas
+     linhas pelo endereço completo do site:
 
      <meta property="og:image" content="https://SEU-SITE.netlify.app/assets/og.jpg">
      <meta name="twitter:image" content="https://SEU-SITE.netlify.app/assets/og.jpg">

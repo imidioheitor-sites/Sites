@@ -1058,9 +1058,19 @@ const PIX = {
   cidade: "GOIANIRA"              // ← até 15 caracteres, sem acento
 };
 
-// Cole aqui a config do Firebase para ativar o tempo real entre todos os visitantes.
-// Enquanto estiver null, o site funciona igual, mas o estado fica só neste navegador.
-const FIREBASE = null;
+// Tempo real ativo: presentes reservados e recados do mural sincronizam entre
+// todos os visitantes. Estas chaves são públicas por natureza no Firebase Web —
+// quem protege o banco são as regras do Realtime Database, que liberam apenas
+// os caminhos "presentes" e "recados".
+const FIREBASE = {
+  apiKey:            "AIzaSyABz1g4wN4eJThmg8VWZGAgSd4Zd7lCszI",
+  authDomain:        "site-heitor-45ace.firebaseapp.com",
+  databaseURL:       "https://site-heitor-45ace-default-rtdb.firebaseio.com",
+  projectId:         "site-heitor-45ace",
+  storageBucket:     "site-heitor-45ace.firebasestorage.app",
+  messagingSenderId: "995112656551",
+  appId:             "1:995112656551:web:5de7c8a827b15f80bb8582"
+};
 /* Exemplo:
 const FIREBASE = {
   apiKey:"…", authDomain:"…", databaseURL:"https://SEU-PROJETO.firebaseio.com",

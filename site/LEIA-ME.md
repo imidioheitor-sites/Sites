@@ -33,29 +33,15 @@ da matriz, byte a byte.
 
 ---
 
-## 2. Tempo real entre todos os visitantes (opcional, grátis)
+## 2. Tempo real entre todos os visitantes — **ativo**
 
-Sem isso o site funciona, mas cada pessoa só enxerga o que ela mesma reservou
-(fica salvo no navegador dela). Para todo mundo ver o mesmo estado ao vivo:
+Já está configurado e ligado ao projeto `site-heitor-45ace`. Presentes
+reservados e recados do mural sincronizam entre todos os visitantes ao vivo.
 
-1. Crie um projeto em <https://console.firebase.google.com> (plano Spark, gratuito).
-2. Ative **Realtime Database** → *Criar banco de dados* → modo de teste.
-3. Em *Configurações do projeto → Seus aplicativos → Web*, copie o objeto de config.
-4. Cole em `index.html`:
-
-```js
-const FIREBASE = {
-  apiKey:"…", authDomain:"…",
-  databaseURL:"https://SEU-PROJETO-default-rtdb.firebaseio.com",
-  projectId:"…", storageBucket:"…", messagingSenderId:"…", appId:"…"
-};
-```
-
-Feito isso, presentes reservados e recados do mural sincronizam entre todos
-instantaneamente.
-
-**Antes de divulgar**, troque as regras do banco (aba *Regras*) para permitir
-escrita apenas nos dois caminhos usados:
+A config fica no topo do `<script>` em `index.html`, na constante `FIREBASE`.
+As chaves do Firebase Web são **públicas por natureza** — elas identificam o
+projeto, não autorizam nada. Quem protege o banco são as regras do Realtime
+Database, que liberam apenas os dois caminhos usados:
 
 ```json
 {
@@ -66,7 +52,12 @@ escrita apenas nos dois caminhos usados:
 }
 ```
 
-O modo de teste padrão expira em 30 dias e libera o banco inteiro — não deixe assim.
+Todo o resto do banco permanece bloqueado. Se um dia quiser desligar o tempo
+real, basta trocar a constante por `const FIREBASE = null;` — o site volta a
+guardar o estado no navegador de cada pessoa, sem quebrar nada.
+
+Se o SDK do Firebase não carregar (rede ruim, bloqueio), o site cai sozinho
+para o modo local em vez de falhar.
 
 ---
 

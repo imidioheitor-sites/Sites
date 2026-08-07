@@ -1,0 +1,28 @@
+# Netlify — deploy contínuo a partir deste repositório.
+#
+# Este repositório é o pacote npm @heitorimidio/sites-skills; o site do
+# aniversário vive em site/. Publicamos SÓ essa pasta para que bin/,
+# package.json e as skills não vão para o ar junto.
+#
+# Se preferir o Netlify Drop manual, arraste a pasta site/ — funciona igual.
+
+[build]
+  publish = "site"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# O vídeo e as fotos têm nome fixo e mudam pouco: cache longo.
+[[headers]]
+  for = "/assets/hero.mp4"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/fotos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

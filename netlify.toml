@@ -1,0 +1,23 @@
+[build]
+  publish = "."
+
+# O site é um único index.html (sem build). Estas regras só ajustam cache e segurança.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# index.html sempre revalida -> quando você republica com preços novos,
+# os clientes recebem a versão nova na hora (nada fica preso em cache).
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Mídia (se você hospedar vídeo/fotos à parte) pode ficar em cache longo.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

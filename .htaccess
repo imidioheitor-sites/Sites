@@ -1,0 +1,39 @@
+# Hospedagem Apache (Hostinger, cPanel, Locaweb, HostGator...)
+# Basta enviar este arquivo junto com o index.html na pasta public_html.
+
+# ---- Compressão (deixa o site MUITO mais rápido) ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# ---- Cache ----
+<IfModule mod_headers.c>
+  # O HTML sempre revalida: ao republicar, o cliente vê a versão nova na hora.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  # Mídia externa (se usar a pasta assets) pode ficar em cache longo.
+  <FilesMatch "\.(jpg|jpeg|png|webp|gif|mp4|webm|glb|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---- Tipos MIME (garante que vídeo e 3D funcionem) ----
+<IfModule mod_mime.c>
+  AddType video/mp4 .mp4
+  AddType model/gltf-binary .glb
+  AddType image/webp .webp
+</IfModule>
+
+# ---- Força HTTPS (importante: sem HTTPS o navegador bloqueia recursos) ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- Página inicial ----
+DirectoryIndex index.html

@@ -71,14 +71,16 @@ As cores saem da própria marca, não de um tema genérico:
 
 | Onde vem | Cor | Uso no site |
 |---|---|---|
-| Fundo do cartaz do curso | `#F7F2E4` creme | fundo de quase todo o site |
-| Verde do emblema | `#2C6E52` | botões e ações |
-| Dourado do cartaz | `#C9A227` | medalhas, destaques, números |
+| — | `#FFFFFF` branco | fundo da página |
+| Verde do emblema, escurecido | `#0A1F19` | marquise, portal, fita, cursos e rodapé |
+| Verde do emblema | `#1E5A41` | botões, ações e ícones |
+| Dourado do cartaz | `#C9A227` | medalhas, números e destaques sobre o verde |
 | Laranja do emblema | `#DC6B24` | etiquetas e marcações |
-| Verde-petróleo escuro | `#102A23` | topo, portal e fita — só onde a mídia precisa de contraste |
+| Verde levíssimo | `#F1F6F1` | faixas alternativas |
 
-O preto deixou de ser a base. Só três blocos usam fundo escuro, e por um motivo:
-são as seções em que foto e vídeo ocupam a tela inteira e precisam de contraste.
+A base é branca. O verde escuro entra em blocos inteiros — marquise, fita, portal,
+cursos e rodapé — que funcionam como âncoras: o branco vira o respiro entre eles,
+não a página toda. O dourado só aparece sobre o verde, onde tem contraste para brilhar.
 
 ## Efeitos implementados
 
@@ -99,7 +101,7 @@ Nenhum efeito 3D. Não há Three.js, WebGL de geometria, `perspective`,
 | Antes / Depois | `#antesdepois` | arraste a barra |
 | Pilha de cartões | `#atendemos` | troca em 2D, com escala |
 | Galeria + lightbox | `#galeria` | clique amplia |
-| Cursor de fluido | página inteira, desktop | simulação 2D em WebGL, escurece o creme por multiply |
+| Cursor de fluido | página inteira, desktop | simulação 2D em WebGL, bem discreta — 15% de opacidade, dissipação rápida |
 
 ## Desempenho e acessibilidade
 

@@ -67,21 +67,21 @@ window.ARBO = {
    (âmbar→laranja→vermelho) e verde; o cartaz do curso traz verde-petróleo,
    dourado e fundo creme. O site segue esse conjunto, não o preto. */
 :root{
-  --void:#F7F2E4;   /* canvas creme, como o cartaz do curso */
-  --bark:#FFFDF7;   /* cartões */
-  --moss:#EEE6D2;   /* superfície alternativa */
-  --line:#DCD1B6;   /* traços e divisórias */
-  --cream:#15332B;  /* texto principal — verde-petróleo escuro */
-  --sage:#4C5F55;   /* texto secundário */
-  --dim:#7C8A7E;    /* texto terciário */
-  --sap:#2C6E52;    /* verde da marca — ações */
-  --leaf:#B8901C;   /* dourado do cartaz — destaques */
+  --void:#FFFFFF;   /* base branca */
+  --bark:#FFFFFF;   /* cartões — separados por borda e sombra, não por tom */
+  --moss:#F1F6F1;   /* faixa alternativa, verde levíssimo */
+  --line:#DCE5DC;   /* traços e divisórias */
+  --cream:#0E2A21;  /* texto principal — verde escuro */
+  --sage:#41544A;   /* texto secundário */
+  --dim:#78877D;    /* texto terciário */
+  --sap:#1E5A41;    /* verde escuro da marca — ações */
+  --leaf:#B8901C;   /* dourado do cartaz */
   --ember:#DC6B24;  /* laranja do emblema */
-  --ink:#102A23;    /* seções escuras de respiro */
-  --ink-2:#173A31;
-  --azul:#1E3F8F;   /* azul do anel do emblema */
+  --ink:#0A1F19;    /* verde quase preto — blocos escuros */
+  --ink-2:#113027;
+  --azul:#1E3F8F;
   --ouro:#C9A227;
-  --on-dark:#F3EDDC;
+  --on-dark:#EEF3EA;
 
   --font:'RobotoFlex','Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 
@@ -553,10 +553,10 @@ body{background:var(--void);color:var(--cream);font-weight:400}
 ::-webkit-scrollbar-thumb:hover{background:var(--sap)}
 
 /* cursor — o fluido agora escurece o creme em vez de clarear o preto */
-#fluid{mix-blend-mode:multiply;opacity:.42}
+#fluid{mix-blend-mode:multiply;opacity:.15}
 #dot{background:var(--sap);mix-blend-mode:normal}
-#ring{border-color:rgba(44,110,82,.55)}
-#ring.on{border-color:var(--sap);background:rgba(44,110,82,.10)}
+#ring{border-color:rgba(30,90,65,.34)}
+#ring.on{border-color:rgba(30,90,65,.6);background:rgba(30,90,65,.06)}
 
 /* loader */
 #loader{background:var(--ink);color:var(--on-dark)}
@@ -818,6 +818,97 @@ footer{background:var(--moss);border-top-color:var(--line)}
 .trust-i b{display:block;font-size:14px;font-weight:500;letter-spacing:-.01em;color:var(--cream);
   margin-bottom:3px;transition:color .3s}
 .trust-i:hover b{color:var(--sap)}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   BLOCOS VERDE-ESCUROS — âncoras que quebram o branco.
+   A marquise, a pilha de perfis e o rodapé viram massa verde escura;
+   o branco fica sendo o respiro entre elas, não a página inteira.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* faixa corrida logo abaixo do topo */
+.marq{background:var(--ink);border-block-color:var(--ink)}
+.marq-in b{color:var(--on-dark)}
+.marq-in b::after{background:var(--ouro)}
+
+/* cartões brancos ganham contorno e sombra, já que o fundo agora é branco */
+.card,.pf,.mod,.sw,.course-live,.medal-hero{box-shadow:0 1px 2px rgba(14,42,33,.045),0 14px 34px rgba(14,42,33,.055)}
+.card:hover,.pf:hover{box-shadow:0 18px 44px rgba(14,42,33,.11)}
+
+/* pilha de perfis em verde escuro */
+.sw{background:linear-gradient(155deg,var(--ink-2),var(--ink) 62%);border-color:rgba(238,243,234,.14);
+  color:var(--on-dark);box-shadow:0 22px 54px rgba(10,31,25,.30)}
+.sw::before{background:radial-gradient(circle at 78% 12%,rgba(201,162,39,.20),transparent 58%)}
+.sw .sw-k{color:var(--ouro)}
+.sw h3{color:var(--on-dark)}
+.sw p{color:rgba(238,243,234,.76)}
+.sw li{border-color:rgba(238,243,234,.24);color:rgba(238,243,234,.82)}
+.sw .sw-num{color:rgba(238,243,234,.07)}
+
+/* seção de cursos: bloco verde escuro com o cartaz claro por cima */
+#cursos{background:radial-gradient(ellipse 66% 52% at 80% 2%,rgba(201,162,39,.16),transparent 60%),
+  linear-gradient(180deg,var(--ink),var(--ink-2) 70%,var(--ink));
+  border-block:1px solid var(--ink)}
+#cursos,#cursos .h1,#cursos .h2,#cursos .h3{color:var(--on-dark)}
+#cursos .label{color:var(--ouro)}
+#cursos .body,#cursos .body-lg{color:rgba(238,243,234,.78)}
+#cursos .vagas b{color:var(--ouro)}
+#cursos .vagas span{color:rgba(238,243,234,.7)}
+#cursos .mod{background:rgba(238,243,234,.05);border-color:rgba(238,243,234,.16);box-shadow:none}
+#cursos .mod:hover{border-color:rgba(201,162,39,.55);background:rgba(238,243,234,.08)}
+#cursos .mod h4{color:var(--on-dark)}
+#cursos .mod p{color:rgba(238,243,234,.74)}
+#cursos .mod .mod-n{color:var(--ouro)}
+#cursos .field label{color:rgba(238,243,234,.6)}
+#cursos .field input,#cursos .field select{background:rgba(238,243,234,.07);
+  border-color:rgba(238,243,234,.2);color:var(--on-dark)}
+#cursos .field input:focus,#cursos .field select:focus{border-color:var(--ouro);background:rgba(238,243,234,.12)}
+#cursos .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23EEF3EA' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")}
+#cursos .form-note{color:rgba(238,243,234,.55)}
+#cursos .btn-fill{background:var(--ouro);border-color:var(--ouro);color:#231A00}
+#cursos .btn-fill:hover{background:#DCB63A;border-color:#DCB63A}
+/* o cartaz da turma segue claro, para destacar do bloco */
+#cursos .course-live{background:var(--bark);border-color:rgba(201,162,39,.5)}
+#cursos .course-live h3,#cursos .course-live .cl-meta dd{color:var(--cream)}
+#cursos .course-live .body,#cursos .course-live p{color:var(--sage)}
+#cursos .course-live .cl-meta dt{color:var(--dim)}
+#cursos .course-live .cl-meta div{border-bottom-color:var(--line)}
+#cursos .course-live .form-note{color:var(--dim)}
+#cursos .course-live .btn{border-color:var(--line);color:var(--cream)}
+#cursos .course-live .btn:hover{border-color:var(--sap);background:rgba(30,90,65,.08)}
+#cursos .course-live .btn-fill{background:var(--sap);border-color:var(--sap);color:#FFF}
+#cursos .course-live .btn-fill:hover{background:#164732;border-color:#164732}
+
+/* rodapé verde escuro fecha a página */
+footer{background:var(--ink);border-top-color:var(--ink)}
+footer,.foot .brand span{color:var(--on-dark)}
+.foot h5{color:var(--ouro)}
+.foot a,.foot li{color:rgba(238,243,234,.76)}
+.foot a:hover{color:var(--ouro)}
+.foot .body{color:rgba(238,243,234,.68)}
+.foot .brand em{color:rgba(238,243,234,.5)}
+.foot-btm{border-top-color:rgba(238,243,234,.16);color:rgba(238,243,234,.55)}
+
+/* detalhes verde escuro espalhados */
+.label{color:var(--sap)}
+.card .ico{color:var(--sap)}
+.medal-badge{color:var(--ouro)}
+.medal-hero{background:linear-gradient(135deg,rgba(201,162,39,.13),rgba(30,90,65,.05) 48%,transparent 72%),var(--bark);
+  border-color:rgba(201,162,39,.45)}
+.trust{background:var(--bark);border-bottom-color:var(--line)}
+.reveal-list,.rv{border-color:var(--line)}
+.rv:hover .rv-t{color:var(--sap)}
+.spec-stage{background:var(--moss)}
+.gal figure{background:var(--moss)}
+.ba-line,.ba-knob{background:#FFF}
+.summary{background:var(--moss)}
+#toast{background:var(--ink);color:var(--on-dark)}
+.wa{background:var(--sap);box-shadow:0 12px 34px rgba(30,90,65,.32)}
+.btn-fill{background:var(--sap);border-color:var(--sap);color:#FFF}
+.btn-fill:hover{background:#164732;border-color:#164732}
+.chip.on,.opt input:checked+span,.step.on b{background:var(--sap);border-color:var(--sap);color:#FFF}
+header.stuck{background:rgba(255,255,255,.88)}
+@media(max-width:920px){.nav-links{background:rgba(255,255,255,.98)}}
 
 </style>
 </head>
@@ -1383,7 +1474,7 @@ function splashCursor(){
   const RG   = is2?(fmt(gl.RG16F,gl.RG,HT)||RGBA):RGBA;
   const R    = is2?(fmt(gl.R16F,gl.RED,HT)||RG):RGBA;
   if(!RGBA){canvas.style.display='none';return;}
-  const CFG={SIM:128,DYE:linear?1024:256,DENS:3.6,VEL:2.1,PRESS:.1,ITER:18,CURL:2.6,RAD:.19,FORCE:5600};
+  const CFG={SIM:128,DYE:linear?1024:256,DENS:6.4,VEL:3.2,PRESS:.1,ITER:18,CURL:1.5,RAD:.11,FORCE:3200};
   const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;};
   const prog=(v,f)=>{const p=gl.createProgram();gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);
     const u={},n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);
@@ -1450,7 +1541,7 @@ function splashCursor(){
   function hsv(h,s,v){const i=Math.floor(h*6),f=h*6-i,p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s);
     const m=[[v,t,p],[q,v,p],[p,v,t],[p,q,v],[t,p,v],[v,p,q]][i%6];return{r:m[0],g:m[1],b:m[2]};}
   function col(){ // green-biased palette matching the brand
-    const c=hsv(.26+Math.random()*.12,.78,1);return{r:c.r*.16,g:c.g*.19,b:c.b*.12};}
+    const c=hsv(.30+Math.random()*.08,.42,1);return{r:c.r*.07,g:c.g*.09,b:c.b*.07};}
   addEventListener('mousemove',e=>{const r=window.devicePixelRatio||1;
     ptr.px=ptr.x;ptr.py=ptr.y;ptr.x=e.clientX*r;ptr.y=e.clientY*r;
     ptr.dx=(ptr.x-ptr.px)/canvas.width;ptr.dy=-(ptr.y-ptr.py)/canvas.height;

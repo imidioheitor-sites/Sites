@@ -40,7 +40,6 @@ texto do bloco "KOPA ARBO Training" na seção `#cursos`.
 ```
 index.html              página única, sem dependências externas
 assets/
-  three.min.js          Three.js r160 (local — o site não chama nenhuma CDN)
   roboto-flex.woff2     fonte variável (usada pelo efeito TextPressure)
   img/                  fotos reais da empresa + logo
   video/
@@ -66,25 +65,45 @@ Todo o material é real, vindo da pasta do Google Drive da empresa:
 
 Não há imagens de banco nem textos de preenchimento.
 
+## Paleta
+
+As cores saem da própria marca, não de um tema genérico:
+
+| Onde vem | Cor | Uso no site |
+|---|---|---|
+| Fundo do cartaz do curso | `#F7F2E4` creme | fundo de quase todo o site |
+| Verde do emblema | `#2C6E52` | botões e ações |
+| Dourado do cartaz | `#C9A227` | medalhas, destaques, números |
+| Laranja do emblema | `#DC6B24` | etiquetas e marcações |
+| Verde-petróleo escuro | `#102A23` | topo, portal e fita — só onde a mídia precisa de contraste |
+
+O preto deixou de ser a base. Só três blocos usam fundo escuro, e por um motivo:
+são as seções em que foto e vídeo ocupam a tela inteira e precisam de contraste.
+
 ## Efeitos implementados
 
-| Efeito | Onde |
-|---|---|
-| Hero escrolável com vídeo | `#hero` — 340vh, vídeo real + dossel 3D em WebGL |
-| TextPressure | título "Sempre Verde" reage ao cursor |
-| Montagem em perspectiva | `#perspectiva` — corredor 3D de fotos e vídeos reais |
-| Portal escrolável | `#portal` — abertura circular para dentro do dossel |
-| Object Reveal on Hover | `#revelacao` — modelo 3D por serviço segue o cursor |
-| 3D Product Animation | `#especime` — árvore interativa (arraste / scroll) |
-| Cursor de fluido (WebGL) | página inteira, desktop |
-| Bento com spotlight | `#servicos` |
-| Antes / Depois | `#antesdepois` — arraste a barra |
-| CardSwap | `#atendemos` |
-| Galeria + lightbox | `#galeria` |
+Nenhum efeito 3D. Não há Three.js, WebGL de geometria, `perspective`,
+`translate3d` nem `preserve-3d` em lugar nenhum do arquivo.
+
+| Efeito | Onde | Como funciona |
+|---|---|---|
+| Topo escrolável com vídeo | `#hero` | vídeo real em loop, texto e brilho respondem ao scroll |
+| TextPressure | título "Sempre Verde" | peso e largura da fonte variam com a distância do cursor |
+| Faixa de credibilidade | logo abaixo do topo | as três medalhas já na entrada |
+| Fita horizontal | `#perspectiva` | rolar na vertical desliza a montagem de fotos e vídeos na horizontal |
+| Portal escrolável | `#portal` | máscara circular 2D abrindo sobre uma foto real da copa |
+| Object Reveal on Hover | `#revelacao` | a foto do serviço segue o cursor |
+| Foto anotada | `#especime` | pontos numerados sobre a foto, com troca por categoria |
+| Medalhas | `#credenciais` | pódio nacional em destaque + certificações |
+| Bento com spotlight | `#servicos` | brilho segue o cursor; diagrama de poda animado em canvas 2D |
+| Antes / Depois | `#antesdepois` | arraste a barra |
+| Pilha de cartões | `#atendemos` | troca em 2D, com escala |
+| Galeria + lightbox | `#galeria` | clique amplia |
+| Cursor de fluido | página inteira, desktop | simulação 2D em WebGL, escurece o creme por multiply |
 
 ## Desempenho e acessibilidade
 
-- Celulares recebem o vídeo em 720p e uma versão mais leve dos efeitos 3D.
+- Celulares recebem o vídeo em 720p.
 - O vídeo pausa automaticamente quando sai da tela.
 - Os clipes da montagem só são decodificados quando estão visíveis.
 - `prefers-reduced-motion` desliga as animações para quem pediu menos movimento.

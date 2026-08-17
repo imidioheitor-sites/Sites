@@ -40,7 +40,8 @@ texto do bloco "KOPA ARBO Training" na seção `#cursos`.
 ```
 index.html              página única, sem dependências externas
 assets/
-  roboto-flex.woff2     fonte variável (usada pelo efeito TextPressure)
+  fraunces.woff2        serifa variável — títulos e o efeito TextPressure
+  archivo.woff2         grotesca variável — corpo e interface
   img/                  fotos reais da empresa + logo
   video/
     hero.mp4 / .webm        vídeo do topo — 1080p, 15s, loop contínuo, sem áudio
@@ -81,6 +82,15 @@ As cores saem da própria marca, não de um tema genérico:
 A base é branca. O verde escuro entra em blocos inteiros — marquise, fita, portal,
 cursos e rodapé — que funcionam como âncoras: o branco vira o respiro entre eles,
 não a página toda. O dourado só aparece sobre o verde, onde tem contraste para brilhar.
+
+## Tipografia
+
+**Fraunces** nos títulos e **Archivo** no corpo, ambas variáveis e servidas localmente.
+
+A Fraunces tem dois eixos fora do comum além do peso: `SOFT`, que arredonda as
+serifas, e `WONK`, que inclina algumas delas de propósito. É o que dá o caráter
+orgânico — e é justamente o que o título do topo aciona conforme o cursor se
+aproxima de cada letra, junto com `opsz`.
 
 ## Efeitos implementados
 

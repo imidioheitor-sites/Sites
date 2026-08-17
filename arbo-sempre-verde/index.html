@@ -56,10 +56,16 @@ window.ARBO = {
 
 <style>
 @font-face{
-  font-family:'RobotoFlex';
-  src:url('assets/roboto-flex.woff2') format('woff2-variations');
-  font-weight:100 1000;
-  font-stretch:25% 151%;
+  font-family:'Fraunces';
+  src:url('assets/fraunces.woff2') format('woff2-variations');
+  font-weight:100 900;
+  font-display:swap;
+}
+@font-face{
+  font-family:'Archivo';
+  src:url('assets/archivo.woff2') format('woff2-variations');
+  font-weight:100 900;
+  font-stretch:62% 125%;
   font-display:swap;
 }
 
@@ -83,7 +89,8 @@ window.ARBO = {
   --ouro:#C9A227;
   --on-dark:#EEF3EA;
 
-  --font:'RobotoFlex','Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font:'Archivo','Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --font-display:'Fraunces','Iowan Old Style','Palatino Linotype',Georgia,serif;
 
   --pad:clamp(20px,5vw,80px);
   --maxw:1440px;
@@ -910,6 +917,131 @@ footer,.foot .brand span{color:var(--on-dark)}
 header.stuck{background:rgba(255,255,255,.88)}
 @media(max-width:920px){.nav-links{background:rgba(255,255,255,.98)}}
 
+
+
+/* ══════════════════════════════════════════════════════════════════
+   BRANCO + VERDE ESCURO — paleta fechada em duas cores.
+   O dourado e o laranja saíram; o que era destaque agora é verde claro
+   sobre os blocos escuros e verde escuro sobre o branco.
+   ══════════════════════════════════════════════════════════════════ */
+:root{
+  --leaf:#9BD3B4;   /* verde claro — destaques sobre o verde escuro */
+  --ouro:#9BD3B4;
+  --ember:#1E5A41;  /* verde escuro — etiquetas sobre o branco */
+}
+/* nada de dourado nos gradientes e brilhos */
+.card::after{background:radial-gradient(240px circle at var(--gx) var(--gy),
+  rgba(30,90,65,calc(var(--gi)*.55)) 0%,rgba(30,90,65,calc(var(--gi)*.24)) 34%,transparent 62%)}
+.card .spark{background:var(--sap);box-shadow:0 0 7px rgba(30,90,65,.7)}
+.medal-hero{background:linear-gradient(135deg,rgba(30,90,65,.10),rgba(30,90,65,.04) 48%,transparent 72%),var(--bark);
+  border-color:rgba(30,90,65,.34)}
+.pf:hover{border-color:rgba(30,90,65,.5)}
+.mod:hover,#cursos .mod:hover{border-color:rgba(155,211,180,.6)}
+.course-live,#cursos .course-live{border-color:rgba(30,90,65,.4)}
+.portal-ring{border-color:rgba(155,211,180,.42);
+  box-shadow:0 0 60px rgba(155,211,180,.14),inset 0 0 60px rgba(155,211,180,.08)}
+#cursos{background:radial-gradient(ellipse 66% 52% at 80% 2%,rgba(155,211,180,.13),transparent 60%),
+  linear-gradient(180deg,var(--ink),var(--ink-2) 70%,var(--ink))}
+.sw::before{background:radial-gradient(circle at 78% 12%,rgba(155,211,180,.16),transparent 58%)}
+::selection{background:var(--sap);color:#FFF}
+
+/* medalha e selos: verde escuro com relevo, sem metal dourado */
+.trust-m{background:linear-gradient(145deg,#2A7355,var(--sap) 55%,#123A29);color:#FFF;
+  box-shadow:0 0 0 4px rgba(30,90,65,.14),inset 0 1px 2px rgba(255,255,255,.24)}
+.trust-m--seal{background:linear-gradient(145deg,#F4F8F4,#E2EBE4 60%,#CBD9CF);color:var(--sap);
+  box-shadow:0 0 0 4px rgba(30,90,65,.10),inset 0 1px 2px rgba(255,255,255,.7)}
+.medal-badge{color:var(--sap)}
+.spec-photo .hot i{background:var(--sap);color:#FFF;box-shadow:0 0 0 6px rgba(30,90,65,.20)}
+.spec-photo .hot::after{border-color:rgba(30,90,65,.5)}
+.cl-badge{background:var(--sap);color:#FFF}
+.cl-badge::before{background:#FFF}
+
+/* botões sobre os blocos escuros: branco cheio, verde no texto */
+#hero .btn-fill,#cursos .btn-fill,.portal-end .btn-fill{background:#FFF;border-color:#FFF;color:var(--ink)}
+#hero .btn-fill:hover,#cursos .btn-fill:hover,.portal-end .btn-fill:hover{background:#E4EFE8;border-color:#E4EFE8}
+#hero .btn:hover{border-color:var(--leaf);background:rgba(155,211,180,.12)}
+#hero .label,.persp-cap .label,.portal-end .label,#cursos .label,.foot h5{color:var(--leaf)}
+.hero-eyebrow span,.scroll-hint i{background:var(--leaf)}
+.scroll-hint i{background:linear-gradient(var(--leaf),transparent)}
+.marq-in b::after{background:var(--leaf)}
+.portal-grid b,#cursos .vagas b{color:var(--leaf)}
+.foot a:hover{color:var(--leaf)}
+.sw .sw-k{color:var(--leaf)}
+#cursos .mod .mod-n{color:var(--leaf)}
+
+/* ── ENQUADRAMENTO DAS FOTOS ─────────────────────────────────────
+   As fotos são verticais de celular; caixas largas cortavam o assunto.
+   As caixas ficaram mais altas e cada foto recebe o ponto de corte
+   medido a partir dela mesma. */
+.pf-img{aspect-ratio:4/5}
+.strip-item,.strip-item:nth-child(even){aspect-ratio:3/4}
+.medal-shot img{object-fit:cover;aspect-ratio:4/3}
+.gal img,.pf-img img,.strip-item img,.strip-item video,
+.spec-photo img,.portal-art img{object-position:center 46%}
+
+.gal img[src*="antes-depois-palmeiras"],.pf-img img[src*="antes-depois-palmeiras"],.strip-item img[src*="antes-depois-palmeiras"],.spec-photo img[src*="antes-depois-palmeiras"],.portal-art img[src*="antes-depois-palmeiras"]{object-position:center 53%}
+.gal img[src*="area-liberada"],.pf-img img[src*="area-liberada"],.strip-item img[src*="area-liberada"],.spec-photo img[src*="area-liberada"],.portal-art img[src*="area-liberada"]{object-position:center 57%}
+.gal img[src*="arvore-gramado"],.pf-img img[src*="arvore-gramado"],.strip-item img[src*="arvore-gramado"],.spec-photo img[src*="arvore-gramado"],.portal-art img[src*="arvore-gramado"]{object-position:center 41%}
+.gal img[src*="arvore-jardim"],.pf-img img[src*="arvore-jardim"],.strip-item img[src*="arvore-jardim"],.spec-photo img[src*="arvore-jardim"],.portal-art img[src*="arvore-jardim"]{object-position:center 55%}
+.gal img[src*="arvore-parque"],.pf-img img[src*="arvore-parque"],.strip-item img[src*="arvore-parque"],.spec-photo img[src*="arvore-parque"],.portal-art img[src*="arvore-parque"]{object-position:center 52%}
+.gal img[src*="campeonato"],.pf-img img[src*="campeonato"],.strip-item img[src*="campeonato"],.spec-photo img[src*="campeonato"],.portal-art img[src*="campeonato"]{object-position:center 72%}
+.gal img[src*="corte-detalhe"],.pf-img img[src*="corte-detalhe"],.strip-item img[src*="corte-detalhe"],.spec-photo img[src*="corte-detalhe"],.portal-art img[src*="corte-detalhe"]{object-position:center 44%}
+.gal img[src*="curso-cartaz"],.pf-img img[src*="curso-cartaz"],.strip-item img[src*="curso-cartaz"],.spec-photo img[src*="curso-cartaz"],.portal-art img[src*="curso-cartaz"]{object-position:center 40%}
+.gal img[src*="diagnostico-fuste"],.pf-img img[src*="diagnostico-fuste"],.strip-item img[src*="diagnostico-fuste"],.spec-photo img[src*="diagnostico-fuste"],.portal-art img[src*="diagnostico-fuste"]{object-position:center 52%}
+.gal img[src*="team-darlan"],.pf-img img[src*="team-darlan"],.strip-item img[src*="team-darlan"],.spec-photo img[src*="team-darlan"],.portal-art img[src*="team-darlan"]{object-position:center 42%}
+.gal img[src*="toco-tratado"],.pf-img img[src*="toco-tratado"],.strip-item img[src*="toco-tratado"],.spec-photo img[src*="toco-tratado"],.portal-art img[src*="toco-tratado"]{object-position:center 63%}
+.gal img[src*="trabalho-altura"],.pf-img img[src*="trabalho-altura"],.strip-item img[src*="trabalho-altura"],.spec-photo img[src*="trabalho-altura"],.portal-art img[src*="trabalho-altura"]{object-position:center 57%}
+.gal img[src*="tratamento-solo"],.pf-img img[src*="tratamento-solo"],.strip-item img[src*="tratamento-solo"],.spec-photo img[src*="tratamento-solo"],.portal-art img[src*="tratamento-solo"]{object-position:center 43%}
+.gal img[src*="work-chainsaw"],.pf-img img[src*="work-chainsaw"],.strip-item img[src*="work-chainsaw"],.spec-photo img[src*="work-chainsaw"],.portal-art img[src*="work-chainsaw"]{object-position:center 42%}
+.gal img[src*="work-climb-palm"],.pf-img img[src*="work-climb-palm"],.strip-item img[src*="work-climb-palm"],.spec-photo img[src*="work-climb-palm"],.portal-art img[src*="work-climb-palm"]{object-position:center 48%}
+.gal img[src*="work-climb-tall"],.pf-img img[src*="work-climb-tall"],.strip-item img[src*="work-climb-tall"],.spec-photo img[src*="work-climb-tall"],.portal-art img[src*="work-climb-tall"]{object-position:center 48%}
+.gal img[src*="work-gear"],.pf-img img[src*="work-gear"],.strip-item img[src*="work-gear"],.spec-photo img[src*="work-gear"],.portal-art img[src*="work-gear"]{object-position:center 54%}
+.gal img[src*="work-rappel"],.pf-img img[src*="work-rappel"],.strip-item img[src*="work-rappel"],.spec-photo img[src*="work-rappel"],.portal-art img[src*="work-rappel"]{object-position:center 47%}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   TIPOGRAFIA — Fraunces nos títulos, Archivo no corpo.
+   A Fraunces é uma serifa variável: os eixos SOFT e WONK arredondam
+   e "entortam" as serifas, o que dá o caráter orgânico que a grotesca
+   anterior não tinha. O título do topo aciona esses eixos no cursor.
+   ══════════════════════════════════════════════════════════════════ */
+.display,.h1,.h2,.h3,.medal-body h3,.sw h3,.card h3,.rv-t,.mod h4,.pf-b h4,
+.ld-mark,.marq-in b,.vagas b,.portal-grid b,.trust-i b,.hero-stats div b,.gal figcaption{
+  font-family:var(--font-display);
+  font-variation-settings:'SOFT' 24,'WONK' 1,'opsz' 96;
+  letter-spacing:-.018em;
+}
+.display{font-weight:600;letter-spacing:-.03em;font-variation-settings:'SOFT' 34,'WONK' 1,'opsz' 144}
+.h1{font-weight:600;letter-spacing:-.026em}
+.h2{font-weight:600;letter-spacing:-.022em}
+.h3,.pf-b h4,.mod h4,.sw h3{font-weight:600}
+.rv-t{font-weight:600;font-variation-settings:'SOFT' 40,'WONK' 1,'opsz' 120}
+.marq-in b{font-weight:500;font-variation-settings:'SOFT' 60,'WONK' 1,'opsz' 120}
+.vagas b,.portal-grid b,.hero-stats div b{font-weight:500;font-variation-settings:'SOFT' 70,'WONK' 1,'opsz' 144}
+.trust-i b{font-weight:600;font-size:14.5px;letter-spacing:-.012em}
+.gal figcaption{font-family:var(--font);font-weight:500}
+
+/* corpo em Archivo, um pouco mais estreito para ganhar densidade */
+body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
+  font-family:var(--font)}
+.label{font-variation-settings:'wdth' 92;font-weight:600;letter-spacing:.2em}
+.btn{font-variation-settings:'wdth' 96;font-weight:600}
+.body-lg{font-weight:400;line-height:1.55}
+.body{font-weight:400;line-height:1.62}
+
+/* ── GALERIA: grade alinhada, sem colunas irregulares ────────────── */
+.gal{columns:auto;column-gap:0;display:grid;gap:12px;
+  grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(min-width:760px){.gal{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+@media(min-width:1180px){.gal{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.gal figure{margin:0;break-inside:auto;aspect-ratio:4/5}
+.gal img{width:100%;height:100%;object-fit:cover}
+/* duas peças ganham destaque para a grade não ficar monótona */
+@media(min-width:760px){
+  .gal figure:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+  .gal figure:nth-child(8){grid-column:span 2;aspect-ratio:8/5}
+}
+
 </style>
 </head>
 <body>
@@ -934,7 +1066,7 @@ header.stuck{background:rgba(255,255,255,.88)}
     <span>Arbo Sempre Verde<em>Soluções Ambientais</em></span>
   </a>
   <div class="nav-links" id="navLinks">
-    <a href="#servicos" data-c>Serviços</a>
+    <a href="#revelacao" data-c>Serviços</a>
     <a href="#galeria" data-c>Galeria</a>
     <a href="#credenciais" data-c>Credenciais</a>
     <a href="#atendemos" data-c>Quem atendemos</a>
@@ -956,14 +1088,15 @@ header.stuck{background:rgba(255,255,255,.88)}
     <div class="hero-grain"></div>
 
     <div class="hero-in">
-      <div class="hero-eyebrow"><span></span><p class="label" style="margin:0">Arboricultura · Goiás</p><span></span></div>
-      <h1 id="pressure" class="display" aria-label="Sempre Verde">Sempre Verde</h1>
-      <p class="hero-sub body-lg">Manejo técnico de árvores urbanas e rurais. Poda, corte,
-        palmeiras, cabeamento e tratamento de solo — executados por quem forma arboristas.</p>
+      <div class="hero-eyebrow"><span></span><p class="label" style="margin:0">Arborista certificado ISA · Goiás</p><span></span></div>
+      <h1 id="pressure" class="display" aria-label="Sobe quem sabe">Sobe quem sabe</h1>
+      <p class="hero-sub body-lg">Uma árvore mal cortada não avisa antes de cair. Fazemos poda, corte,
+        palmeiras, cabeamento e tratamento de solo em todo o estado de Goiás — com corda, laudo e
+        arborista certificado pela ISA.</p>
       <div class="hero-cta">
         <a href="#orcamento" class="btn btn-fill" data-c>Pedir orçamento
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-        <a href="#servicos" class="btn" data-c>Ver serviços</a>
+        <a href="#credenciais" class="btn" data-c>Ver as credenciais</a>
       </div>
     </div>
 
@@ -1002,33 +1135,27 @@ header.stuck{background:rgba(255,255,255,.88)}
 <section class="sect wrap" id="manejo">
   <div class="mani">
     <div>
-      <p class="label fade">O que fazemos</p>
+      <p class="label fade">Por que técnica importa</p>
       <h2 class="h1" style="margin-top:22px">
-        <span class="reveal-line"><i>Árvore não se</i></span>
-        <span class="reveal-line"><i>corta. Se</i></span>
-        <span class="reveal-line"><i><span style="color:var(--leaf)">maneja.</span></i></span>
+        <span class="reveal-line"><i>Motosserra</i></span>
+        <span class="reveal-line"><i>qualquer um liga.</i></span>
+        <span class="reveal-line"><i><span style="color:var(--sap)">Subir é outra coisa.</span></i></span>
       </h2>
     </div>
     <div class="fade">
-      <p class="body-lg">Somos uma empresa de serviços especializada em arboricultura. Trabalhamos o
-        ciclo completo do manejo — diagnóstico, intervenção e tratamento — em árvores urbanas e na zona rural.</p>
-      <p class="body" style="margin-top:20px">Atendemos indústrias, empresas, prefeituras e pessoas
-        particulares. Cada intervenção segue técnica de arborista, não improviso de motosserra.</p>
+      <p class="body-lg">Poda errada não mata a árvore no mesmo dia. Ela abre porta para praga, apodrece o
+        fuste por dentro e cobra a conta anos depois — quase sempre em cima de um telhado, um carro ou uma rede elétrica.</p>
+      <p class="body" style="margin-top:20px">Trabalhamos o ciclo completo: diagnóstico, intervenção e
+        tratamento, em árvore urbana e de zona rural. Indústrias, empresas, prefeituras e particulares —
+        do quintal ao parque industrial, o mesmo padrão técnico.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══ SERVIÇOS (Bento) ═══ -->
-<section class="sect wrap" id="servicos">
-  <p class="label fade">Serviços</p>
-  <h2 class="h2 fade" style="margin-top:18px;max-width:15ch">Cinco frentes de manejo</h2>
-  <div class="bento" id="bento"></div>
-</section>
-
 <!-- ═══ OBJECT REVEAL ON HOVER ═══ -->
 <section class="sect wrap" id="revelacao">
-  <p class="label fade">Passe o cursor</p>
-  <h2 class="h2 fade" style="margin-top:18px;max-width:17ch">Cada serviço tem um gesto</h2>
+  <p class="label fade">Nossos serviços</p>
+  <h2 class="h2 fade" style="margin-top:18px;max-width:17ch">Cinco frentes de manejo</h2>
   <div class="reveal-list" id="revealList"></div>
 </section>
 
@@ -1041,8 +1168,8 @@ header.stuck{background:rgba(255,255,255,.88)}
     <div class="persp-veil"></div>
     <div class="persp-cap" id="perspCap">
       <p class="label">Arquivo de campo</p>
-      <h2 class="h1" style="margin-top:18px">Serviço de<br>verdade</h2>
-      <p class="body-lg">Sem banco de imagens. Tudo aqui é obra nossa, registrada em Goiás.</p>
+      <h2 class="h1" style="margin-top:18px">Obra nossa,<br>foto nossa</h2>
+      <p class="body-lg">Nenhuma imagem de banco. Tudo aqui foi registrado em serviço, em Goiás.</p>
     </div>
     <div class="persp-hud"><span>Role</span><i id="perspBar"></i><span id="perspN">01</span></div>
   </div>
@@ -1057,8 +1184,8 @@ header.stuck{background:rgba(255,255,255,.88)}
     <div class="portal-mask" id="portalMask" style="--r:0"></div>
     <div class="portal-ring" id="portalRing" style="--d:0px"></div>
     <div class="portal-cap" id="portalCap">
-      <h2 class="h1">Entre no dossel</h2>
-      <p class="body-lg">Da base ao ápice: o que o arborista enxerga quando sobe.</p>
+      <h2 class="h1">O ponto de vista<br>de quem sobe</h2>
+      <p class="body-lg">Role para subir com a equipe até a copa.</p>
     </div>
     <div class="portal-end" id="portalEnd">
       <p class="label">Lá em cima</p>
@@ -1245,9 +1372,9 @@ header.stuck{background:rgba(255,255,255,.88)}
 <!-- ═══ ORÇAMENTO ═══ -->
 <section class="sect wrap" id="orcamento">
   <p class="label fade">Orçamento</p>
-  <h2 class="h1 fade" style="margin-top:20px;max-width:13ch">Reserve uma avaliação</h2>
-  <p class="body-lg fade" style="margin-top:22px;max-width:52ch">Três passos. No fim, seu pedido sai pronto
-    para o WhatsApp — com serviço, porte, prazo e endereço.</p>
+  <h2 class="h1 fade" style="margin-top:20px;max-width:14ch">Peça uma avaliação</h2>
+  <p class="body-lg fade" style="margin-top:22px;max-width:52ch">Três passos e um minuto. No fim o pedido
+    sai pronto no WhatsApp, com serviço, porte, prazo e endereço — sem formulário que some.</p>
 
   <div class="fade" style="margin-top:44px;max-width:860px">
     <div class="steps" id="steps">
@@ -1339,11 +1466,11 @@ header.stuck{background:rgba(255,255,255,.88)}
         </form>
       </div>
       <div><h5>Serviços</h5><ul>
-        <li><a href="#servicos" data-c>Poda de árvores</a></li>
-        <li><a href="#servicos" data-c>Corte de árvores</a></li>
-        <li><a href="#servicos" data-c>Palmeiras</a></li>
-        <li><a href="#servicos" data-c>Cabeamento</a></li>
-        <li><a href="#servicos" data-c>Tratamento de solo</a></li>
+        <li><a href="#revelacao" data-c>Poda de árvores</a></li>
+        <li><a href="#revelacao" data-c>Corte de árvores</a></li>
+        <li><a href="#revelacao" data-c>Palmeiras</a></li>
+        <li><a href="#revelacao" data-c>Cabeamento</a></li>
+        <li><a href="#revelacao" data-c>Tratamento de solo</a></li>
       </ul></div>
       <div><h5>Empresa</h5><ul>
         <li><a href="#manejo" data-c>Manejo</a></li>
@@ -1594,7 +1721,7 @@ function textPressure(){
   const el=$('#pressure'), txt=el.textContent.trim();
   el.innerHTML=[...txt].map(c=>`<span class="ch">${c===' '?'&nbsp;':c}</span>`).join('');
   const chs=$$('.ch',el);
-  if(RM||TOUCH){chs.forEach(c=>c.style.fontVariationSettings=`'wght' 420,'wdth' 105`);return;}
+  if(RM||TOUCH){chs.forEach(c=>c.style.fontVariationSettings=`'wght' 620,'SOFT' 30,'opsz' 144`);return;}
   let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
   addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
   (function loop(){
@@ -1604,9 +1731,11 @@ function textPressure(){
       const b=ch.getBoundingClientRect();
       const d=Math.hypot(cx-(b.x+b.width/2),cy-(b.y+b.height/2));
       const f=clamp(1-d/maxD,0,1);
-      const w=Math.round(160+f*740);      // 160..900 weight
-      const wd=Math.round(74+f*77);       // 74..151 width
-      ch.style.fontVariationSettings=`'wght' ${w},'wdth' ${wd}`;
+      // eixos da Fraunces: peso, arredondamento das serifas e tamanho ótico
+      const w =Math.round(300+f*600);     // 300..900
+      const so=Math.round(f*100);         // SOFT 0..100
+      const op=Math.round(9+f*135);       // opsz 9..144
+      ch.style.fontVariationSettings=`'wght' ${w},'SOFT' ${so},'opsz' ${op},'WONK' 1`;
     });
     requestAnimationFrame(loop);})();
 }
@@ -2296,7 +2425,7 @@ function kick(){
   try{splashCursor();}catch(e){console.warn('fluid',e);}
   try{perspectiva();}catch(e){console.warn('perspectiva',e);}
 }
-marquee(); bento(); cardSwap(); mods(); booking(); curvedInput(); reveals();
+marquee(); cardSwap(); mods(); booking(); curvedInput(); reveals();
 beforeAfter(); proof(); gallery();
 setTimeout(()=>{if(!booted)kick();},4200);
 </script>

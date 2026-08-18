@@ -18,7 +18,7 @@ async function toSel(p, sel, ms, off=0){
   await scrollTo(p, Math.max(0,y+off), ms);
 }
 // move o cursor em arco, em vez de teleportar
-async function glide(p, x0,y0, x1,y1, ms, steps=40){
+async function glide(p, x0,y0, x1,y1, ms, steps=12){
   for(let i=0;i<=steps;i++){
     const k=easeInOut(i/steps);
     const bow=Math.sin(Math.PI*(i/steps))*38;

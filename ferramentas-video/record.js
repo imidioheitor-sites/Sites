@@ -24,26 +24,27 @@ async function open(dir){
 async function percurso(){
   const {b,ctx,p}=await open('rec/v1');
   await p.mouse.move(W*0.5,H*0.44);
-  await glide(p, W*0.5,H*0.44, W*0.34,H*0.40, 2600);   // acorda o TextPressure
-  await glide(p, W*0.34,H*0.40, W*0.66,H*0.46, 2600);
+  await glide(p, W*0.5,H*0.44, W*0.34,H*0.40, 1800, 14);   // acorda o TextPressure
+  await glide(p, W*0.34,H*0.40, W*0.66,H*0.46, 1800, 14);
+  await hold(p,700);
+  await toSel(p,'.trust',2200,-160);   await hold(p,2000);
+  await toSel(p,'#manejo',2200,-120);  await hold(p,2200);
+  await toSel(p,'#revelacao',2200,-120);
+  await glide(p, W*0.66,H*0.46, W*0.30,H*0.42, 900, 10);
+  await glide(p, W*0.30,H*0.42, W*0.30,H*0.68, 2200, 16);  // percorre a lista
   await hold(p,900);
-  await toSel(p,'.trust',3200,-160);   await hold(p,2200);
-  await toSel(p,'#manejo',3000,-120);  await hold(p,2400);
-  await toSel(p,'#revelacao',3000,-120);
-  await glide(p, W*0.66,H*0.46, W*0.30,H*0.42, 1500);
-  await glide(p, W*0.30,H*0.42, W*0.30,H*0.66, 2600);  // percorre a lista
-  await hold(p,1200);
-  await toSel(p,'#perspectiva',2600,-40);
-  await scrollTo(p, await p.evaluate(()=>document.querySelector('#perspectiva').offsetTop+2100), 9000);
-  await toSel(p,'#portal',2400,-40);
-  await scrollTo(p, await p.evaluate(()=>document.querySelector('#portal').offsetTop+2300), 9000);
-  await toSel(p,'#especime',3000,-140);  await hold(p,2000);
-  await toSel(p,'#antesdepois',3000,-140); await hold(p,2600);
-  await toSel(p,'#credenciais',3000,-140); await hold(p,3000);
-  await toSel(p,'#galeria',3200,-140);   await hold(p,2400);
-  await toSel(p,'#cursos',3400,-140);    await hold(p,2800);
-  await toSel(p,'#orcamento',3000,-140); await hold(p,2000);
-  await toSel(p,'footer',2600,-260);     await hold(p,2200);
+  await toSel(p,'#perspectiva',1800,-40);
+  await scrollTo(p, await p.evaluate(()=>document.querySelector('#perspectiva').offsetTop+2100), 6500);
+  await toSel(p,'#portal',1600,-40);
+  await scrollTo(p, await p.evaluate(()=>document.querySelector('#portal').offsetTop+2300), 6500);
+  await toSel(p,'#especime',2200,-140);   await hold(p,2000);
+  await toSel(p,'#antesdepois',2200,-140);await hold(p,2400);
+  await toSel(p,'#credenciais',2200,-150);await hold(p,3200);   // medalhas
+  await toSel(p,'.proof',1800,-150);      await hold(p,2600);   // certificações
+  await toSel(p,'#galeria',2200,-140);    await hold(p,2400);
+  await toSel(p,'#cursos',2400,-140);     await hold(p,2800);
+  await toSel(p,'#orcamento',2200,-140);  await hold(p,1800);
+  await toSel(p,'footer',2000,-280);      await hold(p,2200);
   await ctx.close(); await b.close();
 }
 

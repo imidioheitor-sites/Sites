@@ -1099,6 +1099,31 @@ body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
 .medal-shot img{max-height:250px;width:auto;max-width:100%;object-fit:contain;
   margin-inline:auto;display:block}
 
+
+/* ── medalha: a foto preenche a coluna inteira ────────────────────
+   Antes o max-height limitava a altura e o width:auto deixava a
+   imagem menor que a célula, boiando dentro de uma caixa maior. */
+.medal-shot{align-self:center;padding:0;background:transparent;
+  border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  box-shadow:0 12px 32px rgba(14,42,33,.10)}
+.medal-shot img{width:100%;height:auto;max-height:none;object-fit:cover;
+  aspect-ratio:1/1;display:block}
+@media(min-width:900px){.medal-hero{align-items:center}}
+
+
+/* ── correções de enquadramento vindas da auditoria ──────────────
+   As fotos do cliente são verticais de celular. Caixas largas
+   descartavam mais da metade da imagem. */
+
+/* cartão que segue o cursor: era 4/3 deitado e jogava fora 65% */
+.rv-float{width:min(232px,26vw);aspect-ratio:3/4}
+
+/* galeria: o tile largo recebia foto vertical e perdia 57%.
+   Só a foto realmente deitada ocupa espaço largo. */
+@media(min-width:760px){
+  .gal figure:nth-child(8){grid-column:auto;aspect-ratio:4/5}
+}
+
 </style>
 </head>
 <body>
@@ -1335,7 +1360,8 @@ body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
           antes de qualquer corte. É o fundamento de todo o resto do trabalho.</p>
       </div>
       <figure class="medal-shot">
-        <img src="assets/img/campeonato.jpg" alt="Registro do resultado no XII Campeonato Brasileiro de Escalada em Árvores"
+        <img src="assets/img/medalhas.jpg"
+             alt="As duas medalhas de bronze conquistadas no XII Campeonato Brasileiro de Escalada em Árvores"
              loading="lazy" decoding="async">
       </figure>
     </div>

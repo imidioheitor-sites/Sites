@@ -42,6 +42,9 @@ uma **CDN** (uma rede de servidores espalhados pelo mundo). Na prática:
 - Cada visitante tem **seu próprio carrinho**, guardado no navegador dele. Um cliente
   nunca vê o carrinho do outro.
 - Os pedidos chegam por **WhatsApp**, então não há fila nem processamento no site.
+- Com o **backend ligado** (veja o `BACKEND.md`), o cardápio ainda vem do Supabase,
+  que também aguenta esse volume tranquilamente — e se ele ficar fora do ar, o site
+  usa o cardápio embutido e continua vendendo.
 - O plano gratuito do Netlify inclui **100 GB/mês** de tráfego. Como cada visita
   usa por volta de 5 MB, isso dá **aproximadamente 20 mil visitas por mês de graça**.
 
@@ -63,29 +66,31 @@ goodbox2026
 
 Lá você **adiciona produtos, troca fotos, edita preços, pesos, descrições e categorias**.
 
-### ⚠️ Muito importante — leia isto
+### Dois modos de funcionamento
 
-As alterações que você faz ali ficam salvas **apenas no seu navegador** (no seu
-computador ou celular). **Os clientes não veem essas mudanças.**
+**Modo local (como vem por padrão).** As alterações ficam salvas **apenas no seu
+navegador** — os clientes não as veem. Para publicá-las: clique em **Exportar
+código**, copie, abra o `index.html` num editor de texto, substitua o bloco que
+começa com `let MENU = [` (até o `];`) e publique de novo.
 
-Isso é uma limitação real de um site sem servidor, e é bom saber disso desde já:
-não existe um "banco de dados" comum onde salvar. Para que **todos os clientes**
-vejam os preços novos, o caminho é:
+**Modo servidor (recomendado).** Você muda o preço uma vez e **todos os clientes
+veem na hora**, sem editar arquivo nenhum. A Área do lojista passa a pedir um
+login de verdade (e-mail + senha), bem mais seguro que a senha padrão.
 
-1. Faça as mudanças na Área do lojista.
-2. Clique em **"Exportar código"** e depois em **"Copiar código"**.
-3. Abra o `index.html` num editor de texto (o Bloco de Notas serve).
-4. Procure a linha que começa com `let MENU = [` e substitua **todo esse bloco**
-   (até o `];`) pelo código que você copiou.
-5. Publique de novo (no Netlify Drop, é só arrastar a pasta outra vez).
+👉 Para ligar o modo servidor, siga o **`BACKEND.md`** — leva ~10 minutos, é
+gratuito, e o site continua sendo publicado do mesmo jeito (arrastar no Netlify).
 
-Também vale saber: **a senha não é uma proteção de verdade.** Ela evita o acesso
-casual, mas fica visível para quem souber abrir o código-fonte da página. Ela serve
-bem para o seu uso do dia a dia, mas não trate como um cofre.
+Ao entrar na Área do lojista, uma faixa no topo do painel diz em qual modo você
+está: **verde** = servidor ligado, **amarelo** = modo local.
 
-> **Quer que os preços mudem sozinhos para todos os clientes, sem editar arquivo?**
-> Isso é totalmente possível, mas exige um pequeno backend (Supabase ou Firebase,
-> ambos com plano gratuito). É um passo a mais, e eu posso montar se você quiser.
+### ⚠️ Sobre a senha padrão
+
+No modo local, a senha `goodbox2026` **não é uma proteção de verdade**: ela evita
+o acesso casual, mas fica visível para quem abrir o código-fonte da página. Serve
+para o seu uso do dia a dia, mas não trate como um cofre.
+
+No **modo servidor** isso deixa de ser um problema: o login passa a ser real e as
+regras de segurança do banco impedem que outra pessoa altere os seus preços.
 
 ---
 
@@ -115,6 +120,8 @@ o endereço exato, procure por `google.com/maps?q=` no arquivo e troque o endere
 index.html          ← O SITE (é só isso que precisa ser publicado)
 COMECE-AQUI.md      ← este guia
 og-image.jpg        ← imagem que aparece ao mandar o link no WhatsApp/Instagram
+BACKEND.md          ← como ligar o backend (preços iguais para todos os clientes)
+supabase-setup.sql  ← script que cria o banco (usado no BACKEND.md)
 netlify.toml        ← configuração do Netlify (cache/segurança)
 vercel.json         ← configuração da Vercel
 _headers            ← configuração do Cloudflare Pages

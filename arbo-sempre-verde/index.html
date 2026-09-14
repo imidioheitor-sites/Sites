@@ -1195,6 +1195,69 @@ body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
   .trust-i{padding-block:18px}
 }
 
+
+/* ── CABEÇALHO: contraste garantido nos dois fundos ───────────────
+   O header é transparente sobre o herói verde-escuro até 60px de
+   rolagem e vira branco (.stuck) depois. As cores da marca são
+   escuras, então no estado transparente o nome e o hambúrguer
+   sumiam. Aqui cada estado ganha a sua variação:
+     header (sem .stuck)  → fundo escuro  → branco
+     header.stuck         → fundo claro   → verde escuro da marca
+   O menu mobile aberto tem painel claro, então o X e os links
+   dentro dele ficam escuros em qualquer um dos dois estados. */
+
+/* --- estado 1: header transparente sobre o herói escuro --- */
+header .brand span{color:#FFFFFF;transition:color .4s}
+header .brand em{color:rgba(255,255,255,.78);transition:color .4s}
+header .nav-links a{color:rgba(255,255,255,.88)}
+header .nav-links a:hover,header .nav-links a:focus-visible{color:#FFFFFF}
+header .burger{border-color:rgba(255,255,255,.45);transition:border-color .4s,background .3s}
+header .burger i{background:#FFFFFF;transition:background .4s,top .3s,transform .3s}
+header .burger:hover{border-color:rgba(255,255,255,.85);background:rgba(255,255,255,.08)}
+header .burger:hover i{background:#FFFFFF}
+
+/* --- estado 2: header.stuck, fundo branco --- */
+header.stuck .brand span{color:var(--cream)}
+header.stuck .brand em{color:var(--sage)}
+header.stuck .nav-links a{color:var(--sage)}
+header.stuck .nav-links a:hover,header.stuck .nav-links a:focus-visible{color:var(--cream)}
+header.stuck .burger{border-color:var(--line)}
+header.stuck .burger i{background:var(--cream)}
+header.stuck .burger:hover{border-color:var(--sap);background:rgba(30,90,65,.08)}
+header.stuck .burger:hover i{background:var(--sap)}
+
+/* --- botão do topo: o seletor .nav-links a vencia .btn-fill e
+       deixava texto escuro sobre o verde escuro do botão --- */
+header .nav-links a.btn-fill,header.stuck .nav-links a.btn-fill{color:#FFFFFF}
+header .nav-links a.btn-fill:hover,header.stuck .nav-links a.btn-fill:hover{color:#FFFFFF}
+
+/* --- as barras eram posicionadas em px fixos (left:12 / top:18,23),
+       medidos para o botão de 42px; no toque o botão passou a 48px e
+       o ícone saía do centro. Agora as barras se centram sozinhas,
+       qualquer que seja o tamanho do botão. --- */
+header .burger i{left:50%;margin-left:-9px}
+header .burger i:nth-child(1){top:calc(50% - 3px)}
+header .burger i:nth-child(2){top:calc(50% + 2px)}
+header .burger.x i:nth-child(1),header .burger.x i:nth-child(2){top:calc(50% - .5px)}
+
+/* --- estado 3: menu mobile aberto (painel claro) — o X e os links
+       ficam escuros mesmo com o header ainda transparente --- */
+@media(max-width:920px){
+  header .burger.x{border-color:var(--line);background:transparent}
+  header .burger.x i,header .burger.x:hover i{background:var(--cream)}
+  header .burger.x:hover{border-color:var(--sap);background:rgba(30,90,65,.08)}
+  header .nav-links.open a{color:var(--cream)}
+  header .nav-links.open a:hover,header .nav-links.open a:focus-visible{color:var(--sap)}
+}
+
+/* ── LOGOMARCA: o selo agora vem centrado no próprio arquivo
+   (recorte refeito a partir do quadro original, círculo medido e
+   não estimado). object-fit/position explícitos impedem qualquer
+   corte se a caixa deixar de ser quadrada. --- */
+.brand-logo{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  object-fit:contain;object-position:center center;display:block;
+  aspect-ratio:1/1;padding:0;align-self:center}
+
 </style>
 </head>
 <body>

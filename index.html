@@ -2010,7 +2010,7 @@ const FAQS=[
   function renderAdmin(){
     const semPreco=MENU.filter(m=>m.tipo!=='orcamento'&&!tamanhosDe(m).some(t=>temPreco(t))).length;
     const aviso=semPreco?`<div class="admin-bulk">
-        <p><b>${semPreco}</b> ${semPreco===1?'prato ainda está':'pratos ainda estão'} sem preço — eles não podem ser adicionados ao carrinho.
+        <p><b>${semPreco}</b> ${semPreco===1?'prato ainda está':'pratos ainda estão'} sem preço — ${semPreco===1?'ele não pode ser adicionado':'eles não podem ser adicionados'} ao carrinho.
         Preencha abaixo para definir de uma vez só:</p>
         <div class="admin-bulk-row">
           <label>Light 250g <span>R$</span><input id="bulkLight" type="number" step="0.01" min="0" placeholder="0,00"></label>

@@ -74,20 +74,54 @@ não vai para o carrinho — abre o WhatsApp para você passar o orçamento):
 No carrinho, Light e Balance entram como itens separados, e o tamanho aparece
 no pedido que chega no seu WhatsApp.
 
-> **Tortas & Quibes e Caldos** ficaram com **tamanho único** porque na sua lista
-> só as quatro primeiras categorias pediam as duas opções. Se algum deles também
-> tiver Light e Balance, é um clique: na Área do lojista, no prato, clique em
-> **"usar 2 tamanhos"**.
+> **Massas FIT, Tortas & Quibes e Caldos** são **tamanho único** — confirmado
+> por você. Se um dia algum deles passar a ter Light e Balance, é um clique: na
+> Área do lojista, no prato, clique em **"usar 2 tamanhos"**.
 
-### ⚠️ Os preços ainda não estão definidos
+### ⚠️ Os preços ainda não estão definidos — leia antes de publicar
 
-Os pratos aparecem com **"a definir"** e o botão *Adicionar* fica desativado —
-de propósito, para nenhum cliente conseguir pedir por um preço errado.
+Os 38 pratos aparecem com **"a definir"** e o botão *Adicionar* fica
+**desativado**. Isso é de propósito: nenhum valor foi inventado, e assim nenhum
+cliente consegue fechar um pedido por um preço errado.
 
-Para resolver em menos de um minuto: entre na Área do lojista e use a caixa
-amarela no topo — digite o preço do **Light**, do **Balance** e do **tamanho
-único** e clique em **"Aplicar aos sem preço"**. Depois é só ajustar caso a caso
-o que for diferente.
+O site funciona normalmente nesse estado — dá para publicar e mostrar o cardápio
+—, mas **só aceita pedidos depois que você definir os preços**.
+
+#### Definir todos os preços de uma vez (≈ 1 minuto)
+
+1. No menu do site, clique em **"Gerenciar"**.
+2. Digite a senha: `goodbox2026`.
+3. No topo do painel aparece uma **caixa amarela** dizendo quantos pratos estão
+   sem preço. Preencha os três campos:
+   - **Light 250g** → preço das marmitas pequenas
+   - **Balance 350g** → preço das marmitas grandes
+   - **Tamanho único** → preço de Massas, Tortas & Quibes e Caldos
+4. Clique em **"Aplicar aos sem preço"**.
+
+Pronto: os preços entram em todos os pratos de uma vez, os botões *Adicionar*
+são liberados e o cardápio passa a aceitar pedidos.
+
+> A caixa amarela **só mexe nos pratos que ainda não têm preço** — ela nunca
+> sobrescreve um valor que você já definiu. Por isso pode usá-la à vontade,
+> inclusive depois de adicionar pratos novos. Quando todos tiverem preço, a
+> caixa some sozinha.
+
+#### Ajustar um prato específico
+
+Cada prato tem suas próprias linhas de tamanho, com **nome, peso e preço**
+editáveis. É ali que você acerta o que fugir do padrão — por exemplo, um prato
+que custa mais caro que os outros da mesma categoria.
+
+Se um prato de tamanho único passar a ter as duas opções (ou o contrário), use
+o botão **"usar 2 tamanhos"** / **"usar tamanho único"** ao lado do título
+*Tamanhos e preços*.
+
+#### Não esqueça de publicar
+
+No **modo local** (como vem por padrão), os preços ficam salvos só no seu
+navegador. Para os clientes verem, use **"Exportar código"** e republique — ou
+ligue o **modo servidor** (veja o `BACKEND.md`), em que salvar já vale para
+todo mundo.
 
 ---
 

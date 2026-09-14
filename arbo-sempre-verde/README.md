@@ -113,6 +113,29 @@ Nenhum efeito 3D. Não há Three.js, WebGL de geometria, `perspective`,
 | Galeria + lightbox | `#galeria` | clique amplia |
 | Cursor de fluido | página inteira, desktop | simulação 2D em WebGL, bem discreta — 15% de opacidade, dissipação rápida |
 
+## Celular
+
+Medido em 390x844 e 360x640, e corrigido a partir do medido:
+
+| | Antes | Depois |
+|---|---|---|
+| Carga inicial | 5,02 MB | **2,93 MB** |
+| Alvos de toque abaixo de 40px | 36 | **0** |
+| Rolagem total | 30 telas | 23 telas |
+
+- **Vídeo do topo em três cortes**: celular recebe 480p (734 kB), tablet 720p,
+  desktop 1080p. Conexão declarada como lenta pelo navegador cai sempre para o
+  mais leve.
+- **O corredor não baixa vídeo no toque** — usa as fotos, e com metade das peças:
+  na tela estreita a outra metade nem chegava a ser vista.
+- **A lista de serviços ganha a foto embutida** no celular. No desktop a foto
+  segue o cursor; sem cursor, o conteúdo não pode depender de um gesto que não
+  existe, então ela entra na própria linha.
+- Alvos de toque com no mínimo 44px e campos de formulário em 16px, que é o
+  tamanho abaixo do qual o iOS dá zoom sozinho ao focar.
+- As seções presas ao scroll encurtam no celular: o topo, o corredor e o portal
+  passam de 3 telas para cerca de 2.
+
 ## Desempenho e acessibilidade
 
 - Celulares recebem o vídeo em 720p.

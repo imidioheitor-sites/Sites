@@ -1258,6 +1258,22 @@ header .burger.x i:nth-child(1),header .burger.x i:nth-child(2){top:calc(50% - .
   object-fit:contain;object-position:center center;display:block;
   aspect-ratio:1/1;padding:0;align-self:center}
 
+
+/* ── ROLAGEM HORIZONTAL: contém o sangramento decorativo ──────────
+   A pilha de cartões de #atendemos (os cartões de trás e o número
+   grande, que tem right:-6px de propósito) passa da largura da tela
+   no celular: em 390px o documento media 407px, em 360px media
+   380px. O `body{overflow-x:hidden}` já impedia a rolagem lateral,
+   mas o documento continuava mais largo que a janela.
+
+   `overflow-x:clip` no <main> corta exatamente na borda da janela —
+   o mesmo ponto onde a janela já cortava, então o desenho não muda.
+   Tem de ser `clip` e não `hidden`: `hidden` criaria um contêiner de
+   rolagem e quebraria o position:sticky do herói, do corredor e do
+   portal. Navegador sem suporte a `clip` (Safari < 16) simplesmente
+   ignora e fica como estava. */
+main{overflow-x:clip}
+
 </style>
 </head>
 <body>

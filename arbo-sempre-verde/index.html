@@ -1124,6 +1124,216 @@ body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
   .gal figure:nth-child(8){grid-column:auto;aspect-ratio:4/5}
 }
 
+
+/* ══════════════════════════════════════════════════════════════════
+   CELULAR — alvos de toque, legibilidade e rolagem
+   Medido em 390x844 e 360x640: 36 alvos abaixo de 40px, 15 trechos de
+   texto abaixo de 12px e 30 telas de rolagem. Abaixo, as correções.
+   ══════════════════════════════════════════════════════════════════ */
+@media (hover:none), (pointer:coarse) {
+
+  /* — alvos de toque: mínimo de 44px, o dedo não tem precisão de cursor — */
+  .nav-links a{min-height:52px;display:flex;align-items:center;justify-content:center;width:100%}
+  .btn{min-height:48px;padding-inline:22px}
+  .chip{min-height:44px;display:inline-flex;align-items:center;padding:10px 18px}
+  .opt span{min-height:46px;display:flex;align-items:center;padding:12px 18px}
+  .swap-nav button{width:48px;height:48px}
+  .foot a,.foot li{display:inline-flex;align-items:center;min-height:40px}
+  .wa{width:60px;height:60px}
+  .wa svg{width:30px;height:30px}
+  .burger{width:48px;height:48px}
+  .brand{min-height:44px}
+  .field input,.field select,.field textarea{min-height:50px;font-size:16px}  /* 16px evita o zoom automático do iOS */
+  .gal figure{min-height:44px}
+
+  /* — legibilidade: nada abaixo de 12px na tela pequena — */
+  .label{font-size:12px;letter-spacing:.16em}
+  .card .idx,.mod .mod-n,.rv .rv-n{font-size:12px}
+  .pf-seal,.sw .sw-k,.cl-badge{font-size:12px}
+  .gal figcaption{font-size:12.5px}
+  .ba-tag,.spec-badge,.spec-hint,.persp-tile b{font-size:12px}
+  .foot-btm,.form-note,.step{font-size:13px}
+  .field label{font-size:12.5px;letter-spacing:.1em}
+  .foot h5{font-size:12.5px;letter-spacing:.14em}
+  .hero-stats div span,.trust-i span:last-child{font-size:12px}
+  .body{font-size:15.5px;line-height:1.65}
+  .body-lg{font-size:17px;line-height:1.6}
+
+  /* — rolagem: as seções presas eram longas demais para o dedo — */
+  #hero{height:200vh}
+  #perspectiva{height:200vh}
+  #portal{height:210vh}
+  .sect{padding-block:clamp(40px,7vh,72px)}
+
+  /* — a lista de serviços ganha a foto embutida, já que não há hover — */
+  .rv{gap:14px;padding-block:16px}
+  .rv-thumb{width:64px;height:64px;object-fit:cover;border-radius:12px;flex-shrink:0;
+    border:1px solid var(--line)}
+  .rv .rv-n{display:none}
+  .rv .rv-t{font-size:clamp(20px,5.4vw,28px)}
+  .rv .rv-meta{font-size:11.5px;max-width:5.5em;line-height:1.25}
+
+  /* — blocos que ficavam apertados — */
+  .medal-hero{gap:20px}
+  .medal-badge{width:74px}
+  .cmp{gap:8px}
+  .cl-meta dt{width:66px;font-size:11.5px}
+  .cl-meta dd{font-size:15px}
+  .vagas b{font-size:clamp(56px,17vw,96px)}
+  .persp-cap .h1,.portal-cap .h1{font-size:clamp(30px,8.6vw,46px)}
+  .hero-sub{font-size:16px;padding-inline:6px}
+
+  /* — o corredor 3D é caro no celular: menos peças, mesma leitura — */
+  .persp-tile{box-shadow:0 18px 40px rgba(0,0,0,.5)}
+}
+
+/* telas bem estreitas */
+@media (max-width:380px){
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{justify-content:center}
+  .cmp{grid-template-columns:1fr}
+  .trust-i{padding-block:18px}
+}
+
+
+/* ── CABEÇALHO: contraste garantido nos dois fundos ───────────────
+   O header é transparente sobre o herói verde-escuro até 60px de
+   rolagem e vira branco (.stuck) depois. As cores da marca são
+   escuras, então no estado transparente o nome e o hambúrguer
+   sumiam. Aqui cada estado ganha a sua variação:
+     header (sem .stuck)  → fundo escuro  → branco
+     header.stuck         → fundo claro   → verde escuro da marca
+   O menu mobile aberto tem painel claro, então o X e os links
+   dentro dele ficam escuros em qualquer um dos dois estados. */
+
+/* --- estado 1: header transparente sobre o herói escuro --- */
+header .brand span{color:#FFFFFF;transition:color .4s}
+header .brand em{color:rgba(255,255,255,.78);transition:color .4s}
+header .nav-links a{color:rgba(255,255,255,.88)}
+header .nav-links a:hover,header .nav-links a:focus-visible{color:#FFFFFF}
+header .burger{border-color:rgba(255,255,255,.45);transition:border-color .4s,background .3s}
+header .burger i{background:#FFFFFF;transition:background .4s,top .3s,transform .3s}
+header .burger:hover{border-color:rgba(255,255,255,.85);background:rgba(255,255,255,.08)}
+header .burger:hover i{background:#FFFFFF}
+
+/* --- estado 2: header.stuck, fundo branco --- */
+header.stuck .brand span{color:var(--cream)}
+header.stuck .brand em{color:var(--sage)}
+header.stuck .nav-links a{color:var(--sage)}
+header.stuck .nav-links a:hover,header.stuck .nav-links a:focus-visible{color:var(--cream)}
+header.stuck .burger{border-color:var(--line)}
+header.stuck .burger i{background:var(--cream)}
+header.stuck .burger:hover{border-color:var(--sap);background:rgba(30,90,65,.08)}
+header.stuck .burger:hover i{background:var(--sap)}
+
+/* --- botão do topo: o seletor .nav-links a vencia .btn-fill e
+       deixava texto escuro sobre o verde escuro do botão --- */
+header .nav-links a.btn-fill,header.stuck .nav-links a.btn-fill{color:#FFFFFF}
+header .nav-links a.btn-fill:hover,header.stuck .nav-links a.btn-fill:hover{color:#FFFFFF}
+
+/* --- as barras eram posicionadas em px fixos (left:12 / top:18,23),
+       medidos para o botão de 42px; no toque o botão passou a 48px e
+       o ícone saía do centro. Agora as barras se centram sozinhas,
+       qualquer que seja o tamanho do botão. --- */
+header .burger i{left:50%;margin-left:-9px}
+header .burger i:nth-child(1){top:calc(50% - 3px)}
+header .burger i:nth-child(2){top:calc(50% + 2px)}
+header .burger.x i:nth-child(1),header .burger.x i:nth-child(2){top:calc(50% - .5px)}
+
+/* --- estado 3: menu mobile aberto (painel claro) — o X e os links
+       ficam escuros mesmo com o header ainda transparente --- */
+@media(max-width:920px){
+  header .burger.x{border-color:var(--line);background:transparent}
+  header .burger.x i,header .burger.x:hover i{background:var(--cream)}
+  header .burger.x:hover{border-color:var(--sap);background:rgba(30,90,65,.08)}
+  header .nav-links.open a{color:var(--cream)}
+  header .nav-links.open a:hover,header .nav-links.open a:focus-visible{color:var(--sap)}
+}
+
+/* ── LOGOMARCA: o selo agora vem centrado no próprio arquivo
+   (recorte refeito a partir do quadro original, círculo medido e
+   não estimado). object-fit/position explícitos impedem qualquer
+   corte se a caixa deixar de ser quadrada. --- */
+.brand-logo{width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  object-fit:contain;object-position:center center;display:block;
+  aspect-ratio:1/1;padding:0;align-self:center}
+
+
+/* ── ROLAGEM HORIZONTAL: contém o sangramento decorativo ──────────
+   A pilha de cartões de #atendemos (os cartões de trás e o número
+   grande, que tem right:-6px de propósito) passa da largura da tela
+   no celular: em 390px o documento media 407px, em 360px media
+   380px. O `body{overflow-x:hidden}` já impedia a rolagem lateral,
+   mas o documento continuava mais largo que a janela.
+
+   `overflow-x:clip` no <main> corta exatamente na borda da janela —
+   o mesmo ponto onde a janela já cortava, então o desenho não muda.
+   Tem de ser `clip` e não `hidden`: `hidden` criaria um contêiner de
+   rolagem e quebraria o position:sticky do herói, do corredor e do
+   portal. Navegador sem suporte a `clip` (Safari < 16) simplesmente
+   ignora e fica como estava. */
+main{overflow-x:clip}
+
+
+/* ── CAPA: texto novo do cliente ──────────────────────────────────
+   Só o conteúdo do hero mudou. O texto antigo era um parágrafo
+   único; o novo tem quatro partes — título, subtítulo em destaque,
+   parágrafo com a lista de serviços e a linha de abrangência.
+   As duas partes novas herdam a mesma entrada escalonada (fadeUp)
+   das que já existiam, para o ritmo de entrada não mudar:
+   olho .3s → subtítulo .58s → parágrafo .75s → linha .92s →
+   botões 1.06s.
+
+   As larguras seguem a régua do .hero-sub (600px): o subtítulo um
+   pouco mais estreito para fechar em duas linhas, a linha final um
+   pouco mais larga para não sobrar um "ISA." órfão na última. */
+
+.hero-lead{max-width:min(560px,100%);margin:24px auto 0;
+  font-size:clamp(18px,1.75vw,26px);line-height:1.28;font-weight:500;
+  letter-spacing:-.015em;color:var(--on-dark);text-wrap:balance;
+  opacity:0;animation:fadeUp .9s .58s forwards}
+
+/* a lista de serviços fica em destaque dentro da frase: mesmo corpo
+   do parágrafo, com peso e cor cheios contra o texto a 86% */
+.hero-sub strong{font-weight:500;color:var(--on-dark)}
+
+.hero-note{max-width:min(660px,100%);margin:22px auto 0;
+  font-size:clamp(13.5px,1.05vw,15.5px);line-height:1.5;font-weight:500;
+  letter-spacing:.005em;color:var(--leaf);text-wrap:balance;
+  opacity:0;animation:fadeUp .9s .92s forwards}
+
+/* os botões entram depois da linha nova, não junto com ela */
+.hero-cta{animation-delay:1.06s}
+
+/* telas curtas: o hero tem quatro blocos de texto agora, então o
+   espaçamento entre eles encolhe para os botões não saírem da tela */
+@media(max-width:560px){
+  .hero-lead{font-size:19px;line-height:1.25;margin-top:18px;max-width:20ch}
+  .hero-note{font-size:13px;margin-top:14px;padding-inline:6px}
+  .hero-sub{margin-top:18px}
+  .hero-cta{margin-top:22px}
+}
+/* telas baixas (iPhone SE, Androids de 640px): o texto novo é ~30%
+   mais longo que o antigo e empurrava o olho para debaixo do header
+   fixo, e os botões para cima da dica de rolagem. Aqui o bloco
+   inteiro encolhe — os botões continuam com 48px de altura, que é o
+   mínimo de toque definido na otimização para celular. */
+@media(max-height:760px) and (max-width:820px){
+  .hero-eyebrow{margin-bottom:10px}
+  .hero-lead{font-size:16px;line-height:1.22;margin-top:10px;max-width:22ch}
+  .hero-sub{margin-top:10px;font-size:13.5px;line-height:1.45}
+  .hero-note{margin-top:9px;font-size:12px;line-height:1.4}
+  .hero-cta{margin-top:14px;gap:8px}
+}
+/* abaixo de 680px de altura não sobra espaço para os dois: o olho
+   repete a mesma informação da linha de abrangência logo abaixo
+   ("Arborista Certificado pela ISA", "todo o estado de Goiás"),
+   então é ele que sai — o conteúdo do cliente fica inteiro. */
+@media(max-height:680px) and (max-width:820px){
+  .hero-eyebrow{display:none}
+  .hero-sub{font-size:13px}
+}
+
 </style>
 </head>
 <body>
@@ -1172,13 +1382,17 @@ body,.body,.body-lg,p,li,input,select,textarea,button,.label,.chip,.btn{
     <div class="hero-in">
       <div class="hero-eyebrow"><span></span><p class="label" style="margin:0">Arborista certificado ISA · Goiás</p><span></span></div>
       <h1 id="pressure" class="display" aria-label="Sobe quem sabe">Sobe quem sabe</h1>
-      <p class="hero-sub body-lg">Uma árvore mal cortada não avisa antes de cair. Fazemos poda, corte,
-        palmeiras, cabeamento e tratamento de solo em todo o estado de Goiás — com corda, laudo e
-        arborista certificado pela ISA.</p>
+      <p class="hero-lead">Arboricultura profissional exige técnica, segurança e responsabilidade.</p>
+      <p class="hero-sub body-lg">Realizamos serviços especializados no <strong>manejo de árvores e
+        palmeiras</strong>, <strong>podas</strong>, <strong>supressões</strong>, <strong>sistemas de
+        suporte</strong>, <strong>avaliação de risco</strong>, <strong>tratamento de solo</strong>,
+        sempre priorizando a segurança, a saúde das árvores e as boas práticas da arboricultura.</p>
+      <p class="hero-note">Atendimento em todo o estado de Goiás, com equipe especializada e
+        Arborista Certificado pela ISA.</p>
       <div class="hero-cta">
-        <a href="#orcamento" class="btn btn-fill" data-c>Pedir orçamento
+        <a href="#orcamento" class="btn btn-fill" data-c>Solicitar orçamento
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-        <a href="#credenciais" class="btn" data-c>Ver as credenciais</a>
+        <a href="#credenciais" class="btn" data-c>Conheça nossas credenciais</a>
       </div>
     </div>
 
@@ -1844,9 +2058,12 @@ function canopy(){
   },{passive:true});
 
   const v=$('#heroVid');
-  const light = TOUCH || innerWidth < 900 ||
-    (navigator.connection && /2g|slow-2g|3g/.test(navigator.connection.effectiveType||''));
-  const base = light ? 'assets/video/hero-720' : 'assets/video/hero';
+  // Três cortes por peso: celular pega 480p (734 kB), tablet 720p, desktop 1080p.
+  // Conexão lenta declarada pelo navegador cai sempre para o mais leve.
+  const lenta = navigator.connection && /2g|slow-2g|3g/.test(navigator.connection.effectiveType||'');
+  const base = (lenta || innerWidth < 620) ? 'assets/video/hero-480'
+             : (TOUCH || innerWidth < 1100) ? 'assets/video/hero-720'
+             : 'assets/video/hero';
   [['mp4','video/mp4'],['webm','video/webm']].forEach(([ext,type])=>{
     const s=document.createElement('source'); s.src=`${base}.${ext}`; s.type=type; v.appendChild(s);
   });
@@ -2006,7 +2223,16 @@ function objectReveal(){
 
   const float=$('#rvFloat');
   const cvs=$('#rvCanvas'); if(cvs) cvs.remove();
-  if(TOUCH||RM) return;
+  if(TOUCH||RM){
+    // Sem cursor não há hover, então a foto de cada serviço entra na própria
+    // linha — o conteúdo não pode depender de um gesto que não existe no toque.
+    $$('.rv',list).forEach((it,i)=>{
+      const im=document.createElement('img');
+      im.className='rv-thumb'; im.src=REVEAL_IMG[i]; im.alt=''; im.loading='lazy'; im.decoding='async';
+      it.insertBefore(im, it.querySelector('.rv-t'));
+    });
+    return;
+  }
   // Uma imagem por serviço, trocada na entrada do cursor — sem 3D.
   float.innerHTML=REVEAL_IMG.map((s,i)=>
     `<img src="${s}" alt="" loading="lazy" decoding="async" data-i="${i}">`).join('');
@@ -2368,14 +2594,17 @@ function perspectiva(){
   const cap=$('#perspCap'), bar=$('#perspBar'), num=$('#perspN');
   if(!sec||!scene) return;
 
-  const N = MONTAGEM.length;
   const mobile = innerWidth < 760;
+  // No celular o corredor roda com menos peças: 18 imagens pesavam cerca de
+  // 1 MB e, na tela estreita, metade delas nem chega a ser vista.
+  const LISTA = (TOUCH || mobile) ? MONTAGEM.filter((_,i)=>i%2===0) : MONTAGEM;
+  const N = LISTA.length;
   const SPACING = mobile ? 300 : 360;   // distância em z entre um tile e o próximo
   const DEPTH   = N * SPACING;          // comprimento do corredor; dá a volta sem emenda
   const LENS    = 820;                  // quanto o tile ainda avança depois de passar a câmera
   const FAR     = LENS - DEPTH;         // z do tile mais distante
 
-  const tiles = MONTAGEM.map((m,i)=>{
+  const tiles = LISTA.map((m,i)=>{
     const el=document.createElement('div');
     el.className='persp-tile';
     const ang = i*2.399;                                   // ângulo áureo espalha sem alinhar
@@ -2386,7 +2615,7 @@ function perspectiva(){
     el.style.width=w+'px'; el.style.height=h+'px';
     el.style.marginLeft=(-w/2)+'px'; el.style.marginTop=(-h/2)+'px';
 
-    if(m.type==='v' && !RM){
+    if(m.type==='v' && !RM && !TOUCH){
       const v=document.createElement('video');
       v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline','');
       v.preload='none';

@@ -98,8 +98,14 @@ Vale para **Arroz branco, Arroz integral, Linha da Roça FIT e Sem arroz**.
 | Quibe Low Carb de Patinho com Quinoa | R$ 20,00 |
 | Os 5 caldos (inclusive o Creme de Legumes) | R$ 26,00 |
 
-O "a partir de" que aparece no topo do site é calculado sozinho a partir do
-menor preço do cardápio — não precisa atualizar na mão.
+O selo **"A partir de R$ 25,00 · a marmita"** no topo do site é calculado
+sozinho: ele pega o **menor preço entre as marmitas** (Arroz branco, Arroz
+integral, Linha da Roça FIT e Sem arroz). Caldos, tortinhas e massas ficam de
+fora da conta, porque o cartão do topo mostra uma marmita.
+
+Ou seja: se você mudar o preço do frango Light, o selo se atualiza sozinho — não
+precisa mexer em nada. Para incluir ou tirar uma categoria dessa conta, edite a
+lista `CATS_MARMITA` no `index.html`.
 
 #### ⚠️ Faltam as Massas FIT
 

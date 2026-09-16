@@ -78,33 +78,45 @@ no pedido que chega no seu WhatsApp.
 > por você. Se um dia algum deles passar a ter Light e Balance, é um clique: na
 > Área do lojista, no prato, clique em **"usar 2 tamanhos"**.
 
-### ⚠️ Os preços ainda não estão definidos — leia antes de publicar
+### 💰 Preços
 
-Os 38 pratos aparecem com **"a definir"** e o botão *Adicionar* fica
-**desativado**. Isso é de propósito: nenhum valor foi inventado, e assim nenhum
-cliente consegue fechar um pedido por um preço errado.
+Os preços que a cliente enviou já estão aplicados. Nas marmitas com escolha de
+tamanho, o valor depende da proteína:
 
-O site funciona normalmente nesse estado — dá para publicar e mostrar o cardápio
-—, mas **só aceita pedidos depois que você definir os preços**.
+| | Light 250g | Balance 350g |
+|---|---|---|
+| **Frango** | R$ 25,00 | R$ 32,00 |
+| **Carne** | R$ 27,00 | R$ 36,00 |
 
-#### Definir todos os preços de uma vez (≈ 1 minuto)
+Vale para **Arroz branco, Arroz integral, Linha da Roça FIT e Sem arroz**.
 
-1. No menu do site, clique em **"Gerenciar"**.
-2. Digite a senha: `goodbox2026`.
-3. No topo do painel aparece uma **caixa amarela** dizendo quantos pratos estão
-   sem preço. Preencha os três campos:
-   - **Light 250g** → preço das marmitas pequenas
-   - **Balance 350g** → preço das marmitas grandes
-   - **Tamanho único** → preço de Massas, Tortas & Quibes e Caldos
-4. Clique em **"Aplicar aos sem preço"**.
+**Tamanho único:**
 
-Pronto: os preços entram em todos os pratos de uma vez, os botões *Adicionar*
-são liberados e o cardápio passa a aceitar pedidos.
+| Item | Preço |
+|---|---|
+| Tortinha FIT de Frango · de Ricota com Alho Poró · Vegetariana de Legumes | R$ 18,00 |
+| Quibe Low Carb de Patinho com Quinoa | R$ 20,00 |
+| Os 5 caldos (inclusive o Creme de Legumes) | R$ 26,00 |
 
-> A caixa amarela **só mexe nos pratos que ainda não têm preço** — ela nunca
-> sobrescreve um valor que você já definiu. Por isso pode usá-la à vontade,
-> inclusive depois de adicionar pratos novos. Quando todos tiverem preço, a
-> caixa some sozinha.
+O "a partir de" que aparece no topo do site é calculado sozinho a partir do
+menor preço do cardápio — não precisa atualizar na mão.
+
+#### ⚠️ Faltam as Massas FIT
+
+Os **4 pratos de Massas FIT** continuam com **"a definir"** e o botão
+*Adicionar* desativado, porque esse preço não foi enviado. Nenhum valor foi
+inventado nem copiado de outra categoria.
+
+Para preencher quando tiver o valor:
+
+1. No menu do site, clique em **"Gerenciar"** e digite a senha `goodbox2026`.
+2. No topo aparece uma **caixa amarela** avisando quantos pratos estão sem preço.
+   Preencha o campo **Tamanho único** e clique em **"Aplicar aos sem preço"**.
+3. Se os quatro tiverem preços diferentes entre si, edite cada um na sua própria
+   linha de tamanho, em vez de usar a caixa.
+
+> A caixa amarela **só mexe nos pratos sem preço** — nunca sobrescreve um valor
+> já definido. Quando todos tiverem preço, ela some sozinha.
 
 #### Ajustar um prato específico
 
@@ -172,14 +184,18 @@ Procure o bloco `const CONFIG = {` logo no começo do `<script>`:
 | `whatsapp` | Número que recebe os pedidos | `5516997738430` |
 | `whatsappLabel` | Como aparece na tela | `(16) 99773-8430` |
 | `instagram` | Seu @ sem o arroba | `good.boxsaudavel` |
-| `pixKey` | Chave Pix (gera o QR Code) | `29397334000122` |
+| `pixKey` | Chave Pix — CNPJ, gera o QR Code | `29397334000122` |
+| `pixNome` | Titular que aparece no app do banco | `GOOD BOX COMIDA SAUDAVEL` |
 | `endereco` / `horario` | Aparecem no card de contato | Ribeirão Preto — SP |
 
-⚠️ **Confirme a chave Pix e o Instagram** antes de divulgar o site — vale fazer um
-pedido de teste com valor baixo para ver se o Pix cai na conta certa.
+✅ **Já conferidos com a cliente:** o Instagram `good.boxsaudavel`, a chave Pix
+(CNPJ 29.397.334/0001-22, titular GOOD BOX COMIDA SAUDAVEL LTDA) e o endereço.
+Mesmo assim, vale fazer **um pedido de teste com valor baixo** para ver o Pix
+cair na conta certa antes de divulgar.
 
-O mapa da seção Localização está apontando para "Ribeirão Preto" em geral. Se quiser
-o endereço exato, procure por `google.com/maps?q=` no arquivo e troque o endereço.
+O mapa da seção Localização aponta **só para "Ribeirão Preto — SP"**, sem rua nem
+número, porque a operação é de produção e delivery e não tem ponto físico para
+receber cliente. Não há endereço de rua em nenhum lugar do site.
 
 ---
 

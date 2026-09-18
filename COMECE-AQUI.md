@@ -97,6 +97,11 @@ Vale para **Arroz branco, Arroz integral, Linha da Roça FIT e Sem arroz**.
 | Tortinha FIT de Frango · de Ricota com Alho Poró · Vegetariana de Legumes | R$ 18,00 |
 | Quibe Low Carb de Patinho com Quinoa | R$ 20,00 |
 | Os 5 caldos (inclusive o Creme de Legumes) | R$ 26,00 |
+| Massas com frango (Panqueca de Frango · Fusilli com Frango e Brócolis) | R$ 32,00 |
+| Massas com patinho (Panqueca de Patinho · Penne à Bolonhesa) | R$ 36,00 |
+
+✅ **Os 39 pratos estão com preço.** Nenhum item aparece como "a definir" e todos
+podem ser adicionados ao carrinho.
 
 O selo **"A partir de R$ 25,00 · a marmita"** no topo do site é calculado
 sozinho: ele pega o **menor preço entre as marmitas** (Arroz branco, Arroz
@@ -107,32 +112,22 @@ Ou seja: se você mudar o preço do frango Light, o selo se atualiza sozinho —
 precisa mexer em nada. Para incluir ou tirar uma categoria dessa conta, edite a
 lista `CATS_MARMITA` no `index.html`.
 
-#### ⚠️ Faltam as Massas FIT
+#### Mudar preços depois
 
-Os **4 pratos de Massas FIT** continuam com **"a definir"** e o botão
-*Adicionar* desativado, porque esse preço não foi enviado. Nenhum valor foi
-inventado nem copiado de outra categoria.
-
-Para preencher quando tiver o valor:
-
-1. No menu do site, clique em **"Gerenciar"** e digite a senha `goodbox2026`.
-2. No topo aparece uma **caixa amarela** avisando quantos pratos estão sem preço.
-   Preencha o campo **Tamanho único** e clique em **"Aplicar aos sem preço"**.
-3. Se os quatro tiverem preços diferentes entre si, edite cada um na sua própria
-   linha de tamanho, em vez de usar a caixa.
-
-> A caixa amarela **só mexe nos pratos sem preço** — nunca sobrescreve um valor
-> já definido. Quando todos tiverem preço, ela some sozinha.
-
-#### Ajustar um prato específico
-
-Cada prato tem suas próprias linhas de tamanho, com **nome, peso e preço**
-editáveis. É ali que você acerta o que fugir do padrão — por exemplo, um prato
-que custa mais caro que os outros da mesma categoria.
+Na **Área do lojista** (menu "Gerenciar", senha `goodbox2026`), cada prato tem
+suas próprias linhas de tamanho, com **nome, peso e preço** editáveis. É ali que
+você acerta o que fugir do padrão — por exemplo, um prato que custe mais caro que
+os outros da mesma categoria.
 
 Se um prato de tamanho único passar a ter as duas opções (ou o contrário), use
 o botão **"usar 2 tamanhos"** / **"usar tamanho único"** ao lado do título
 *Tamanhos e preços*.
+
+Ao **adicionar um prato novo**, ele nasce sem preço e aparece uma **caixa
+amarela** no topo do painel: preencha **Light**, **Balance** ou **Tamanho
+único** e clique em **"Aplicar aos sem preço"**. Ela só mexe nos pratos sem
+preço — nunca sobrescreve um valor já definido — e some sozinha quando todos
+estiverem preenchidos.
 
 #### Não esqueça de publicar
 
@@ -252,5 +247,5 @@ Ela é o seu backup, para reaproveitar as imagens em posts, cardápios ou etique
 - [ ] Abrir o site no **celular** e no computador
 - [ ] Adicionar itens ao carrinho e finalizar — **o WhatsApp abre com o pedido certo?**
 - [ ] Conferir o **QR Code do Pix** com o app do banco (valor e destinatário)
-- [ ] Entrar na Área do lojista e conferir os **preços**
+- [ ] Entrar na Área do lojista e conferir os **preços** (os 39 já estão preenchidos)
 - [ ] Verificar se o endereço do mapa está certo

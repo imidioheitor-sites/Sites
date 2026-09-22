@@ -1,0 +1,90 @@
+[
+  {
+    "id": "vid_001",
+    "name": "IMG_4821.mov",
+    "kind": "video",
+    "createdAt": "2026-07-24T07:12:00-03:00",
+    "durationSec": 38,
+    "transcript": "Bom dia! Deixa eu falar o que eu vou fazer hoje. De manhã tenho aula de cálculo, depois vou revisar o edital, e à tarde gravo conteúdo. Meta do dia é fechar dois capítulos.",
+    "visualTags": ["quarto", "manhã", "pessoa falando", "café"],
+    "visualSummary": "Pessoa falando para a câmera de manhã segurando uma xícara de café."
+  },
+  {
+    "id": "vid_002",
+    "name": "IMG_4822.mov",
+    "kind": "video",
+    "createdAt": "2026-07-24T07:20:00-03:00",
+    "durationSec": 22,
+    "transcript": "Ó minha lista de tarefas de hoje, tá tudo aqui no caderno, três metas principais.",
+    "visualTags": ["caderno", "lista", "mesa", "mão"],
+    "visualSummary": "Close em um caderno com uma lista de tarefas escrita à mão."
+  },
+  {
+    "id": "vid_003",
+    "name": "IMG_4830.mov",
+    "kind": "video",
+    "createdAt": "2026-07-24T11:05:00-03:00",
+    "durationSec": 51,
+    "transcript": "Cara, saiu uma notícia hoje sobre uma startup de inteligência artificial que levantou uma rodada gigante. Na minha opinião isso mostra que o mercado de IA ainda tá só começando pra quem quer empreender.",
+    "visualTags": ["escritório", "notebook", "pessoa falando"],
+    "visualSummary": "Pessoa comentando algo olhando para a câmera com um notebook aberto ao lado."
+  },
+  {
+    "id": "vid_004",
+    "name": "IMG_4841.mov",
+    "kind": "video",
+    "createdAt": "2026-07-24T15:40:00-03:00",
+    "durationSec": 44,
+    "transcript": "Terminei de ler esse livro e quero fazer uma resenha rápida. O autor fala muito sobre foco. Recomendo, dou nota oito. Tem um capítulo sobre hábitos que mudou como eu penso.",
+    "visualTags": ["livro", "estante", "sofá", "capa de livro"],
+    "visualSummary": "Pessoa segurando um livro e apontando para a capa no sofá."
+  },
+  {
+    "id": "img_005",
+    "name": "IMG_4842.jpg",
+    "kind": "image",
+    "createdAt": "2026-07-24T15:42:00-03:00",
+    "transcript": "",
+    "visualTags": ["livro", "capa", "mesa de madeira"],
+    "visualSummary": "Foto da capa de um livro sobre uma mesa de madeira, boa iluminação."
+  },
+  {
+    "id": "vid_006",
+    "name": "IMG_4855.mov",
+    "kind": "video",
+    "createdAt": "2026-07-24T18:03:00-03:00",
+    "durationSec": 33,
+    "transcript": "Dica de estudo rápida: usa a técnica pomodoro, vinte e cinco minutos de foco total sem celular, depois cinco de pausa. Muda tudo na concentração.",
+    "visualTags": ["mesa de estudo", "timer", "livros"],
+    "visualSummary": "Pessoa mostrando um timer na mesa de estudos cheia de livros."
+  },
+  {
+    "id": "vid_007",
+    "name": "IMG_4901.mov",
+    "kind": "video",
+    "createdAt": "2026-07-25T09:30:00-03:00",
+    "durationSec": 62,
+    "transcript": "Bora um quickstart de cálculo. Vou explicar do zero o conceito de derivada, é mais simples do que parece. A ideia básica é medir a taxa de variação de uma função.",
+    "visualTags": ["quadro branco", "gráfico", "pessoa explicando"],
+    "visualSummary": "Pessoa explicando um gráfico em um quadro branco."
+  },
+  {
+    "id": "vid_008",
+    "name": "IMG_4902.mov",
+    "kind": "video",
+    "createdAt": "2026-07-25T09:45:00-03:00",
+    "durationSec": 40,
+    "transcript": "Continuando a explicação da matéria, aqui é onde a maioria erra quando estuda derivada pela primeira vez.",
+    "visualTags": ["quadro branco", "marcador", "pessoa explicando"],
+    "visualSummary": "Pessoa apontando para uma fórmula no quadro branco."
+  },
+  {
+    "id": "img_009",
+    "name": "IMG_4903.jpg",
+    "kind": "image",
+    "createdAt": "2026-07-25T14:00:00-03:00",
+    "transcript": "",
+    "visualTags": ["paisagem", "céu", "prédio"],
+    "visualSummary": "Foto de um prédio contra o céu, sem contexto claro de fala."
+  }
+]

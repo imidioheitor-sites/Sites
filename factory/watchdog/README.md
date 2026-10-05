@@ -3,7 +3,7 @@
 Dono: thread "Watchdog". Atualizado em 2026-10-05.
 
 ## O que existe no n8n
-- Workflow **HELU FACTORY | Watchdog | Vigia da fabrica** — id `GbvwCyonCOH2p1T9`, pasta 04 Watchdog, etiquetas `helu` + `area:watchdog`, fuso America/Sao_Paulo, error workflow = Caixa de erros. **Publicado em 2026-10-05.** Sem a credencial "n8n API (HELU)" ele roda pela metade (le barramento e tabelas; abre api_n8n_fora).
+- Workflow **HELU FACTORY | Watchdog | Vigia da fabrica** — id `GbvwCyonCOH2p1T9`, pasta 04 Watchdog, etiquetas `helu` + `area:watchdog`, fuso America/Sao_Paulo, error workflow = Caixa de erros. **Publicado em 2026-10-05**, com a credencial "n8n API (HELU)" ligada (execucao 561 leu 42 workflows).
 - Tabela **helu_watchdog_incidentes** (`hnQhOtCbd7Dw6MAC`): um incidente por problema (chave unica), com severidade, acao tomada, resultado, ocorrencias, `avisar_heitor`, `aviso_status` (nao | pendente; o Reacher pode marcar `entregue`) e `resumo_para_heitor` (2 frases faladas, prontas para a ligacao).
 - Tabela **helu_watchdog_estado** (`ONRMPhHtV6YOh065`): memoria chave/valor (ultimo_ciclo, workflows vistos ligados, reativacoes, resumo_ultimo_ciclo). Outra area pode ler `ultimo_ciclo` para saber se o watchdog esta vivo.
 
@@ -32,7 +32,7 @@ O Claude (Sonnet 5, creditos do n8n) so diagnostica e sugere `observar`, `propor
   - `lead_id` preenchido nos incidentes de demo.
 
 ## O que falta para ligar
-1. [Heitor] Criar a credencial "n8n API (HELU)" (Header Auth, `X-N8N-API-KEY`). A thread Estrutura do n8n liga ela nos 5 nos HTTP do watchdog.
+Nada: credencial criada e ligada em 2026-10-05.
 
 Tambem detecta falta de creditos de IA (erro 402 do gateway, no proprio Claude do watchdog ou nos erros da Caixa de erros): incidente `sem_credito_ia`, severidade urgente.
 Sem a credencial ele ainda funciona pela metade: le o barramento e as tabelas, mas abre o incidente `api_n8n_fora`.

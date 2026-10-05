@@ -1,0 +1,11 @@
+const { DateTime } = require('luxon');
+const code = require('fs').readFileSync('diagnosticar.js','utf8');
+const rodar = (d) => new Function('$','DateTime', code)((n)=>{const v=d[n]; if(v===undefined) throw new Error('sem '+n); const a=Array.isArray(v)?v:[v]; return {all:()=>a.map(j=>({json:j})), first:()=>({json:a[0]})};}, DateTime);
+const now = DateTime.now(); const iso=(m)=>now.minus({minutes:m}).toISO();
+const cfg = { workflows_criticos:'OA,FAB,DISP', retry_permitido:'FAB,OA', reativar_permitido:'OA', disparo_id:'DISP', inbox_id:'OA', fabrica_id:'FAB', ciclos_para_escalar:4, minutos_demo_atrasada:30, minutos_demo_critica:90 };
+const wfs = {data:[{id:'OA',name:'HELU FACTORY | 2. Inbox',active:true,tags:[]},{id:'FAB',name:'HELU FACTORY | Coder | 3. Fabrica',active:false,tags:[{name:'pausado'}]}]};
+const evs = [{id:5,evento_id:'E20261005-101010-321',workflow_id:'FAB',origem:'HELU FACTORY | 3. Fabrica',severidade:'alta',titulo:'Falhou no no Publicar na Vercel',detalhe:'Request failed with status code 503 | https://x/execution/321'},{id:6,evento_id:'E20261005-101011-322',workflow_id:'FAB',severidade:'alta',titulo:'Falhou no no Publicar na Vercel',detalhe:'socket hang up | u'},{id:7,evento_id:'E-1-9',workflow_id:'OA',severidade:'baixa',titulo:'Falhou no no X',detalhe:'manual'}];
+let out = rodar({Config:cfg,'Workflows no n8n':wfs,'Erros novos no barramento':evs,'Execucoes rodando':{data:[]},'Conversas 48h':[{}],'Pedidos com problema':[{}],'Incidentes abertos':[{}],'Estado do watchdog':[{}]});
+out.forEach(o=>console.log(JSON.stringify(o.json).slice(0,300)));
+out = rodar({Config:cfg,'Workflows no n8n':{error:{message:'Authorization failed'}},'Erros novos no barramento':evs,'Execucoes rodando':{},'Conversas 48h':[{}],'Pedidos com problema':[{}],'Incidentes abertos':[{}],'Estado do watchdog':[{}]});
+console.log('--'); out.forEach(o=>console.log(JSON.stringify(o.json).slice(0,200)));

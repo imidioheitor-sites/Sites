@@ -10,6 +10,7 @@ A fonte da verdade é o n8n (https://himidio.app.n8n.cloud, pasta "HELU FACTORY 
 | OA98m5taBL6MKCPl | HELU FACTORY \| Seller \| 2. Inbox e classificacao | WhatsApp Trigger | inativo |
 | sxw0CIpCKmyBODQv | HELU FACTORY \| Seller \| Montar o dossie do lead para o coder | chamado pelo inbox + manual | inativo |
 | fUWhoQe6sWmwFCCJ | HELU FACTORY \| Seller \| 4. Negociacao e Pix | chamado pelo inbox + manual | inativo |
+| LBhRPQ3oh0iiP1XA | HELU FACTORY \| Seller \| Configurar o WhatsApp na Meta | manual (uma vez) | inativo |
 | 8OSHoCaMhWGTnYh3 | HELU FACTORY \| Seller \| Entregar a demo no WhatsApp | chamado pelo Coder + manual | inativo |
 
 Tabela criada pelo Seller: helu_escalacoes (FfcXL9bExj2vEalk).

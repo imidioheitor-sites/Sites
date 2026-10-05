@@ -11,7 +11,10 @@ Dono: thread "Seller". Atualizado em 2026-10-05. Todos os fluxos ficam na pasta 
    - **escalar** para o Heitor: perguntou se é robô, pediu ligação, reclamou, pediu algo fora do escopo, confiança < 0,45 ou urgência alta;
    - **pausado**: fábrica pausada ou lead já com o Heitor (`aguardando_heitor`).
 5. **Montar o dossie do lead para o coder** (sxw0CIpCKmyBODQv): Google Maps (detalhes, avaliações, horário, fotos) + busca na web (Brave) + conversa → dossiê JSON feito pelo Claude, salvo em helu_leads.briefing e helu_pedidos.briefing.
-6. **4. Negociacao e Pix** (fUWhoQe6sWmwFCCJ): preço calculado em código dentro da faixa; Pix, phone id e faixa vêm do helu_config.
+6. **4. Negociacao e Pix** (fUWhoQe6sWmwFCCJ): preço calculado em código dentro da faixa. Ao fechar, chama **Pos-venda | Cobrar no Asaas** (kaLPuLSckxkRtRod) e manda o Pix copia e cola em mensagem separada; sem CPF/CNPJ, pede o documento e marca `aguardando_documento` (o inbox reconhece a resposta e volta aqui). Se o Asaas falhar, usa `pix_chave` do helu_config ou fica `fechado_sem_pix`.
+8. **Configurar o WhatsApp na Meta** (LBhRPQ3oh0iiP1XA): rodar uma vez depois da credencial. Assina o app na WABA, grava `whatsapp_phone_number_id` no helu_config e manda os 7 templates (5 de venda, 2 de pós-venda) para aprovação. Precisa de `whatsapp_waba_id` no helu_config.
+
+Quem já é cliente (status `cliente`) não passa pelo vendedor: o inbox entrega a mensagem para **Pos-venda | Inbox do cliente** (nYSxY3Y13kbG3mXE) e para.
 7. **Entregar a demo no WhatsApp** (8OSHoCaMhWGTnYh3): recebe o site pronto do Coder e manda ao cliente. Dentro de 24h da última mensagem dele: link + vídeo opcional + pedido de opinião, escritos pelo Claude com tempo de digitar. Fora de 24h: template `helu_demo_pronta`.
 
 ## Contrato com o Coder
@@ -35,7 +38,7 @@ Dono: thread "Seller". Atualizado em 2026-10-05. Todos os fluxos ficam na pasta 
 - **WhatsApp Trigger (HELU)** (WhatsApp OAuth): gatilho do inbox.
 - **Google Places (HELU)** (Custom Auth, `{"headers":{"X-Goog-Api-Key":"SUA_CHAVE"}}`): prospecção e dossiê.
 - **Anthropic (HELU)**: classificador, resposta, dossiê e mensagem da demo (hoje apontam para os créditos do n8n, que acabaram).
-- OpenAI (transcrição de áudio) e Brave (busca do dossiê) usam os créditos do n8n; se acabarem, criar credenciais próprias.
+- **OpenAI (HELU)** (transcrição de áudio) e **Brave Search (HELU)** (busca do dossiê): os créditos do n8n acabaram, então precisam de chave própria. A prospecção usa só o Google Places e não depende deles.
 
 ## Testes feitos (05/10, dados simulados, nada enviado)
 - Inbox, dúvida: junta "oi" + "como funciona?", monta histórico, decide `robo`, espera o tempo de digitar e limpa travessão (execução 530).

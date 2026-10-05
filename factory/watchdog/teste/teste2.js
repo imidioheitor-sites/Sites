@@ -1,5 +1,5 @@
 const { DateTime } = require('luxon');
-const code = require('fs').readFileSync('diagnosticar.js','utf8');
+const code = require('fs').readFileSync(require('path').join(__dirname,'..','diagnosticar.js'),'utf8');
 const rodar = (d) => new Function('$','DateTime', code)((n)=>{const v=d[n]; if(v===undefined) throw new Error('sem '+n); const a=Array.isArray(v)?v:[v]; return {all:()=>a.map(j=>({json:j})), first:()=>({json:a[0]})};}, DateTime);
 const now = DateTime.now(); const iso=(m)=>now.minus({minutes:m}).toISO();
 const cfg = { workflows_criticos:'OA,FAB,DISP', retry_permitido:'FAB,OA', reativar_permitido:'OA', disparo_id:'DISP', inbox_id:'OA', fabrica_id:'FAB', ciclos_para_escalar:4, minutos_demo_atrasada:30, minutos_demo_critica:90 };

@@ -1,6 +1,6 @@
 const { DateTime } = require('luxon');
 const fs = require('fs');
-const code = fs.readFileSync('diagnosticar.js','utf8');
+const code = fs.readFileSync(require('path').join(__dirname,'..','diagnosticar.js'),'utf8');
 function rodar(dados){
   const $ = (n) => { const v = dados[n]; if (v===undefined) throw new Error('sem '+n); const arr = Array.isArray(v)?v:[v]; return { all:()=>arr.map(j=>({json:j})), first:()=>({json:arr[0]}) }; };
   return new Function('$','DateTime', code)($, DateTime);

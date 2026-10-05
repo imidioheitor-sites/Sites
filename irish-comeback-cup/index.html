@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Irish Comeback Cup — mobile mock</title>
+<meta name="theme-color" content="#04060A">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#04060A;--ink2:#080C13;--ink3:#0B111B;--navy:#0C2340;--navy2:#16375C;--gold:#C99700;--gold-hi:#F0C64A;--bone:#F2EFE9;--ash:#79808C;--ash2:#A7ADB7;--line:#151C28;--line2:#222C3C;
+--d:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--m:'JetBrains Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#010203;color:var(--bone);font-family:var(--d);font-weight:400;display:flex;align-items:center;justify-content:center;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.mono{font-family:var(--m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.gold{color:var(--gold)}
+/* device */
+.phone{width:390px;height:844px;max-height:100vh;background:var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column;border-radius:46px;box-shadow:0 0 0 10px #10141b,0 0 0 11px #2a3140,0 40px 120px rgba(12,35,64,.55)}
+@media (max-width:480px){body{display:block}.phone{width:100%;height:100dvh;max-height:none;border-radius:0;box-shadow:none}.notch,.sb{display:none!important}.screen{padding-top:calc(env(safe-area-inset-top) + 18px)!important}.toast{top:calc(env(safe-area-inset-top) + 12px)}}
+.notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:112px;height:32px;background:#000;border-radius:20px;z-index:50}
+.sb{height:52px;flex:none;display:flex;justify-content:space-between;align-items:flex-end;padding:0 30px 6px;font-size:14px;font-weight:600;z-index:40}
+.sb i{font-style:normal;font-family:var(--m);font-size:11px}
+/* screens */
+.views{flex:1;position:relative;min-height:0}
+.screen{position:absolute;inset:0;overflow-y:auto;padding:8px 20px 28px;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .3s,transform .4s cubic-bezier(.16,1,.3,1),visibility 0s .3s;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.brand{font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brand b{width:10px;height:10px;background:var(--gold);display:inline-block}
+.av{width:34px;height:34px;border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--m);font-size:11px;color:var(--gold)}
+h1{font-weight:650;font-size:44px;line-height:.9;letter-spacing:-.04em;text-transform:uppercase}
+h2{font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-family:var(--m);color:var(--ash);margin:26px 0 12px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line2);padding-top:12px}
+h2 a{color:var(--gold);cursor:pointer}
+.sub{color:var(--ash2);font-weight:300;font-size:15px;line-height:1.4;margin-top:12px}
+.card{background:var(--ink3);border:1px solid var(--line2);padding:16px}
+.hero{background:linear-gradient(160deg,var(--navy) 0,#071427 70%);border:1px solid var(--navy2);padding:18px;position:relative;overflow:hidden;margin-top:20px}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border:1px solid rgba(201,151,0,.35);border-radius:50%;box-shadow:0 0 0 24px rgba(201,151,0,.06),0 0 0 48px rgba(201,151,0,.04)}
+.big{font-family:var(--m);font-size:38px;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.stat .big{font-size:26px;margin-top:6px}
+.bar{height:6px;background:var(--line2);margin-top:12px;position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--gold);transition:width .8s cubic-bezier(.16,1,.3,1)}
+.btn{display:block;width:100%;background:var(--gold);color:#04060A;font-weight:650;text-transform:uppercase;letter-spacing:.06em;font-size:13px;padding:16px;text-align:center;margin-top:16px;transition:transform .15s,background .2s}
+.btn:active{transform:scale(.98);background:var(--gold-hi)}
+.btn.ghost{background:none;color:var(--bone);border:1px solid var(--line2)}
+/* leaderboard */
+.lb{list-style:none}
+.lb li{display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.lb .n{font-family:var(--m);font-size:12px;color:var(--ash)}
+.lb li:nth-child(1) .n{color:var(--gold-hi)}
+.lb .nm{font-weight:600;font-size:16px;letter-spacing:-.01em}
+.lb .nm small{display:block;font-family:var(--m);font-size:10px;color:var(--ash);letter-spacing:.1em;text-transform:uppercase;font-weight:400;margin-top:2px}
+.lb .pt{font-family:var(--m);font-size:14px;text-align:right}
+.lb .bar{grid-column:2/4;margin-top:-2px;height:3px}
+.lb li.me .nm{color:var(--gold-hi)}
+.lb li.me{background:linear-gradient(90deg,rgba(201,151,0,.09),transparent)}
+.pill{display:inline-block;font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border:1px solid var(--line2);color:var(--ash2)}
+.pill.live{color:var(--gold-hi);border-color:rgba(201,151,0,.5)}
+.pill.live::before{content:'';display:inline-block;width:6px;height:6px;background:var(--gold-hi);border-radius:50%;margin-right:6px;animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+.feed div{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ash2);line-height:1.35}
+.feed b{color:var(--bone);font-weight:600}
+.feed .t{font-family:var(--m);font-size:10px;color:var(--ash);min-width:44px;padding-top:3px}
+/* scan */
+.cam{height:340px;margin-top:16px;background:radial-gradient(circle at 50% 40%,#13243a,#05080d 75%);position:relative;overflow:hidden;border:1px solid var(--line2)}
+.cam::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px)}
+.frame{position:absolute;inset:60px 70px}
+.frame i{position:absolute;width:26px;height:26px;border:2px solid var(--gold-hi)}
+.frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}.frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.frame i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}.frame i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
+.qr{position:absolute;inset:22px;background:conic-gradient(from 0deg,#0000 0) ,repeating-conic-gradient(var(--bone) 0 25%,transparent 0 50%) 0 0/18px 18px;opacity:.16}
+.laser{position:absolute;left:8px;right:8px;height:2px;background:var(--gold-hi);box-shadow:0 0 18px 4px rgba(240,198,74,.55);animation:ls 2.4s ease-in-out infinite}
+@keyframes ls{0%,100%{top:6%}50%{top:92%}}
+.cam .mono{position:absolute;left:0;right:0;bottom:14px;text-align:center}
+.cam.ok .laser{display:none}
+.cam .got{position:absolute;inset:0;display:none;place-items:center;text-align:center;background:rgba(4,6,10,.82)}
+.cam.ok .got{display:grid}
+.step{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.step button{width:52px;height:52px;border:1px solid var(--line2);font-size:24px;font-family:var(--m)}
+.step button:active{background:var(--navy)}
+.step .big{font-size:44px}
+/* objects */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.obj{background:var(--ink3);border:1px solid var(--line2);padding:12px;position:relative}
+.obj svg{width:100%;height:110px}
+.obj .nm{font-weight:600;font-size:14px;margin-top:8px}
+.obj .cost{font-family:var(--m);font-size:11px;color:var(--gold);margin-top:3px}
+.obj.lock{opacity:.5}
+.obj button{margin-top:10px;width:100%;border:1px solid var(--gold);color:var(--gold-hi);font-family:var(--m);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:9px}
+.obj button[disabled]{border-color:var(--line2);color:var(--ash)}
+/* tab bar */
+.tabs{flex:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line2);background:rgba(4,6,10,.94);padding:8px 6px calc(22px + env(safe-area-inset-bottom));z-index:30}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--ash);font-family:var(--m);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 0;transition:color .2s}
+.tabs svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5}
+.tabs button.on{color:var(--gold-hi)}
+.tabs .sc{margin-top:-22px}
+.tabs .sc span{width:54px;height:54px;background:var(--gold);color:#04060A;display:grid;place-items:center;box-shadow:0 0 0 5px var(--ink)}
+.tabs .sc svg{stroke:#04060A}
+.toast{position:absolute;left:20px;right:20px;top:60px;background:var(--gold);color:#04060A;padding:14px 16px;font-weight:600;font-size:14px;z-index:60;transform:translateY(-200px);opacity:0;pointer-events:none;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .3s}
+.toast.on{transform:none;opacity:1}
+.fine{font-size:10px;color:var(--ash);line-height:1.5;margin-top:26px;font-family:var(--m);letter-spacing:.04em}
+.badge{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.badge i{width:38px;height:38px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold-hi);font-style:normal;font-family:var(--m);font-size:12px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.badge.off{opacity:.4}.badge.off i{border-color:var(--ash);color:var(--ash)}
+.badge b{display:block;font-size:14px;font-weight:600}.badge span{font-size:12px;color:var(--ash)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="notch"></div>
+  <div class="sb"><span>9:41</span><i>5G ▮▮▮</i></div>
+  <div class="toast" id="toast"></div>
+  <div class="views">
+
+    <!-- HOME -->
+    <section class="screen on" id="home">
+      <div class="top"><div class="brand"><b></b>Irish Comeback Cup</div><div class="av">KE</div></div>
+      <span class="pill live">Game day · Section 26</span>
+      <h1 style="margin-top:16px">Bring<br>it <span class="gold">back</span></h1>
+      <p class="sub">Every bottle you drop in a clear bin scores for your dorm. Bottles become filament. Filament becomes objects.</p>
+      <div class="hero">
+        <div class="mono">Keough Hall · your dorm</div>
+        <div class="big" style="margin-top:10px;font-size:46px"><span id="hPts">1,284</span> <small class="mono gold">pts</small></div>
+        <div class="bar"><i id="hBar" style="width:72%"></i></div>
+        <div class="mono" style="margin-top:10px;display:flex;justify-content:space-between"><span id="hRank">Rank 2 of 8</span><span>Cup closes Sun 11:59 pm</span></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="card stat"><div class="mono">Your bottles</div><div class="big" id="hBot">86</div></div>
+        <div class="card stat"><div class="mono">Campus total</div><div class="big">12.4<small class="mono"> kg</small></div></div>
+      </div>
+      <button class="btn" data-go="scan">Log a drop-off</button>
+      <h2>Live feed <a data-go="cup">Standings →</a></h2>
+      <div class="feed" id="feed">
+        <div><span class="t">2 min</span><span><b>Dillon</b> dropped 40 bottles at Gate B</span></div>
+        <div><span class="t">9 min</span><span><b>Zahm</b> took the lead on the Cup</span></div>
+        <div><span class="t">21 min</span><span><b>Walsh</b> unlocked the <b>Hex vessel</b></span></div>
+      </div>
+      <p class="fine">Independent student project. Not affiliated with or endorsed by the University of Notre Dame. Mock interface, not live data.</p>
+    </section>
+
+    <!-- SCAN -->
+    <section class="screen" id="scan">
+      <div class="top"><div class="brand"><b></b>Log a drop</div><span class="mono">Step 1 / 2</span></div>
+      <h1 style="font-size:34px">Scan the<br>bin tag</h1>
+      <div class="cam" id="cam">
+        <div class="qr"></div><div class="frame"><i></i><i></i><i></i><i></i></div><div class="laser"></div>
+        <div class="mono">Point at the QR on the clear bag</div>
+        <div class="got"><div><div class="big gold" style="font-size:30px">BIN 26-C</div><div class="mono" style="margin-top:8px">Section 26 · verified</div></div></div>
+      </div>
+      <h2>How many bottles?</h2>
+      <div class="step"><button id="dn" aria-label="less">−</button><div class="big" id="cnt">12</div><button id="up" aria-label="more">+</button></div>
+      <div class="mono" style="text-align:center;margin-top:10px">Caps off · rinsed · 10 pts each</div>
+      <button class="btn" id="submit">Submit for Keough</button>
+    </section>
+
+    <!-- CUP -->
+    <section class="screen" id="cup">
+      <div class="top"><div class="brand"><b></b>The Cup</div><span class="pill">Week 3</span></div>
+      <h1 style="font-size:34px">Dorm<br>standings</h1>
+      <div class="row" style="margin:18px 0 6px">
+        <div class="card"><div class="mono">Prize</div><div style="font-weight:600;margin-top:6px;font-size:15px">Printed trophy, in recycled PET</div></div>
+      </div>
+      <ul class="lb" id="lb"></ul>
+    </section>
+
+    <!-- OBJECTS -->
+    <section class="screen" id="objects">
+      <div class="top"><div class="brand"><b></b>Objects</div><span class="mono gold" id="oPts">1,284 pts</span></div>
+      <h1 style="font-size:34px">Print what<br>you saved</h1>
+      <p class="sub">Spend dorm points on objects printed from stadium bottles at the Architecture Library makerspace.</p>
+      <div class="grid" style="margin-top:18px" id="oGrid"></div>
+    </section>
+
+    <!-- ME -->
+    <section class="screen" id="me">
+      <div class="top"><div class="brand"><b></b>Profile</div><div class="av">KE</div></div>
+      <div class="card">
+        <div class="mono">Keough Hall · Sophomore</div>
+        <div style="font-size:26px;font-weight:650;letter-spacing:-.02em;margin-top:8px">Kevin Egan</div>
+        <div class="row" style="margin-top:16px">
+          <div><div class="mono">Bottles</div><div class="big" style="font-size:22px;margin-top:4px" id="mBot">86</div></div>
+          <div><div class="mono">Plastic</div><div class="big" style="font-size:22px;margin-top:4px">1.9 kg</div></div>
+          <div><div class="mono">Streak</div><div class="big" style="font-size:22px;margin-top:4px">3 gm</div></div>
+        </div>
+      </div>
+      <h2>Badges</h2>
+      <div class="badge"><i>01</i><div><b>First drop</b><span>Logged your first bin</span></div></div>
+      <div class="badge"><i>50</i><div><b>Fifty club</b><span>50 bottles in one season</span></div></div>
+      <div class="badge off"><i>100</i><div><b>Centurion</b><span>14 more bottles to go</span></div></div>
+      <div class="badge off"><i>7/7</i><div><b>Full season</b><span>Drop on every home date</span></div></div>
+    </section>
+  </div>
+
+  <nav class="tabs">
+    <button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9H3z"/></svg>Home</button>
+    <button data-go="cup"><svg viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 01-10 0zM7 6H3v2a3 3 0 004 3M17 6h4v2a3 3 0 01-4 3M12 14v4M8 20h8"/></svg>Cup</button>
+    <button data-go="scan" class="sc"><span><svg viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4M4 12h16"/></svg></span></button>
+    <button data-go="objects"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12L4 7.5M12 12v9"/></svg>Objects</button>
+    <button data-go="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Me</button>
+  </nav>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const st={pts:1284,bottles:86,count:12,
+  dorms:[{n:'Zahm',s:'Zahm House',p:1342},{n:'Keough',s:'Keough Hall',p:1284,me:1},{n:'Dillon',s:'Dillon Hall',p:1190},{n:'Walsh',s:'Walsh Hall',p:1066},{n:'Siegfried',s:'Siegfried Hall',p:952},{n:'Lyons',s:'Lyons Hall',p:871},{n:'Alumni',s:'Alumni Hall',p:798},{n:'Badin',s:'Badin Hall',p:640}]};
+const objs=[{n:'Hex vessel',c:600,i:'<path d="M50 20l30 15v30L50 80 20 65V35z"/><path d="M20 35l30 15 30-15M50 50v30"/>'},{n:'Desk tray',c:300,i:'<path d="M15 55h70l-8 20H23z"/><path d="M15 55l8-18h54l8 18"/>'},{n:'Cable clip',c:120,i:'<path d="M30 70V40a20 20 0 0140 0v30"/><path d="M42 70V42a8 8 0 0116 0v28"/>'},{n:'Trophy cup',c:2400,i:'<path d="M32 22h36v16a18 18 0 01-36 0zM32 28H20v6a10 10 0 0012 10M68 28h12v6a10 10 0 01-12 10M50 56v14M36 78h28"/>'}];
+const owned=new Set();
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),2600)}
+function go(id){$$('.screen').forEach(s=>s.classList.toggle('on',s.id===id));$$('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.go===id));$('#'+id).scrollTop=0;if(id==='scan')$('#cam').classList.remove('ok'),setTimeout(()=>$('#cam').classList.add('ok'),1800)}
+$$('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+const fmt=n=>n.toLocaleString('en-US');
+function render(){
+  const d=[...st.dorms].sort((a,b)=>b.p-a.p),max=d[0].p,me=d.findIndex(x=>x.me);
+  $('#lb').innerHTML=d.map((x,i)=>`<li class="${x.me?'me':''}"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="nm">${x.n}<small>${x.me?'You · ':''}${x.s}</small></span><span class="pt">${fmt(x.p)}</span><div class="bar"><i style="width:${x.p/max*100}%"></i></div></li>`).join('');
+  $('#hPts').textContent=fmt(st.pts);$('#oPts').textContent=fmt(st.pts)+' pts';$('#hBot').textContent=$('#mBot').textContent=st.bottles;
+  $('#hRank').textContent=`Rank ${me+1} of 8`;$('#hBar').style.width=Math.min(100,st.pts/max*72+(me===0?28:0))+'%';
+  $('#oGrid').innerHTML=objs.map((o,i)=>`<div class="obj ${owned.has(i)?'':''}"><svg viewBox="0 0 100 100" fill="none" stroke="${owned.has(i)?'#F0C64A':'#C99700'}" stroke-width="1.6" stroke-linejoin="round">${o.i}</svg><div class="nm">${o.n}</div><div class="cost">${fmt(o.c)} pts</div><button data-o="${i}" ${owned.has(i)||st.pts<o.c?'disabled':''}>${owned.has(i)?'Queued to print':st.pts<o.c?'Need '+fmt(o.c-st.pts):'Claim'}</button></div>`).join('');
+  $$('[data-o]').forEach(b=>b.onclick=()=>{const o=objs[b.dataset.o];if(st.pts<o.c)return;st.pts-=o.c;st.dorms.find(x=>x.me).p-=o.c;owned.add(+b.dataset.o);toast(o.n+' queued at the makerspace');render()});
+}
+$('#up').onclick=()=>{st.count=Math.min(99,st.count+1);$('#cnt').textContent=st.count};
+$('#dn').onclick=()=>{st.count=Math.max(1,st.count-1);$('#cnt').textContent=st.count};
+$('#submit').onclick=()=>{const p=st.count*10;st.pts+=p;st.bottles+=st.count;st.dorms.find(x=>x.me).p+=p;
+  const f=$('#feed');f.insertAdjacentHTML('afterbegin',`<div><span class="t">now</span><span><b>Keough</b> dropped ${st.count} bottles at Bin 26-C</span></div>`);
+  toast(`+${p} pts for Keough · ${st.count} bottles`);render();go('home')};
+render();
+</script>
+</body>
+</html>

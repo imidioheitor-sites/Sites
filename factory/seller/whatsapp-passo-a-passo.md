@@ -36,13 +36,13 @@ Categoria **Marketing**, idioma **Português (BR)**, sem botão. Nomes exatos:
 
 | Nome | Texto | Variáveis |
 |---|---|---|
-| `helu_primeiro_contato` | Oi, tudo bem? Aqui é o Heitor, eu faço sites pra negócios da região. Vi a {{1}} no Google, aí em {{2}}, e montei uma ideia de site pra vocês. Posso te mandar pra dar uma olhada? Se não quiser receber mensagem minha, é só responder SAIR. | 1 = empresa, 2 = cidade |
+| `helu_primeiro_contato` | Oi, tudo bem? Aqui é o Heitor, eu faço sites pra pequenos negócios. Vi a {{1}} no Google, aí em {{2}}, e montei uma ideia de site pra vocês. Posso te mandar pra dar uma olhada? Se não quiser receber mensagem minha, é só responder SAIR. | 1 = empresa, 2 = cidade |
 | `helu_primeiro_contato_b` | Oi! Sou o Heitor, trabalho com site pra {{2}}. Achei a {{1}} no Google Maps e vi que vocês ainda não têm site, então rascunhei como poderia ficar. Quer ver? Se preferir não receber, responde SAIR. | 1 = empresa, 2 = ramo |
 | `helu_followup_1` | Oi, passando de novo aqui. Ainda tenho guardada aquela ideia de site pra {{1}}, quer que eu te mande? Se não tiver interesse, responde SAIR que eu paro. | 1 = empresa |
 | `helu_followup_2` | Última vez que te chamo, prometo. Se um dia quiser ver o site que pensei pra {{1}}, é só me responder aqui. | 1 = empresa |
 | `helu_demo_pronta` | Oi! Ficou pronta a demonstração do site da {{1}}: {{2}} Dá uma olhada com calma e me fala o que achou. | 1 = empresa, 2 = link |
 
-Os textos já trazem identificação e a saída "SAIR" (LGPD, pendência P11). Se quiser mudar o tom, mude aqui antes de enviar para aprovação.
+Os textos já trazem identificação e a saída "SAIR" (LGPD, pendência P11). Como o número é americano (+1), nenhum texto diz "da região". Se quiser mudar o tom, mude aqui antes de enviar para aprovação.
 
 ## 8. No n8n (depois do plano assinado)
 - Credentials > New > **WhatsApp API** > nome **WhatsApp Cloud (HELU)**: Access Token = token do passo 6, Business Account ID = do passo 4.

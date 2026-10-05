@@ -28,10 +28,17 @@ Pasta do n8n: HELU FACTORY / 05 Verifier e Meta. Tags: `helu`, `area:verifier`. 
 3. Agente diário: ganhou o grupo "Saude do n8n" (erros da janela por fluxo + fluxos com gatilho desligados). Antes ele nunca sabia quando a fábrica estava quebrada.
 4. Novo fluxo 6c (vigia) que desfaz sozinho troca que aumentou erro.
 
-## Ainda não testado de verdade
-O n8n Cloud recusa qualquer execução ("Your trial has ended"). Todas as execuções antigas desses fluxos foram com dados de mentira (pin data). Depois do plano ativo e da credencial "n8n API (HELU)" criada, rodar nesta ordem: 5 (manual) → conferir a linha em `helu_melhorias` → 6 (manual) → 6c (manual).
+## Teste real (2026-10-05, depois do plano e da credencial da API)
+- Fluxo 5 (com o observador desligado só no teste): leu os 9 prompts pela API e montou o dossiê com a saúde do n8n. Falta só a chave da Anthropic para o observador propor algo.
+- Fluxo 6: aplicou uma troca de teste no prompt "Escrever a resposta" do Inbox; o PUT foi aceito.
+- Fluxo 6b: desfez a troca; o prompt ao vivo ficou idêntico ao original (conferido por diff).
+- Fluxo 6c: achou a troca e decidiu "cedo para julgar" (0 execuções depois).
+- Bugs achados e corrigidos no teste: (a) "Guardar a versao anterior" lia `$json` da bancada e gravava o texto anterior vazio, o que tornava o desfazer impossível; (b) em Code node, `$now.minus(7, 'days')` tira 7 milissegundos, então o vigia nunca achava nada e a saúde do n8n contava zero erros. Agora usam `Date.now() - dias * 86400000`.
+- Publicados: 6, 6b, 6c, 7 e os bancos de provas (classificador e coerência). O 5 fica desligado até a chave da Anthropic existir.
+- Linhas de teste: `TESTE-*` e `CHECK-DESFAZER-20261005` em `helu_melhorias` e `helu_prompt_versoes`. O 6b e o 6c ignoram `TESTE-*`; o CHECK já está revertido.
 
 ## Limites conhecidos
+- O PUT reescreve o workflow alvo inteiro com o que leu um segundo antes. Se outra pessoa estiver editando o mesmo fluxo nesse segundo, a edição dela se perde (o histórico de versões do n8n guarda as duas).
 - Só reescreve o campo system de 9 prompts (fluxos 2 e 3). Mudança de estrutura de fluxo sempre vira `acao` para o Heitor.
 - `fabrica_coerencia` e `fabrica_coerencia2` têm hoje o mesmo prompt; o agente pode trocar só um dos dois.
 - Só 3 dos 9 alvos têm banco de provas; os outros entram só com as travas de texto.

@@ -15,8 +15,8 @@ Dono: thread "Seller". Atualizado em 2026-10-05. Todos os fluxos ficam na pasta 
 7. **Entregar a demo no WhatsApp** (8OSHoCaMhWGTnYh3): recebe o site pronto do Coder e manda ao cliente. Dentro de 24h da última mensagem dele: link + vídeo opcional + pedido de opinião, escritos pelo Claude com tempo de digitar. Fora de 24h: template `helu_demo_pronta`.
 
 ## Contrato com o Coder
-- O inbox chama **3. Fabrica de sites** (xGshxmTLzcEPFJsz) sem esperar, com: `lead_id, empresa, categoria, cidade, uf, telefone, plano, briefing` (texto, o dossiê em JSON) e `dossie` (objeto). Campos do dossiê: negocio, o_que_vende, provas_sociais, tom_de_voz, pedidos_do_cliente, contato, secoes_sugeridas, chamada_principal, ideia_visual, paleta_sugerida, ideia_video_hero (inglês, para o Higgsfield), lacunas, fontes, fotos_google.
-- Quando o site estiver no ar, o Coder **não manda WhatsApp**: chama "Entregar a demo no WhatsApp" (Execute Workflow, id 8OSHoCaMhWGTnYh3) com `{lead_id, telefone, empresa, site_url, video_url?, destaque?}`. `destaque` é uma frase sobre o que o site tem de melhor (o Claude usa na mensagem).
+- O inbox chama **3. Fabrica de sites** (xGshxmTLzcEPFJsz) sem esperar, com: `lead_id, empresa, categoria, cidade, uf, telefone, plano, briefing` (texto, o dossiê em JSON), `dossie` (objeto) e `contexto_real` (material bruto: Google, web, Instagram e conversa). Campos do dossiê: negocio, o_que_vende, provas_sociais, tom_de_voz, pedidos_do_cliente, contato, secoes_sugeridas, chamada_principal, ideia_visual, paleta_sugerida, ideia_video_hero (inglês, para o Higgsfield), lacunas, fontes, fotos_google.
+- Quando o site estiver no ar, o Coder **não manda WhatsApp**: chama o fluxo cujo id está em `helu_config.coder_seller_workflow_id` = **8OSHoCaMhWGTnYh3** ("Entregar a demo no WhatsApp"). Aceita o pacote inteiro do Coder (`lead_id, empresa, telefone, url` ou `site_url, destaques` ou `destaque, resumo_do_site, video_url?`, demais campos passam junto).
 - O fluxo de entrega marca helu_leads e helu_pedidos como `demo_enviada` e registra em helu_conversas.
 - Pedidos de alteração de cliente entram em helu_alteracoes com status `novo`.
 

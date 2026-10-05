@@ -15,6 +15,7 @@ Pasta do n8n: HELU FACTORY / 05 Verifier e Meta. Tags: `helu`, `area:verifier`. 
 ## Quem decide o quê
 - Risco baixo e tipo `prompt`: entra `aprovado` e a fábrica aplica sozinha, se a nota na bancada não cair.
 - Risco médio/alto ou tipo `acao` (nó novo, fluxo novo, gasto, canal, oferta): fica `precisa_voce` em `helu_melhorias`. **Contrato com o Reacher / Dashboard:** essas linhas são o que precisa do Heitor.
+- **Contrato com o Watchdog:** reparos que ele não faz sozinho entram em `helu_melhorias` com `tipo=acao`, `status=precisa_voce`, `fonte=watchdog`, `area=Meta`. O aplicador nunca toca nessas linhas (só pega `aprovado` + `prompt`); o agente diário as lê no grupo "Saude do n8n" para não repetir e para atacar a causa se ela estiver num prompt. Coluna `area` criada em 2026-10-05; o agente grava `area=Meta` nas propostas dele.
 - Status possíveis em `helu_melhorias`: `aprovado`, `precisa_voce`, `aplicado`, `falhou`, `reprovado_na_bancada`, `revertida`.
 
 ## Tabelas

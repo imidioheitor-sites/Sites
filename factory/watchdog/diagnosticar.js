@@ -77,12 +77,14 @@ for (const ev of linhas('Erros novos no barramento')) {
   if (/^\d+$/.test(execId) && Number(execId) > Number(g.execId || 0)) { g.execId = execId; g.msg = msg; }
 }
 const transitorio = /timeout|timed out|ETIMEDOUT|ECONNRESET|ECONNREFUSED|socket hang up|\b429\b|rate.?limit|overloaded|\b52[0-9]\b|\b50[234]\b|bad gateway|service unavailable|temporarily/i;
+const semCreditoRe = /payment required|credits have been depleted|\b402\b|insufficient.?(credit|balance|quota)/i;
 for (const chave of Object.keys(grupos)) {
   const g = grupos[chave];
   const trans = transitorio.test(g.msg);
-  achar({ chave, tipo: 'erro', workflow_id: g.wf, workflow_nome: g.nome, execucao_id: g.execId,
-    severidade: criticos.includes(g.wf) ? 'alta' : 'media', persistente: false, transitorio: trans,
-    acao_regra: trans && g.execId && wfs && podeReexecutar.includes(g.wf) ? 'reexecutar' : 'diagnosticar',
+  const semCredito = semCreditoRe.test(g.msg);
+  achar({ chave: semCredito ? 'sem_credito_ia' : chave, tipo: semCredito ? 'sem_credito_ia' : 'erro', workflow_id: g.wf, workflow_nome: g.nome, execucao_id: g.execId,
+    severidade: semCredito ? 'critica' : (criticos.includes(g.wf) ? 'alta' : 'media'), persistente: false, transitorio: trans,
+    acao_regra: semCredito ? 'avisar_heitor' : (trans && g.execId && wfs && podeReexecutar.includes(g.wf) ? 'reexecutar' : 'diagnosticar'),
     mensagem: g.qtd + ' execucao(oes) de ' + g.nome + ' falharam no no "' + g.no + '": ' + g.msg });
 }
 
@@ -158,7 +160,7 @@ for (const f of achados) {
 for (const chave of Object.keys(abertos)) {
   if (vistos[chave]) continue;
   const ab = abertos[chave];
-  const sumiu = ab.tipo === 'erro' ? minutosDesde(ab.ultima_vez) > 360 : true;
+  const sumiu = (ab.tipo === 'erro' || ab.tipo === 'sem_credito_ia') ? minutosDesde(ab.ultima_vez) > 360 : true;
   if (sumiu) saida.push({ json: { op: 'resolvido', row_id: ab.id, chave } });
 }
 

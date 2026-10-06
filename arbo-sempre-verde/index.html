@@ -1334,6 +1334,63 @@ main{overflow-x:clip}
   .hero-sub{font-size:13px}
 }
 
+
+/* ══ AJUSTES DO CLIENTE (out/2026) ═══════════════════════════════
+   Cabeçalho: logomarca no centro, botão de orçamento sempre à vista
+   e todos os links visíveis ao abrir o site (sem menu escondido). */
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px 18px;padding-block:12px 8px}
+.nav-side{display:block}
+.nav .brand{grid-column:2;justify-self:center}
+.nav-cta{grid-column:3;justify-self:end;white-space:nowrap;padding:9px 18px;font-size:12.5px}
+.brand-logo{width:44px;height:44px}
+.nav-links,.nav-links.open{position:static;grid-column:1/-1;width:auto;height:auto;transform:none;background:none;
+  backdrop-filter:none;-webkit-backdrop-filter:none;flex-direction:row;justify-content:center;flex-wrap:wrap;
+  gap:6px 26px;margin:0;overflow:visible}
+.nav-links a,header .nav-links a{font-size:12.5px;letter-spacing:.05em;min-height:0;width:auto;display:inline-block}
+.burger,header .burger{display:none!important}
+@media(max-width:920px){
+  .nav .btn-fill.nav-cta{display:inline-flex}
+}
+@media(max-width:640px){
+  .nav{grid-template-columns:auto 1fr auto;padding-block:10px 6px;gap:8px 10px}
+  .nav-side{width:0}
+  .nav .brand{grid-column:1/3;justify-self:center;padding-left:0}
+  .brand{gap:8px;font-size:13px}
+  .brand em{font-size:8.5px}
+  .brand-logo{width:38px;height:38px}
+  .nav-cta{padding:8px 13px;font-size:11.5px}
+  .nav-links,.nav-links.open{justify-content:center;flex-wrap:wrap;gap:2px 16px;padding-bottom:2px}
+  .nav-links a,header .nav-links a{font-size:12px;white-space:nowrap;padding-block:3px}
+}
+/* o hero começa abaixo do cabeçalho de duas linhas */
+.hero-in{padding-top:86px}
+.hero-lead--top{margin:0 auto 18px}
+@media(max-width:640px){.scroll-hint{display:none}.hero-in{padding-top:104px}.hero-lead--top{margin-bottom:8px}.hero-cta{margin-top:18px}}
+
+/* faixa de credenciais com cinco itens */
+@media(min-width:860px){.trust-in{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1180px){.trust-in{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:860px) and (max-width:1179px){
+  .trust-i:nth-child(4){border-left:0;padding-left:0}
+  .trust-i:nth-child(n+4){border-top:1px solid var(--line)}
+}
+
+/* serviços com subtítulo */
+.rv-d{display:block;font-size:clamp(13px,1.1vw,16px);font-weight:400;letter-spacing:0;line-height:1.4;
+  color:var(--dim);margin-top:6px;font-family:inherit}
+
+/* Quem somos */
+.qs{display:grid;gap:28px}
+@media(min-width:960px){.qs{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:60px}}
+.qs-txt p+p{margin-top:16px}
+.qs-grid{display:grid;gap:18px;margin-top:48px}
+@media(min-width:860px){.qs-grid{grid-template-columns:1fr 1fr;}.qs-card--valores{grid-column:1/-1}}
+.qs-card{border:1px solid var(--line);border-radius:18px;padding:26px 26px 28px}
+.qs-card .label{margin-bottom:12px}
+.qs-vals{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:10px}
+.qs-vals li{border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 32px;position:relative;font-size:14px}
+.qs-vals li::before{content:'';position:absolute;left:13px;top:50%;width:10px;height:6px;margin-top:-5px;
+  border-left:2px solid var(--sap);border-bottom:2px solid var(--sap);transform:rotate(-45deg)}
 </style>
 </head>
 <body>
@@ -1353,19 +1410,21 @@ main{overflow-x:clip}
 
 <!-- NAV -->
 <header id="hdr"><nav class="nav">
+  <span class="nav-side" aria-hidden="true"></span>
   <a href="#top" class="brand" data-c>
-    <img class="brand-logo" src="assets/img/logo-arbo.png" alt="Arbo Sempre Verde" width="34" height="34">
+    <img class="brand-logo" src="assets/img/logo-arbo.png" alt="Arbo Sempre Verde" width="44" height="44">
     <span>Arbo Sempre Verde<em>Soluções Ambientais</em></span>
   </a>
+  <a href="#orcamento" class="btn btn-fill nav-cta" data-c>Pedir orçamento</a>
   <div class="nav-links" id="navLinks">
+    <a href="#quem-somos" data-c>Quem somos</a>
     <a href="#revelacao" data-c>Serviços</a>
     <a href="#galeria" data-c>Galeria</a>
     <a href="#credenciais" data-c>Credenciais</a>
     <a href="#atendemos" data-c>Quem atendemos</a>
     <a href="#cursos" data-c>Cursos</a>
-    <a href="#orcamento" class="btn btn-fill" data-c>Pedir orçamento</a>
   </div>
-  <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+  <button class="burger" id="burger" aria-label="Menu" hidden><i></i><i></i></button>
 </nav></header>
 
 <main id="top">
@@ -1380,25 +1439,25 @@ main{overflow-x:clip}
     <div class="hero-grain"></div>
 
     <div class="hero-in">
-      <div class="hero-eyebrow"><span></span><p class="label" style="margin:0">Arborista certificado ISA · Goiás</p><span></span></div>
+      <p class="hero-lead hero-lead--top">Arboricultura profissional exige técnica, segurança e responsabilidade</p>
       <h1 id="pressure" class="display" aria-label="Sobe quem sabe">Sobe quem sabe</h1>
-      <p class="hero-lead">Arboricultura profissional exige técnica, segurança e responsabilidade.</p>
-      <p class="hero-sub body-lg">Realizamos serviços especializados no <strong>manejo de árvores e
-        palmeiras</strong>, <strong>podas</strong>, <strong>supressões</strong>, <strong>sistemas de
-        suporte</strong>, <strong>avaliação de risco</strong>, <strong>tratamento de solo</strong>,
-        sempre priorizando a segurança, a saúde das árvores e as boas práticas da arboricultura.</p>
+      <p class="hero-sub body-lg">Somos especialistas no manejo arbóreo: <strong>avaliação de risco e laudos
+        técnicos</strong> – <strong>corte e poda de árvores e palmeiras</strong> – <strong>sistemas de suporte
+        para árvores</strong> – <strong>tratamento de solo, fitossanitário, endoterapia e dendrocirurgia</strong> –
+        <strong>cursos, treinamentos e consultorias</strong>. Sempre priorizando a segurança, a saúde das
+        árvores e as boas práticas da arboricultura.</p>
       <p class="hero-note">Atendimento em todo o estado de Goiás, com equipe especializada e
-        Arborista Certificado pela ISA.</p>
+        arborista certificado pela ISA.</p>
       <div class="hero-cta">
         <a href="#orcamento" class="btn btn-fill" data-c>Solicitar orçamento
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H4M13 1v9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></a>
-        <a href="#credenciais" class="btn" data-c>Conheça nossas credenciais</a>
+        <a href="#credenciais" class="btn" data-c>Nossas credenciais</a>
       </div>
     </div>
 
     <div class="scroll-hint"><span>Role</span><i></i></div>
     <div class="hero-stats">
-      <div><b class="mono">05</b><span>Frentes de manejo</span></div>
+      <div><b class="mono">05</b><span>Frentes de trabalho</span></div>
       <div><b class="mono">ISA</b><span>Arborista certificado</span></div>
       <div><b class="mono">GO</b><span>Todo o estado</span></div>
     </div>
@@ -1414,7 +1473,7 @@ main{overflow-x:clip}
   <div class="wrap trust-in">
     <a class="trust-i" href="#credenciais" data-c>
       <span class="trust-m">3º</span>
-      <span><b>Campeonato Brasileiro de Escalada em Árvores</b>Pódio nacional · 2023</span>
+      <span><b>Competições e Medalhas</b>Pódio nacional · 2023</span>
     </a>
     <a class="trust-i" href="#credenciais" data-c>
       <span class="trust-m trust-m--seal">ISA</span>
@@ -1424,8 +1483,51 @@ main{overflow-x:clip}
       <span class="trust-m trust-m--seal">16h</span>
       <span><b>Resgate em altura ARBOLAB</b>Metodologia Peter de Vries · 2026</span>
     </a>
+    <a class="trust-i" href="#credenciais" data-c>
+      <span class="trust-m trust-m--seal">24h</span>
+      <span><b>Curso avançado de Arborista</b>Formação técnica · 24 horas</span>
+    </a>
+    <a class="trust-i" href="#credenciais" data-c>
+      <span class="trust-m trust-m--seal">SST</span>
+      <span><b>NRs e documentação de SST</b>Segurança e saúde no trabalho</span>
+    </a>
   </div>
 </div>
+
+<!-- ═══ QUEM SOMOS ═══ -->
+<section class="sect wrap" id="quem-somos">
+  <div class="qs">
+    <div>
+      <p class="label fade">Quem somos</p>
+      <h2 class="h2 fade" style="margin-top:18px;max-width:16ch">Arbo Sempre Verde Soluções Ambientais</h2>
+    </div>
+    <div class="qs-txt fade">
+      <p class="body-lg">A ARBO SEMPRE VERDE SOLUÇÕES AMBIENTAIS LTDA nasceu a partir da fantástica experiência em poder escalar árvores com segurança e agilidade.</p>
+      <p class="body">O contato com a natureza, a atividade física ao ar livre e a sensação de poder contribuir com a preservação do meio ambiente, fez nascer essa empresa, que busca preservar a natureza, conscientizar as pessoas, transmitir conhecimento e gerar segurança através dos cuidados especiais com as árvores.</p>
+      <p class="body">Somos uma empresa especializada em arboricultura, oferecendo soluções técnicas para manejo, poda, supressão e conservação de árvores.</p>
+      <p class="body">Atuamos com responsabilidade, segurança e respeito ao meio ambiente, utilizando equipamentos modernos e técnicas adequadas para cada serviço.</p>
+      <p class="body">Nossa equipe é treinada para realizar trabalhos em altura com excelência, garantindo a proteção das pessoas, do patrimônio e da vegetação.</p>
+      <p class="body">Nosso compromisso é oferecer um atendimento de qualidade, pontualidade e soluções eficientes para cada cliente.</p>
+    </div>
+  </div>
+  <div class="qs-grid">
+    <article class="qs-card fade">
+      <p class="label">Nossa missão</p>
+      <p class="body">Executar serviços de arboricultura com excelência, segurança e responsabilidade ambiental, proporcionando tranquilidade aos nossos clientes.</p>
+    </article>
+    <article class="qs-card fade">
+      <p class="label">Nossa visão</p>
+      <p class="body">Ser referência no Estado de Goiás em manejo e conservação de árvores, reconhecida pela qualidade, confiança e inovação.</p>
+    </article>
+    <article class="qs-card qs-card--valores fade">
+      <p class="label">Nossos valores</p>
+      <ul class="qs-vals">
+        <li>Segurança</li><li>Ética</li><li>Respeito ao Meio Ambiente</li><li>Qualidade</li><li>Compromisso</li>
+        <li>Transparência</li><li>Responsabilidade</li><li>Atendimento Humanizado</li><li>Transmissão de conhecimento</li>
+      </ul>
+    </article>
+  </div>
+</section>
 
 <!-- ═══ MANIFESTO ═══ -->
 <section class="sect wrap" id="manejo">
@@ -1451,7 +1553,7 @@ main{overflow-x:clip}
 <!-- ═══ OBJECT REVEAL ON HOVER ═══ -->
 <section class="sect wrap" id="revelacao">
   <p class="label fade">Nossos serviços</p>
-  <h2 class="h2 fade" style="margin-top:18px;max-width:17ch">Cinco frentes de manejo</h2>
+  <h2 class="h2 fade" style="margin-top:18px;max-width:17ch">Cinco frentes de trabalho</h2>
   <div class="reveal-list" id="revealList"></div>
 </section>
 
@@ -1545,15 +1647,16 @@ main{overflow-x:clip}
   </div>
 </section>
 
-<!-- ═══ MEDALHAS E CERTIFICAÇÕES ═══ -->
+<!-- ═══ COMPETIÇÕES E MEDALHAS ═══ -->
 <section class="sect" id="credenciais">
   <div class="wrap">
-    <p class="label fade">Medalhas e certificações</p>
+    <p class="label fade">Competições e medalhas</p>
     <h2 class="h1 fade" style="margin-top:18px;max-width:16ch">Quem sobe na sua árvore
       <span style="color:var(--ouro)">tem título</span></h2>
-    <p class="body-lg fade" style="margin-top:22px;max-width:54ch">Arboricultura não é serviço de
-      motosserra. É profissão com certificação internacional, norma técnica e plano de resgate — e
-      o nosso arborista disputa no nível mais alto do país.</p>
+    <p class="body-lg fade" style="margin-top:22px;max-width:54ch">Arboricultura é uma profissão com
+      reconhecimento e certificação internacional. Escalar árvores, além de ser um trabalho que exige
+      técnica, experiência e bons equipamentos, também é um esporte, que o nosso arborista disputa no
+      mais alto nível do país e da América Latina.</p>
 
     <!-- destaque: pódio nacional -->
     <div class="medal-hero fade">
@@ -1814,11 +1917,11 @@ const waLink = t => `https://wa.me/${A.whatsapp}?text=${encodeURIComponent(t)}`;
 
 /* ── DATA ──────────────────────────────────────────────────── */
 const SERVICOS = [
-  {k:'01',t:'Poda de árvores',d:'Poda de limpeza, levantamento de copa e redução. Corte técnico que preserva o colar do galho e a cicatrização da árvore.',ico:'poda',wide:true},
-  {k:'02',t:'Corte de árvores',d:'Supressão com rigging e seccionamento controlado, para áreas onde a queda direcionada não é possível.',ico:'corte'},
-  {k:'03',t:'Palmeiras',d:'Poda e corte de palmeiras — espécies com anatomia própria, que exigem manejo diferente de árvores lenhosas.',ico:'palm'},
-  {k:'04',t:'Cabeamento',d:'Instalação de cabos e travejamento para sustentar bifurcações frágeis e prolongar a vida da árvore.',ico:'cabo'},
-  {k:'05',t:'Tratamento de solo',d:'Descompactação, correção e adubação. Grande parte dos problemas de copa começa embaixo da terra.',ico:'solo',wide:true}
+  {k:'01',t:'Avaliação de risco e laudos técnicos',d:'',m:'Segurança',ico:'poda',wide:true},
+  {k:'02',t:'Corte e poda de árvores e palmeiras',d:'',m:'Manutenção',ico:'corte'},
+  {k:'03',t:'Sistemas de suporte para árvores',d:'Cabeamento, escoramento, estaiamento e reforço',m:'Estabilidade',ico:'cabo'},
+  {k:'04',t:'Tratamento de árvores e palmeiras',d:'Nutrição do solo, endoterapia, dendrocirurgia e fitossanidade',m:'Saúde',ico:'solo'},
+  {k:'05',t:'Cursos, treinamentos e consultorias',d:'',m:'Conhecimento',ico:'palm',wide:true}
 ];
 const PERFIS = [
   {k:'Indústrias',t:'Áreas industriais',d:'Árvores em faixas de servidão, pátios e limites de terreno — onde queda significa parada de operação.',tags:['Laudo de risco','Rede elétrica','Agendamento fora de turno']},
@@ -2080,7 +2183,7 @@ function canopy(){
    MARQUEE
    ══════════════════════════════════════════════════════════════ */
 function marquee(){
-  const words=['Poda de árvores','Corte de árvores','Palmeiras','Cabeamento','Tratamento de solo','Manejo urbano','Zona rural','Cursos de arborista'];
+  const words=['Avaliação de risco','Laudos técnicos','Corte e poda','Palmeiras','Sistemas de suporte','Tratamento de árvores','Cursos e treinamentos','Consultorias'];
   const one=words.map(w=>`<b>${w}</b>`).join('');
   $('#marq').innerHTML=one+one;
 }
@@ -2205,20 +2308,20 @@ function podaDiagram(){
 /* ══════════════════════════════════════════════════════════════
    OBJECT REVEAL ON HOVER — 3D object follows cursor
    ══════════════════════════════════════════════════════════════ */
-const REVEAL_IMG=[
-  'assets/img/arvore-gramado.jpg',
+const REVEAL_IMG=[ /* provisórias: o cliente vai mandar uma foto por serviço */
+  'assets/img/diagnostico-fuste.jpg',
   'assets/img/work-chainsaw.jpg',
-  'assets/img/work-climb-palm.jpg',
   'assets/img/trabalho-altura.jpg',
-  'assets/img/tratamento-solo.jpg'
+  'assets/img/arvore-jardim.jpg',
+  'assets/img/curso-cartaz.jpg'
 ];
 function objectReveal(){
   const list=$('#revealList');
   list.innerHTML=SERVICOS.map((s,i)=>`
     <div class="rv" data-i="${i}" data-c>
       <span class="rv-n mono">${s.k}</span>
-      <h3 class="rv-t">${s.t}</h3>
-      <span class="rv-meta">${['Copa','Supressão','Estipe','Sustentação','Raiz'][i]}</span>
+      <h3 class="rv-t">${s.t}${s.d?`<small class="rv-d">${s.d}</small>`:''}</h3>
+      <span class="rv-meta">${s.m}</span>
     </div>`).join('');
 
   const float=$('#rvFloat');
@@ -2304,7 +2407,7 @@ const ESPECIMES=[
   {k:'Palmeira',img:'assets/img/work-climb-palm.jpg',
    pts:[[50,24,'Folhas secas pendentes'],[44,52,'Estipe sem cicatrização'],[56,78,'Base e raízes']],
    facts:[['Anatomia','Sem crescimento secundário'],['Erro comum','Poda em "pé de galinha"'],['Corte certo','Só a folha já seca']]},
-  {k:'Solo',    img:'assets/img/tratamento-solo.jpg',
+  {k:'Solo',    img:'assets/img/arvore-jardim.jpg',
    pts:[[50,34,'Coroamento'],[36,62,'Compactação'],[68,70,'Adubação e cobertura']],
    facts:[['Sinal na copa','Folha pequena e clara'],['Intervenção','Descompactação e correção'],['Prazo','Resposta em 1 a 2 ciclos']]}
 ];
@@ -2556,7 +2659,7 @@ function reveals(){
     const id=a.getAttribute('href'); if(id.length<2)return;
     const t=$(id); if(!t)return;
     e.preventDefault();
-    scrollTo({top:t.getBoundingClientRect().top+scrollY-70,behavior:RM?'auto':'smooth'});
+    scrollTo({top:t.getBoundingClientRect().top+scrollY-($('#hdr').offsetHeight+8),behavior:RM?'auto':'smooth'});
   }));
 }
 
@@ -2576,11 +2679,9 @@ const MONTAGEM = [
   {src:'assets/img/diagnostico-fuste-sm.jpg',type:'i',l:'Leitura de fuste'},
   {src:'assets/img/work-climb-tall-sm.jpg', type:'i', l:'Copa alta'},
   {src:'assets/video/tile-rapel',           type:'v', l:'Descida controlada'},
-  {src:'assets/img/tratamento-solo-sm.jpg', type:'i', l:'Tratamento de solo'},
   {src:'assets/img/work-climb-palm-sm.jpg', type:'i', l:'Palmeira de porte'},
   {src:'assets/video/tile-motosserra',      type:'v', l:'Motosserra em altura'},
   {src:'assets/img/arvore-gramado-sm.jpg',  type:'i', l:'Poda de levantamento'},
-  {src:'assets/img/work-rappel-sm.jpg',     type:'i', l:'Rapel de trabalho'},
   {src:'assets/img/work-chainsaw-sm.jpg',   type:'i', l:'Seccionamento'},
   {src:'assets/img/arvore-jardim-sm.jpg',   type:'i', l:'Manejo em jardim'},
   {src:'assets/img/trabalho-altura-sm.jpg', type:'i', l:'Trabalho em altura'},
@@ -2735,11 +2836,9 @@ const GALERIA = [
   ['work-climb-tall','Escalada em copa alta'],
   ['work-climb-palm','Palmeira de grande porte'],
   ['corte-detalhe','Corte no colar do galho'],
-  ['tratamento-solo','Coroamento e adubação'],
   ['work-chainsaw','Seccionamento controlado'],
   ['diagnostico-fuste','Inspeção de fuste'],
   ['arvore-jardim','Manejo em jardim'],
-  ['work-rappel','Descida em rapel'],
   ['arvore-parque','Arborização de praça'],
   ['trabalho-altura','Trabalho em altura'],
   ['toco-tratado','Destoca e acabamento'],

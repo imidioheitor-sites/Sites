@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ateliê da Bia Doces · Bolos sob encomenda em Goiânia</title>
+<meta name="description" content="Bolo de ninho com morango, bolo de aniversário personalizado, bolo de pote, brigadeiro gourmet e mesa de doces sob encomenda no Setor Bueno, Goiânia.">
+<meta property="og:title" content="Ateliê da Bia Doces · Goiânia">
+<meta property="og:description" content="Bolos e doces caseiros sob encomenda no Setor Bueno. Encomende pelo WhatsApp.">
+<meta property="og:image" content="bolo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chantilly:#FCEFEF;
+  --acucar:#F6DADB;
+  --chocolate:#2E1A16;
+  --cacau:#6B4A42;
+  --morango:#C8233A;
+  --morango-escuro:#A11A2E;
+  --pistache:#7E9460;
+  --papel:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--chantilly);color:var(--chocolate);font:400 17px/1.6 "Figtree",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:"Caprasimo",Georgia,serif;font-weight:400;line-height:1.05;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(2.5rem,8vw,4.5rem)}
+h2{font-size:clamp(2rem,5.6vw,3.4rem)}
+h3{font-size:1.45rem}
+p{margin:0 0 1rem}
+.box{width:min(1120px,100% - 32px);margin-inline:auto}
+.rotulo{display:inline-block;font-weight:800;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--morango-escuro);margin-bottom:.9rem}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--chocolate);outline-offset:3px}
+
+/* topo */
+.topo{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.marca{font-family:"Caprasimo",serif;font-size:1.35rem;text-decoration:none}
+.topo a.mini{font-weight:800;font-size:.95rem;text-decoration:none;border-bottom:2px solid var(--morango);padding-bottom:2px}
+
+/* hero */
+.hero{display:grid;gap:28px;align-items:center;padding:12px 0 56px}
+@media(min-width:900px){.hero{grid-template-columns:1.05fr .95fr;gap:56px;padding:28px 0 88px}}
+.hero h1 em{font-style:normal;color:var(--morango)}
+.hero .linha{font-size:clamp(1.08rem,2.4vw,1.3rem);color:var(--cacau);max-width:36ch;margin:1.2rem 0 1.8rem}
+.botoes{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--morango);color:#fff;text-decoration:none;font-weight:800;font-size:1.05rem;padding:1rem 1.6rem;border-radius:999px;border:0;cursor:pointer;font-family:inherit;transition:background .2s,transform .2s}
+.btn:hover{background:var(--morango-escuro);transform:translateY(-1px)}
+.btn.leve{background:transparent;color:var(--chocolate);box-shadow:inset 0 0 0 2px var(--chocolate)}
+.btn.leve:hover{background:var(--chocolate);color:#fff}
+.prazo{font-size:.95rem;color:var(--cacau);margin-top:1rem}
+.foto-hero{position:relative;margin:0}
+.foto-hero img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:220px 220px 28px 28px}
+.selo{position:absolute;left:-10px;bottom:28px;background:var(--papel);border-radius:50%;width:132px;height:132px;display:grid;place-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 14px 30px -14px rgba(46,26,22,.45)}
+.selo b{font-family:"Caprasimo",serif;font-weight:400;font-size:2.2rem;line-height:1;color:var(--morango)}
+.selo span{font-size:.78rem;font-weight:600;line-height:1.25;padding:0 14px}
+@media(min-width:900px){.selo{left:-46px;width:150px;height:150px}}
+
+/* faixa */
+.faixa{background:var(--chocolate);color:var(--chantilly);overflow:hidden;white-space:nowrap;padding:14px 0;font-family:"Caprasimo",serif;font-size:1.3rem}
+.faixa div{display:inline-block;animation:corre 38s linear infinite}
+.faixa span{margin:0 1.4rem}
+.faixa i{font-style:normal;color:var(--acucar);opacity:.7}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+/* cardapio */
+.cardapio{padding:88px 0}
+.cab{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px;margin-bottom:36px}
+.cab p{max-width:40ch;color:var(--cacau);margin:0}
+.grade{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:700px){.grade{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.grade{grid-template-columns:1.25fr 1fr 1fr}.grade .grande{grid-row:span 2}.grade .largo{grid-column:span 2}.grade .largo img{aspect-ratio:2/1}}
+.item{background:var(--papel);border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+.item img{width:100%;aspect-ratio:1/1;object-fit:cover}
+.item.grande img{aspect-ratio:4/5;flex:1}
+@media(max-width:699px){.item img,.item.grande img{aspect-ratio:4/3}}
+.item .txt{padding:18px 20px 22px}
+.item h3{margin-bottom:.35rem}
+.item p{color:var(--cacau);font-size:.98rem;margin:0 0 .8rem}
+.item .preco{font-weight:800;color:var(--morango-escuro);font-size:.95rem}
+.item .preco a{text-decoration:none;border-bottom:2px solid var(--acucar)}
+.tag-fav{display:inline-block;background:var(--morango);color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .7rem;border-radius:999px;margin-bottom:.6rem}
+
+/* avaliacoes */
+.notas{background:var(--acucar);padding:80px 0}
+.notas .box{display:grid;gap:32px;align-items:center}
+@media(min-width:860px){.notas .box{grid-template-columns:auto 1fr;gap:64px}}
+.numero{font-family:"Caprasimo",serif;font-size:clamp(6rem,20vw,11rem);line-height:.85;color:var(--morango)}
+.numero small{display:block;font-family:"Figtree",sans-serif;font-size:1rem;font-weight:600;color:var(--chocolate);margin-top:.6rem;line-height:1.4}
+.elogios{list-style:none;margin:1.4rem 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.elogios li{background:var(--papel);border-radius:999px;padding:.6rem 1.1rem;font-weight:600}
+
+/* encomenda */
+.encomenda{padding:88px 0}
+.encomenda .box{display:grid;gap:40px}
+@media(min-width:900px){.encomenda .box{grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}}
+.passos{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:22px}
+.passos li{display:grid;grid-template-columns:44px 1fr;gap:14px}
+.passos li::before{content:counter(list-item);font-family:"Caprasimo",serif;font-size:1.3rem;width:44px;height:44px;border-radius:50%;background:var(--chocolate);color:var(--chantilly);display:grid;place-items:center}
+.passos b{display:block;font-size:1.05rem}
+.passos span{color:var(--cacau)}
+.mesa-foto{margin-top:32px;border-radius:24px;overflow:hidden}
+.mesa-foto img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.mesa-foto figcaption{background:var(--papel);padding:12px 18px;font-size:.92rem;color:var(--cacau)}
+
+/* comanda */
+.comanda{background:var(--papel);border-radius:18px;padding:32px 26px 28px;position:relative;box-shadow:0 30px 60px -36px rgba(46,26,22,.5)}
+.comanda::before{content:"";position:absolute;left:0;right:0;top:-10px;height:20px;background:radial-gradient(circle at 10px 10px,var(--chantilly) 9px,transparent 10px) repeat-x;background-size:20px 20px}
+.comanda .cab-c{display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;align-items:baseline;border-bottom:2px dashed var(--acucar);padding-bottom:14px;margin-bottom:20px}
+.comanda .cab-c h3{font-size:1.7rem}
+.comanda .cab-c span{font-size:.85rem;color:var(--cacau);font-weight:600}
+.campo{display:grid;gap:6px;margin-bottom:16px}
+.campo label{font-weight:800;font-size:.9rem}
+.campo input,.campo select,.campo textarea{font:inherit;font-size:16px;color:var(--chocolate);background:var(--chantilly);border:2px solid transparent;border-radius:12px;padding:.8rem .9rem;width:100%}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--morango);outline:none}
+.duas{display:grid;gap:0 14px;grid-template-columns:1fr}
+@media(min-width:520px){.duas{grid-template-columns:1fr 1fr}}
+.comanda .btn{width:100%;margin-top:6px}
+.aviso{font-size:.88rem;color:var(--cacau);margin:12px 0 0;text-align:center}
+.aviso.erro{color:var(--morango-escuro);font-weight:600}
+
+footer{background:var(--chocolate);color:var(--chantilly);padding:48px 0 calc(110px + env(safe-area-inset-bottom))}
+footer .box{display:grid;gap:18px}
+@media(min-width:760px){footer .box{grid-template-columns:1.4fr 1fr;align-items:end}}
+footer .marca{font-size:1.8rem}
+footer p{margin:.4rem 0 0;opacity:.85}
+footer .helu{font-size:.82rem;opacity:.6}
+
+.flutua{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;display:inline-flex;align-items:center;gap:.5rem;background:#1F8A4C;color:#fff;text-decoration:none;font-weight:800;padding:.85rem 1.2rem;border-radius:999px;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
+.flutua svg{width:20px;height:20px}
+
+.js .surge{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .surge.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.surge{opacity:1;transform:none}}
+
+/* efeitos */
+.cursor{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:2px solid var(--morango);pointer-events:none;z-index:50;opacity:0;transition:opacity .3s,width .2s,height .2s,margin .2s,background .2s;mix-blend-mode:multiply}
+.cursor.vis{opacity:.9}.cursor.grande{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(200,35,58,.15)}
+@media(hover:none){.cursor{display:none}}
+.show3d{background:var(--chocolate);color:var(--chantilly);padding:72px 0 40px}
+.show3d .box{display:grid;gap:24px;align-items:center}
+@media(min-width:900px){.show3d .box{grid-template-columns:.8fr 1.2fr}}
+.show3d .rotulo{color:var(--acucar)}
+#cena{width:100%;height:min(62vh,460px);border-radius:24px;background:radial-gradient(circle at 50% 40%,#5a3a31,#2E1A16 70%);touch-action:pan-y;cursor:grab}
+.cena-fallback{display:none}
+.no3d #cena{display:none}.no3d .cena-fallback{display:block;border-radius:24px;width:100%;aspect-ratio:4/3;object-fit:cover}
+.portal{height:240vh;position:relative}
+.portal-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--chocolate)}
+.portal-pin img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;clip-path:circle(var(--r,6%) at 50% 50%);will-change:clip-path}
+.portal-txt{position:absolute;inset:0;display:grid;place-content:center;text-align:center;color:#fff;padding:0 24px;pointer-events:none}
+.portal-txt h2{text-shadow:0 2px 24px rgba(0,0,0,.55);font-size:clamp(2rem,6vw,4rem)}
+.portal-txt span{opacity:.9;display:block;margin-top:.8rem}
+.item .foto{position:relative;overflow:hidden}
+.item .foto img.base{filter:grayscale(1) contrast(.9) brightness(1.05)}
+.item .foto img.cor{position:absolute;inset:0;-webkit-mask-image:radial-gradient(circle 90px at var(--mx,50%) var(--my,50%),#000 98%,transparent 100%);mask-image:radial-gradient(circle 90px at var(--mx,50%) var(--my,50%),#000 98%,transparent 100%);opacity:0;transition:opacity .25s}
+.item .foto:hover img.cor,.item .foto.toque img.cor{opacity:1}
+.item.grande .foto{flex:1;display:flex}.item.grande .foto img.base{height:100%}
+@media(hover:none){.item .foto img.base{filter:none}.item .foto img.cor{display:none}}
+.add{margin-top:.7rem;background:var(--chocolate);color:#fff;border:0;border-radius:999px;font:800 .9rem Figtree,sans-serif;padding:.6rem 1.1rem;cursor:pointer}
+.add:hover{background:var(--morango)}
+.carrinho-btn{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:20;background:var(--chocolate);color:#fff;border:0;border-radius:999px;font:800 1rem Figtree,sans-serif;padding:.9rem 1.2rem;cursor:pointer;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
+.gaveta{position:fixed;right:0;top:0;bottom:0;width:min(380px,100%);background:#fff;z-index:60;transform:translateX(105%);transition:transform .3s;padding:24px;display:flex;flex-direction:column;box-shadow:-20px 0 60px -30px rgba(0,0,0,.5)}
+.gaveta.on{transform:none}
+.gaveta h3{margin-bottom:1rem}.gaveta ul{list-style:none;margin:0;padding:0;flex:1;overflow:auto}
+.gaveta li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--acucar)}
+.gaveta li button{border:0;background:var(--acucar);border-radius:50%;width:28px;height:28px;font-weight:800;cursor:pointer}
+.gaveta .fechar{align-self:flex-end;background:none;border:0;font-size:1.6rem;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="box topo">
+  <a class="marca" href="#">Ateliê da Bia</a>
+  <a class="mini" href="#encomendar">Fazer encomenda</a>
+</div>
+
+<header class="box hero">
+  <div>
+    <span class="rotulo">Confeitaria caseira · Setor Bueno, Goiânia</span>
+    <h1>O bolo de ninho com morango que <em>vira assunto</em> da festa.</h1>
+    <p class="linha">A Bia faz cada bolo na cozinha de casa, só por encomenda: aniversário personalizado, bolo de pote, brigadeiro e mesa de doces.</p>
+    <div class="botoes">
+      <a class="btn" href="https://wa.me/556293053099?text=Oi%20Bia!%20Vi%20o%20site%20e%20quero%20encomendar%20um%20bolo.">Encomendar pelo WhatsApp</a>
+      <a class="btn leve" href="#cardapio">Ver o cardápio</a>
+    </div>
+    <p class="prazo">Encomendas com pelo menos 3 dias de antecedência.</p>
+  </div>
+  <figure class="foto-hero">
+    <img src="bolo.jpg" alt="Bolo de ninho com morango coberto de chantininho e morangos frescos" width="960" height="1200" fetchpriority="high">
+    <div class="selo" aria-label="Nota 4,9 no Google com 87 avaliações"><b>4,9</b><span>no Google, 87 avaliações</span></div>
+  </figure>
+</header>
+
+<div class="faixa" aria-hidden="true"><div>
+  <span>Bolo de ninho com morango</span><i>✦</i><span>Aniversário personalizado</span><i>✦</i><span>Bolo de pote</span><i>✦</i><span>Brigadeiro gourmet</span><i>✦</i><span>Mesa de doces</span><i>✦</i>
+  <span>Bolo de ninho com morango</span><i>✦</i><span>Aniversário personalizado</span><i>✦</i><span>Bolo de pote</span><i>✦</i><span>Brigadeiro gourmet</span><i>✦</i><span>Mesa de doces</span><i>✦</i>
+</div></div>
+
+
+<section class="show3d" id="doce3d">
+  <div class="box">
+    <div class="surge"><span class="rotulo">Bolo em 3D</span><h2>Gire o bolo com o dedo ou o mouse</h2><p style="margin-top:1rem;opacity:.85;max-width:38ch">É assim que ele chega na festa: massa de ninho, chantininho e morangos frescos por cima.</p></div>
+    <div><canvas id="cena" aria-label="Bolo de ninho com morango em 3D, arraste para girar" role="img"></canvas><img class="cena-fallback" src="bolo.jpg" alt="Bolo de ninho com morango" loading="lazy"></div>
+  </div>
+</section>
+<main>
+<section class="cardapio box" id="cardapio">
+  <div class="cab surge">
+    <div><span class="rotulo">Cardápio</span><h2>O que sai da cozinha da Bia</h2></div>
+    <p>Tudo feito à mão para a sua data. Tamanho, sabor e decoração você combina com ela no WhatsApp.</p>
+  </div>
+  <div class="grade">
+    <article class="item grande surge">
+      <div class="foto"><img class="base" src="bolo.jpg" alt="Bolo de aniversário decorado com morangos" loading="lazy"><img class="cor" src="bolo.jpg" alt="" aria-hidden="true" loading="lazy"></div>
+      <div class="txt">
+        <span class="tag-fav">O mais pedido</span>
+        <h3>Bolo de aniversário personalizado</h3>
+        <p>Decoração pensada para o tema da festa. O de ninho com morango é o que os clientes mais elogiam.</p>
+        <button class="add" data-n="Bolo de aniversário personalizado">Adicionar ao pedido</button> <span class="preco"><a href="https://wa.me/556293053099?text=Oi%20Bia!%20Quanto%20fica%20um%20bolo%20de%20anivers%C3%A1rio%20personalizado%3F">Pedir orçamento</a></span>
+      </div>
+    </article>
+    <article class="item surge">
+      <div class="foto"><img class="base" src="pote.jpg" alt="Bolos de pote com camadas de bolo e recheio" loading="lazy"><img class="cor" src="pote.jpg" alt="" aria-hidden="true" loading="lazy"></div>
+      <div class="txt">
+        <h3>Bolo de pote</h3>
+        <p>Individual, bom para festa, lembrancinha ou presente.</p>
+        <button class="add" data-n="Bolo de pote">Adicionar ao pedido</button> <span class="preco"><a href="https://wa.me/556293053099?text=Oi%20Bia!%20Quero%20saber%20dos%20bolos%20de%20pote.">Ver sabores</a></span>
+      </div>
+    </article>
+    <article class="item surge">
+      <div class="foto"><img class="base" src="brigadeiro.jpg" alt="Brigadeiros gourmet em forminhas" loading="lazy"><img class="cor" src="brigadeiro.jpg" alt="" aria-hidden="true" loading="lazy"></div>
+      <div class="txt">
+        <h3>Brigadeiro gourmet</h3>
+        <p>Feito à mão, por quantidade, para completar a mesa.</p>
+        <button class="add" data-n="Brigadeiro gourmet">Adicionar ao pedido</button> <span class="preco"><a href="https://wa.me/556293053099?text=Oi%20Bia!%20Quero%20encomendar%20brigadeiros.">Encomendar</a></span>
+      </div>
+    </article>
+    <article class="item largo surge">
+      <div class="foto"><img class="base" src="mesa.jpg" alt="Mesa de doces de aniversário montada" loading="lazy"><img class="cor" src="mesa.jpg" alt="" aria-hidden="true" loading="lazy"></div>
+      <div class="txt">
+        <h3>Mesa de doces</h3>
+        <p>Bolo, potes e docinhos montados para a festa inteira.</p>
+        <button class="add" data-n="Mesa de doces">Adicionar ao pedido</button> <span class="preco"><a href="https://wa.me/556293053099?text=Oi%20Bia!%20Quero%20or%C3%A7amento%20de%20mesa%20de%20doces.">Pedir orçamento</a></span>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<section class="portal" id="portal" aria-label="Mesa de doces">
+  <div class="portal-pin"><img src="mesa.jpg" alt="Mesa de doces de aniversário montada" loading="lazy">
+    <div class="portal-txt"><h2>Role e entre na festa</h2><span>Bolo, potes e docinhos para a mesa inteira</span></div></div>
+</section>
+<section class="notas" aria-labelledby="t-notas">
+  <div class="box">
+    <div class="numero surge" aria-hidden="true">4,9<small>★★★★★ no Google<br>87 avaliações</small></div>
+    <div class="surge">
+      <span class="rotulo">Quem já encomendou</span>
+      <h2 id="t-notas">Nota 4,9 com 87 avaliações no Google</h2>
+      <p style="margin-top:1rem;color:var(--cacau);max-width:46ch">O que aparece de novo e de novo nas avaliações:</p>
+      <ul class="elogios">
+        <li>O bolo de ninho com morango</li>
+        <li>O capricho na decoração</li>
+        <li>A entrega no horário combinado</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="encomenda" id="encomendar">
+  <div class="box">
+    <div class="surge">
+      <span class="rotulo">Como encomendar</span>
+      <h2>Do pedido à festa</h2>
+      <ol class="passos">
+        <li><div><b>Mande a data e a ideia</b><span>Pelo WhatsApp, com pelo menos 3 dias de antecedência.</span></div></li>
+        <li><div><b>Combine com a Bia</b><span>Sabor, tamanho e decoração, e ela te passa o valor.</span></div></li>
+        <li><div><b>Retire ou receba</b><span>Retirada no Setor Bueno ou entrega por motoboy, com taxa a combinar.</span></div></li>
+      </ol>
+    </div>
+
+    <form class="comanda surge" id="comanda" novalidate>
+      <div class="cab-c"><h3>Sua encomenda</h3><span>vai direto para o WhatsApp da Bia</span></div>
+      <div class="campo">
+        <label for="c-oque">O que você quer</label>
+        <select id="c-oque" name="oque">
+          <option>Bolo de aniversário personalizado</option>
+          <option>Bolo de ninho com morango</option>
+          <option>Bolo de pote</option>
+          <option>Brigadeiro gourmet</option>
+          <option>Mesa de doces completa</option>
+        </select>
+      </div>
+      <div class="duas">
+        <div class="campo"><label for="c-data">Data da festa</label><input id="c-data" name="data" type="date"></div>
+        <div class="campo"><label for="c-pessoas">Quantas pessoas</label><input id="c-pessoas" name="pessoas" type="number" min="1" inputmode="numeric" placeholder="Ex.: 30"></div>
+      </div>
+      <div class="campo"><label for="c-ideia">Tema ou ideia da decoração (opcional)</label><textarea id="c-ideia" name="ideia" rows="2" placeholder="Ex.: tema jardim, tons de rosa"></textarea></div>
+      <button class="btn" type="submit">Mandar pedido no WhatsApp</button>
+      <p class="aviso" id="c-aviso" aria-live="polite">A Bia responde com o valor e confirma a data.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="box">
+    <div>
+      <span class="marca">Ateliê da Bia Doces</span>
+      <p>Bolos e doces caseiros sob encomenda · Setor Bueno, Goiânia/GO</p>
+      <p>WhatsApp <a href="https://wa.me/556293053099">(62) 9305-3099</a></p>
+    </div>
+    <p class="helu">Demonstração feita pela HELU TECH. As fotos são ilustrativas e trocamos pelas suas do @ateliedabiadoces.</p>
+  </div>
+</footer>
+
+<a class="flutua" href="https://wa.me/556293053099?text=Oi%20Bia!%20Vi%20o%20site%20e%20quero%20encomendar." aria-label="Falar com a Bia no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+  <span>WhatsApp</span>
+</a>
+
+<script>
+document.documentElement.classList.add('js');
+(function(){
+  var num='556293053099';
+  var f=document.getElementById('comanda'), aviso=document.getElementById('c-aviso');
+  var d=document.getElementById('c-data'), min=new Date(Date.now()+3*864e5);
+  d.min=min.toISOString().slice(0,10);
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var oque=f.oque.value, data=f.data.value, p=f.pessoas.value, ideia=f.ideia.value.trim();
+    if(data && data<d.min){ aviso.textContent='Escolha uma data a partir de '+d.min.split('-').reverse().join('/')+': a Bia precisa de 3 dias.'; aviso.className='aviso erro'; d.focus(); return; }
+    var msg='Oi Bia! Vim pelo site e quero encomendar:\n• '+oque;
+    if(data) msg+='\n• Data da festa: '+data.split('-').reverse().join('/');
+    if(p) msg+='\n• Para '+p+' pessoas';
+    if(ideia) msg+='\n• Ideia: '+ideia;
+    aviso.textContent='Abrindo o WhatsApp com o seu pedido.'; aviso.className='aviso';
+    window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener');
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}})},{threshold:.12});
+    document.querySelectorAll('.surge').forEach(function(el){io.observe(el)});
+  } else { document.querySelectorAll('.surge').forEach(function(el){el.classList.add('on')}); }
+})();
+</script>
+
+<button class="carrinho-btn" id="cb" aria-label="Abrir pedido">Meu pedido (<span id="cn">0</span>)</button>
+<aside class="gaveta" id="gv" aria-label="Meu pedido"><button class="fechar" id="gf" aria-label="Fechar">×</button><h3>Meu pedido</h3><ul id="gl"></ul><a class="btn" id="gw" href="#">Enviar no WhatsApp</a></aside>
+<div class="cursor" id="cur"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var cart={},num='556293053099';
+  function draw(){var l=document.getElementById('gl'),t=0,m='Oi Bia! Quero encomendar:';l.innerHTML='';
+    Object.keys(cart).forEach(function(k){t+=cart[k];m+='\n• '+cart[k]+'x '+k;var li=document.createElement('li');li.innerHTML='<span>'+k+'</span><span><button data-m="'+k+'">−</button> '+cart[k]+' <button data-p="'+k+'">+</button></span>';l.appendChild(li);});
+    document.getElementById('cn').textContent=t;
+    document.getElementById('gw').href=t?'https://wa.me/'+num+'?text='+encodeURIComponent(m):'#';
+    if(!t)l.innerHTML='<li>Seu pedido está vazio.</li>';}
+  document.addEventListener('click',function(e){var a=e.target.closest('.add');
+    if(a){cart[a.dataset.n]=(cart[a.dataset.n]||0)+1;draw();document.getElementById('gv').classList.add('on');}
+    var p=e.target.dataset&&e.target.dataset.p,m=e.target.dataset&&e.target.dataset.m;
+    if(p){cart[p]++;draw();} if(m){cart[m]--;if(!cart[m])delete cart[m];draw();}
+    if(e.target.closest('#cb'))document.getElementById('gv').classList.add('on');
+    if(e.target.closest('#gf'))document.getElementById('gv').classList.remove('on');});
+  draw();
+  // cursor
+  var c=document.getElementById('cur');
+  if(matchMedia('(hover:hover)').matches){document.addEventListener('mousemove',function(e){c.classList.add('vis');c.style.transform='translate('+e.clientX+'px,'+e.clientY+'px)';
+    c.classList.toggle('grande',!!e.target.closest('a,button,.foto,canvas'));});}
+  // revelar objeto no hover
+  document.querySelectorAll('.item .foto').forEach(function(f){
+    f.addEventListener('mousemove',function(e){var r=f.getBoundingClientRect();f.style.setProperty('--mx',(e.clientX-r.left)+'px');f.style.setProperty('--my',(e.clientY-r.top)+'px');});});
+  // portal
+  var po=document.getElementById('portal'),pi=po.querySelector('img'),red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function sc(){var r=po.getBoundingClientRect(),h=po.offsetHeight-innerHeight,p=Math.min(1,Math.max(0,-r.top/h));pi.style.setProperty('--r',red?'150%':(6+p*100)+'%');}
+  addEventListener('scroll',sc,{passive:true});sc();
+  // bolo 3D
+  var cv=document.getElementById('cena');
+  try{
+    if(!window.THREE||red)throw 0;
+    var R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,2));
+    var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(40,1,.1,50);C.position.set(0,2.2,7);C.lookAt(0,.6,0);
+    S.add(new THREE.HemisphereLight(0xffffff,0x6b4a42,.9));var L=new THREE.DirectionalLight(0xffffff,.9);L.position.set(3,6,4);S.add(L);
+    var G=new THREE.Group();S.add(G);
+    function cyl(r,h,y,col){var m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,48),new THREE.MeshStandardMaterial({color:col,roughness:.6}));m.position.y=y;G.add(m);}
+    cyl(1.9,.25,-.1,0xF6DADB);cyl(1.5,1,.55,0xFCEFEF);cyl(1.05,.9,1.5,0xFCEFEF);
+    var ring=new THREE.Mesh(new THREE.TorusGeometry(1.5,.07,12,48),new THREE.MeshStandardMaterial({color:0xF6DADB}));ring.rotation.x=Math.PI/2;ring.position.y=1.05;G.add(ring);
+    for(var i=0;i<9;i++){var a=i/9*Math.PI*2,s=new THREE.Mesh(new THREE.SphereGeometry(.2,20,16),new THREE.MeshStandardMaterial({color:0xC8233A,roughness:.35}));s.scale.y=1.2;s.position.set(Math.cos(a)*.75,2.1,Math.sin(a)*.75);G.add(s);}
+    var top=new THREE.Mesh(new THREE.SphereGeometry(.26,20,16),new THREE.MeshStandardMaterial({color:0xC8233A,roughness:.35}));top.position.y=2.2;G.add(top);
+    function fit(){var w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}
+    fit();addEventListener('resize',fit);
+    var drag=false,lx=0,vel=.006,vis=true;
+    cv.addEventListener('pointerdown',function(e){drag=true;lx=e.clientX;cv.setPointerCapture(e.pointerId)});
+    cv.addEventListener('pointerup',function(){drag=false});
+    cv.addEventListener('pointermove',function(e){if(drag){G.rotation.y+=(e.clientX-lx)*.01;lx=e.clientX;}});
+    new IntersectionObserver(function(x){vis=x[0].isIntersecting}).observe(cv);
+    var last=0;(function loop(t){requestAnimationFrame(loop);if(!vis||t-last<33)return;last=t;if(!drag)G.rotation.y+=vel;G.position.y=Math.sin(t/900)*.08;R.render(S,C);})(0);
+  }catch(e){document.querySelector('.show3d').classList.add('no3d');}
+})();
+</script>
+</body>
+</html>

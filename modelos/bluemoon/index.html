@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blue Moon Buffet Infantil e Eventos · Uberlândia</title>
+<meta name="description" content="Buffet infantil e eventos no Patrimônio, Uberlândia, desde 2008. Monte o cardápio da festa e peça seu orçamento pelo WhatsApp.">
+<meta property="og:title" content="Blue Moon Buffet Infantil e Eventos">
+<meta property="og:description" content="Festa infantil em Uberlândia desde 2008. Orçamento pelo WhatsApp.">
+<meta property="og:image" content="lua.jpg">
+<meta name="theme-color" content="#0B0930">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0B0930;
+  --anil:#1A1562;
+  --violeta:#5B2A9E;
+  --lua:#CFE8FF;
+  --algodao:#FF7EB6;
+  --algodao-escuro:#E2508F;
+  --lilas:#ECE3FF;
+  --estrela:#FFE27A;
+  --tinta:#16123F;
+  --suave:#6C6597;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--noite);color:#fff;font:400 17px/1.55 "Bricolage Grotesque",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video,canvas{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:"Bagel Fat One",system-ui,sans-serif;font-weight:400;line-height:.92;margin:0;letter-spacing:-.01em}
+p{margin:0 0 1rem}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+.eyebrow{display:inline-block;font-weight:800;font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--algodao)}
+.claro{background:var(--lilas);color:var(--tinta)}
+.claro .eyebrow{color:var(--violeta)}
+button{font:inherit}
+:focus-visible{outline:3px solid var(--estrela);outline-offset:3px}
+
+/* grão */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opacity:.06;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* topo */
+.topo{position:fixed;top:0;left:0;right:0;z-index:40;padding:14px 0;transition:background .3s,backdrop-filter .3s}
+.topo.solido{background:rgba(11,9,48,.72);backdrop-filter:blur(12px)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none}
+.marca img{width:44px;height:44px}
+.marca b{font-family:"Bagel Fat One";font-weight:400;font-size:1.25rem;line-height:1}
+.marca small{display:block;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.7;font-weight:600}
+.menu{display:none;gap:26px;font-weight:600;font-size:.92rem}
+.menu a{text-decoration:none;opacity:.85}
+.menu a:hover{opacity:1;color:var(--algodao)}
+@media(min-width:900px){.menu{display:flex}}
+.pilula{display:inline-flex;align-items:center;gap:.55rem;background:var(--algodao);color:var(--noite);text-decoration:none;font-weight:800;border:0;border-radius:999px;padding:.8rem 1.25rem;cursor:pointer;transition:background .2s,transform .2s;white-space:nowrap}
+.pilula:hover{background:#fff}
+.pilula svg{width:18px;height:18px}
+
+/* hero */
+.hero{position:relative;height:230vh}
+.hero-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.hero-midia{position:absolute;inset:0;clip-path:polygon(58% 0,100% 0,100% 100%,40% 100%);will-change:clip-path}
+.hero-midia video,.hero-midia img{width:100%;height:100%;object-fit:cover;object-position:68% 50%}
+.hero-midia::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,9,48,.55),transparent 55%)}
+.hero-txt{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:104px 0 28px;pointer-events:none}
+.hero-txt .wrap{pointer-events:auto}
+.hero h1{font-size:clamp(3.1rem,8.6vw,8.4rem);max-width:8.5ch}
+.hero h1 .l{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .l span{display:inline-block}
+.hero h1 em{font-style:normal;color:var(--lua);text-shadow:0 0 40px rgba(150,200,255,.55)}
+.barra{width:84px;height:5px;border-radius:9px;background:var(--algodao);margin:26px 0 22px}
+.hero .sub{max-width:34ch;font-size:clamp(1.02rem,1.6vw,1.2rem);color:#D9D3FF}
+.chamada{display:inline-flex;align-items:center;gap:.8rem;margin-top:10px;color:var(--estrela);font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;font-size:.92rem}
+.chamada i{font-style:normal;display:inline-block;transition:transform .3s}
+.chamada:hover i{transform:translateX(6px)}
+.contatos{display:grid;gap:12px;font-size:.82rem;color:#CFC8FF;grid-template-columns:1fr}
+@media(min-width:760px){.contatos{grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 40px}}
+.contatos a,.contatos span{display:flex;align-items:center;gap:10px;text-decoration:none}
+.contatos svg{width:18px;height:18px;flex:none;color:var(--algodao)}
+.dica-rolar{position:absolute;right:20px;bottom:24px;width:22px;height:36px;border:2px solid rgba(255,255,255,.5);border-radius:14px}
+.dica-rolar::after{content:"";position:absolute;left:50%;top:7px;width:4px;height:7px;margin-left:-2px;border-radius:3px;background:#fff;animation:desce 1.6s infinite}
+@keyframes desce{to{transform:translateY(10px);opacity:0}}
+@media(max-width:759px){
+  .hero-midia{clip-path:polygon(0 60%,100% 50%,100% 100%,0 100%)}
+  .hero-txt{padding-top:96px}
+  .hero-midia video,.hero-midia img{object-position:72% 50%}
+  .hero-midia::after{background:linear-gradient(180deg,rgba(11,9,48,.2),transparent 40%)}
+  .dica-rolar{display:none}
+}
+
+/* letreiro */
+.letreiro{background:var(--algodao);color:var(--noite);overflow:hidden;white-space:nowrap;padding:18px 0;font-family:"Bagel Fat One";font-size:clamp(1.4rem,3.4vw,2.4rem);position:relative;z-index:2}
+.letreiro .trilho{display:inline-flex;will-change:transform}
+.letreiro span{padding:0 .5em}
+.letreiro i{font-style:normal;color:#fff}
+
+/* céu 3d */
+.ceu{position:relative;height:340vh;background:radial-gradient(120% 90% at 70% 40%,#2A1F86 0,#120E4A 45%,var(--noite) 80%)}
+.ceu-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#ceu3d{position:absolute;inset:0;width:100%;height:100%}
+.ceu-reserva{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%;display:none}
+.sem3d #ceu3d{display:none}.sem3d .ceu-reserva{display:block}
+.falas{position:absolute;inset:0;pointer-events:none}
+.fala{position:absolute;left:0;right:0;bottom:12vh}
+.fala .wrap{max-width:1240px}
+.fala h2{font-size:clamp(2.4rem,7vw,6.2rem);max-width:11ch;text-shadow:0 6px 40px rgba(11,9,48,.6)}
+.fala p{max-width:36ch;color:#D9D3FF;margin-top:18px;font-size:1.08rem}
+.fala .num{font-family:"Bagel Fat One";color:var(--algodao);font-size:1rem;letter-spacing:.1em;display:block;margin-bottom:14px}
+.js-anim .fala{opacity:0}
+@media(max-width:899px){.falas::before{content:"";position:absolute;left:0;right:0;bottom:0;height:62%;background:linear-gradient(180deg,rgba(11,9,48,0),rgba(11,9,48,.85) 45%)}}
+@media(min-width:900px){.fala{bottom:auto;top:50%;transform:translateY(-50%)}}
+.arraste{position:absolute;right:16px;top:86px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+@media(hover:none){.arraste{display:none}}
+
+/* cardápio */
+.cardapio{padding:120px 0 110px;position:relative}
+.cab{display:grid;gap:22px;margin-bottom:44px}
+@media(min-width:900px){.cab{grid-template-columns:1.2fr .8fr;align-items:end}}
+.cab h2{font-size:clamp(2.8rem,7.4vw,6.6rem)}
+.cab p{color:var(--suave);max-width:38ch;margin:0}
+.abas{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
+.abas button{background:transparent;border:2px solid var(--tinta);color:var(--tinta);border-radius:999px;padding:.55rem 1.1rem;font-weight:800;font-size:.9rem;cursor:pointer}
+.abas button[aria-pressed="true"]{background:var(--tinta);color:var(--lilas)}
+.grade{display:grid;gap:22px;grid-template-columns:1fr;perspective:1200px}
+@media(min-width:640px){.grade{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.grade{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border-radius:28px;overflow:hidden;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;box-shadow:0 30px 60px -40px rgba(22,18,63,.6)}
+.card.oculto{display:none}
+.card .foto{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--anil)}
+.card .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card .foto .pb{filter:grayscale(.9) brightness(.95) contrast(1.05)}
+.card .foto .cor{-webkit-mask-image:radial-gradient(circle var(--raio,0px) at var(--mx,50%) var(--my,50%),#000 97%,transparent 100%);mask-image:radial-gradient(circle var(--raio,0px) at var(--mx,50%) var(--my,50%),#000 97%,transparent 100%);transition:--raio .4s}
+@media(hover:none){.card .foto .pb{display:none}.card .foto .cor{-webkit-mask-image:none;mask-image:none}}
+.card .n{position:absolute;left:16px;top:14px;background:var(--algodao);color:var(--noite);font-weight:800;font-size:.78rem;border-radius:999px;padding:.25rem .65rem;z-index:2}
+.card .txt{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:1.6rem;color:var(--tinta)}
+.card p{color:var(--suave);margin:0;font-size:.97rem}
+.card .add{align-self:flex-start;margin-top:8px;display:inline-flex;align-items:center;gap:8px;background:var(--tinta);color:#fff;border:0;border-radius:999px;padding:.65rem 1.1rem;font-weight:800;cursor:pointer;transition:background .2s}
+.card .add:hover{background:var(--violeta)}
+.card .add.ok{background:var(--algodao);color:var(--noite)}
+
+/* portal */
+.portal{position:relative;height:260vh;background:var(--lilas)}
+.portal-palco{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:grid;place-items:center}
+.portal-img{position:absolute;inset:0;clip-path:circle(9% at 50% 50%);will-change:clip-path}
+.portal-img img{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.portal-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,9,48,0) 30%,rgba(11,9,48,.75))}
+.portal-palavra{position:relative;font-family:"Bagel Fat One";font-size:clamp(4rem,19vw,17rem);line-height:.85;color:var(--tinta);text-align:center;mix-blend-mode:normal;pointer-events:none}
+.portal-legenda{position:absolute;left:0;right:0;bottom:8vh;color:#fff;opacity:0}
+.portal-legenda h2{font-size:clamp(2.2rem,6vw,5rem);max-width:12ch}
+.portal-legenda p{max-width:40ch;color:#E6E0FF;margin-top:14px}
+
+/* galeria horizontal */
+.galeria{position:relative;background:var(--noite)}
+.galeria-palco{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
+.trilha{display:flex;gap:4vw;padding:0 8vw;will-change:transform}
+.quadro{flex:none;width:min(72vw,560px);position:relative}
+.quadro .moldura{border-radius:30px;overflow:hidden;aspect-ratio:4/5;transform:perspective(900px) rotateY(var(--ry,0deg));transition:transform .2s}
+.quadro img{width:100%;height:100%;object-fit:cover}
+.quadro h3{font-size:clamp(1.6rem,3vw,2.4rem);margin-top:18px}
+.quadro p{color:#CFC8FF;max-width:30ch;margin-top:6px}
+.galeria-titulo{flex:none;width:min(80vw,520px)}
+.galeria-titulo h2{font-size:clamp(3rem,7vw,6.4rem)}
+.galeria-titulo p{color:#CFC8FF;max-width:30ch;margin-top:18px}
+
+/* diferenciais */
+.motivos{padding:130px 0;position:relative;overflow:hidden}
+.motivos h2{font-size:clamp(2.6rem,6.6vw,5.8rem);max-width:12ch;margin-bottom:60px}
+.lista{list-style:none;margin:0;padding:0;border-top:2px solid rgba(22,18,63,.15)}
+.lista li{display:grid;grid-template-columns:1fr;gap:6px 40px;padding:34px 0;border-bottom:2px solid rgba(22,18,63,.15)}
+@media(min-width:900px){.lista li{grid-template-columns:260px 1fr 1fr;align-items:center}}
+.lista .gr{font-family:"Bagel Fat One";font-size:clamp(4.4rem,11vw,9rem);line-height:.8;color:var(--violeta)}
+.lista h3{font-size:clamp(1.6rem,3vw,2.5rem)}
+.lista p{margin:0;color:var(--suave);max-width:40ch}
+.estrelinhas{position:absolute;inset:0;pointer-events:none}
+.estrelinhas i{position:absolute;width:var(--s);height:var(--s);background:var(--algodao);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);opacity:.7}
+
+/* passos */
+.passos{padding:120px 0;background:linear-gradient(180deg,var(--noite),#160F55)}
+.passos h2{font-size:clamp(2.6rem,6.4vw,5.6rem);max-width:11ch}
+.passos-grade{display:grid;gap:18px;margin-top:56px}
+@media(min-width:900px){.passos-grade{grid-template-columns:repeat(3,1fr)}}
+.passo{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:30px 28px 34px;position:relative;overflow:hidden;transform-style:preserve-3d}
+.passo b{font-family:"Bagel Fat One";font-weight:400;color:var(--estrela);font-size:1rem;letter-spacing:.12em}
+.passo h3{font-size:2rem;margin:16px 0 12px}
+.passo p{color:#CFC8FF;margin:0}
+.passo .brilho{position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,126,182,.35),transparent 70%);left:var(--bx,-999px);top:var(--by,-999px);transform:translate(-50%,-50%);pointer-events:none}
+
+/* onde */
+.onde{padding:120px 0 140px}
+.onde-grade{display:grid;gap:34px}
+@media(min-width:960px){.onde-grade{grid-template-columns:1fr 1.1fr;gap:64px;align-items:stretch}}
+.onde h2{font-size:clamp(2.6rem,6vw,5.4rem);max-width:10ch;margin:14px 0 30px}
+.dados{display:grid;gap:22px}
+.dado{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.dado .ic{width:44px;height:44px;border-radius:50%;background:var(--tinta);color:var(--lilas);display:grid;place-items:center}
+.dado .ic svg{width:20px;height:20px}
+.dado b{display:block;font-size:1.05rem}
+.dado span,.dado a{color:var(--suave);text-decoration:none}
+.dado a:hover{color:var(--violeta)}
+.mapa{border-radius:30px;overflow:hidden;min-height:380px;background:#d8cdf5;position:relative}
+.mapa iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:hue-rotate(215deg) saturate(.7)}
+.onde .pilula{margin-top:30px}
+
+footer{background:var(--noite);padding:80px 0 calc(120px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
+footer .grande{font-family:"Bagel Fat One";font-size:clamp(3.4rem,15vw,14rem);line-height:.85;color:rgba(207,232,255,.12);white-space:nowrap}
+footer .linha{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center;margin-top:36px;color:#CFC8FF;font-size:.92rem}
+footer .redes{display:flex;gap:12px}
+footer .redes a{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center}
+footer .redes svg{width:18px;height:18px}
+.topo-btn{background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:.6rem 1rem;cursor:pointer}
+.helu{opacity:.5;font-size:.78rem;margin-top:26px}
+
+/* flutuantes */
+.zap{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;width:58px;height:58px;border-radius:50%;background:#1FA855;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.55)}
+.zap svg{width:28px;height:28px}
+.festa-btn{position:fixed;left:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:45;background:#fff;color:var(--tinta);border:0;border-radius:999px;padding:.85rem 1.2rem;font-weight:800;box-shadow:0 14px 30px -12px rgba(0,0,0,.55);cursor:pointer;display:flex;align-items:center;gap:8px;transform:translateY(140%);transition:transform .4s}
+.festa-btn.vis{transform:none}
+.festa-btn span{background:var(--algodao);color:var(--noite);border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;font-size:.8rem;padding:0 6px}
+
+/* gaveta */
+.veu{position:fixed;inset:0;background:rgba(11,9,48,.55);backdrop-filter:blur(4px);z-index:60;opacity:0;pointer-events:none;transition:opacity .3s}
+.veu.on{opacity:1;pointer-events:auto}
+.gaveta{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);z-index:61;background:var(--lilas);color:var(--tinta);transform:translateX(102%);transition:transform .45s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;padding:26px 24px calc(24px + env(safe-area-inset-bottom))}
+.gaveta.on{transform:none}
+.gaveta .g-topo{display:flex;justify-content:space-between;align-items:center}
+.gaveta h3{font-size:2rem}
+.fechar{background:var(--tinta);color:#fff;border:0;border-radius:50%;width:40px;height:40px;font-size:1.3rem;cursor:pointer}
+.itens{list-style:none;padding:0;margin:22px 0;flex:1;overflow:auto}
+.itens li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px dashed rgba(22,18,63,.2);font-weight:600}
+.itens li button{border:0;background:#fff;border-radius:999px;padding:.35rem .7rem;cursor:pointer;color:var(--tinta);font-weight:800}
+.vazio{color:var(--suave)}
+.campo{display:grid;gap:6px;margin-bottom:12px}
+.campo label{font-weight:800;font-size:.85rem}
+.campo input{font:inherit;font-size:16px;border:2px solid transparent;border-radius:14px;padding:.75rem .9rem;background:#fff;color:var(--tinta)}
+.campo input:focus{border-color:var(--violeta);outline:none}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gaveta .pilula{justify-content:center;width:100%;margin-top:6px}
+
+/* equipe */
+.equipe{position:fixed;inset:0;z-index:80;background:rgba(11,9,48,.8);display:none;place-items:center;padding:16px}
+.equipe.on{display:grid}
+.equipe .caixa{background:#fff;color:var(--tinta);border-radius:24px;width:min(760px,100%);max-height:90vh;overflow:auto;padding:24px}
+.equipe h3{font-size:1.8rem;margin-bottom:6px}
+.equipe table{width:100%;border-collapse:collapse;margin:16px 0}
+.equipe td{padding:6px 4px;vertical-align:top}
+.equipe input,.equipe select{width:100%;font:inherit;font-size:15px;border:1px solid #ccc;border-radius:10px;padding:.5rem .6rem}
+.equipe .acoes{display:flex;flex-wrap:wrap;gap:10px}
+.equipe .acoes button{border:0;border-radius:999px;padding:.6rem 1rem;font-weight:800;cursor:pointer;background:var(--lilas);color:var(--tinta)}
+.equipe .acoes .salvar{background:var(--tinta);color:#fff}
+
+/* cursor */
+.cursor{position:fixed;left:0;top:0;z-index:95;pointer-events:none;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:1.5px solid var(--lua);opacity:0;transition:width .25s,height .25s,margin .25s,background .25s,opacity .3s,border-color .25s}
+.cursor.vis{opacity:1}
+.cursor.grande{width:78px;height:78px;margin:-39px 0 0 -39px;background:rgba(255,126,182,.18);border-color:var(--algodao)}
+.cursor-ponto{position:fixed;left:0;top:0;z-index:96;pointer-events:none;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--estrela);opacity:0}
+.cursor-ponto.vis{opacity:1}
+@media(hover:none){.cursor,.cursor-ponto{display:none}}
+
+/* animação de entrada (só com JS) */
+.js-anim .sobe{opacity:0;transform:translateY(40px)}
+
+@media(prefers-reduced-motion:reduce){
+  .hero,.ceu,.portal{height:auto}
+  .hero-palco,.ceu-palco,.portal-palco{position:relative;height:100vh}
+  .hero-midia{clip-path:none!important}
+  .portal-img{clip-path:none!important}
+  .js-anim .fala,.js-anim .sobe{opacity:1;transform:none}
+  .fala{position:relative}
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="topo" id="topo">
+  <div class="wrap">
+    <a class="marca" href="#inicio" aria-label="Blue Moon, início">
+      <img src="logo.png" alt="" width="44" height="44">
+      <span><b>Blue Moon</b><small>Buffet infantil e eventos</small></span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#cardapio">Cardápio</a>
+      <a href="#salao">O salão</a>
+      <a href="#como">Como funciona</a>
+      <a href="#onde">Onde estamos</a>
+    </nav>
+    <a class="pilula" href="#cardapio">Montar a festa</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="inicio" aria-label="Apresentação">
+  <div class="hero-palco">
+    <div class="hero-midia" id="heroMidia">
+      <video id="heroVideo" src="hero.mp4" poster="lua.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    </div>
+    <div class="hero-txt" id="heroTxt">
+      <div class="wrap">
+        <span class="eyebrow h-in">Uberlândia · desde 2008</span>
+        <h1 aria-label="A festa que eles vão lembrar até virar gente grande.">
+          <span class="l"><span>A festa</span></span>
+          <span class="l"><span>que eles</span></span>
+          <span class="l"><span>vão <em>lembrar</em></span></span>
+        </h1>
+        <div class="barra h-in"></div>
+        <p class="sub h-in">Buffet infantil completo no Patrimônio. Você escolhe o cardápio, a gente cuida da festa e as crianças só se preocupam em brincar.</p>
+        <a class="chamada h-in" href="#cardapio">Montar minha festa <i>→</i></a>
+      </div>
+      <div class="wrap">
+        <div class="contatos h-in">
+          <a href="https://www.instagram.com/bluemoonbuffet/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>@bluemoonbuffet</a>
+          <a href="tel:+553432100774"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>(34) 3210-0774</a>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Av. Oscarina Cunha Chaves, 112 · Patrimônio</span>
+        </div>
+      </div>
+    </div>
+    <div class="dica-rolar" aria-hidden="true"></div>
+  </div>
+</section>
+
+<div class="letreiro" aria-hidden="true"><div class="trilho" id="letreiro">
+  <span>Festa infantil</span><i>✦</i><span>Aniversários</span><i>✦</i><span>Eventos</span><i>✦</i><span>Desde 2008</span><i>✦</i><span>Patrimônio · Uberlândia</span><i>✦</i>
+  <span>Festa infantil</span><i>✦</i><span>Aniversários</span><i>✦</i><span>Eventos</span><i>✦</i><span>Desde 2008</span><i>✦</i><span>Patrimônio · Uberlândia</span><i>✦</i>
+</div></div>
+
+<section class="ceu" id="ceu" aria-label="Sobre o Blue Moon">
+  <div class="ceu-palco">
+    <canvas id="ceu3d" aria-hidden="true"></canvas>
+    <img class="ceu-reserva" src="lua.jpg" alt="" loading="lazy">
+    <span class="arraste" aria-hidden="true">arraste</span>
+    <div class="falas">
+      <div class="fala" data-i="0"><div class="wrap"><span class="num">01</span><h2>18 anos de festa em Uberlândia</h2><p>Desde 2008 o Blue Moon recebe aniversários de criança aqui no Patrimônio. Muita gente que fez festa com a gente já voltou para fazer a dos filhos.</p></div></div>
+      <div class="fala" data-i="1"><div class="wrap"><span class="num">02</span><h2>Salão e buffet num lugar só</h2><p>Comida, doces e espaço pensados para criança. Nada de correr atrás de cinco fornecedores diferentes.</p></div></div>
+      <div class="fala" data-i="2"><div class="wrap"><span class="num">03</span><h2>Você chega e comemora</h2><p>A equipe monta, serve e cuida de tudo durante a festa. Seu único trabalho é aparecer nas fotos.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cardapio claro" id="cardapio" aria-labelledby="t-card">
+  <div class="wrap">
+    <div class="cab">
+      <div><span class="eyebrow sobe">Cardápio da festa</span><h2 id="t-card" class="sobe">Monte do jeito que seu filho gosta</h2></div>
+      <p class="sobe">Escolha o que não pode faltar, diga quantos convidados e mande para a gente. O orçamento chega pelo WhatsApp.</p>
+    </div>
+    <div class="abas" role="group" aria-label="Filtrar cardápio" id="abas">
+      <button aria-pressed="true" data-f="tudo">Tudo</button>
+      <button aria-pressed="false" data-f="salgado">Salgados</button>
+      <button aria-pressed="false" data-f="doce">Doces</button>
+      <button aria-pressed="false" data-f="festa">Festa</button>
+    </div>
+    <div class="grade" id="grade"></div>
+  </div>
+</section>
+
+<section class="portal" id="salao" aria-labelledby="t-salao">
+  <div class="portal-palco">
+    <div class="portal-palavra" id="portalPalavra" aria-hidden="true">festa</div>
+    <div class="portal-img" id="portalImg"><img src="salao.jpg" alt="Salão decorado com balões azuis e roxos, lua e estrelas, mesa de bolo e doces" loading="lazy"></div>
+    <div class="portal-legenda" id="portalLegenda"><div class="wrap">
+      <span class="eyebrow">O salão</span>
+      <h2 id="t-salao">Um céu inteiro só para a festa dele</h2>
+      <p>Mesa decorada, espaço para os pequenos correrem e lugar confortável para os pais. É aqui que o aniversário acontece.</p>
+    </div></div>
+  </div>
+</section>
+
+<section class="galeria" aria-label="Momentos da festa">
+  <div class="galeria-palco" id="galeriaPalco">
+    <div class="trilha" id="trilha">
+      <div class="galeria-titulo"><span class="eyebrow">Dia de festa</span><h2>Do primeiro salgadinho ao parabéns</h2><p>Um pouco do que acontece numa tarde no Blue Moon.</p></div>
+      <figure class="quadro"><div class="moldura"><img src="salgados.jpg" alt="Bandejas de coxinhas, pastéis, mini hambúrgueres e pão de queijo" loading="lazy"></div><h3>Chegou, comeu</h3><p>Salgadinho quentinho saindo da cozinha a festa toda.</p></figure>
+      <figure class="quadro"><div class="moldura"><img src="doces.jpg" alt="Brigadeiros, beijinhos, algodão-doce e pirulitos na mesa de doces" loading="lazy"></div><h3>A mesa dos doces</h3><p>Brigadeiro, beijinho, algodão-doce e pirulito colorido.</p></figure>
+      <figure class="quadro"><div class="moldura"><img src="bolo.jpg" alt="Bolo azul de dois andares com lua e estrelas" loading="lazy"></div><h3>O bolo do tema</h3><p>Do jeito que a criança pediu, com o tema da festa.</p></figure>
+      <figure class="quadro"><div class="moldura"><img src="salao.jpg" alt="Mesa do parabéns decorada no salão" loading="lazy"></div><h3>Hora do parabéns</h3><p>A foto que vai para o álbum da família.</p></figure>
+    </div>
+  </div>
+</section>
+
+<section class="motivos claro" aria-labelledby="t-mot">
+  <div class="estrelinhas" id="estrelinhas" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow sobe">Por que o Blue Moon</span>
+    <h2 id="t-mot" class="sobe">Três motivos para fechar com a gente</h2>
+    <ol class="lista">
+      <li class="sobe"><span class="gr">01</span><h3>18 anos no mesmo endereço</h3><p>Desde 2008 na Av. Oscarina Cunha Chaves. Você sabe onde nos encontrar antes, durante e depois da festa.</p></li>
+      <li class="sobe"><span class="gr">02</span><h3>Cardápio do seu jeito</h3><p>Você escolhe salgados, doces, bolo e bebidas. A gente ajusta a quantidade ao número de convidados.</p></li>
+      <li class="sobe"><span class="gr">03</span><h3>Fácil de chegar</h3><p>No Patrimônio, perto da Av. Francisco Galassi, com várias linhas de ônibus passando a poucos minutos.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="passos" id="como" aria-labelledby="t-como">
+  <div class="wrap">
+    <span class="eyebrow sobe">Como funciona</span>
+    <h2 id="t-como" class="sobe">Sua festa em três passos</h2>
+    <div class="passos-grade">
+      <div class="passo"><i class="brilho"></i><b>PASSO 01</b><h3>Monte o cardápio</h3><p>Escolha os itens aqui no site e diga a data e quantos convidados.</p></div>
+      <div class="passo"><i class="brilho"></i><b>PASSO 02</b><h3>Receba o orçamento</h3><p>A gente confirma a data no WhatsApp e manda o valor certinho.</p></div>
+      <div class="passo"><i class="brilho"></i><b>PASSO 03</b><h3>Venha comemorar</h3><p>No dia, é só chegar com o aniversariante. O resto é com a gente.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="onde claro" id="onde" aria-labelledby="t-onde">
+  <div class="wrap onde-grade">
+    <div>
+      <span class="eyebrow sobe">Onde estamos</span>
+      <h2 id="t-onde" class="sobe">Venha conhecer o salão</h2>
+      <div class="dados">
+        <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><div><b>Endereço</b><a href="https://www.google.com/maps/search/?api=1&query=Avenida+Oscarina+Cunha+Chaves+112+Uberl%C3%A2ndia+MG" target="_blank" rel="noopener">Av. Oscarina Cunha Chaves, 112, Patrimônio, Uberlândia/MG, 38411-102</a></div></div>
+        <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><div><b>Atendimento</b><span>Segunda a sexta, das 9h às 18h</span></div></div>
+        <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><div><b>Telefone e WhatsApp</b><a href="tel:+553432100774">(34) 3210-0774</a> · <a href="https://wa.me/5534992250152">(34) 99225-0152</a></div></div>
+        <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><div><b>E-mail</b><a href="mailto:bluemoonbuffet@hotmail.com">bluemoonbuffet@hotmail.com</a></div></div>
+      </div>
+      <a class="pilula sobe" href="https://wa.me/5534992250152?text=Ol%C3%A1!%20Vi%20o%20site%20e%20quero%20agendar%20uma%20visita%20ao%20sal%C3%A3o." target="_blank" rel="noopener">Agendar uma visita</a>
+    </div>
+    <div class="mapa sobe">
+      <iframe title="Mapa do Blue Moon Buffet" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Avenida%20Oscarina%20Cunha%20Chaves%2C%20112%2C%20Uberl%C3%A2ndia%20MG&z=16&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="grande" aria-hidden="true">Blue Moon</div>
+    <div class="linha">
+      <div><b>Blue Moon Buffet Infantil e Eventos</b><br>Av. Oscarina Cunha Chaves, 112 · Patrimônio · Uberlândia/MG</div>
+      <div class="redes">
+        <a href="https://www.instagram.com/bluemoonbuffet/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        <a href="https://www.facebook.com/bluemoon.buffetinfantil/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      </div>
+      <button class="topo-btn" id="voltarTopo">Voltar ao topo ↑</button>
+    </div>
+    <p class="helu">Prévia feita pela HELU TECH. Fotos ilustrativas, trocamos pelas fotos reais das festas do Blue Moon.</p>
+  </div>
+</footer>
+
+<a class="zap" href="https://wa.me/5534992250152?text=Ol%C3%A1!%20Vi%20o%20site%20e%20quero%20um%20or%C3%A7amento%20de%20festa." target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg></a>
+<button class="festa-btn" id="festaBtn" aria-label="Abrir minha festa">Minha festa <span id="festaN">0</span></button>
+
+<div class="veu" id="veu"></div>
+<aside class="gaveta" id="gaveta" aria-label="Minha festa" aria-hidden="true">
+  <div class="g-topo"><h3>Minha festa</h3><button class="fechar" id="fechar" aria-label="Fechar">×</button></div>
+  <ul class="itens" id="itens"></ul>
+  <div class="duas">
+    <div class="campo"><label for="f-data">Data</label><input id="f-data" type="date"></div>
+    <div class="campo"><label for="f-conv">Convidados</label><input id="f-conv" type="number" min="1" inputmode="numeric" placeholder="Ex.: 60"></div>
+  </div>
+  <div class="campo"><label for="f-nome">Nome do aniversariante (opcional)</label><input id="f-nome" type="text" placeholder="Ex.: Davi, 5 anos"></div>
+  <a class="pilula" id="enviar" href="#" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+</aside>
+
+<div class="equipe" id="equipe" role="dialog" aria-label="Editar cardápio">
+  <div class="caixa">
+    <h3>Cardápio · área da equipe</h3>
+    <p style="color:var(--suave);margin:0">As mudanças ficam salvas neste aparelho. Use "Copiar cardápio" para mandar para a HELU publicar para todo mundo.</p>
+    <table><tbody id="eqLinhas"></tbody></table>
+    <div class="acoes"><button id="eqNovo">+ Item</button><button class="salvar" id="eqSalvar">Salvar</button><button id="eqCopiar">Copiar cardápio</button><button id="eqReset">Voltar ao original</button><button id="eqFechar">Fechar</button></div>
+  </div>
+</div>
+
+<div class="cursor" id="cursor"></div><div class="cursor-ponto" id="cursorPonto"></div>
+
+<script>
+var CARDAPIO=[
+ {id:'salgados',cat:'salgado',nome:'Salgadinhos de festa',desc:'Coxinha, pastel, quibe e risole fritos na hora.',foto:'salgados.jpg'},
+ {id:'assados',cat:'salgado',nome:'Mini lanches e assados',desc:'Mini hambúrguer, mini pizza e pão de queijo.',foto:'salgados.jpg'},
+ {id:'docinhos',cat:'doce',nome:'Docinhos',desc:'Brigadeiro, beijinho e cajuzinho em forminhas coloridas.',foto:'doces.jpg'},
+ {id:'algodao',cat:'doce',nome:'Algodão-doce e pirulitos',desc:'O cantinho que as crianças visitam a festa inteira.',foto:'doces.jpg'},
+ {id:'bolo',cat:'festa',nome:'Bolo temático',desc:'No tema da festa, do tamanho certo para os convidados.',foto:'bolo.jpg'},
+ {id:'mesa',cat:'festa',nome:'Mesa decorada',desc:'Mesa do parabéns montada no tema escolhido.',foto:'salao.jpg'}
+];
+(function(){
+  var ORIG=JSON.stringify(CARDAPIO);
+  try{var s=localStorage.getItem('bm_cardapio');if(s)CARDAPIO=JSON.parse(s);}catch(e){}
+  var grade=document.getElementById('grade'),festa={},filtro='tudo';
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function desenha(){
+    grade.innerHTML=CARDAPIO.map(function(it,i){
+      return '<article class="card'+(filtro!=='tudo'&&it.cat!==filtro?' oculto':'')+'" data-id="'+esc(it.id)+'">'+
+      '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img class="pb" src="'+esc(it.foto)+'" alt="" loading="lazy"><img class="cor" src="'+esc(it.foto)+'" alt="'+esc(it.nome)+'" loading="lazy"></div>'+
+      '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button class="add'+(festa[it.nome]?' ok':'')+'" data-nome="'+esc(it.nome)+'">'+(festa[it.nome]?'Na minha festa ✓':'Quero na festa +')+'</button></div></article>';
+    }).join('');
+    ligaCards();
+  }
+  window.__desenha=desenha;
+  document.getElementById('abas').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;filtro=b.dataset.f;
+    this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});desenha();if(window.ScrollTrigger)ScrollTrigger.refresh();});
+  // festa (carrinho)
+  var gav=document.getElementById('gaveta'),veu=document.getElementById('veu'),btn=document.getElementById('festaBtn');
+  function abre(){gav.classList.add('on');veu.classList.add('on');gav.setAttribute('aria-hidden','false');}
+  function fecha(){gav.classList.remove('on');veu.classList.remove('on');gav.setAttribute('aria-hidden','true');}
+  function atualiza(){
+    var nomes=Object.keys(festa),ul=document.getElementById('itens');
+    document.getElementById('festaN').textContent=nomes.length;
+    btn.classList.toggle('vis',nomes.length>0);
+    ul.innerHTML=nomes.length?nomes.map(function(n){return '<li>'+esc(n)+'<button data-tira="'+esc(n)+'">tirar</button></li>'}).join(''):'<li class="vazio">Escolha os itens do cardápio para montar a festa.</li>';
+    var d=document.getElementById('f-data').value,c=document.getElementById('f-conv').value,nm=document.getElementById('f-nome').value.trim();
+    var m='Olá! Vi o site do Blue Moon e quero um orçamento de festa.';
+    if(nm)m+='\nAniversariante: '+nm;if(d)m+='\nData: '+d.split('-').reverse().join('/');if(c)m+='\nConvidados: '+c;
+    if(nomes.length)m+='\nQuero no cardápio:\n• '+nomes.join('\n• ');
+    document.getElementById('enviar').href='https://wa.me/5534992250152?text='+encodeURIComponent(m);
+  }
+  ['f-data','f-conv','f-nome'].forEach(function(id){document.getElementById(id).addEventListener('input',atualiza)});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('.add');
+    if(a){var n=a.dataset.nome;if(festa[n])delete festa[n];else festa[n]=1;a.classList.toggle('ok',!!festa[n]);a.textContent=festa[n]?'Na minha festa ✓':'Quero na festa +';atualiza();}
+    var t=e.target.closest('[data-tira]');if(t){delete festa[t.dataset.tira];atualiza();desenha();}
+  });
+  btn.addEventListener('click',abre);veu.addEventListener('click',fecha);document.getElementById('fechar').addEventListener('click',fecha);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
+  var hoje=new Date();document.getElementById('f-data').min=hoje.toISOString().slice(0,10);
+  // revelar no hover + inclinação
+  function ligaCards(){
+    if(!matchMedia('(hover:hover)').matches)return;
+    grade.querySelectorAll('.card').forEach(function(c){
+      var f=c.querySelector('.foto'),cor=c.querySelector('.cor'),raio=0,alvo=0,raf=0;
+      function anima(){raio+=(alvo-raio)*.18;cor.style.setProperty('--raio',raio.toFixed(1)+'px');if(Math.abs(alvo-raio)>.5)raf=requestAnimationFrame(anima);else raf=0;}
+      c.addEventListener('mousemove',function(e){var r=f.getBoundingClientRect(),cr=c.getBoundingClientRect();
+        cor.style.setProperty('--mx',(e.clientX-r.left)+'px');cor.style.setProperty('--my',(e.clientY-r.top)+'px');
+        var x=(e.clientX-cr.left)/cr.width-.5,y=(e.clientY-cr.top)/cr.height-.5;c.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg) translateZ(10px)';});
+      c.addEventListener('mouseenter',function(){alvo=130;if(!raf)anima();});
+      c.addEventListener('mouseleave',function(){alvo=0;if(!raf)anima();c.style.transform='';});
+    });
+  }
+  desenha();atualiza();
+  // área da equipe (?equipe)
+  if(/[?&]equipe/.test(location.search)){
+    var eq=document.getElementById('equipe'),lin=document.getElementById('eqLinhas');
+    function linhas(){lin.innerHTML=CARDAPIO.map(function(it,i){return '<tr data-i="'+i+'"><td><input data-k="nome" value="'+esc(it.nome)+'" aria-label="Nome"></td><td><input data-k="desc" value="'+esc(it.desc)+'" aria-label="Descrição"></td><td style="width:120px"><select data-k="cat" aria-label="Categoria">'+['salgado','doce','festa'].map(function(c){return '<option'+(c===it.cat?' selected':'')+'>'+c+'</option>'}).join('')+'</select></td><td><input data-k="foto" value="'+esc(it.foto)+'" aria-label="Foto (endereço)"></td><td><button data-rm="'+i+'" aria-label="Remover">×</button></td></tr>'}).join('');}
+    function le(){lin.querySelectorAll('tr').forEach(function(tr){var it=CARDAPIO[tr.dataset.i];tr.querySelectorAll('[data-k]').forEach(function(inp){it[inp.dataset.k]=inp.value;});});}
+    lin.addEventListener('click',function(e){var r=e.target.dataset.rm;if(r!==undefined){le();CARDAPIO.splice(+r,1);linhas();}});
+    document.getElementById('eqNovo').onclick=function(){le();CARDAPIO.push({id:'item'+Date.now(),cat:'festa',nome:'Novo item',desc:'',foto:'salao.jpg'});linhas();};
+    document.getElementById('eqSalvar').onclick=function(){le();try{localStorage.setItem('bm_cardapio',JSON.stringify(CARDAPIO));}catch(e){}desenha();this.textContent='Salvo ✓';};
+    document.getElementById('eqCopiar').onclick=function(){le();var t=JSON.stringify(CARDAPIO,null,1);if(navigator.clipboard)navigator.clipboard.writeText(t);this.textContent='Copiado ✓';};
+    document.getElementById('eqReset').onclick=function(){CARDAPIO=JSON.parse(ORIG);try{localStorage.removeItem('bm_cardapio');}catch(e){}linhas();desenha();};
+    document.getElementById('eqFechar').onclick=function(){eq.classList.remove('on');};
+    linhas();eq.classList.add('on');
+  }
+  document.getElementById('voltarTopo').onclick=function(){if(window.__lenis)window.__lenis.scrollTo(0);else scrollTo({top:0,behavior:'smooth'});};
+  // topo sólido
+  addEventListener('scroll',function(){document.getElementById('topo').classList.toggle('solido',scrollY>innerHeight*1.6);},{passive:true});
+  // cursor
+  if(matchMedia('(hover:hover)').matches){
+    var cu=document.getElementById('cursor'),cp=document.getElementById('cursorPonto'),mx=0,my=0,cx=0,cy=0;
+    addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cu.classList.add('vis');cp.classList.add('vis');cp.style.transform='translate('+mx+'px,'+my+'px)';
+      cu.classList.toggle('grande',!!e.target.closest('a,button,.card,.quadro,canvas'));});
+    (function seg(){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cu.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(seg);})();
+    // botões magnéticos
+    document.querySelectorAll('.pilula,.chamada').forEach(function(b){
+      b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.25)+'px,'+((e.clientY-r.top-r.height/2)*.35)+'px)';});
+      b.addEventListener('mouseleave',function(){b.style.transform='';});
+    });
+    document.querySelectorAll('.passo').forEach(function(p){var g=p.querySelector('.brilho');p.addEventListener('mousemove',function(e){var r=p.getBoundingClientRect();g.style.setProperty('--bx',(e.clientX-r.left)+'px');g.style.setProperty('--by',(e.clientY-r.top)+'px');});});
+  }
+  // estrelinhas
+  var est=document.getElementById('estrelinhas');for(var i=0;i<14;i++){var s=document.createElement('i');s.style.setProperty('--s',(8+Math.random()*18)+'px');s.style.left=(Math.random()*100)+'%';s.style.top=(Math.random()*100)+'%';s.dataset.v=(Math.random()*2-1).toFixed(2);est.appendChild(s);}
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(function(){
+  var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var cel=matchMedia('(max-width:759px)').matches;
+  var temGsap=!!(window.gsap&&window.ScrollTrigger);
+  var ceuP={v:0};
+
+  /* ---------- céu 3D: lua + doces ---------- */
+  (function(){
+    var cv=document.getElementById('ceu3d'),palco=document.getElementById('ceu');
+    try{
+      if(!window.THREE)throw 0;
+      var R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,cel?1.5:2));
+      R.outputEncoding=THREE.sRGBEncoding;
+      var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(40,1,.1,100);C.position.set(0,0,9);
+      S.add(new THREE.AmbientLight(0x8f86ff,.55));
+      var l1=new THREE.PointLight(0xffffff,1.3,40);l1.position.set(4,5,7);S.add(l1);
+      var l2=new THREE.PointLight(0xff7eb6,1.1,30);l2.position.set(-5,-2,4);S.add(l2);
+      var l3=new THREE.PointLight(0x6fb6ff,1.2,30);l3.position.set(2,-4,-3);S.add(l3);
+      var mundo=new THREE.Group();S.add(mundo);
+      // lua crescente
+      var R1=1.9,c2={x:.95,y:.42},R2=1.62,pts=[],phi=Math.atan2(-c2.y,-c2.x),N=140,i,t,x,y;
+      for(i=0;i<=N;i++){t=phi-Math.PI+i/N*2*Math.PI;x=R1*Math.cos(t);y=R1*Math.sin(t);if(Math.hypot(x-c2.x,y-c2.y)>R2)pts.push(new THREE.Vector2(x,y));}
+      for(i=0;i<=N;i++){t=phi+Math.PI-i/N*2*Math.PI;x=c2.x+R2*Math.cos(t);y=c2.y+R2*Math.sin(t);if(Math.hypot(x,y)<R1)pts.push(new THREE.Vector2(x,y));}
+      var lunaG=new THREE.ExtrudeGeometry(new THREE.Shape(pts),{depth:.55,bevelEnabled:true,bevelThickness:.28,bevelSize:.22,bevelSegments:10,curveSegments:24});
+      lunaG.center();
+      var lua=new THREE.Mesh(lunaG,new THREE.MeshPhysicalMaterial({color:0xcfe8ff,emissive:0x3f6fd8,emissiveIntensity:.35,roughness:.22,metalness:.05,clearcoat:1,clearcoatRoughness:.15}));
+      var luaG=new THREE.Group();luaG.add(lua);var BX=cel?0:2.6,BY=cel?1.25:.15;luaG.position.set(BX,BY,0);luaG.scale.setScalar(cel?.4:.62);mundo.add(luaG);
+      // halo
+      var hc=document.createElement('canvas');hc.width=hc.height=128;var hx=hc.getContext('2d'),gr=hx.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(150,200,255,.55)');gr.addColorStop(1,'rgba(150,200,255,0)');hx.fillStyle=gr;hx.fillRect(0,0,128,128);
+      var halo=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(hc),depthWrite:false,transparent:true}));halo.scale.set(9,9,1);halo.position.z=-1;luaG.add(halo);
+      // texturas
+      function tex(fn){var c=document.createElement('canvas');c.width=c.height=256;fn(c.getContext('2d'));var t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;return t;}
+      var espiral=tex(function(g){var cores=['#ff5c8a','#ffb547','#ffe27a','#6fe3a5','#5fb7ff','#a57bff'];for(var k=0;k<90;k++){g.beginPath();g.strokeStyle=cores[k%6];g.lineWidth=14;g.arc(128,128,k*1.45,k*.35,k*.35+1.2);g.stroke();}});
+      var listras=tex(function(g){g.fillStyle='#ff9cc8';g.fillRect(0,0,256,256);g.fillStyle='#fff';for(var k=-256;k<512;k+=48){g.save();g.translate(k,0);g.rotate(.5);g.fillRect(0,-50,20,400);g.restore();}});
+      var doces=[];
+      function pirulito(){var g=new THREE.Group();var d=new THREE.Mesh(new THREE.CylinderGeometry(.62,.62,.2,48),[new THREE.MeshStandardMaterial({color:0xffffff,roughness:.3}),new THREE.MeshStandardMaterial({map:espiral,roughness:.25}),new THREE.MeshStandardMaterial({map:espiral,roughness:.25})]);d.rotation.x=Math.PI/2;g.add(d);
+        var p=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,1.6,12),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5}));p.position.y=-1.2;g.add(p);return g;}
+      function bala(){var g=new THREE.Group(),m=new THREE.MeshStandardMaterial({map:listras,roughness:.3});var b=new THREE.Mesh(new THREE.SphereGeometry(.42,32,24),m);b.scale.set(1.35,1,1);g.add(b);
+        [-1,1].forEach(function(s){var c=new THREE.Mesh(new THREE.ConeGeometry(.32,.5,20),m);c.rotation.z=s*Math.PI/2;c.position.x=-s*.78;g.add(c);});return g;}
+      function algodao(){var g=new THREE.Group(),m=new THREE.MeshStandardMaterial({color:0xff9cc8,roughness:1,emissive:0x5a1033,emissiveIntensity:.25});
+        for(var k=0;k<16;k++){var s=new THREE.Mesh(new THREE.IcosahedronGeometry(.28+Math.random()*.2,2),m);s.position.set((Math.random()-.5)*.8,(Math.random()-.5)*.8+.2,(Math.random()-.5)*.6);g.add(s);}
+        var p=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,1.4,12),new THREE.MeshStandardMaterial({map:listras}));p.position.y=-.9;g.add(p);return g;}
+      function estrela(){var sh=new THREE.Shape();for(var k=0;k<8;k++){var r=k%2?.12:.42,a=k/8*Math.PI*2;k?sh.lineTo(Math.cos(a)*r,Math.sin(a)*r):sh.moveTo(r,0);}
+        return new THREE.Mesh(new THREE.ExtrudeGeometry(sh,{depth:.08,bevelEnabled:true,bevelSize:.04,bevelThickness:.04,bevelSegments:3}),new THREE.MeshStandardMaterial({color:0xffe27a,emissive:0xffc93d,emissiveIntensity:.6,roughness:.4}));}
+      var fabricas=[pirulito,bala,algodao,bala,estrela,pirulito,estrela,algodao,bala,estrela,estrela];
+      fabricas.forEach(function(f,k){var o=f();var a=k/fabricas.length*Math.PI*2,rad=3+(k%3)*.9;o.userData={a:a,rad:rad,y:(Math.random()-.5)*3.2,z:(Math.random()-.5)*4,vel:.15+Math.random()*.2,gira:(Math.random()-.5)*1.2};o.scale.setScalar(cel?.7:.85);doces.push(o);luaG.add(o);});
+      // poeira de estrelas
+      var n=cel?500:900,pos=new Float32Array(n*3);for(i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*40;pos[i*3+1]=(Math.random()-.5)*26;pos[i*3+2]=-Math.random()*30+4;}
+      var pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+      var sc=document.createElement('canvas');sc.width=sc.height=32;var sx=sc.getContext('2d'),sg=sx.createRadialGradient(16,16,0,16,16,16);sg.addColorStop(0,'#fff');sg.addColorStop(1,'rgba(255,255,255,0)');sx.fillStyle=sg;sx.fillRect(0,0,32,32);
+      var poeira=new THREE.Points(pg,new THREE.PointsMaterial({size:.16,map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false,color:0xdfe6ff}));S.add(poeira);
+      function fit(){var w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}
+      fit();addEventListener('resize',fit);
+      var px=0,py=0,arrasto=0,arr=false,lx=0,visivel=false;
+      addEventListener('pointermove',function(e){px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;if(arr){arrasto+=(e.clientX-lx)*.008;lx=e.clientX;}});
+      cv.parentNode.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'){arr=true;lx=e.clientX;}});
+      addEventListener('pointerup',function(){arr=false;});
+      new IntersectionObserver(function(x){visivel=x[0].isIntersecting;}).observe(palco);
+      var ult=0,tempo=0;
+      (function loop(ts){requestAnimationFrame(loop);if(!visivel||ts-ult<(cel?40:30))return;var dt=Math.min(.05,(ts-ult)/1000);ult=ts;tempo+=dt;
+        var p=reduz?.3:ceuP.v;
+        luaG.rotation.y=p*Math.PI*2.2+arrasto+Math.sin(tempo*.4)*.08;
+        luaG.rotation.x=Math.sin(tempo*.3)*.08+py*.15;
+        luaG.rotation.z=-.25+px*.1;
+        luaG.position.y=BY+Math.sin(tempo*.8)*.08;luaG.position.x=BX-(cel?0:p*.8);
+        doces.forEach(function(o){var u=o.userData;var a=u.a+tempo*u.vel*.35+p*2.4;o.position.set(Math.cos(a)*u.rad,u.y+Math.sin(tempo*u.vel+u.a)*.25,Math.sin(a)*u.rad*.6+u.z*.3);o.rotation.x+=dt*u.gira;o.rotation.y+=dt*u.gira*.7;});
+        C.position.z=9-p*1.4;C.position.x=px*.6;C.position.y=-py*.4;C.lookAt(0,0,0);
+        poeira.rotation.y=tempo*.01+p*.4;
+        R.render(S,C);})(0);
+    }catch(err){document.getElementById('ceu').classList.add('sem3d');}
+  })();
+
+  if(!temGsap||reduz){document.querySelectorAll('.fala').forEach(function(f){f.style.opacity=1;f.style.position='relative'});return;}
+
+  document.documentElement.classList.add('js-anim');
+  gsap.registerPlugin(ScrollTrigger);
+  var lenis=null;
+  if(window.Lenis&&!cel){lenis=new Lenis({lerp:.09});window.__lenis=lenis;lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);}
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length<2)return;var el=document.querySelector(id);if(!el)return;e.preventDefault();if(lenis)lenis.scrollTo(el);else el.scrollIntoView({behavior:'smooth'});});});
+
+  // hero: entrada
+  var heroLinhas=document.querySelectorAll('.hero h1 .l span');
+  gsap.from(heroLinhas,{yPercent:110,duration:1.1,ease:'power4.out',stagger:.12,delay:.15});
+  gsap.from('.h-in',{y:24,opacity:0,duration:.8,ease:'power3.out',stagger:.12,delay:.55});
+  gsap.from('#heroMidia',{clipPath:cel?'polygon(0 100%,100% 100%,100% 100%,0 100%)':'polygon(100% 0,100% 0,100% 100%,100% 100%)',duration:1.4,ease:'circ.out'});
+  // hero: rolar abre o vídeo até a tela toda
+  var htl=gsap.timeline({scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom bottom',scrub:.6}});
+  htl.to('#heroMidia',{clipPath:'polygon(0% 0,100% 0,100% 100%,0% 100%)',ease:'none'},0)
+     .to('#heroTxt',{yPercent:-18,opacity:0,ease:'none'},0)
+     .to('#heroVideo',{scale:1.08,ease:'none'},0)
+     .to('.dica-rolar',{opacity:0,duration:.1},0);
+  // letreiro com velocidade ligada à rolagem
+  var trilho=document.getElementById('letreiro'),lx=0,vel=1;
+  ScrollTrigger.create({onUpdate:function(s){vel=1+Math.min(6,Math.abs(s.getVelocity())/300);}});
+  gsap.ticker.add(function(){lx-=vel*.9;vel+=(1-vel)*.05;var w=trilho.scrollWidth/2;if(-lx>w)lx+=w;trilho.style.transform='translateX('+lx+'px)';});
+  // céu: progresso e falas
+  var falas=document.querySelectorAll('.fala');
+  ScrollTrigger.create({trigger:'#ceu',start:'top top',end:'bottom bottom',scrub:true,onUpdate:function(s){ceuP.v=s.progress;
+    falas.forEach(function(f,k){var c=(k+.5)/3,d=Math.abs(s.progress-c)*3,o=Math.max(0,1-d*2.6);f.style.opacity=o;f.style.transform=(innerWidth>=900?'translateY(calc(-50% + ':'translateY(calc(0% + ')+((s.progress-c)*-160)+'px))';});}});
+  // entradas genéricas
+  gsap.utils.toArray('.sobe').forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});});
+  // cardápio: cards entram em leque 3D
+  ScrollTrigger.batch('.card',{start:'top 90%',onEnter:function(b){gsap.fromTo(b,{opacity:0,y:60,rotateX:-25},{opacity:1,y:0,rotateX:0,duration:1,ease:'power3.out',stagger:.08,clearProps:'transform'});}});
+  // fundo escurece para clarear entre seções
+  gsap.fromTo('.cardapio',{backgroundColor:'#0B0930'},{backgroundColor:'#ECE3FF',ease:'none',scrollTrigger:{trigger:'.cardapio',start:'top bottom',end:'top 30%',scrub:true}});
+  // portal
+  var ptl=gsap.timeline({scrollTrigger:{trigger:'#salao',start:'top top',end:'bottom bottom',scrub:.6}});
+  ptl.to('#portalImg',{clipPath:'circle(75% at 50% 50%)',ease:'power1.in'},0)
+     .to('#portalImg img',{scale:1,ease:'none'},0)
+     .to('#portalPalavra',{scale:2.4,opacity:0,ease:'power1.in'},0)
+     .to('#portalLegenda',{opacity:1,y:0,duration:.25},.7);
+  gsap.set('#portalLegenda',{y:40});
+  // galeria horizontal presa
+  var trilha=document.getElementById('trilha');
+  function dist(){return trilha.scrollWidth-innerWidth;}
+  gsap.to(trilha,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:'#galeriaPalco',start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.6,invalidateOnRefresh:true,
+    onUpdate:function(s){var v=gsap.utils.clamp(-14,14,s.getVelocity()/120);document.querySelectorAll('.moldura').forEach(function(m){m.style.setProperty('--ry',(-v)+'deg')});}}});
+  // diferenciais: números deslizam e estrelas em profundidade
+  gsap.utils.toArray('.lista .gr').forEach(function(g){gsap.from(g,{xPercent:-30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:g,start:'top 85%'}});});
+  document.querySelectorAll('#estrelinhas i').forEach(function(s){gsap.to(s,{y:function(){return s.dataset.v*260},rotate:s.dataset.v*180,ease:'none',scrollTrigger:{trigger:'.motivos',start:'top bottom',end:'bottom top',scrub:true}});});
+  // passos: inclinação em perspectiva ao entrar
+  gsap.from('.passo',{rotateY:-30,transformPerspective:900,opacity:0,x:-40,stagger:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.passos-grade',start:'top 80%'}});
+  // rodapé: palavra gigante desliza
+  gsap.fromTo('footer .grande',{xPercent:8},{xPercent:-12,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
+  addEventListener('load',function(){ScrollTrigger.refresh();});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{
+  "slug": "acms-20340",
+  "codigo": "ACMS 20340",
+  "nome": "Statistics for Business",
+  "exemplo": true,
+  "professor": "Professor (a confirmar)",
+  "creditos": 3,
+  "cor": "#3DDC97",
+  "resumo": "Probabilidade, distribuições e inferência aplicadas a decisões de negócio.",
+  "links": [
+    { "titulo": "Canvas", "url": "https://canvas.nd.edu" }
+  ],
+  "provas": [
+    {
+      "id": "midterm",
+      "nome": "Midterm",
+      "data": "2026-10-22",
+      "hora": "18:30",
+      "local": "Jordan Hall (a confirmar)",
+      "peso": 30,
+      "formato": "Problemas abertos, 90 min",
+      "permitido": "Calculadora e uma folha de fórmulas frente e verso",
+      "foco": "Estatística descritiva, regras de probabilidade, **binomial** e **normal**. Quase toda questão de normal pede para padronizar com $z$ e ler a tabela.",
+      "topicos": [
+        {
+          "titulo": "Estatística descritiva",
+          "peso": "medio",
+          "resumo": "Média, mediana, desvio padrão, quartis e boxplot. Saber quando a mediana descreve melhor que a média.",
+          "pontos": ["Distribuição assimétrica à direita: **média > mediana**.", "Outlier: abaixo de $Q_1 - 1.5\\,IQR$ ou acima de $Q_3 + 1.5\\,IQR$."]
+        },
+        {
+          "titulo": "Regras de probabilidade",
+          "peso": "alto",
+          "resumo": "Soma, complemento, condicional e independência.",
+          "pontos": ["$P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$", "Independentes: $P(A \\cap B) = P(A)P(B)$", "Mutuamente exclusivos **não** são independentes (se ambos têm probabilidade > 0)."],
+          "exemplo": "40% dos clientes compram online, 25% compram na loja, 10% fazem os dois. P(online ou loja) = 0,40 + 0,25 − 0,10 = 0,55."
+        },
+        {
+          "titulo": "Bayes e tabelas de contingência",
+          "peso": "alto",
+          "resumo": "Montar a tabela de probabilidades conjuntas resolve quase todo problema de Bayes sem fórmula."
+        },
+        {
+          "titulo": "Distribuição binomial",
+          "peso": "alto",
+          "resumo": "n tentativas independentes, mesma probabilidade p de sucesso, conta o número de sucessos.",
+          "pontos": ["Média $np$, variância $np(1-p)$.", "\"Pelo menos um\": use o complemento $1 - P(X=0)$."]
+        },
+        {
+          "titulo": "Distribuição normal e escore z",
+          "peso": "alto",
+          "resumo": "Padronizar, desenhar a curva, sombrear a área pedida e só depois olhar a tabela.",
+          "exemplo": "Tempo de entrega ~ N(30, 5). P(X > 40) = P(Z > 2) = 1 − 0,9772 = 0,0228."
+        },
+        {
+          "titulo": "Valor esperado de decisões",
+          "peso": "baixo",
+          "resumo": "Soma de valor × probabilidade. Usado para comparar alternativas de negócio."
+        }
+      ],
+      "formulas": [
+        { "nome": "Escore z", "latex": "z = \\frac{x - \\mu}{\\sigma}" },
+        { "nome": "Probabilidade condicional", "latex": "P(A\\mid B) = \\frac{P(A \\cap B)}{P(B)}" },
+        { "nome": "Bayes", "latex": "P(A\\mid B) = \\frac{P(B\\mid A)P(A)}{P(B)}" },
+        { "nome": "Binomial", "latex": "P(X=k) = \\binom{n}{k} p^k (1-p)^{n-k}" },
+        { "nome": "Desvio padrão amostral", "latex": "s = \\sqrt{\\frac{\\sum (x_i - \\bar x)^2}{n-1}}" },
+        { "nome": "Valor esperado", "latex": "E[X] = \\sum x_i \\, P(x_i)" }
+      ],
+      "flashcards": [
+        { "frente": "Assimetria à direita: média ou mediana é maior?", "verso": "A **média**, puxada pela cauda longa da direita." },
+        { "frente": "Eventos mutuamente exclusivos podem ser independentes?", "verso": "Não, se ambos têm probabilidade positiva. Saber que um ocorreu muda a chance do outro para zero." },
+        { "frente": "Média e variância da binomial", "verso": "Média $np$, variância $np(1-p)$." },
+        { "frente": "Regra empírica 68–95–99,7", "verso": "Na normal, 68% dentro de 1σ, 95% dentro de 2σ, 99,7% dentro de 3σ." },
+        { "frente": "Por que n − 1 no desvio amostral?", "verso": "Corrige o viés: a média amostral já usou um grau de liberdade." }
+      ],
+      "questoes": [
+        {
+          "pergunta": "Uma máquina produz peças com 5% de defeito. Em 10 peças, qual a probabilidade de **nenhuma** ser defeituosa?",
+          "opcoes": ["0,05", "0,599", "0,401", "0,95"],
+          "correta": 1,
+          "explicacao": "$0{,}95^{10} \\approx 0{,}599$."
+        },
+        {
+          "pergunta": "Notas ~ N(70, 10). Qual fração tira **acima de 80**?",
+          "opcoes": ["≈ 16%", "≈ 34%", "≈ 2,5%", "≈ 50%"],
+          "correta": 0,
+          "explicacao": "z = 1. P(Z > 1) ≈ 0,1587."
+        },
+        {
+          "pergunta": "P(A) = 0,3, P(B) = 0,5 e A, B independentes. P(A ∩ B) = ?",
+          "opcoes": ["0,8", "0,15", "0,2", "0,65"],
+          "correta": 1,
+          "explicacao": "Independentes: 0,3 × 0,5 = **0,15**."
+        }
+      ],
+      "plano": [
+        { "dia": "2026-10-16", "tarefa": "Montar a folha de fórmulas frente e verso." },
+        { "dia": "2026-10-18", "tarefa": "Lista de probabilidade e Bayes (tabelas de contingência)." },
+        { "dia": "2026-10-20", "tarefa": "Binomial e normal: 10 problemas cronometrados." },
+        { "dia": "2026-10-21", "tarefa": "Prova antiga completa e revisão dos erros." }
+      ],
+      "dicas": [
+        "Desenhe a curva normal em toda questão: evita pegar a cauda errada.",
+        "Escreva o evento em símbolos antes de calcular, ex.: P(X ≥ 1)."
+      ]
+    },
+    {
+      "id": "final",
+      "nome": "Final",
+      "data": "2026-12-16",
+      "hora": "08:00",
+      "peso": 40,
+      "foco": "Cumulativo, com ênfase em intervalos de confiança, testes de hipótese e regressão.",
+      "topicos": []
+    }
+  ]
+}

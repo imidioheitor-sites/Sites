@@ -1,0 +1,141 @@
+{
+  "slug": "acct-20100",
+  "codigo": "ACCT 20100",
+  "nome": "Accountancy I",
+  "exemplo": true,
+  "professor": "Professor (a confirmar)",
+  "creditos": 3,
+  "cor": "#7C5CFF",
+  "resumo": "Contabilidade financeira: como as transações viram **balanço**, **DRE** e **fluxo de caixa**. A lógica toda gira em torno da equação $A = L + SE$.",
+  "links": [
+    { "titulo": "Canvas", "url": "https://canvas.nd.edu" }
+  ],
+  "provas": [
+    {
+      "id": "exam-1",
+      "nome": "Exam 1",
+      "data": "2026-09-24",
+      "hora": "19:00",
+      "status": "feita",
+      "nota": 84,
+      "peso": 25,
+      "foco": "Equação contábil, débito e crédito, ciclo contábil até o balancete.",
+      "topicos": []
+    },
+    {
+      "id": "exam-2",
+      "nome": "Exam 2",
+      "data": "2026-10-29",
+      "hora": "19:00",
+      "local": "DeBartolo Hall (a confirmar)",
+      "peso": 25,
+      "formato": "25 múltipla escolha + 3 problemas abertos, 75 min",
+      "permitido": "Calculadora simples, sem anotações",
+      "foco": "Ajustes de fim de período, **inventário** (FIFO, LIFO, média ponderada) e **contas a receber** com provisão para devedores duvidosos. Os problemas abertos costumam pedir lançamentos de diário e o efeito no balanço e na DRE.",
+      "topicos": [
+        {
+          "titulo": "Accrual vs. cash basis",
+          "peso": "medio",
+          "resumo": "No regime de competência a receita entra quando é **ganha** e a despesa quando **ajuda a gerar receita**, não quando o dinheiro se move.",
+          "pontos": ["**Revenue recognition**: cinco passos (contrato, obrigações, preço, alocação, satisfação).", "**Matching**: despesa no mesmo período da receita que ela gerou."],
+          "exemplo": "Cliente paga US$ 1.200 em 1/out por 12 meses de serviço. Em 31/dez só US$ 300 viram receita; US$ 900 continuam como Unearned Revenue (passivo)."
+        },
+        {
+          "titulo": "Adjusting entries",
+          "peso": "alto",
+          "resumo": "Quatro tipos de ajuste. Todo ajuste mexe em **uma conta de balanço e uma de resultado**, nunca em Cash.",
+          "pontos": ["Deferred expense (prepaid): Dr Expense / Cr Prepaid.", "Deferred revenue: Dr Unearned Revenue / Cr Revenue.", "Accrued expense: Dr Expense / Cr Payable.", "Accrued revenue: Dr Receivable / Cr Revenue.", "Depreciação: Dr Depreciation Expense / Cr Accumulated Depreciation (contra-ativo)."],
+          "exemplo": "Salários de US$ 4.000 trabalhados até 31/dez e pagos em 5/jan: Dr Salaries Expense 4.000 / Cr Salaries Payable 4.000."
+        },
+        {
+          "titulo": "Inventory costing: FIFO, LIFO, weighted average",
+          "peso": "alto",
+          "resumo": "O método muda o **COGS** e o **estoque final**. Com preços subindo, FIFO dá COGS menor e lucro maior; LIFO o contrário.",
+          "pontos": ["Periodic vs. perpetual: na média ponderada o resultado muda entre os dois.", "LIFO é permitido pelo US GAAP, proibido pelo IFRS.", "**LIFO conformity rule**: se usa LIFO no imposto, precisa usar nos relatórios."],
+          "exemplo": "Compras: 10 un a US$ 5, depois 10 un a US$ 7. Vendeu 12. FIFO: COGS = 10×5 + 2×7 = US$ 64. LIFO: COGS = 10×7 + 2×5 = US$ 80."
+        },
+        {
+          "titulo": "Lower of cost or net realizable value",
+          "peso": "baixo",
+          "resumo": "Se o estoque vale menos que o custo, baixa para o **NRV** e a perda vai para o resultado (geralmente no COGS)."
+        },
+        {
+          "titulo": "Accounts receivable e bad debts",
+          "peso": "alto",
+          "resumo": "Método da provisão (**allowance method**) é o exigido pelo GAAP. O direct write-off só é aceito se o valor for imaterial.",
+          "pontos": ["Estimativa por **% das vendas** (foco na DRE) ou **aging** (foco no saldo final da provisão).", "Write-off: Dr Allowance / Cr A/R. Não muda o ativo líquido nem a despesa.", "Recuperação: reverte o write-off e depois registra o recebimento."],
+          "exemplo": "Aging diz que a provisão deveria ser US$ 3.000 e o saldo atual é crédito de US$ 800. Lançamento: Dr Bad Debt Expense 2.200 / Cr Allowance 2.200."
+        },
+        {
+          "titulo": "Inventory errors",
+          "peso": "medio",
+          "resumo": "Erro no estoque final **se autocorrige em dois anos**: superestimar o EI deste ano subestima o COGS deste ano e superestima o do próximo."
+        }
+      ],
+      "formulas": [
+        { "nome": "Equação contábil", "latex": "\\text{Assets} = \\text{Liabilities} + \\text{Equity}", "quando": "Checagem de qualquer lançamento." },
+        { "nome": "COGS", "latex": "\\text{COGS} = BI + \\text{Purchases} - EI", "quando": "Sistema periódico." },
+        { "nome": "Net realizable value de A/R", "latex": "\\text{NRV} = A/R - \\text{Allowance}", "quando": "Valor que aparece no balanço." },
+        { "nome": "Inventory turnover", "latex": "\\frac{\\text{COGS}}{\\text{Avg. Inventory}}", "quando": "Quantas vezes o estoque gira no ano." },
+        { "nome": "Days in inventory", "latex": "\\frac{365}{\\text{Inventory turnover}}" },
+        { "nome": "A/R turnover", "latex": "\\frac{\\text{Net credit sales}}{\\text{Avg. net A/R}}" }
+      ],
+      "flashcards": [
+        { "frente": "Accrued revenue: qual o lançamento?", "verso": "Dr Accounts Receivable / Cr Revenue. Receita ganha e ainda não cobrada." },
+        { "frente": "Prepaid Insurance é ativo ou passivo?", "verso": "**Ativo**. Vira despesa conforme o tempo passa." },
+        { "frente": "Com preços subindo, qual método dá o maior lucro?", "verso": "**FIFO**, porque joga os custos antigos (mais baratos) no COGS." },
+        { "frente": "Write-off no allowance method muda a despesa?", "verso": "Não. Dr Allowance / Cr A/R. A despesa foi reconhecida quando a provisão foi criada." },
+        { "frente": "Accumulated Depreciation tem saldo de que lado?", "verso": "**Crédito**. É uma conta redutora do ativo (contra-asset)." },
+        { "frente": "EI superestimado neste ano: efeito no lucro?", "verso": "Lucro deste ano **superestimado**, lucro do ano seguinte subestimado. No fim do 2º ano se anula." },
+        { "frente": "Aging method foca em qual demonstração?", "verso": "No **balanço**: calcula o saldo final que a provisão precisa ter." }
+      ],
+      "questoes": [
+        {
+          "pergunta": "Uma empresa recebeu US$ 6.000 adiantados em 1/nov por 6 meses de serviço. Qual o saldo de Unearned Revenue em 31/dez?",
+          "opcoes": ["US$ 6.000", "US$ 4.000", "US$ 2.000", "US$ 0"],
+          "correta": 1,
+          "explicacao": "Passaram 2 de 6 meses: US$ 2.000 viraram receita. Sobram **US$ 4.000** de obrigação."
+        },
+        {
+          "pergunta": "Com preços subindo e sistema periódico, qual método gera o **maior estoque final**?",
+          "opcoes": ["LIFO", "FIFO", "Weighted average", "Todos iguais"],
+          "correta": 1,
+          "explicacao": "FIFO deixa no estoque as compras mais recentes, que são as mais caras."
+        },
+        {
+          "pergunta": "O aging indica provisão necessária de US$ 5.000. A Allowance tem saldo **devedor** de US$ 500 antes do ajuste. Qual a Bad Debt Expense?",
+          "opcoes": ["US$ 4.500", "US$ 5.000", "US$ 5.500", "US$ 500"],
+          "correta": 2,
+          "explicacao": "Saldo devedor precisa ser zerado e ainda chegar a crédito de 5.000: 5.000 + 500 = **US$ 5.500**."
+        },
+        {
+          "pergunta": "Qual lançamento **não** é um ajuste de fim de período?",
+          "opcoes": ["Dr Depreciation Expense / Cr Accumulated Depreciation", "Dr Cash / Cr Accounts Receivable", "Dr Interest Receivable / Cr Interest Revenue", "Dr Supplies Expense / Cr Supplies"],
+          "correta": 1,
+          "explicacao": "Ajustes nunca mexem em Cash. Receber de cliente é uma transação normal."
+        }
+      ],
+      "plano": [
+        { "dia": "2026-10-19", "tarefa": "Reler capítulo de ajustes e refazer os exercícios do caderno." },
+        { "dia": "2026-10-21", "tarefa": "Inventory: montar uma tabela FIFO/LIFO/média para o mesmo conjunto de compras." },
+        { "dia": "2026-10-23", "tarefa": "Receivables: 5 problemas de aging e % de vendas." },
+        { "dia": "2026-10-26", "tarefa": "Prova antiga cronometrada (75 min)." },
+        { "dia": "2026-10-28", "tarefa": "Revisar os flashcards marcados como \"Revisar\" e os erros da prova antiga." }
+      ],
+      "dicas": [
+        "Antes de lançar, pergunte: qual conta de balanço e qual conta de resultado?",
+        "Nos problemas abertos, escreva o lançamento completo (data, contas, valores). Vale nota parcial.",
+        "Confira se débitos = créditos em cada lançamento."
+      ]
+    },
+    {
+      "id": "final",
+      "nome": "Final",
+      "data": "2026-12-14",
+      "hora": "10:30",
+      "peso": 35,
+      "foco": "Cumulativo, com ênfase em ativos de longo prazo e passivos.",
+      "topicos": []
+    }
+  ]
+}

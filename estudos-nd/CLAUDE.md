@@ -4,7 +4,7 @@ Site de estudo do Heitor (University of Notre Dame): uma página por matéria, c
 
 - No ar: https://hesites-estudos.vercel.app
 - Fonte: pasta `estudos-nd/` do repo `imidioheitor-sites/sites`, branch `claude/project-thread-fxzhg5`
-- Publicação: fluxo n8n **"HELU | Publicar estudos ND"** (ver abaixo)
+- Publicação: fluxo n8n **"HELU | Publicar estudos ND"** (id `CyMirTpW1YVe1QeK`); conferência: "HELU | Conferir site de estudos ND" (id `QrzvfduVcLCTLHH3`)
 
 ## Regra principal
 
@@ -21,8 +21,8 @@ ferramentas/validar.mjs        confere os JSON (rode antes de publicar)
 1. Edite `dados/materias/<slug>.json` (ou crie um novo e acrescente o slug em `dados/materias.json`).
 2. `node ferramentas/validar.mjs` até dar "Tudo certo".
 3. Commit e push na branch acima.
-4. Rode o fluxo n8n "HELU | Publicar estudos ND" (MCP do n8n: `execute_workflow`). Ele lê a pasta inteira direto do GitHub, não precisa listar arquivos.
-5. Abra `https://hesites-estudos.vercel.app/m/<slug>` e confira.
+4. Rode o fluxo n8n `CyMirTpW1YVe1QeK` (MCP do n8n: `execute_workflow`, modo manual, gatilho "Publicar agora"). Ele lê a pasta inteira direto do GitHub, não precisa listar arquivos.
+5. Confira: o proxy da sessão bloqueia *.vercel.app, então rode o fluxo `QrzvfduVcLCTLHH3` (busca as páginas e devolve o status).
 
 ## Formato de uma matéria
 
@@ -79,4 +79,4 @@ Campos de texto aceitam `**negrito**`, `` `código` `` e fórmula inline `$z = (
 
 ## Publicar
 
-Fluxo n8n "HELU | Publicar estudos ND": nó **Config** tem `ref` (branch), `pasta` e `projeto` (Vercel `hesites-estudos`, time helu1). O conector Vercel do Claude não escreve no time helu1, por isso a publicação passa pelo n8n.
+Fluxo n8n "HELU | Publicar estudos ND": o nó **Pedido** tem os padrões `ref` (branch), `pasta` e `projeto` (Vercel `hesites-estudos`, time helu1). Ele pega o último commit da branch e sobe a pasta toda, menos arquivos `.md` e `ferramentas/`. Código do fluxo: `/mnt/project-files/estudos-nd/publicar-estudos.ts`. O conector Vercel do Claude não escreve no time helu1, por isso a publicação passa pelo n8n.

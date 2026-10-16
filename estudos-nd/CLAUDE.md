@@ -36,11 +36,13 @@ ferramentas/validar.mjs        confere os JSON (rode antes de publicar)
   "cor": "#7C5CFF",               // destaque da matéria (#RRGGBB). Paleta: #7C5CFF #3DDC97 #FFB547 #FF6B8A #5CC8FF #A48CFF
   "exemplo": false,               // true mostra a etiqueta "exemplo"
   "resumo": "Uma ou duas frases.",
+  "imagem": "/assets/img/acct-20100.jpg",   // capa da matéria (card da home e topo da página); opcional
   "links": [{ "titulo": "Canvas", "url": "https://..." }],
   "provas": [
     {
       "id": "exam-2",             // único na matéria; vira o #âncora da URL
       "nome": "Exam 2",
+      "imagem": "/assets/img/acct-20100-exam-2.jpg",   // faixa no topo da aba da prova; opcional
       "data": "2026-10-29",       // AAAA-MM-DD; hora local de South Bend
       "hora": "19:00",
       "local": "DeBartolo 101",
@@ -77,6 +79,19 @@ Campos de texto aceitam `**negrito**`, `` `código` `` e fórmula inline `$z = (
 - Não coloque login, senha nem dado pessoal da universidade aqui: o site é público (só não aparece no Google).
 - Conteúdo escrito em português, termos técnicos em inglês como aparecem na matéria.
 
+## Fotos (Higgsfield)
+
+Cada matéria tem uma capa (`imagem`) e cada prova pode ter a sua (`provas[].imagem`). Padrão: foto editorial gerada no Higgsfield (modelo `gpt_image_2_5`, 16:9), paleta Meia-noite, **sem texto dentro da imagem**. Se a foto não existir, o bloco some sozinho.
+
+As fotos **não ficam no repositório**: a sessão do Claude não consegue baixar do CDN do Higgsfield. O caminho é:
+
+1. Gerar no Higgsfield (MCP `generate_image_batch`) e pegar os `result_url`.
+2. No n8n, abrir **"HELU | Preparar imagens estudos ND"** (id `0RBrgWzMde7UqPqM`), pôr a lista `{ arquivo, url }` no nó "Uma por item" e rodar. Ele baixa, reduz para jpg de 1600px (uns 70 KB), sobe na Vercel e devolve o manifesto.
+3. Acrescentar o resultado em `dados/imagens.json` (arquivo, sha, size, origem) e apontar `imagem` no JSON da matéria para `/` + arquivo.
+4. Validar, push e publicar. O fluxo de publicar inclui no deploy as fotos listadas em `dados/imagens.json`.
+
+Se um deploy falhar dizendo que falta arquivo na Vercel, rode de novo o "Preparar imagens" com as `origem` de `dados/imagens.json`.
+
 ## Publicar
 
-Fluxo n8n "HELU | Publicar estudos ND": o nó **Pedido** tem os padrões `ref` (branch), `pasta` e `projeto` (Vercel `hesites-estudos`, time helu1). Ele pega o último commit da branch e sobe a pasta toda, menos arquivos `.md` e `ferramentas/`. Código do fluxo: `/mnt/project-files/estudos-nd/publicar-estudos.ts`. O conector Vercel do Claude não escreve no time helu1, por isso a publicação passa pelo n8n.
+Fluxo n8n "HELU | Publicar estudos ND": o nó **Pedido** tem os padrões `ref` (branch), `pasta` e `projeto` (Vercel `hesites-estudos`, time helu1). Ele pega o último commit da branch e sobe a pasta toda, menos arquivos `.md` e `ferramentas/`, mais as fotos de `dados/imagens.json`. Código do fluxo: `/mnt/project-files/estudos-nd/publicar-estudos.ts`. O conector Vercel do Claude não escreve no time helu1, por isso a publicação passa pelo n8n.

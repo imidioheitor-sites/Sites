@@ -1,6 +1,6 @@
 // Confere os JSON de dados/ antes de publicar.
 // Uso (na pasta estudos-nd):  node ferramentas/validar.mjs
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,6 +8,17 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const erros = [], avisos = [];
 const ler = f => { try { return JSON.parse(readFileSync(join(root, f), 'utf8')); } catch (e) { erros.push(`${f}: JSON inválido (${e.message})`); return null; } };
 const data = /^\d{4}-\d{2}-\d{2}$/, hora = /^\d{2}:\d{2}$/, slugOk = /^[a-z0-9-]+$/;
+
+// fotos: ficam na Vercel (dados/imagens.json) ou no repo (assets/)
+const fotos = new Set();
+try { const im = JSON.parse(readFileSync(join(root, 'dados/imagens.json'), 'utf8'));
+  (im.imagens || []).forEach((x, i) => {
+    if (!x.arquivo || !/^[0-9a-f]{40}$/.test(x.sha || '') || !(x.size > 0)) erros.push(`dados/imagens.json imagens[${i}] precisa de "arquivo", "sha" (40 hex) e "size"`);
+    else fotos.add('/' + x.arquivo);
+  });
+} catch (e) { if (e.code !== 'ENOENT') erros.push(`dados/imagens.json: JSON inválido (${e.message})`); }
+const fotoOk = src => fotos.has(src) || existsSync(join(root, src));
+const confereFoto = (src, onde) => { if (src && (typeof src !== 'string' || !src.startsWith('/') || !fotoOk(src))) avisos.push(`${onde} "imagem" ${src} não está em dados/imagens.json nem na pasta (a foto não aparece)`); };
 
 const idx = ler('dados/materias.json');
 if (idx) {
@@ -22,6 +33,7 @@ if (idx) {
     if (m.slug !== slug) erros.push(`${f}: "slug" precisa ser "${slug}"`);
     if (!slugOk.test(slug)) erros.push(`${f}: slug só com minúsculas, números e hífen`);
     for (const k of ['codigo', 'nome']) if (!m[k]) erros.push(`${f}: falta "${k}"`);
+    confereFoto(m.imagem, f);
     if (m.cor && !/^#[0-9a-fA-F]{6}$/.test(m.cor)) erros.push(`${f}: "cor" precisa ser #RRGGBB`);
     if (!Array.isArray(m.provas)) { erros.push(`${f}: "provas" precisa ser lista`); continue; }
     const ids = new Set();
@@ -30,6 +42,7 @@ if (idx) {
       if (!p.id || !slugOk.test(p.id)) erros.push(`${w} "id" obrigatório (minúsculas e hífen)`);
       if (ids.has(p.id)) erros.push(`${w} id "${p.id}" repetido`); ids.add(p.id);
       if (!p.nome) erros.push(`${w} falta "nome"`);
+      confereFoto(p.imagem, w);
       if (p.data && !data.test(p.data)) erros.push(`${w} "data" no formato AAAA-MM-DD`);
       if (p.hora && !hora.test(p.hora)) erros.push(`${w} "hora" no formato HH:MM`);
       if (p.status && !['proxima', 'feita'].includes(p.status)) erros.push(`${w} "status" é "proxima" ou "feita"`);

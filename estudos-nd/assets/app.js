@@ -17,6 +17,9 @@
     return '<code>' + esc(t) + '</code>';
   }
 
+  // foto (dados: "imagem"); se o arquivo não existir, o bloco some
+  const art = (src, cls) => src ? `<figure class="${cls}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async" onerror="this.parentNode.remove()"></figure>` : '';
+
   // armazenamento local (progresso de cada um, só neste navegador)
   const store = {
     get(k) { try { return JSON.parse(localStorage.getItem('nd:' + k)) || {}; } catch (e) { return {}; } },
@@ -123,7 +126,8 @@
         <div class="sec-h"><div><h2>Matérias</h2><p>${mats.length} neste semestre</p></div></div>
         <div class="grid">${mats.map(m => {
           const p = nextExam(m); const pr = p ? progress(m, p) : null;
-          return `<a class="mcard rv" href="/m/${m.slug}" style="--c:${esc(m.cor || '#7C5CFF')}">
+          return `<a class="mcard rv ${m.imagem ? 'has-art' : ''}" href="/m/${m.slug}" style="--c:${esc(m.cor || '#7C5CFF')}">
+            ${art(m.imagem, 'art')}
             <div><span class="code">${esc(m.codigo)}</span>${m.exemplo ? ' <span class="chip ghost">exemplo</span>' : ''}<h3>${esc(m.nome)}</h3></div>
             ${p ? `<div><div class="row" style="margin-bottom:8px"><small>${esc(p.nome)} · ${fmtDate(when(p))}</small><small>${pr.ok}/${pr.total}</small></div><div class="bar"><i data-w="${pr.pct}"></i></div></div>` : `<small style="color:var(--muted)">Sem prova marcada</small>`}
             <div class="row"><small>${esc(m.professor || '')}</small><span class="chip">${p ? rel(when(p)) : '—'}</span></div>
@@ -150,6 +154,7 @@
     $('#app').innerHTML = `
       <section class="mhero wrap">
         <a class="back" href="/">← Todas as matérias</a>
+        ${art(m.imagem, 'art')}
         <span class="code">${esc(m.codigo)}${m.exemplo ? ' <span class="chip ghost">exemplo</span>' : ''}</span>
         <h1>${esc(m.nome)}</h1>
         ${m.resumo ? `<p>${md(m.resumo)}</p>` : ''}
@@ -199,7 +204,7 @@
     if ((p.dicas || []).length) sections.push(`<div class="block rv">${H('Dicas')}<ul class="tips">${p.dicas.map(x => `<li>${md(x)}</li>`).join('')}</ul></div>`);
 
     $('#exam').innerHTML = `<div class="exam">
-      <div>${sections.join('') || '<div class="empty">Conteúdo desta prova ainda não foi preenchido.</div>'}</div>
+      <div>${art(p.imagem, 'exam-art')}${sections.join('') || '<div class="empty">Conteúdo desta prova ainda não foi preenchido.</div>'}</div>
       <aside class="side">
         <div class="panel glow">
           <div class="label">${done ? 'Prova feita' : d ? 'Faltam' : 'Sem data'}</div>

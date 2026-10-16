@@ -7,6 +7,7 @@
   "creditos": 3,
   "cor": "#7C5CFF",
   "resumo": "Contabilidade financeira: como as transações viram **balanço**, **DRE** e **fluxo de caixa**. A lógica toda gira em torno da equação $A = L + SE$.",
+  "imagem": "/assets/img/acct-20100-exam-1.jpg",
   "links": [
     { "titulo": "Canvas", "url": "https://canvas.nd.edu" }
   ],
@@ -14,6 +15,7 @@
     {
       "id": "exam-1",
       "nome": "Exam 1",
+      "imagem": "/assets/img/acct-20100-exam-1.jpg",
       "data": "2026-09-24",
       "hora": "19:00",
       "status": "feita",
@@ -25,6 +27,7 @@
     {
       "id": "exam-2",
       "nome": "Exam 2",
+      "imagem": "/assets/img/acct-20100-exam-2.jpg",
       "data": "2026-10-29",
       "hora": "19:00",
       "local": "DeBartolo Hall (a confirmar)",
@@ -131,6 +134,7 @@
     {
       "id": "final",
       "nome": "Final",
+      "imagem": "/assets/img/acct-20100-final.jpg",
       "data": "2026-12-14",
       "hora": "10:30",
       "peso": 35,

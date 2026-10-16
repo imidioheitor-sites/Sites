@@ -7,6 +7,7 @@
   "creditos": 3,
   "cor": "#3DDC97",
   "resumo": "Probabilidade, distribuições e inferência aplicadas a decisões de negócio.",
+  "imagem": "/assets/img/acms-20340.jpg",
   "links": [
     { "titulo": "Canvas", "url": "https://canvas.nd.edu" }
   ],

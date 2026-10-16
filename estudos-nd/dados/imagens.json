@@ -1,0 +1,8 @@
+{
+  "imagens": [
+    { "arquivo": "assets/img/acms-20340.jpg", "sha": "6d2b2a20bf2efa240bf2725b51344628cc54097b", "size": 67158, "origem": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20261016_021316_3203aa60-ddd1-4ea9-8909-c30f442b7221.png" },
+    { "arquivo": "assets/img/acct-20100-exam-1.jpg", "sha": "97bfe2c98af1b6f62e1102dd1d4d2e25e69e5bb2", "size": 69167, "origem": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20261016_021316_220fda00-a3ef-4301-800a-56fffaa6bc76.png" },
+    { "arquivo": "assets/img/acct-20100-exam-2.jpg", "sha": "6f86e44a9173e64c6973e87d9036422c2962df20", "size": 70186, "origem": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20261016_021316_af7cd49d-6f06-41d4-bd1d-57583a2cad0e.png" },
+    { "arquivo": "assets/img/acct-20100-final.jpg", "sha": "6ef865709c00955d3e945b595a6db3d3c97f3bf5", "size": 95089, "origem": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20261016_021317_5eb9e5d6-1a0f-4aa1-80a2-488637e49ef1.png" }
+  ]
+}

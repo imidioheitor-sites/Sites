@@ -149,7 +149,7 @@
     document.title = `${m.codigo} · ${m.nome} — HEsites Estudos`;
     document.documentElement.style.setProperty('--accent', m.cor || '#7C5CFF');
     const provas = m.provas || [];
-    const pick = provas.find(p => p.id === location.hash.slice(1)) || nextExam(m) || provas[provas.length - 1];
+    const pick = provas.find(p => p.id === (() => { try { return location.hash.slice(1); } catch (_) { return ''; } })()) || nextExam(m) || provas[provas.length - 1];
 
     $('#app').innerHTML = `
       <section class="mhero wrap">
@@ -169,7 +169,7 @@
     $('.tabs').addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
       document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
-      history.replaceState(null, '', '#' + b.dataset.id);
+      try { history.replaceState(null, '', '#' + b.dataset.id); } catch (_) {}
       exam(m, provas.find(p => p.id === b.dataset.id));
     });
     if (pick) exam(m, pick); else $('#exam').innerHTML = '<div class="empty">Nenhuma prova cadastrada ainda.</div>';

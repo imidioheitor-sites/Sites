@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta charset="utf-8">
 <!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -105,6 +107,18 @@ h1,h2,h3{font-family:var(--font-d);font-weight:600;line-height:1.1;margin:0;lett
 .mhero h1{font-size:clamp(2rem,5.6vw,4.2rem);margin-top:10px;max-width:18ch}
 .mhero p{color:var(--muted);max-width:62ch;margin:16px 0 0;font-size:1.05rem}
 .mhero .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+/* fotos (Higgsfield) */
+.mcard::before{z-index:2}
+.mcard .art{margin:-26px -26px -6px;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--ink-2)}
+.mcard .art img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.mcard .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(14,28,64,.92))}
+.mcard:hover .art img{transform:scale(1.04)}
+.mhero{position:relative;isolation:isolate}
+.mhero .art{position:absolute;z-index:-1;right:0;top:40px;width:min(54%,640px);aspect-ratio:16/9;margin:0;border-radius:var(--r);overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%);opacity:.85}
+.mhero .art img,.exam-art img{width:100%;height:100%;object-fit:cover;display:block}
+.exam-art{margin:0 0 20px;aspect-ratio:21/9;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);position:relative;background:var(--ink-2)}
+.exam-art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(6,14,36,.7))}
 .tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 2px;margin-top:30px;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{background:transparent;border:1px solid var(--line-2);padding:10px 16px;border-radius:999px;font-weight:700;font-size:.9rem;color:var(--muted);white-space:nowrap;display:flex;gap:8px;align-items:center}
@@ -230,6 +244,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
   .next{grid-template-columns:1fr}
   .exam{grid-template-columns:1fr}
   .side{position:static;order:-1}
+  .mhero .art{position:relative;z-index:0;top:auto;width:100%;margin-top:20px;-webkit-mask-image:none;mask-image:none;opacity:1}
 }
 @media (max-width:560px){
   .wrap{padding:0 16px}
@@ -269,6 +284,9 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
     if (window.katex) { try { return katex.renderToString(t, { displayMode: display, throwOnError: false }); } catch (e) {} }
     return '<code>' + esc(t) + '</code>';
   }
+
+  // foto (dados: "imagem"); se o arquivo não existir, o bloco some
+  const art = (src, cls) => src ? `<figure class="${cls}"><img src="${esc(src)}" alt="" loading="lazy" decoding="async" onerror="this.parentNode.remove()"></figure>` : '';
 
   // armazenamento local (progresso de cada um, só neste navegador)
   const store = {
@@ -372,7 +390,8 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
         <div class="sec-h"><div><h2>Matérias</h2><p>${mats.length} neste semestre</p></div></div>
         <div class="grid">${mats.map(m => {
           const p = nextExam(m); const pr = p ? progress(m, p) : null;
-          return `<a class="mcard rv" href="/m/${m.slug}" style="--c:${esc(m.cor || '#7C5CFF')}">
+          return `<a class="mcard rv ${m.imagem ? 'has-art' : ''}" href="/m/${m.slug}" style="--c:${esc(m.cor || '#7C5CFF')}">
+            ${art(m.imagem, 'art')}
             <div><span class="code">${esc(m.codigo)}</span>${m.exemplo ? ' <span class="chip ghost">exemplo</span>' : ''}<h3>${esc(m.nome)}</h3></div>
             ${p ? `<div><div class="row" style="margin-bottom:8px"><small>${esc(p.nome)} · ${fmtDate(when(p))}</small><small>${pr.ok}/${pr.total}</small></div><div class="bar"><i data-w="${pr.pct}"></i></div></div>` : `<small style="color:var(--muted)">Sem prova marcada</small>`}
             <div class="row"><small>${esc(m.professor || '')}</small><span class="chip">${p ? rel(when(p)) : '—'}</span></div>
@@ -394,11 +413,12 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
     document.title = `${m.codigo} · ${m.nome} — HEsites Estudos`;
     document.documentElement.style.setProperty('--accent', m.cor || '#7C5CFF');
     const provas = m.provas || [];
-    const pick = provas.find(p => p.id === (() => { try { return location.hash.slice(1); } catch (_) { return ''; } })()) || nextExam(m) || provas[provas.length - 1];
+    const pick = provas.find(p => p.id === location.hash.slice(1)) || nextExam(m) || provas[provas.length - 1];
 
     $('#app').innerHTML = `
       <section class="mhero wrap">
         <a class="back" href="https://hesites-estudos.vercel.app/" target="_blank" rel="noopener">← Todas as matérias</a>
+        ${art(m.imagem, 'art')}
         <span class="code">${esc(m.codigo)}${m.exemplo ? ' <span class="chip ghost">exemplo</span>' : ''}</span>
         <h1>${esc(m.nome)}</h1>
         ${m.resumo ? `<p>${md(m.resumo)}</p>` : ''}
@@ -413,7 +433,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
     $('.tabs').addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
       document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
-      try { history.replaceState(null, '', '#' + b.dataset.id); } catch (_) {}
+      history.replaceState(null, '', '#' + b.dataset.id);
       exam(m, provas.find(p => p.id === b.dataset.id));
     });
     if (pick) exam(m, pick); else $('#exam').innerHTML = '<div class="empty">Nenhuma prova cadastrada ainda.</div>';
@@ -448,7 +468,7 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
     if ((p.dicas || []).length) sections.push(`<div class="block rv">${H('Dicas')}<ul class="tips">${p.dicas.map(x => `<li>${md(x)}</li>`).join('')}</ul></div>`);
 
     $('#exam').innerHTML = `<div class="exam">
-      <div>${sections.join('') || '<div class="empty">Conteúdo desta prova ainda não foi preenchido.</div>'}</div>
+      <div>${art(p.imagem, 'exam-art')}${sections.join('') || '<div class="empty">Conteúdo desta prova ainda não foi preenchido.</div>'}</div>
       <aside class="side">
         <div class="panel glow">
           <div class="label">${done ? 'Prova feita' : d ? 'Faltam' : 'Sem data'}</div>

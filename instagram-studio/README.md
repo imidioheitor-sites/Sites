@@ -1,0 +1,196 @@
+# Instagram Studio — Fase 1
+
+Automatizador de Instagram que **organiza, entende, edita, agenda e posta** o
+conteúdo que **você** cria — e nunca cria o conteúdo publicado no seu lugar.
+
+Esta pasta contém a **Fase 1**: a fundação de tudo. Você joga fotos e vídeos
+soltos numa pasta do Google Drive; o sistema transcreve a voz, entende a cena,
+**agrupa o que combina em posts** e escreve um _brief_ (`_ideia.md`) que te dá a
+ideia e pede a criação.
+
+> 🔒 **Regra de ouro:** a IA organiza, entende, edita por template, agenda, posta
+> e analisa. Toda **criação** (legenda, capa, fala, imagem) é sua. Os briefs dão
+> **direção** (perguntas/ângulos), nunca legenda pronta.
+
+## Rodar o demo (zero dependências, zero credenciais)
+
+```bash
+cd instagram-studio
+node demo.js
+```
+
+Ele lê `fixtures/sample-inbox.json` (um dia de material bruto já "analisado"),
+roda o agrupamento e escreve as pastas propostas + `_ideia.md` em `./out/`.
+Abra qualquer `out/01_agrupados/*/_ideia.md` para ver um brief real.
+
+Exemplo de saída: 9 arquivos soltos → 6 posts (rotina do dia, review de livro,
+quickstart de matéria, comentário de notícia, dica de estudo, e 1 "a classificar").
+
+### Cronograma + receita de edição (Fase 2, também offline)
+
+```bash
+node schedule-demo.js
+```
+
+Pega os posts da Fase 1, monta um **cronograma de 14 dias** coordenando
+Reels/feed + stories (melhores janelas, 1 post principal/dia, quadros
+alternados, fim de semana com horários próprios) e imprime uma **receita de
+edição por template** — inclusive um esboço de comando `ffmpeg`. A receita
+edita o **seu** material; o texto das legendas e a capa vêm de você.
+
+### Relatório de performance por email (Fase 3, também offline)
+
+```bash
+node report-demo.js
+```
+
+Lê métricas por post (como viriam da Graph API), analisa e produz:
+ranking por quadro, **melhores horários observados** (que realimentam a
+estratégia da Fase 2), destaques por post (gancho fraco, retenção baixa,
+muito salvo…) e **recomendações acionáveis**. Gera o **email HTML** em
+`out/report.html`. As recomendações são **direção** — nunca escrevem seu
+conteúdo.
+
+### Postagem automática (dry-run, offline)
+
+```bash
+node publish-demo.js
+```
+
+Une o cronograma ao estado de aprovação de cada post e mostra o que iria ao
+ar. O guarda (`src/publish.js`) **barra qualquer post sem a sua legenda** (e
+capa, quando o quadro pede) — é a regra de ouro vivendo na camada de postagem.
+Troque `DryRunPublisher` por `MetricoolPublisher` (`src/adapters/publisher.js`)
+para postar de verdade.
+
+### Testes
+
+```bash
+npm test        # node --test — 24 testes, zero dependências
+```
+
+Travam o comportamento do núcleo (agrupamento, cronograma, análise, guarda de
+postagem) antes de conectar as APIs reais.
+
+## Como mapeia na arquitetura
+
+| Etapa | Onde está | Estado |
+|---|---|---|
+| 01 · Captura no Drive | `adapters/drive.js` → `listInbox` | pronto (precisa de credencial) |
+| 02 · Voz + Visão | `adapters/transcribe.js`, `adapters/vision.js` | pronto (precisa de chaves) |
+| 03 · Agrupamento | `grouping.js` (heurística) · `adapters/claude.js` (Claude) | **funcionando offline** |
+| 03 · Cria pastas + brief | `ideaBrief.js`, `pipeline.js` | **funcionando offline** |
+| 04 · Move p/ 01_agrupados | `pipeline.js` → `ingestFromDrive` | pronto (precisa de credencial) |
+
+O agrupamento tem dois motores: uma **heurística determinística** (roda sem rede,
+é o que o demo usa) e o **Claude** (`useClaude: true`) para produção, com mais
+nuance. O prompt do Claude (`prompts.js`) carrega a regra de ouro no system.
+
+## Estrutura
+
+```
+instagram-studio/
+├── demo.js                  # Fase 1 — ingestão + agrupamento
+├── schedule-demo.js         # Fase 2 — cronograma + receita de edição
+├── report-demo.js           # Fase 3 — análise + email de performance
+├── publish-demo.js          # Fase 2/4 — guarda de postagem (dry-run)
+├── fixtures/                # sample-inbox.json, sample-insights.json
+├── src/
+│   ├── quadros.js           # os 5 quadros como templates nomeados
+│   ├── grouping.js          # agrupamento heurístico (reconhece o quadro)
+│   ├── ideaBrief.js         # gera _ideia.md (dá a ideia, pede a criação)
+│   ├── prompts.js           # prompt de agrupamento do Claude (regra de ouro)
+│   ├── strategy.js          # janelas de horário, cadência, mix de formato
+│   ├── schedule.js          # monta o cronograma coordenado (Reels/feed/story)
+│   ├── renderRecipe.js      # receita de edição por template (+ esboço ffmpeg)
+│   ├── analyze.js           # análise de performance + recomendações
+│   ├── report.js            # resumo em texto + email HTML
+│   ├── publish.js           # guarda: só posta com a sua legenda/capa
+│   ├── pipeline.js          # orquestrador (planFromAssets / ingestFromDrive)
+│   ├── types.js             # modelo de dados (JSDoc)
+│   └── adapters/
+│       ├── drive.js         # Google Drive (listar, criar pasta, mover)
+│       ├── transcribe.js    # voz → texto (Whisper)
+│       ├── vision.js        # cena → tags + resumo (Claude Vision + ffmpeg)
+│       ├── claude.js        # agrupamento via Claude
+│       ├── insights.js      # métricas via Instagram Graph API
+│       ├── email.js         # envio do relatório por Gmail
+│       └── publisher.js     # DryRun / Metricool (postagem real)
+├── test/                    # node --test — 24 testes, zero dependências
+└── n8n/phase1-ingest.md     # como o n8n orquestra este núcleo
+```
+
+## Os quadros
+
+Cada quadro do perfil vira um template nomeado em `src/quadros.js`:
+**O que vou fazer no dia**, **Comentário sobre notícia (tech/empreendedorismo)**,
+**Dicas de estudo**, **Review de livro** e **Quickstart de matéria**. Cada um
+define o que o robô aplica (capa, formato, legendas, trilha) e o que **você**
+precisa criar. Adicione/edite quadros ali.
+
+## Modo produção (live)
+
+Ainda não conectado — precisa de decisões e credenciais suas.
+
+### Pré-requisitos
+1. **Conta Instagram Profissional** (Business/Creator) ligada a uma **Página do
+   Facebook** — obrigatório para postagem automática oficial (Fases 2–4).
+2. **Google Drive**: uma pasta do estúdio com `00_inbox/`, `01_agrupados/`,
+   `02_aprovados/`, `03_editados/`, `04_publicados/`, e uma **service account**
+   com acesso a ela.
+3. Chaves: `ANTHROPIC_API_KEY` (Claude) e `OPENAI_API_KEY` (Whisper).
+4. `ffmpeg` no PATH (extração de keyframes para a visão).
+
+### Setup
+```bash
+cp .env.example .env      # preencha as chaves e os IDs das pastas
+npm i @anthropic-ai/sdk googleapis openai fluent-ffmpeg
+```
+
+### Rodar a Fase 1 no Drive real (`run-ingest.js`)
+
+```bash
+node run-ingest.js --check     # só valida credenciais e conta a /00_inbox (seguro)
+node run-ingest.js --dry-run   # analisa e mostra o plano, SEM tocar nas pastas
+node run-ingest.js             # cria as pastas, escreve _ideia.md e move os arquivos
+```
+
+Comece sempre pelo `--check` (confirma que a service account enxerga a pasta),
+depois `--dry-run` (vê o agrupamento sem risco), e só então o modo completo.
+O `run-ingest.js` carrega o `.env` sozinho, loga o progresso em stderr e emite o
+resultado (JSON) em stdout — pronto para o n8n consumir (ver `n8n/phase1-ingest.md`).
+
+## Roadmap
+
+Toda a lógica das 4 fases está construída e testada (42 testes). O que falta é
+**integração** (contas + chaves) — ver **[SETUP.md](SETUP.md)**.
+
+- **Fase 1 — ingestão & agrupamento** — ✅ lógica pronta · `run-ingest.js` liga ao Drive
+- **Fase 2 — edição + cronograma + postagem** — ✅ lógica pronta (renderizador
+  ffmpeg, legendas dinâmicas, cronograma, guarda de postagem) · `run-publish.js`
+- **Fase 3 — relatórios por email** — ✅ lógica pronta (análise, recomendações,
+  email HTML) · `run-report.js`
+- **Fase 4 — recomendações & trends + Graph API** — ✅ lógica pronta (modelos de
+  conteúdo, trends via RSS, `GraphPublisher`) · `run-recommend.js`
+
+Falta apenas ligar as credenciais e o n8n → **[SETUP.md](SETUP.md)**.
+Documento de arquitetura visual: veja o artifact gerado na conversa.
+
+## Todos os comandos
+
+```bash
+# Demos offline (zero dependências, zero credenciais)
+node demo.js            # Fase 1 — ingestão + agrupamento
+node schedule-demo.js   # Fase 2 — cronograma + receita de edição
+node render-demo.js     # Fase 2 — legendas dinâmicas + comando ffmpeg
+node publish-demo.js    # Fase 2 — guarda de postagem (dry-run)
+node report-demo.js     # Fase 3 — análise + email de performance
+node recommend-demo.js  # Fase 4 — recomendações + trends
+npm test                # 42 testes
+
+# Produção (precisam do .env — ver SETUP.md). Sempre --check → --dry-run → live
+node run-ingest.js --check
+node run-publish.js --check
+node run-report.js --dry-run
+node run-recommend.js --dry-run
+```

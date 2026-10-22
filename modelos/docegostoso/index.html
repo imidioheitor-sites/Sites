@@ -46,7 +46,9 @@ img,svg{display:block;max-width:100%}
 .stage{position:sticky;top:0;height:100vh;overflow:hidden;background:radial-gradient(120% 90% at 70% 40%,#4a2618 0%,#2b160e 55%,#1d0f09 100%)}
 .hero-media{position:absolute;inset:0;clip-path:polygon(56% 0,100% 0,100% 100%,36% 100%);will-change:clip-path}
 .hero-media canvas,.scene canvas{position:absolute;inset:0;width:100%;height:100%}
-.hero-media::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 60% 50%,rgba(216,176,106,.35),transparent 70%),linear-gradient(120deg,#5b301d,#2a150d)}
+.hero-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% 50%}
+.hero-media{background:#2a150d url(key.png) 70% 50%/cover no-repeat}
+.hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(29,15,9,.55),transparent 55%)}
 .hero-copy{position:absolute;left:clamp(16px,4vw,64px);top:50%;transform:translateY(-50%);z-index:5;max-width:min(720px,92vw);pointer-events:none}
 .hero-copy>*{pointer-events:auto}
 .hero h1{font-size:clamp(46px,8.4vw,132px);line-height:.92;margin:18px 0 26px}
@@ -107,8 +109,8 @@ img,svg{display:block;max-width:100%}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;perspective:1100px}
 .card{background:#fffaf2;border-radius:22px;overflow:hidden;box-shadow:0 18px 40px -22px rgba(36,19,13,.45);transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .3s;display:flex;flex-direction:column;will-change:transform}
 .art{position:relative;aspect-ratio:4/3.2;overflow:hidden;background:linear-gradient(140deg,var(--cream2),#f4dccd)}
-.art .a2,.art .a1{position:absolute;inset:0;display:grid;place-items:center}
-.art svg{width:74%;height:74%}
+.art .a2,.art .a1{position:absolute;inset:0;overflow:hidden}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
 @media(hover:hover){
   .art .a1{filter:grayscale(1) contrast(.95) brightness(1.05)}
   .art .a2{-webkit-mask-image:radial-gradient(circle 0 at var(--mx,50%) var(--my,50%),#000 99%,transparent 100%);mask-image:radial-gradient(circle 0 at var(--mx,50%) var(--my,50%),#000 99%,transparent 100%);transition:none}
@@ -127,7 +129,7 @@ img,svg{display:block;max-width:100%}
 .portal{position:relative;height:240vh;background:var(--ink)}
 .portal .pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
 .portal .word{position:absolute;font-family:var(--display);font-weight:700;font-size:clamp(70px,19vw,300px);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px rgba(216,176,106,.5);z-index:1}
-.portal .reveal{position:absolute;inset:0;z-index:2;clip-path:circle(5% at 50% 50%);background:radial-gradient(70% 70% at 30% 30%,#f3c9c0,transparent 60%),radial-gradient(60% 60% at 80% 80%,#d8b06a,transparent 62%),linear-gradient(135deg,#7a3a28,#2a150d);display:grid;place-items:center;text-align:center}
+.portal .reveal{position:absolute;inset:0;z-index:2;clip-path:circle(5% at 50% 50%);background:linear-gradient(rgba(29,15,9,.55),rgba(29,15,9,.7)),url(mesa.png) 50% 50%/cover no-repeat;display:grid;place-items:center;text-align:center}
 .portal .reveal svg.deco{position:absolute;inset:0;width:100%;height:100%;opacity:.5}
 .portal .cap{position:relative;z-index:3;max-width:760px;padding:0 24px}
 .portal .cap h3{font-size:clamp(34px,5.6vw,84px);line-height:1}
@@ -262,7 +264,7 @@ footer{background:#170b06;padding:70px 0 40px;overflow:hidden;position:relative}
 <main id="inicio">
 <section class="hero" id="heroSec">
   <div class="stage">
-    <div class="hero-media" id="heroMedia"><canvas id="cv1" aria-hidden="true"></canvas></div>
+    <div class="hero-media" id="heroMedia"><video id="heroVid" autoplay muted loop playsinline preload="auto" poster="key.png" aria-hidden="true"><source src="hero.mp4" type="video/mp4"></video></div>
     <div class="hero-copy">
       <div class="eyebrow">Doceria artística · Goiânia/GO</div>
       <h1 class="display" id="h1">
@@ -304,7 +306,7 @@ footer{background:#170b06;padding:70px 0 40px;overflow:hidden;position:relative}
     </div>
     <div class="tabs" id="tabs"></div>
     <div class="grid" id="grid"></div>
-    <p class="note">Ilustrações de apresentação. Trocamos pelas fotos reais da Doce Gostoso.</p>
+    <p class="note">Fotos ilustrativas. Trocamos pelas fotos reais da Doce Gostoso.</p>
   </div>
 </section>
 
@@ -393,7 +395,7 @@ footer{background:#170b06;padding:70px 0 40px;overflow:hidden;position:relative}
       <div class="links"><a href="https://instagram.com/docegostoso_doceria">Instagram</a><a href="https://wa.me/5562996614771">WhatsApp</a><a href="#cardapio">Doces</a><a href="#onde">Onde estamos</a></div>
       <div>Doce Gostoso Doceria · Goiânia/GO</div>
     </div>
-    <div class="helu"><span>Ideia de site criada por HEsites para a Doce Gostoso Doceria. Ilustrações de apresentação, trocamos pelas fotos reais.</span><span>Prévia para avaliação</span></div>
+    <div class="helu"><span>Ideia de site criada por HEsites para a Doce Gostoso Doceria. Fotos ilustrativas, trocamos pelas fotos reais.</span><span>Prévia para avaliação</span></div>
   </div>
 </footer>
 
@@ -459,6 +461,8 @@ var CATALOG=DEFAULT_CATALOG;
 try{var saved=localStorage.getItem('dg_catalogo');if(saved){var o=JSON.parse(saved);if(o&&o.itens&&o.categorias)CATALOG=o;}}catch(e){}
 
 var C={cream:'#f4e3cc',cocoa:'#5a2e1c',dark:'#2f170d',gold:'#d8b06a',rose:'#e9a9a3',rose2:'#c9706a',green:'#6f8f5a',berry:'#c2323c',ivory:'#fff6e8'};
+var FOTOS={cookie:['bem.png','50% 50%',1],cookie2:['bem.png','25% 20%',1.5],bonbon:['bombons.png','30% 55%',1.35],bonbon2:['bombons.png','75% 40%',1.35],berry:['bombons.png','85% 20%',1.9],meringue:['mesa.png','50% 15%',1.6],cake:['bolo.png','50% 45%',1],slice:['bolo.png','50% 72%',1.8],table:['mesa.png','50% 50%',1],tray:['mesa.png','78% 60%',1.8]};
+function foto(t){var f=FOTOS[t]||FOTOS.table;return '<img src="'+f[0]+'" alt="" loading="lazy" decoding="async" style="object-position:'+f[1]+';transform:scale('+f[2]+')">'}
 function art(t){
   var s={
     cookie:'<ellipse cx="100" cy="118" rx="62" ry="22" fill="'+C.cream+'" stroke="#c9a77a" stroke-width="2"/><ellipse cx="100" cy="100" rx="62" ry="22" fill="'+C.cocoa+'"/><ellipse cx="100" cy="84" rx="62" ry="22" fill="'+C.cream+'" stroke="#c9a77a" stroke-width="2"/><ellipse cx="94" cy="80" rx="30" ry="8" fill="#fff" opacity=".55"/><path d="M40 100q60 30 120 0" fill="none" stroke="'+C.gold+'" stroke-width="5"/>',
@@ -486,7 +490,7 @@ function renderTabs(){
 function renderGrid(anim){
   var g=document.getElementById('grid');
   g.innerHTML=CATALOG.itens.filter(function(i){return i.cat===activeCat}).map(function(i){
-    return '<article class="card tilt"><div class="art" data-art><div class="a1">'+art(i.arte)+'</div><div class="a2">'+art(i.arte)+'</div></div><div class="body"><h3>'+esc(i.nome)+'</h3><p>'+esc(i.desc)+'</p><button class="add mag" data-id="'+esc(i.id)+'">Quero na festa</button></div></article>';
+    return '<article class="card tilt"><div class="art" data-art><div class="a1">'+foto(i.arte)+'</div><div class="a2">'+foto(i.arte)+'</div></div><div class="body"><h3>'+esc(i.nome)+'</h3><p>'+esc(i.desc)+'</p><button class="add mag" data-id="'+esc(i.id)+'">Quero na festa</button></div></article>';
   }).join('');
   bindTilt(g);
   if(anim&&HAS_GSAP&&!REDUCE){gsap.fromTo('#grid .card',{opacity:0,y:50,rotateX:-25,transformPerspective:900},{opacity:1,y:0,rotateX:0,duration:.8,stagger:.07,ease:'power3.out',clearProps:'transform'});}
@@ -540,14 +544,13 @@ if(/[?&]equipe/.test(location.search)){
 
 /* ============ galeria (ilustrações) ============ */
 var GAL=[
- {t:'Casamentos',s:'Bem-casados, bolo e mesa de doces',bg:['#f3c9c0','#7a3a28'],ic:'cake'},
- {t:'Aniversários',s:'Doces e bolo para comemorar',bg:['#f1d9b4','#5a2e1c'],ic:'bonbon2'},
- {t:'Eventos corporativos',s:'Doces finos para receber bem',bg:['#d8b06a','#2f170d'],ic:'tray'},
- {t:'Mesa de bolo',s:'Montagem e harmonização no local',bg:['#e9a9a3','#3b2015'],ic:'table'}
+ {t:'Casamentos',s:'Bem-casados, bolo e mesa de doces',f:'mesa.png',p:'50% 50%'},
+ {t:'Aniversários',s:'Doces e bolo para comemorar',f:'bombons.png',p:'40% 50%'},
+ {t:'Eventos corporativos',s:'Doces finos para receber bem',f:'bem.png',p:'45% 50%'},
+ {t:'Mesa de bolo',s:'Montagem e harmonização no local',f:'bolo.png',p:'50% 40%'}
 ];
-document.getElementById('galTrack').innerHTML=GAL.map(function(f,i){
-  var dots='';for(var k=0;k<14;k++){dots+='<circle cx="'+((k*53+i*31)%400)+'" cy="'+((k*71+i*47)%500)+'" r="'+(3+(k%4)*2)+'" fill="#fff" opacity=".12"/>'}
-  return '<div class="frame"><div class="pic"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g'+i+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+f.bg[0]+'"/><stop offset="1" stop-color="'+f.bg[1]+'"/></linearGradient></defs><rect width="400" height="500" fill="url(#g'+i+')"/>'+dots+'<g transform="translate(40 110) scale(1.6)">'+art(f.ic).replace(/^<svg[^>]*>|<\/svg>$/g,'')+'</g></svg></div><h4>'+f.t+'</h4><span>'+f.s+'</span></div>';
+document.getElementById('galTrack').innerHTML=GAL.map(function(f){
+  return '<div class="frame"><div class="pic"><img src="'+f.f+'" alt="'+f.t+'" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:'+f.p+'"></div><h4>'+f.t+'</h4><span>'+f.s+'</span></div>';
 }).join('');
 
 /* decoração do portal */
@@ -642,48 +645,6 @@ function initScenes(){
   try{var t=document.createElement('canvas');ok=!!(window.WebGLRenderingContext&&(t.getContext('webgl')||t.getContext('experimental-webgl')))}catch(e){}
   if(!ok||!window.THREE)return;
 
-  /* cena 1: bolo */
-  (function(){
-    var cv=document.getElementById('cv1'),r=makeRenderer(cv),sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(36,1,.1,60);
-    cam.position.set(0,1.4,9.6);lights(sc);
-    var cake=new THREE.Group();
-    var plate=new THREE.Mesh(new THREE.CylinderGeometry(2.1,2.25,.12,64),M.gold);plate.position.y=-1.55;cake.add(plate);
-    var ped=new THREE.Mesh(new THREE.CylinderGeometry(.5,.8,.5,40),M.choc);ped.position.y=-1.85;cake.add(ped);
-    var tiers=[[1.55,.95,-1.0],[1.12,.85,-.05],[.75,.75,.78]];
-    tiers.forEach(function(t,i){
-      var m=new THREE.Mesh(new THREE.CylinderGeometry(t[0],t[0],t[1],64),i%2?M.ivory:M.cream);m.position.y=t[2];cake.add(m);
-      var band=new THREE.Mesh(new THREE.TorusGeometry(t[0]+.01,.035,10,80),M.gold);band.rotation.x=Math.PI/2;band.position.y=t[2]-t[1]/2+.05;cake.add(band);
-      var topb=new THREE.Mesh(new THREE.TorusGeometry(t[0]+.01,.05,10,80),M.ivory);topb.rotation.x=Math.PI/2;topb.position.y=t[2]+t[1]/2;cake.add(topb);
-      if(i<2){var n=10+i*-2;for(var k=0;k<n;k++){var a=k/n*Math.PI*2,rr=rose(1.05-i*.1);rr.position.set(Math.cos(a)*(t[0]-.1),t[2]+t[1]/2+.06,Math.sin(a)*(t[0]-.1));cake.add(rr);}}
-    });
-    var top=new THREE.Group();for(var k=0;k<7;k++){var a=k/7*Math.PI*2,q=rose(1.4,k%2?M.rose:M.rose2);q.position.set(Math.cos(a)*.2,.0,Math.sin(a)*.2);top.add(q)}
-    var big=rose(2.2);big.position.y=.08;top.add(big);top.position.y=1.2;cake.add(top);
-    for(var l=0;l<8;l++){var lf=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),M.leaf);lf.scale.set(1,.3,.5);var aa=l/8*Math.PI*2;lf.position.set(Math.cos(aa)*.32,1.15,Math.sin(aa)*.32);lf.rotation.y=-aa;top.add(lf)}
-    sc.add(cake);
-    var orb=[];
-    function add(o,rad,sp,ph,y,tilt){o.userData={rad:rad,sp:sp,ph:ph,y:y,tilt:tilt||0,spin:(Math.random()-.5)*2};sc.add(o);orb.push(o)}
-    for(var i=0;i<22;i++){
-      var kind=i%4,o=kind===0?bemcasado(1):kind===1?bonbon(1.1,i%8===1?M.cocoa:M.choc):kind===2?berry(1.05):rose(1.5,i%3?M.rose:M.rose2);
-      add(o,2.5+(i%5)*.35,(.12+(i%7)*.025)*(i%2?1:-1),i/22*Math.PI*2,(Math.random()-.5)*3.6,.3);
-    }
-    var sp=sparkles(320,9);sc.add(sp);
-    function layout(){var asp=cv.clientWidth/Math.max(1,cv.clientHeight);if(asp>1.1){cake.position.set(1.7,-.2,0);cake.scale.setScalar(1)}else{cake.position.set(0,.1,0);cake.scale.setScalar(.6)}}
-    var st={p:0};
-    register({el:cv.parentNode,cv:cv,r:r,fps:30,
-      resize:function(){sizeTo(r,cam,cv);layout()},
-      frame:function(t){
-        var asp=cv.clientWidth/Math.max(1,cv.clientHeight),shift=asp>1.1?1.7:0;
-        cake.rotation.y=t*.12+st.p*5+mouse.x*.6;cake.rotation.x=mouse.y*.08;
-        cake.position.x=shift;cake.position.y=(asp>1.1?-.1:.1)+Math.sin(t*.8)*.06;
-        var base=cake.position.x;
-        orb.forEach(function(o){var u=o.userData,a=u.ph+t*u.sp+st.p*3;o.position.set(base+Math.cos(a)*u.rad,u.y+Math.sin(t*.9+u.ph)*.18,Math.sin(a)*u.rad*.7);o.rotation.x+=.01*u.spin;o.rotation.y+=.014*u.spin});
-        sp.rotation.y=t*.03;
-        r.render(sc,cam);
-      },
-      set:function(p){st.p=p}
-    });
-  })();
-
   /* cena 2: bem-casado símbolo */
   (function(){
     var cv=document.getElementById('cv2'),r=makeRenderer(cv),sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,60);
@@ -759,7 +720,7 @@ if(HAS_GSAP&&!REDUCE){
   gsap.from('.hero .eyebrow,.hero .bar,.hero .sub,.hero .cta-link',{opacity:0,y:24,duration:.9,stagger:.1,delay:.6,ease:'power3.out'});
   /* recorte do hero abre até a tela inteira */
   var open=MOBILE?['polygon(0 38%,100% 24%,100% 100%,0 100%)','polygon(0 0,100% 0,100% 100%,0 100%)']:['polygon(56% 0,100% 0,100% 100%,36% 100%)','polygon(0 0,100% 0,100% 100%,0 100%)'];
-  gsap.fromTo('#heroMedia',{clipPath:open[0]},{clipPath:open[1],ease:'none',scrollTrigger:{trigger:'#heroSec',start:'top top',end:'bottom bottom',scrub:.6,onUpdate:function(s){setScene(0,s.progress)}}});
+  gsap.fromTo('#heroMedia',{clipPath:open[0]},{clipPath:open[1],ease:'none',scrollTrigger:{trigger:'#heroSec',start:'top top',end:'bottom bottom',scrub:.6}});
   gsap.to('.hero-copy',{opacity:0,y:-60,ease:'none',scrollTrigger:{trigger:'#heroSec',start:'18% top',end:'48% top',scrub:true}});
   /* letreiro acelera com a rolagem */
   var mq=document.getElementById('mq'),mx=0,vel=1;
@@ -768,7 +729,7 @@ if(HAS_GSAP&&!REDUCE){
   /* cena 3d + frases */
   var steps=gsap.utils.toArray('#steps .step');
   ScrollTrigger.create({trigger:'#sceneSec',start:'top top',end:'bottom bottom',scrub:true,onUpdate:function(s){
-    setScene(1,s.progress);
+    setScene(0,s.progress);
     var idx=Math.min(2,Math.floor(s.progress*3.0));
     steps.forEach(function(el,i){var on=i===idx;gsap.to(el,{opacity:on?1:0,y:on?0:(i<idx?-30:30),duration:.5,overwrite:true})});
   }});

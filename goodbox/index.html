@@ -462,6 +462,18 @@ header.scrolled .nav{background:rgba(251,250,243,.92);box-shadow:var(--shadow-md
   .af-nome,.af-desc{grid-column:auto}
   .admin-rm{grid-area:rm;width:100%;height:40px}
 }
+
+/* Aba de equipe (HELU): subir/descer, foto em envio */
+.admin-side{display:flex;flex-direction:column;gap:8px}
+.admin-mv{display:flex;flex-direction:column;gap:6px}
+.admin-mv button{width:44px;height:36px;border:1px solid rgba(var(--forest-rgb),.18);border-radius:10px;background:var(--white);color:var(--forest);font-size:1.05rem;font-weight:800;cursor:pointer}
+.admin-mv button:disabled{opacity:.3;cursor:default}
+.admin-thumb.is-busy{opacity:.5;pointer-events:none}
+@media(max-width:560px){
+  .admin-side{grid-area:rm;flex-direction:row}
+  .admin-mv{flex-direction:row;flex:0 0 auto}
+  .admin-side .admin-rm{flex:1;width:auto}
+}
 /* Logo oficial (imagem) — selo branco arredondado para ficar limpo em qualquer fundo */
 .brand-img{display:block;width:auto;object-fit:contain;background:#fff}
 header .brand-img{height:52px;border-radius:12px;padding:5px 10px;box-shadow:0 4px 12px rgba(31,77,39,.10)}
@@ -914,7 +926,7 @@ footer ul a:hover{color:var(--leaf)}
 </div>
 
 <!-- ================= ÁREA DO LOJISTA (senha) ================= -->
-<section class="sec-pad" id="admin" style="background:linear-gradient(180deg,#eef2e4,var(--cream))">
+<section class="sec-pad" id="admin" hidden style="background:linear-gradient(180deg,#eef2e4,var(--cream))">
   <div class="wrap" style="max-width:920px">
     <div class="sec-head center reveal">
       <span class="eyebrow">Área do lojista</span>
@@ -1128,6 +1140,7 @@ footer ul a:hover{color:var(--leaf)}
 
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span id="toastMsg">Adicionado!</span></div>
 
+<script src="equipe-cliente.js"></script>
 <script>
 /* ============================================================
    ▸▸▸ CONFIGURAÇÃO — TROQUE AQUI (dados reais da GOODBOX) ◂◂◂
@@ -1156,6 +1169,9 @@ const CONFIG = {
   //   e TODOS os clientes veem o preço novo na hora. Veja o BACKEND.md.
   supabaseUrl: "",        // ex.: "https://xxxxxxxx.supabase.co"
   supabaseAnonKey: "",    // a chave "anon public" do painel do Supabase
+  // ▸ ABA DE EQUIPE (HELU): cardápio e fotos salvos no servidor da própria Vercel (função /api/equipe + Blob).
+  //   Abra o site com ?equipe no final do endereço. A senha fica no servidor (hash), não aqui.
+  equipeApi: "/api/equipe",
   salvarPedidos: true,    // grava cada pedido na tabela "pedidos" (histórico de vendas)
 
   // ▸ LOGO OFICIAL: cole aqui a imagem (data URI base64 OU uma URL). Vazio = logo vetorial padrão.
@@ -1336,6 +1352,22 @@ const GB = {
     return this.req('/rest/v1/pedidos',{method:'POST',body:o,headers:{'Prefer':'return=minimal'}});
   }
 };
+
+/* ============================================================
+   BACKEND HELU (função da Vercel + Blob) — cardápio e fotos compartilhados
+   Ligado quando /api/equipe responde. A senha da equipe nunca fica neste arquivo.
+   ============================================================ */
+const HB = {
+  up:false,
+  get api(){ return !!(CONFIG.equipeApi && window.HeluEquipe); },
+  get on(){ return this.up; },
+  get logged(){ return this.up && window.HeluEquipe.logado(); },
+  ready:null
+};
+HB.ready = (function(){
+  if(!HB.api) return Promise.resolve(null);
+  return window.HeluEquipe.catalogo().then(function(d){ HB.up=true; return d; }).catch(function(){ return null; });
+})();
 
 /* ▸▸▸ VÍDEO HERO (gerado no Higgsfield) — preenchido automaticamente ◂◂◂ */
 const VIDEO_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260723_233340_35cade4d-2fd2-4870-9f29-64025a30adf7.mp4"; /* Higgsfield 15s 1080p */
@@ -1634,6 +1666,19 @@ renderMenu();
 /* Cardápio do servidor (se o backend estiver configurado).
    O cardápio embutido já apareceu acima, então a página nunca fica vazia:
    quando a resposta chega, ela apenas substitui o que está na tela. */
+(function loadMenuHelu(){
+  HB.ready.then(function(d){
+    if(!Array.isArray(d)||!d.length)return;
+    MENU=d;
+    try{ localStorage.setItem('goodbox_menu',JSON.stringify(MENU)); }catch(e){}
+    const active=$('#filterBar button.active');
+    renderMenu(active?active.dataset.filter:'todos');
+    const ids=new Set(MENU.map(m=>m.id)); let changed=false;
+    Object.keys(cart).forEach(id=>{ if(!ids.has(id)){ delete cart[id]; changed=true; } });
+    if(changed)saveCart();
+    syncCart();
+  });
+})();
 (function loadMenuFromServer(){
   if(!(typeof GB!=='undefined' && GB.on))return;
   GB.getMenu().then(rows=>{
@@ -1964,6 +2009,12 @@ const FAQS=[
      senha simples no navegador (cadeado básico, visível no código-fonte)
      e as edições ficam só neste navegador.
    ============================================================ */
+/* A Área do lojista só aparece com ?equipe no endereço (ou #admin) */
+(function(){
+  var q=/(^|[?&])equipe(=|&|$)/.test(location.search)||/^#(admin|equipe)$/.test(location.hash);
+  var sec=document.getElementById('admin');
+  if(q&&sec){ sec.hidden=false; setTimeout(function(){ try{ sec.scrollIntoView(); }catch(e){} },300); }
+})();
 (function adminPanel(){
   const PASS='goodbox2026';                       /* usado só no modo sem backend */
   const lock=$('#adminLock'), panel=$('#adminPanel'), list=$('#adminList');
@@ -1997,6 +2048,16 @@ const FAQS=[
 
   async function persist(){
     cacheLocal(); repaint();
+    if(HB.logged){
+      syncing=true; setStatus('Salvando…','wait');
+      try{ await window.HeluEquipe.salvar(MENU); setStatus('Salvo — todos os clientes já veem estas alterações.','ok'); }
+      catch(e){
+        if(e.status===401){ relock(); err.textContent='Sua sessão expirou. Entre de novo.'; err.removeAttribute('hidden'); }
+        else setStatus('Não consegui salvar: '+e.message+(e.conflito?'':' (a alteração ficou só neste aparelho)'),'err');
+      }
+      finally{ syncing=false; }
+      return;
+    }
     if(!(GB.on&&GB.logged))return;
     syncing=true; setStatus('Salvando no servidor…','wait');
     try{ await GB.saveMenu(MENU); setStatus('Salvo — todos os clientes já veem estas alterações.','ok'); }
@@ -2040,9 +2101,15 @@ const FAQS=[
         </div>`}
         ${m.tipo==='orcamento'?`<div class="af af-desc">${linhasTam}</div>`:''}
       </div>
+      <div class="admin-side">
+      <div class="admin-mv">
+        <button type="button" data-mv="-1" title="Subir no cardápio" aria-label="Subir no cardápio"${i===0?' disabled':''}>↑</button>
+        <button type="button" data-mv="1" title="Descer no cardápio" aria-label="Descer no cardápio"${i===MENU.length-1?' disabled':''}>↓</button>
+      </div>
       <button class="admin-rm" data-rm title="Remover produto" aria-label="Remover produto">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
       </button>
+      </div>
     </div>`;
   }
   function renderAdmin(){
@@ -2120,17 +2187,39 @@ const FAQS=[
     renderAdmin(); persist();
   });
 
-  list.addEventListener('change',e=>{
+  list.addEventListener('change',async e=>{
     if(!e.target.matches('[data-photo]'))return;
     const item=e.target.closest('.admin-item'); const i=+item.dataset.i;
     const file=e.target.files&&e.target.files[0]; if(!file||!MENU[i])return;
+    const thumb=item.querySelector('.admin-thumb');
+    const mostrar=src=>{ thumb.innerHTML=`<img src="${esc(src)}" alt=""><input type="file" accept="image/*" data-photo hidden><span class="admin-thumb-ed">Trocar</span>`; };
+    if(HB.logged){
+      thumb.classList.add('is-busy'); setStatus('Enviando a foto…','wait');
+      try{
+        const blob=await window.HeluEquipe.redimensionar(file,1600);
+        const url=await window.HeluEquipe.foto(blob);
+        MENU[i].img=url; mostrar(url); persist();
+      }catch(er){
+        if(er.status===401){ relock(); err.textContent='Sua sessão expirou. Entre de novo.'; err.removeAttribute('hidden'); }
+        else setStatus('Não consegui enviar a foto: '+er.message,'err');
+      }
+      thumb.classList.remove('is-busy');
+      return;
+    }
     if(file.size>1500000){ alert('Essa foto é muito pesada (mais de 1,5 MB). Escolha uma menor para o site continuar rápido.'); e.target.value=''; return; }
     const r=new FileReader();
-    r.onload=()=>{ MENU[i].img=r.result;
-      const im=item.querySelector('.admin-thumb');
-      im.innerHTML=`<img src="${esc(imgSrc(MENU[i]))}" alt=""><input type="file" accept="image/*" data-photo hidden><span class="admin-thumb-ed">Trocar</span>`;
-      persist(); };
+    r.onload=()=>{ MENU[i].img=r.result; mostrar(imgSrc(MENU[i])); persist(); };
     r.readAsDataURL(file);
+  });
+
+  /* subir / descer o prato no cardápio */
+  list.addEventListener('click',e=>{
+    const b=e.target.closest('[data-mv]'); if(!b)return;
+    const item=b.closest('.admin-item'); const i=+item.dataset.i, j=i+(+b.dataset.mv);
+    if(!MENU[i]||j<0||j>=MENU.length)return;
+    const t=MENU[i]; MENU[i]=MENU[j]; MENU[j]=t;
+    renderAdmin(); persist();
+    const novo=list.querySelectorAll('.admin-item')[j]; if(novo)novo.scrollIntoView({block:'nearest',behavior:'smooth'});
   });
 
   list.addEventListener('click',e=>{
@@ -2170,6 +2259,12 @@ const FAQS=[
 
   /* ---------- restaurar ---------- */
   $('#adminReset').addEventListener('click',async ()=>{
+    if(HB.logged){
+      if(!confirm('Recarregar o cardápio do servidor? As edições não salvas serão perdidas.'))return;
+      try{ const d=await window.HeluEquipe.catalogo(); if(Array.isArray(d)&&d.length){ MENU=d; cacheLocal(); renderAdmin(); repaint(); setStatus('Cardápio recarregado do servidor.','ok'); } else setStatus('O servidor ainda não tem um cardápio salvo.','warn'); }
+      catch(e){ setStatus('Não consegui ler o servidor: '+e.message,'err'); }
+      return;
+    }
     if(GB.on&&GB.logged){
       if(!confirm('Recarregar o cardápio do servidor? As edições não salvas serão perdidas.'))return;
       try{ const rows=await GB.getMenu(); if(rows.length){ MENU=rows; cacheLocal(); renderAdmin(); repaint(); setStatus('Cardápio recarregado do servidor.','ok'); } }
@@ -2186,13 +2281,29 @@ const FAQS=[
   function unlock(){
     lock.setAttribute('hidden',''); panel.removeAttribute('hidden');
     renderAdmin(); observeReveals();
-    if(GB.on&&GB.logged) setStatus('Conectado como '+GB.email+' — o que você salvar vale para todos os clientes.','ok');
+    if(HB.logged) setStatus('Conectado — o que você salvar vale para todos os clientes.','ok');
+    else if(GB.on&&GB.logged) setStatus('Conectado como '+GB.email+' — o que você salvar vale para todos os clientes.','ok');
     else setStatus('Modo local: as alterações ficam só neste navegador. Use "Exportar código" para publicá-las.','warn');
   }
   function relock(){ panel.setAttribute('hidden',''); lock.removeAttribute('hidden'); if(pass)pass.value=''; setStatus('',''); }
 
   async function tryEnter(){
     err.setAttribute('hidden','');
+    if(HB.on){
+      if(!pass.value){ err.textContent='Digite a senha.'; err.removeAttribute('hidden'); pass.focus(); return; }
+      btnEnter.disabled=true; const t0=btnEnter.textContent; btnEnter.textContent='Entrando…';
+      try{
+        await window.HeluEquipe.login(pass.value);
+        /* traz o cardápio mais recente do servidor antes de editar */
+        try{ const d=await window.HeluEquipe.catalogo(); if(Array.isArray(d)&&d.length){ MENU=d; cacheLocal(); repaint(); } }catch(_){}
+        unlock();
+      }catch(e){
+        err.textContent=(e.status===401)?'Senha incorreta.':(e.status===429?e.message:('Não consegui entrar: '+e.message));
+        err.removeAttribute('hidden'); pass.focus(); pass.select();
+      }
+      finally{ btnEnter.disabled=false; btnEnter.textContent=t0; }
+      return;
+    }
     if(GB.on){
       const email=(mail&&mail.value||'').trim();
       if(!email){ err.textContent='Digite o e-mail cadastrado no Supabase.'; err.removeAttribute('hidden'); mail.focus(); return; }
@@ -2213,11 +2324,17 @@ const FAQS=[
   if(mail) mail.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); pass.focus(); } });
   pass.addEventListener('input',()=>err.setAttribute('hidden',''));
   $('#adminLockBtn').addEventListener('click',()=>{
-    if(GB.on){ GB.logout(); } else { try{ sessionStorage.removeItem('gb_admin'); }catch(e){} }
+    if(HB.on){ window.HeluEquipe.sair(); } else if(GB.on){ GB.logout(); } else { try{ sessionStorage.removeItem('gb_admin'); }catch(e){} }
     relock();
   });
 
   /* ---------- arranque ---------- */
+  HB.ready.then(function(){
+    if(!HB.on)return;
+    if(mailRow) mailRow.hidden=true;
+    if(hint) hint.textContent='Entre com a senha da equipe. As alterações valem para todos os clientes.';
+    if(HB.logged) unlock();
+  });
   if(GB.on){
     if(mailRow) mailRow.hidden=false;
     if(hint) hint.textContent='Entre com o e-mail e a senha cadastrados no Supabase. As alterações valem para todos os clientes.';

@@ -5,6 +5,10 @@ import { get, put, BlobPreconditionFailedError } from '@vercel/blob';
 export function armazemVercelBlob({ token = process.env.BLOB_READ_WRITE_TOKEN, pasta = 'equipe' } = {}) {
   const sal = createHmac('sha256', String(token || 'local')).update('helu-equipe-kv').digest('hex').slice(0, 24);
   const caminho = chave => `${pasta}/${sal}/${chave}.json`;
+  /* O Blob lê de réplicas com alguns segundos de atraso. Esta instância lembra o que ela mesma gravou por 2 min
+     e prefere isso quando a leitura devolve algo mais velho. */
+  const memo = new Map();
+  const MEMO_MS = 120000;
   async function lerBruto(chave) {
     const r = await get(caminho(chave), { access: 'public', useCache: false });
     if (!r || r.statusCode !== 200) return null;
@@ -13,7 +17,7 @@ export function armazemVercelBlob({ token = process.env.BLOB_READ_WRITE_TOKEN, p
   /* O Blob às vezes demora a mostrar a escrita nova. Só devolvemos "gravado" quando a
      leitura já enxerga o ETag novo; assim a próxima requisição (em outra instância) não lê o valor velho. */
   async function aguardarVisivel(chave, etag) {
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 6; i++) {
       const atual = await lerBruto(chave).catch(() => null);
       if (atual && atual.etag === etag) return true;
       await new Promise(r => setTimeout(r, 150 + i * 100));
@@ -22,16 +26,20 @@ export function armazemVercelBlob({ token = process.env.BLOB_READ_WRITE_TOKEN, p
   }
   return {
     async ler(chave) {
-      try { return await lerBruto(chave); } catch (e) {
-        if (/not.?found/i.test(`${e && e.name} ${e && e.message}`)) return null;
-        throw e;
+      let lido = null;
+      try { lido = await lerBruto(chave); } catch (e) {
+        if (!/not.?found/i.test(`${e && e.name} ${e && e.message}`)) throw e;
       }
+      const m = memo.get(chave);
+      if (m && Date.now() - m.t < MEMO_MS && (!lido || lido.etag !== m.etag)) return { valor: JSON.parse(m.texto), etag: m.etag };
+      return lido;
     },
     async gravar(chave, valor, { etag, novo } = {}) {
       const base = { access: 'public', contentType: 'application/json', addRandomSuffix: false, cacheControlMaxAge: 60 };
       try {
         const r = await put(caminho(chave), JSON.stringify(valor),
           etag ? { ...base, ifMatch: etag } : novo ? { ...base, allowOverwrite: false } : { ...base, allowOverwrite: true });
+        memo.set(chave, { texto: JSON.stringify(valor), etag: r.etag, t: Date.now() });
         await aguardarVisivel(chave, r.etag);
         return { ok: true, etag: r.etag };
       } catch (e) {

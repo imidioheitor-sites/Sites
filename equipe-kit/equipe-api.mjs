@@ -57,15 +57,21 @@ export function criarApiEquipe({ armazem, fotos, ambiente = process.env }) {
     const corpo = Buffer.from(JSON.stringify({ exp: Date.now() + VALIDADE_MS })).toString('base64url');
     return `${corpo}.${createHmac('sha256', chaveToken(hash)).update(corpo).digest('base64url')}`;
   };
+  function tokenConfere(corpo, sig, hash) {
+    if (!hash) return false;
+    const esperado = createHmac('sha256', chaveToken(hash)).update(corpo).digest('base64url');
+    if (sig.length !== esperado.length || !timingSafeEqual(Buffer.from(sig), Buffer.from(esperado))) return false;
+    try { return JSON.parse(Buffer.from(corpo, 'base64url').toString()).exp > Date.now(); } catch { return false; }
+  }
   async function autorizado(req) {
     const m = /^Bearer (.+)$/.exec(req.headers.get('authorization') || '');
     if (!m) return false;
     const [corpo, sig] = m[1].split('.');
-    const hash = await hashAtivo();
-    if (!corpo || !sig || !hash) return false;
-    const esperado = createHmac('sha256', chaveToken(hash)).update(corpo).digest('base64url');
-    if (sig.length !== esperado.length || !timingSafeEqual(Buffer.from(sig), Buffer.from(esperado))) return false;
-    try { return JSON.parse(Buffer.from(corpo, 'base64url').toString()).exp > Date.now(); } catch { return false; }
+    if (!corpo || !sig) return false;
+    if (tokenConfere(corpo, sig, await hashAtivo())) return true;
+    /* logo depois de trocar a senha a leitura pode vir atrasada: confere de novo uma vez */
+    await espera(1200);
+    return tokenConfere(corpo, sig, await hashAtivo());
   }
 
   return async function tratar(req) {
@@ -82,7 +88,9 @@ export function criarApiEquipe({ armazem, fotos, ambiente = process.env }) {
         const { senha } = await req.json().catch(() => ({}));
         const hash = await hashAtivo();
         if (!hash) return erro(503, 'Senha da equipe ainda não configurada.');
-        if (!senha || !(await conferirHash(String(senha), hash))) { falhou(ip); await espera(700); return erro(401, 'Senha incorreta.'); }
+        let confere = !!senha && (await conferirHash(String(senha), hash));
+        if (!confere && senha) { await espera(1200); const h2 = await hashAtivo(); confere = h2 !== hash && (await conferirHash(String(senha), h2)); }
+        if (!confere) { falhou(ip); await espera(700); return erro(401, 'Senha incorreta.'); }
         return json({ ok: true, token: emitir(hash) });
       }
       if (!(await autorizado(req))) return erro(401, 'Entre com a senha da equipe.');
@@ -92,10 +100,14 @@ export function criarApiEquipe({ armazem, fotos, ambiente = process.env }) {
         if (!corpo || corpo.data == null) return erro(400, 'Catálogo vazio.');
         const atual = await armazem.ler('catalogo');
         const revAtual = atual ? atual.valor.rev : 0;
-        if (atual && Number(corpo.rev) !== revAtual) return erro(409, 'Outro aparelho salvou antes. Recarregue o painel.', { rev: revAtual, conflito: true });
-        const r = await armazem.gravar('catalogo', { data: corpo.data, rev: revAtual + 1, em: new Date().toISOString() }, atual ? { etag: atual.etag } : { novo: true });
-        if (!r.ok) return erro(409, 'Outro aparelho salvou ao mesmo tempo. Tente de novo.', { conflito: true });
-        return json({ ok: true, rev: revAtual + 1 });
+        const revCliente = Number(corpo.rev) || 0;
+        /* Só recusa quando o painel está DEFASADO (outro aparelho salvou depois). Se a leitura veio velha
+           (réplica do Blob atrasada), o painel está à frente e a gravação é aceita. */
+        if (atual && revCliente < revAtual) return erro(409, 'Outro aparelho salvou antes. Recarregue o painel.', { rev: revAtual, conflito: true });
+        const novaRev = Math.max(revCliente, revAtual) + 1;
+        const r = await armazem.gravar('catalogo', { data: corpo.data, rev: novaRev, em: new Date().toISOString() }, {});
+        if (!r.ok) return erro(409, 'Não consegui salvar agora. Tente de novo.', { conflito: true });
+        return json({ ok: true, rev: novaRev });
       }
       if (a === 'foto' && req.method === 'POST') {
         const tipo = (req.headers.get('content-type') || '').split(';')[0].trim();
@@ -111,10 +123,10 @@ export function criarApiEquipe({ armazem, fotos, ambiente = process.env }) {
         if (!nova || String(nova).length < 6) return erro(400, 'A nova senha precisa ter ao menos 6 caracteres.');
         const hashAntigo = await hashAtivo();
         if (!senhaAtual || !(await conferirHash(String(senhaAtual), hashAntigo))) { falhou(ip); await espera(700); return erro(401, 'A senha atual não confere.', { senhaAtual: true }); }
-        const reg = await armazem.ler('auth');
-        const r = await armazem.gravar('auth', { hash: await criarHash(String(nova)), em: new Date().toISOString() }, reg ? { etag: reg.etag } : { novo: true });
+        const novoHash = await criarHash(String(nova));
+        const r = await armazem.gravar('auth', { hash: novoHash, em: new Date().toISOString() }, {});
         if (!r.ok) return erro(409, 'Outra troca de senha aconteceu ao mesmo tempo. Tente de novo.', { conflito: true });
-        return json({ ok: true, token: emitir(await hashAtivo()) });
+        return json({ ok: true, token: emitir(novoHash) });
       }
       return erro(404, 'Rota não encontrada.');
     } catch (e) {

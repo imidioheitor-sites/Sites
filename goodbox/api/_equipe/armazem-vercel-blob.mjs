@@ -10,6 +10,16 @@ export function armazemVercelBlob({ token = process.env.BLOB_READ_WRITE_TOKEN, p
     if (!r || r.statusCode !== 200) return null;
     return { valor: JSON.parse(await new Response(r.stream).text()), etag: r.blob.etag };
   }
+  /* O Blob às vezes demora a mostrar a escrita nova. Só devolvemos "gravado" quando a
+     leitura já enxerga o ETag novo; assim a próxima requisição (em outra instância) não lê o valor velho. */
+  async function aguardarVisivel(chave, etag) {
+    for (let i = 0; i < 12; i++) {
+      const atual = await lerBruto(chave).catch(() => null);
+      if (atual && atual.etag === etag) return true;
+      await new Promise(r => setTimeout(r, 150 + i * 100));
+    }
+    return false;
+  }
   return {
     async ler(chave) {
       try { return await lerBruto(chave); } catch (e) {
@@ -22,6 +32,7 @@ export function armazemVercelBlob({ token = process.env.BLOB_READ_WRITE_TOKEN, p
       try {
         const r = await put(caminho(chave), JSON.stringify(valor),
           etag ? { ...base, ifMatch: etag } : novo ? { ...base, allowOverwrite: false } : { ...base, allowOverwrite: true });
+        await aguardarVisivel(chave, r.etag);
         return { ok: true, etag: r.etag };
       } catch (e) {
         if (e instanceof BlobPreconditionFailedError) return { ok: false };

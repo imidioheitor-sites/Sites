@@ -67,6 +67,7 @@ export async function diagnostico(armazem) {
     const c = await armazem.gravar('diagnostico', { n: 3 }, { etag: l1.etag });
     passos.conflitoDetectado = c.ok === false;
     const l2 = await armazem.ler('diagnostico');
+    passos.detalhe = { etagL1: l1.etag, etagB: b.etag, etagL2: l2 && l2.etag, n2: l2 && l2.valor.n };
     passos.relerSemCache = !!(l2 && l2.valor.n === 2);
   } catch (e) { passos.erro = String(e && e.message || e).slice(0, 200); }
   passos.ok = !passos.erro && passos.gravar && passos.reler && passos.gravarComEtag && passos.conflitoDetectado && passos.relerSemCache;

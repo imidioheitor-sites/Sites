@@ -106,12 +106,15 @@ export function criarApiEquipe({ armazem, fotos, ambiente = process.env }) {
         return json({ ok: true, url: await fotos.gravar(buf, tipo) });
       }
       if (a === 'senha' && req.method === 'POST') {
-        const { nova } = await req.json().catch(() => ({}));
+        if (bloqueado(ip)) return erro(429, 'Muitas tentativas. Aguarde alguns minutos.');
+        const { atual: senhaAtual, nova } = await req.json().catch(() => ({}));
         if (!nova || String(nova).length < 6) return erro(400, 'A nova senha precisa ter ao menos 6 caracteres.');
-        const atual = await armazem.ler('auth');
-        await armazem.gravar('auth', { hash: await criarHash(String(nova)), em: new Date().toISOString() }, atual ? { etag: atual.etag } : {});
-        const hash = await hashAtivo();
-        return json({ ok: true, token: emitir(hash) });
+        const hashAntigo = await hashAtivo();
+        if (!senhaAtual || !(await conferirHash(String(senhaAtual), hashAntigo))) { falhou(ip); await espera(700); return erro(401, 'A senha atual não confere.', { senhaAtual: true }); }
+        const reg = await armazem.ler('auth');
+        const r = await armazem.gravar('auth', { hash: await criarHash(String(nova)), em: new Date().toISOString() }, reg ? { etag: reg.etag } : { novo: true });
+        if (!r.ok) return erro(409, 'Outra troca de senha aconteceu ao mesmo tempo. Tente de novo.', { conflito: true });
+        return json({ ok: true, token: emitir(await hashAtivo()) });
       }
       return erro(404, 'Rota não encontrada.');
     } catch (e) {

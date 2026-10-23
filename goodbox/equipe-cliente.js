@@ -41,8 +41,8 @@
         .then(function (d) { return d.url; })
         .catch(function (e) { if (e.status === 401) guardar(''); throw e; });
     },
-    trocarSenha: function (nova) {
-      return chamar('senha', { method: 'POST', auth: true, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ nova: nova }) })
+    trocarSenha: function (atual, nova) {
+      return chamar('senha', { method: 'POST', auth: true, headers: { 'content-type': 'application/json' }, body: JSON.stringify({ atual: atual, nova: nova }) })
         .then(function (d) { guardar(d.token); return true; });
     },
     /* reduz a foto do celular (até 1600 px, JPEG) antes de enviar */

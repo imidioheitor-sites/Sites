@@ -463,7 +463,13 @@ header.scrolled .nav{background:rgba(251,250,243,.92);box-shadow:var(--shadow-md
   .admin-rm{grid-area:rm;width:100%;height:40px}
 }
 
-/* Aba de equipe (HELU): subir/descer, foto em envio */
+/* Aba de equipe (HELU): subir/descer, foto em envio, trocar senha */
+.admin-pw{margin-top:16px;background:var(--white);border:1px solid rgba(var(--forest-rgb),.10);border-radius:var(--radius);padding:22px;display:grid;gap:8px;max-width:440px}
+.admin-pw h3{margin:0 0 4px;font-size:1.05rem}
+.admin-pw label{font-size:.74rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:var(--forest)}
+.admin-pw input{padding:13px 15px;border:1.5px solid rgba(var(--forest-rgb),.18);border-radius:14px;font:inherit;background:var(--cream);color:var(--ink)}
+.admin-pw .btn{margin-top:6px}
+.admin-pw .ok{color:var(--forest);font-weight:700}
 .admin-side{display:flex;flex-direction:column;gap:8px}
 .admin-mv{display:flex;flex-direction:column;gap:6px}
 .admin-mv button{width:44px;height:36px;border:1px solid rgba(var(--forest-rgb),.18);border-radius:10px;background:var(--white);color:var(--forest);font-size:1.05rem;font-weight:800;cursor:pointer}
@@ -958,9 +964,18 @@ footer ul a:hover{color:var(--leaf)}
         <button class="btn btn-leaf" id="adminAdd" type="button">+ Adicionar produto</button>
         <button class="btn btn-ghost" id="adminExport" type="button">Exportar código</button>
         <button class="btn btn-ghost" id="adminReset" type="button">Restaurar padrão</button>
+        <button class="btn btn-ghost" id="adminPwBtn" type="button" hidden>Trocar senha</button>
         <button class="btn btn-ghost" id="adminLockBtn" type="button">Bloquear</button>
       </div>
       <p class="admin-note">As alterações ficam salvas <b>neste navegador</b> e já aparecem no cardápio. Para deixar permanente para todos, clique em <b>Exportar código</b> e cole no lugar de <code>let MENU = [ … ]</code> dentro do HTML.</p>
+      <div class="admin-pw" id="adminPwBox" hidden>
+        <h3>Trocar a senha da equipe</h3>
+        <label for="pwAtual">Senha atual</label><input id="pwAtual" type="password" autocomplete="current-password">
+        <label for="pwNova">Nova senha (mínimo 6 caracteres)</label><input id="pwNova" type="password" autocomplete="new-password">
+        <label for="pwConf">Repita a nova senha</label><input id="pwConf" type="password" autocomplete="new-password">
+        <p class="admin-err" id="pwMsg" hidden></p>
+        <button class="btn btn-leaf" id="pwSalvar" type="button">Salvar nova senha</button>
+      </div>
       <div class="admin-export" id="adminExportBox" hidden>
         <textarea id="adminCode" readonly rows="8" aria-label="Código do cardápio"></textarea>
         <button class="btn btn-leaf" id="adminCopy" type="button">Copiar código</button>
@@ -2257,6 +2272,24 @@ const FAQS=[
     try{ if(navigator.clipboard){ navigator.clipboard.writeText(ta.value).then(done,()=>{document.execCommand('copy');done();}); } else { document.execCommand('copy'); done(); } }catch(_){ document.execCommand('copy'); done(); }
   });
 
+  /* ---------- trocar senha (servidor) ---------- */
+  const pwBtn=$('#adminPwBtn'), pwBox=$('#adminPwBox'), pwMsg=$('#pwMsg');
+  function pwMostrar(txt,ok){ pwMsg.textContent=txt; pwMsg.className=ok?'admin-err ok':'admin-err'; pwMsg.hidden=!txt; }
+  pwBtn.addEventListener('click',()=>{ pwBox.hidden=!pwBox.hidden; pwMostrar('',false); if(!pwBox.hidden)$('#pwAtual').focus(); });
+  $('#pwSalvar').addEventListener('click',async ()=>{
+    const at=$('#pwAtual').value, nv=$('#pwNova').value, cf=$('#pwConf').value;
+    if(!at){ pwMostrar('Digite a senha atual.'); return; }
+    if(nv.length<6){ pwMostrar('A nova senha precisa ter ao menos 6 caracteres.'); return; }
+    if(nv!==cf){ pwMostrar('As duas senhas novas não são iguais.'); return; }
+    const b=$('#pwSalvar'); b.disabled=true;
+    try{
+      await window.HeluEquipe.trocarSenha(at,nv);
+      ['#pwAtual','#pwNova','#pwConf'].forEach(q=>{ $(q).value=''; });
+      pwMostrar('Senha trocada. A antiga não funciona mais, em nenhum aparelho.',true);
+    }catch(e){ pwMostrar(e.message||'Não consegui trocar a senha.'); }
+    b.disabled=false;
+  });
+
   /* ---------- restaurar ---------- */
   $('#adminReset').addEventListener('click',async ()=>{
     if(HB.logged){
@@ -2281,6 +2314,7 @@ const FAQS=[
   function unlock(){
     lock.setAttribute('hidden',''); panel.removeAttribute('hidden');
     renderAdmin(); observeReveals();
+    pwBtn.hidden=!HB.logged; pwBox.hidden=true;
     if(HB.logged) setStatus('Conectado — o que você salvar vale para todos os clientes.','ok');
     else if(GB.on&&GB.logged) setStatus('Conectado como '+GB.email+' — o que você salvar vale para todos os clientes.','ok');
     else setStatus('Modo local: as alterações ficam só neste navegador. Use "Exportar código" para publicá-las.','warn');

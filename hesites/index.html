@@ -10,7 +10,7 @@
 <meta property="og:description" content="Sites sob medida para pequenos negócios, com prévia antes de pagar e atendimento pelo WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HEsites">
-<meta property="og:image" content="hero-poster.jpg">
+<meta property="og:image" content="https://hesites-novo.vercel.app/og.jpg">
 <meta name="theme-color" content="#0F0F0F">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
   --cinza-escuro:#5E5A53;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
 body{margin:0;background:var(--tinta);color:var(--papel);font:400 17px/1.6 "Manrope",system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img,video,canvas{display:block;max-width:100%}
 a{color:inherit}
@@ -48,7 +48,18 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 
 /* topo */
 .topo{position:fixed;top:0;left:0;right:0;z-index:40;padding:14px 0;transition:background .3s,backdrop-filter .3s}
-.topo.solido{background:rgba(15,15,15,.72);backdrop-filter:blur(12px)}
+.topo.solido{background:rgba(15,15,15,.96)}
+.burger{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid rgba(242,238,230,.3);background:rgba(15,15,15,.5);cursor:pointer;color:var(--papel)}
+.burger svg{width:22px;height:22px}
+@media(min-width:900px){.burger{display:none}}
+.gv-menu{position:fixed;inset:0;z-index:70;background:var(--tinta);display:none;flex-direction:column;justify-content:center;gap:6px;padding:80px 24px}
+.gv-menu.on{display:flex}
+.gv-menu a{font-family:Unbounded;font-weight:800;font-size:clamp(1.8rem,8vw,2.6rem);text-decoration:none;padding:10px 0;letter-spacing:-.03em}
+.gv-menu .x{position:absolute;right:16px;top:14px}
+.pula{position:absolute;left:-999px;top:8px;z-index:100;background:var(--brasa);color:var(--tinta);padding:10px 16px;border-radius:999px;font-weight:700}
+.pula:focus{left:16px}
+@media(max-width:519px){.marca b{display:none}}
+.pilula.grande{padding:1rem 1.6rem;font-size:1.02rem}
 .topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .marca{display:flex;align-items:center;gap:10px;text-decoration:none}
 .marca img{width:40px;height:40px}
@@ -108,11 +119,8 @@ main>section:not(.hero),main>.letreiro{position:relative;z-index:2}
 @media(min-width:1000px){.grade{grid-template-columns:repeat(3,1fr)}}
 .card{background:#fff;border-radius:26px;overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;box-shadow:0 30px 60px -40px rgba(15,15,15,.55)}
 .card.oculto{display:none}
-.card .foto{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--grafite)}
-.card .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.card .foto .pb{filter:grayscale(1) brightness(.92) contrast(1.05)}
-.card .foto .cor{-webkit-mask-image:radial-gradient(circle var(--raio,0px) at var(--mx,50%) var(--my,50%),#000 97%,transparent 100%);mask-image:radial-gradient(circle var(--raio,0px) at var(--mx,50%) var(--my,50%),#000 97%,transparent 100%)}
-@media(hover:none){.card .foto .pb{display:none}.card .foto .cor{-webkit-mask-image:none;mask-image:none}}
+.card .foto{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--tinta);display:grid;place-items:center;color:var(--brasa)}
+.card .foto svg{width:30%;max-width:92px;height:auto}
 .card .n{position:absolute;left:16px;top:14px;background:var(--brasa);color:var(--tinta);font-weight:700;font-size:.78rem;border-radius:999px;padding:.25rem .65rem;z-index:2}
 .card .txt{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:1.3rem;color:var(--tinta);line-height:1.1}
@@ -196,7 +204,7 @@ main>section:not(.hero),main>.letreiro{position:relative;z-index:2}
 .pedido .pilula{width:100%;justify-content:center;margin-top:4px}
 
 footer{background:var(--tinta);padding:80px 0 calc(120px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
-footer .grande{font-family:"Unbounded";font-weight:800;font-size:clamp(3.4rem,16vw,15rem);line-height:.85;color:rgba(242,238,230,.08);white-space:nowrap;letter-spacing:-.05em}
+footer .grande{max-width:100%;overflow:hidden;font-family:"Unbounded";font-weight:800;font-size:clamp(3.4rem,16vw,15rem);line-height:.85;color:rgba(242,238,230,.08);white-space:nowrap;letter-spacing:-.05em}
 footer .grande span{color:rgba(255,77,46,.22)}
 footer .linha{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center;margin-top:36px;color:#CFC8BC;font-size:.92rem}
 footer .links{display:flex;flex-wrap:wrap;gap:8px 22px}
@@ -208,7 +216,7 @@ footer .links a:hover{color:var(--brasa)}
 /* manifesto (texto que acende) */
 .manifesto{padding:clamp(110px,18vw,220px) 0;background:var(--tinta)}
 .manifesto p{font-family:"Unbounded";font-weight:800;font-size:clamp(1.9rem,5.4vw,4.8rem);line-height:1.08;letter-spacing:-.03em;max-width:20ch;margin:0}
-.manifesto p .w{opacity:.16;transition:opacity .2s}
+.manifesto p .w{opacity:.38;transition:opacity .2s}
 .manifesto p .w.on{opacity:1}
 .manifesto p .w.br.on{color:var(--brasa)}
 .no-js-ok .manifesto p .w{opacity:1}
@@ -255,6 +263,7 @@ footer .links a:hover{color:var(--brasa)}
 
 .js-anim .sobe{opacity:0;transform:translateY(40px)}
 
+@media(max-width:759px){.cab h2,.galeria-titulo h2,.motivos h2,.passos h2,.contato h2{font-size:clamp(1.7rem,8.4vw,2.4rem)!important;line-height:1.04}.abertura h1{font-size:clamp(2.1rem,10vw,3rem)}.manifesto p{font-size:clamp(1.5rem,7vw,2.2rem)}}
 @media(prefers-reduced-motion:reduce){
   .js-anim .sobe{opacity:1;transform:none}
   *{animation:none!important;transition:none!important}
@@ -263,6 +272,8 @@ footer .links a:hover{color:var(--brasa)}
 </head>
 <body>
 
+<a class="pula" href="#no-site">Pular para o conteúdo</a>
+<nav class="gv-menu" id="gvMenu" aria-label="Menu"><button class="burger x" id="gvFechar" aria-label="Fechar menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><a href="#no-site">O que vai no site</a><a href="#ramos">Ramos</a><a href="#como">Como funciona</a><a href="#contato">Contato</a></nav>
 <header class="topo" id="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="HEsites, início">
@@ -276,6 +287,7 @@ footer .links a:hover{color:var(--brasa)}
       <a href="#contato">Contato</a>
     </nav>
     <a class="pilula brilha" href="#contato">Pedir minha prévia</a>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </div>
 </header>
 
@@ -298,7 +310,7 @@ footer .links a:hover{color:var(--brasa)}
     </h1>
     <div class="barra h-in"></div>
     <p class="sub h-in">A HEsites cria sites com vídeo e cara de marca grande para quem tem um negócio de verdade. Você vê o seu pronto antes de pagar.</p>
-    <a class="chamada h-in" href="#contato">Quero ver o meu <i>→</i></a>
+    <a class="pilula grande h-in" href="#contato" style="margin-top:14px">Quero ver o meu site →</a>
     <div class="contatos h-in">
       <a href="https://wa.me/556293053099" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z"/></svg>+55 62 9305-3099</a>
       <a href="mailto:heitorimidiosilva@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>heitorimidiosilva@gmail.com</a>
@@ -344,20 +356,6 @@ footer .links a:hover{color:var(--brasa)}
   </div>
 </section>
 
-<section class="exemplo" aria-labelledby="t-exemplo">
-  <div class="wrap ex-grade">
-    <div>
-      <span class="eyebrow sobe">Um exemplo</span>
-      <h2 id="t-exemplo" class="sobe">Buffet infantil em Uberlândia</h2>
-      <p class="sobe">Pesquisamos o negócio, criamos o vídeo de abertura, a cena com a lua que dá nome ao buffet e um cardápio em que os pais montam a festa e mandam o pedido pelo WhatsApp.</p>
-      <a class="chamada sobe" href="https://helu-bluemoon-buffet.vercel.app" target="_blank" rel="noopener">Ver o site completo <i>→</i></a>
-    </div>
-    <div class="telas sobe">
-      <div class="navegador"><div class="barra-nav"><i></i><i></i><i></i></div><img src="web-hero.jpg" alt="Página inicial do site do buffet no computador" loading="lazy" width="1200" height="750"></div>
-      <div class="celular"><img src="exemplo-celular.jpg" alt="Cardápio do buffet aberto no celular" loading="lazy" width="540" height="1169"></div>
-    </div>
-  </div>
-</section>
 
 <section class="motivos claro" aria-labelledby="t-mot">
   <div class="pecas" id="pecas" aria-hidden="true"></div>
@@ -388,7 +386,7 @@ footer .links a:hover{color:var(--brasa)}
   <div class="wrap ct-grade">
     <div>
       <span class="eyebrow sobe">Contato</span>
-      <h2 id="t-contato" class="sobe">Vamos fazer o seu?</h2>
+      <h2 id="t-contato" class="sobe">Peça a sua prévia</h2>
       <div class="dados">
         <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z"/></svg></span><div><b>WhatsApp</b><a href="https://wa.me/556293053099" target="_blank" rel="noopener">+55 62 9305-3099</a></div></div>
         <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><div><b>E-mail</b><a href="mailto:heitorimidiosilva@gmail.com">heitorimidiosilva@gmail.com</a></div></div>
@@ -437,12 +435,12 @@ footer .links a:hover{color:var(--brasa)}
 
 <script>
 var RECURSOS=[
- {id:'video',cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.',foto:'tela-card.jpg'},
- {id:'destaque',cat:'visual',nome:'Seu produto em destaque',desc:'O bolo, o móvel ou o sorriso que você vende, em destaque na página inteira.',foto:'web-ceu.jpg'},
- {id:'catalogo',cat:'vendas',nome:'Cardápio ou catálogo com pedido',desc:'O cliente escolhe o que quer e o pedido chega pronto no seu WhatsApp.',foto:'web-card.jpg'},
- {id:'zap',cat:'vendas',nome:'WhatsApp em toda a página',desc:'Mensagem já escrita com o que o cliente viu. Você só responde.',foto:'web-hero.jpg'},
- {id:'ambiente',cat:'visual',nome:'Seu espaço em tela cheia',desc:'Salão, consultório ou loja mostrados do jeito que merecem.',foto:'web-portal.jpg'},
- {id:'mapa',cat:'dia',nome:'Mapa, horário e contato',desc:'Endereço com rota no Google Maps, horário e telefone sempre à vista.',foto:'web-onde.jpg'}
+ {id:'video',ico:"<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m10 9.5 5 2.5-5 2.5z\"/>",cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.'},
+ {id:'destaque',ico:"<path d=\"M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z\"/><path d=\"M19 17l.7 1.8L21.5 19.5l-1.8.7L19 22l-.7-1.8-1.8-.7 1.8-.7z\"/>",cat:'visual',nome:'Seu produto em destaque',desc:'O bolo, o móvel ou o sorriso que você vende, em destaque na página inteira.'},
+ {id:'catalogo',ico:"<path d=\"M8 6h12M8 12h12M8 18h12\"/><circle cx=\"4\" cy=\"6\" r=\"1\"/><circle cx=\"4\" cy=\"12\" r=\"1\"/><circle cx=\"4\" cy=\"18\" r=\"1\"/>",cat:'vendas',nome:'Cardápio ou catálogo com pedido',desc:'O cliente escolhe o que quer e o pedido chega pronto no seu WhatsApp.'},
+ {id:'zap',ico:"<path d=\"M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z\"/>",cat:'vendas',nome:'WhatsApp em toda a página',desc:'Mensagem já escrita com o que o cliente viu. Você só responde.'},
+ {id:'ambiente',ico:"<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><circle cx=\"9\" cy=\"10\" r=\"1.8\"/><path d=\"m21 16-5-5-9 9\"/>",cat:'visual',nome:'Seu espaço em tela cheia',desc:'Salão, consultório ou loja mostrados do jeito que merecem.'},
+ {id:'mapa',ico:"<path d=\"M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z\"/><circle cx=\"12\" cy=\"9.5\" r=\"2.5\"/>",cat:'dia',nome:'Mapa, horário e contato',desc:'Endereço com rota no Google Maps, horário e telefone sempre à vista.'}
 ];
 (function(){
   var ZAP='556293053099';
@@ -451,7 +449,7 @@ var RECURSOS=[
   function desenha(){
     grade.innerHTML=RECURSOS.map(function(it,i){
       return '<article class="card'+(filtro!=='tudo'&&it.cat!==filtro?' oculto':'')+'" data-id="'+esc(it.id)+'">'+
-      '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img class="pb" src="'+esc(it.foto)+'" alt="" loading="lazy"><img class="cor" src="'+esc(it.foto)+'" alt="'+esc(it.nome)+'" loading="lazy"></div>'+
+      '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it.ico+'</svg></div>'+
       '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button type="button" class="add'+(meu[it.nome]?' ok':'')+'" data-nome="'+esc(it.nome)+'">'+(meu[it.nome]?'No meu site ✓':'Quero no meu site +')+'</button></div></article>';
     }).join('');
     ligaCards();
@@ -490,6 +488,7 @@ var RECURSOS=[
   btn.addEventListener('click',abre);veu.addEventListener('click',fecha);document.getElementById('fechar').addEventListener('click',fecha);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
   function ligaCards(){
+    return;
     if(!matchMedia('(hover:hover)').matches)return;
     grade.querySelectorAll('.card').forEach(function(c){
       var f=c.querySelector('.foto'),cor=c.querySelector('.cor'),raio=0,alvo=0,raf=0;
@@ -502,6 +501,7 @@ var RECURSOS=[
     });
   }
   desenha();atualiza();
+  (function(){var m=document.getElementById('gvMenu'),b=document.getElementById('burger');function t(v){m.classList.toggle('on',v);b.setAttribute('aria-expanded',v);document.body.style.overflow=v?'hidden':'';}b.onclick=function(){t(true)};document.getElementById('gvFechar').onclick=function(){t(false)};m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){t(false)})});})();
   document.getElementById('voltarTopo').onclick=function(){if(window.__lenis)window.__lenis.scrollTo(0);else scrollTo({top:0,behavior:'smooth'});};
   addEventListener('scroll',function(){document.getElementById('topo').classList.toggle('solido',scrollY>innerHeight*.7);},{passive:true});
   if(matchMedia('(hover:hover)').matches){
@@ -523,7 +523,6 @@ var RECURSOS=[
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 (function(){
   var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -552,7 +551,6 @@ var RECURSOS=[
   function dist(){return trilha.scrollWidth-innerWidth;}
   gsap.to(trilha,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:'#galeriaPalco',start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.6,invalidateOnRefresh:true,
     }});
-  gsap.fromTo('.celular',{yPercent:30,rotate:6},{yPercent:-6,rotate:-3,ease:'none',scrollTrigger:{trigger:'.exemplo',start:'top bottom',end:'bottom top',scrub:true}});
   gsap.utils.toArray('.lista .gr').forEach(function(g){gsap.from(g,{xPercent:-30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:g,start:'top 85%'}});});
   document.querySelectorAll('#pecas i').forEach(function(s){gsap.to(s,{y:function(){return s.dataset.v*260},rotate:s.dataset.v*180,ease:'none',scrollTrigger:{trigger:'.motivos',start:'top bottom',end:'bottom top',scrub:true}});});
   (function(){var m=document.getElementById('manifesto');if(!m)return;var out=[];(function visita(n,br){n.childNodes.forEach(function(c){if(c.nodeType===3){c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)){out.push(document.createTextNode(t));return;}var w=document.createElement('span');w.className='w'+(br?' br':'');w.textContent=t;out.push(w);});}else{visita(c,c.classList.contains('br')||br);}});})(m,false);m.textContent='';out.forEach(function(x){m.appendChild(x);});var ws=m.querySelectorAll('.w');ScrollTrigger.create({trigger:m,start:'top 82%',end:'bottom 38%',scrub:true,onUpdate:function(st){var n=Math.round(st.progress*ws.length);ws.forEach(function(w,i){w.classList.toggle('on',i<n);});}});})();

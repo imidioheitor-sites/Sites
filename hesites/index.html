@@ -10,7 +10,7 @@
 <meta property="og:description" content="Sites sob medida para pequenos negócios, com prévia antes de pagar e atendimento pelo WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HEsites">
-<meta property="og:image" content="hero-poster.png">
+<meta property="og:image" content="chave.jpg">
 <meta name="theme-color" content="#0F0F0F">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,7 +125,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 .cab h2{font-size:clamp(2.4rem,6.2vw,5.6rem)}
 .cab p{color:var(--cinza-escuro);max-width:38ch;margin:0}
 .abas{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px}
-.abas button{background:transparent;border:2px solid var(--tinta);color:var(--tinta);border-radius:999px;padding:.55rem 1.1rem;font-weight:700;font-size:.9rem;cursor:pointer}
+.abas button{min-height:44px;background:transparent;border:2px solid var(--tinta);color:var(--tinta);border-radius:999px;padding:.55rem 1.1rem;font-weight:700;font-size:.9rem;cursor:pointer}
 .abas button[aria-pressed="true"]{background:var(--tinta);color:var(--papel)}
 .grade{display:grid;gap:22px;grid-template-columns:1fr;perspective:1200px}
 @media(min-width:640px){.grade{grid-template-columns:repeat(2,1fr)}}
@@ -240,6 +240,24 @@ footer .links a:hover{color:var(--brasa)}
 .topo-btn{background:none;border:1px solid rgba(255,255,255,.25);color:var(--papel);border-radius:999px;padding:.6rem 1rem;cursor:pointer}
 .legal{opacity:.55;font-size:.8rem;margin-top:26px}
 
+/* manifesto (texto que acende) */
+.manifesto{padding:clamp(110px,18vw,220px) 0;background:var(--tinta)}
+.manifesto p{font-family:"Unbounded";font-weight:800;font-size:clamp(1.9rem,5.4vw,4.8rem);line-height:1.08;letter-spacing:-.03em;max-width:20ch;margin:0}
+.manifesto p .w{opacity:.16;transition:opacity .2s}
+.manifesto p .w.on{opacity:1}
+.manifesto p .w.br.on{color:var(--brasa)}
+.no-js-ok .manifesto p .w{opacity:1}
+
+/* brilho que passeia (shimmer) e feixe na borda (border beam) */
+.brilha{position:relative;overflow:hidden;isolation:isolate}
+.brilha::after{content:"";position:absolute;inset:-2px;z-index:-1;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);animation:passa 3.4s ease-in-out infinite}
+@keyframes passa{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@property --ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+.feixe{position:relative}
+.feixe::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;background:conic-gradient(from var(--ang),transparent 0 70%,var(--brasa) 85%,#ffb39f 92%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:gira 6s linear infinite;pointer-events:none}
+@keyframes gira{to{--ang:360deg}}
+.tilt-glare{border-radius:inherit}
+
 /* flutuantes */
 .zap{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;width:58px;height:58px;border-radius:50%;background:#1FA855;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.55)}
 .zap svg{width:28px;height:28px}
@@ -254,10 +272,10 @@ footer .links a:hover{color:var(--brasa)}
 .gaveta.on{transform:none}
 .gaveta .g-topo{display:flex;justify-content:space-between;align-items:center}
 .gaveta h3{font-size:1.6rem}
-.fechar{background:var(--tinta);color:var(--papel);border:0;border-radius:50%;width:40px;height:40px;font-size:1.3rem;cursor:pointer}
+.fechar{background:var(--tinta);color:var(--papel);border:0;border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer}
 .lista-meu{list-style:none;padding:0;margin:22px 0;flex:1;overflow:auto}
 .lista-meu li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px dashed rgba(15,15,15,.2);font-weight:700}
-.lista-meu li button{border:0;background:#fff;border-radius:999px;padding:.35rem .7rem;cursor:pointer;color:var(--tinta);font-weight:700}
+.lista-meu li button{min-height:44px;min-width:44px;border:0;background:#fff;border-radius:999px;padding:.35rem .7rem;cursor:pointer;color:var(--tinta);font-weight:700}
 .vazio{color:var(--cinza-escuro)}
 .gaveta .pilula{justify-content:center;width:100%;margin-top:6px}
 .gaveta .campo input{border-color:var(--areia)}
@@ -298,7 +316,7 @@ footer .links a:hover{color:var(--brasa)}
       <a href="#como">Como funciona</a>
       <a href="#contato">Contato</a>
     </nav>
-    <a class="pilula" href="#contato">Pedir minha prévia</a>
+    <a class="pilula brilha" href="#contato">Pedir minha prévia</a>
   </div>
 </header>
 
@@ -306,7 +324,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="hero" id="inicio" aria-label="Apresentação">
   <div class="hero-palco">
     <div class="hero-midia" id="heroMidia">
-      <video id="heroVideo" src="hero.mp4" poster="hero-poster.png" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <video id="heroVideo" src="hero.mp4" poster="chave.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
     </div>
     <div class="hero-txt" id="heroTxt">
       <div class="wrap">
@@ -340,7 +358,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="cena" id="cena" aria-label="Por que um site da HEsites">
   <div class="cena-palco">
     <canvas id="cena3d" aria-hidden="true"></canvas>
-    <img class="cena-reserva" src="hero-poster.png" alt="" loading="lazy">
+    <img class="cena-reserva" src="chave.jpg" alt="" loading="lazy">
     <span class="arraste" aria-hidden="true">arraste</span>
     <div class="falas">
       <div class="fala" data-i="0"><div class="wrap"><span class="num">01</span><h2>Seu cliente decide pelo celular</h2><p>Antes de ligar, ele procura, compara e julga pelo que vê na tela. O site é o seu primeiro atendimento, e ele precisa estar à altura do que você faz.</p></div></div>
@@ -348,6 +366,10 @@ footer .links a:hover{color:var(--brasa)}
       <div class="fala" data-i="2"><div class="wrap"><span class="num">03</span><h2>Feito do zero para o seu ramo</h2><p>Buffet, clínica, marcenaria ou pizzaria: cada site nasce do que você vende, com as suas cores, os seus produtos e o seu jeito de atender.</p></div></div>
     </div>
   </div>
+</section>
+
+<section class="manifesto" aria-label="Em uma frase">
+  <div class="wrap"><p id="manifesto">Seu cliente decide em três segundos. A gente faz esses segundos virarem <span class="br">pedido no seu WhatsApp.</span></p></div>
 </section>
 
 <section class="itens-site claro" id="no-site" aria-labelledby="t-no-site">
@@ -369,7 +391,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="portal" id="vitrine" aria-labelledby="t-vitrine">
   <div class="portal-palco">
     <div class="portal-palavra" id="portalPalavra" aria-hidden="true">vitrine</div>
-    <div class="portal-img" id="portalImg"><img src="hero-poster.png" alt="Celular com um site aberto, cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div>
+    <div class="portal-img" id="portalImg"><img src="chave.jpg" alt="Celular com um site aberto, cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div>
     <div class="portal-legenda" id="portalLegenda"><div class="wrap">
       <span class="eyebrow">Aberto a noite toda</span>
       <h2 id="t-vitrine">Sua vitrine trabalha enquanto você dorme</h2>
@@ -385,7 +407,7 @@ footer .links a:hover{color:var(--brasa)}
       <figure class="quadro"><div class="moldura"><img src="ramo-festa.jpg" alt="Bolo de festa decorado com lua e estrelas" loading="lazy"></div><h3>Buffets e docerias</h3><p>O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-clinica.jpg" alt="Miniatura de consultório com cadeira de atendimento, espelho iluminado e um dente" loading="lazy"></div><h3>Clínicas e estética</h3><p>Procedimentos explicados com calma e agendamento a um toque.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-delivery.jpg" alt="Miniatura de cozinha com forno a lenha, hambúrguer, pizza e moto de entrega" loading="lazy"></div><h3>Restaurantes e delivery</h3><p>Cardápio com fotos que dão fome e pedido que chega organizado.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="hero-poster.png" alt="Celular cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
+      <figure class="quadro"><div class="moldura"><img src="chave-2.jpg" alt="Celular cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
     </div>
   </div>
 </section>
@@ -400,7 +422,7 @@ footer .links a:hover{color:var(--brasa)}
     </div>
     <div class="telas sobe">
       <div class="navegador"><div class="barra-nav"><i></i><i></i><i></i></div><img src="web-hero.jpg" alt="Página inicial do site do buffet no computador" loading="lazy" width="1200" height="750"></div>
-      <div class="celular"><img src="tela-card.jpg" alt="Cardápio do buffet aberto no celular" loading="lazy" width="540" height="1169"></div>
+      <div class="celular"><img src="exemplo-celular.jpg" alt="Cardápio do buffet aberto no celular" loading="lazy" width="540" height="1169"></div>
     </div>
   </div>
 </section>
@@ -442,7 +464,7 @@ footer .links a:hover{color:var(--brasa)}
         <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><div><b>Responsável</b><span>Heitor Imídio Silva</span></div></div>
       </div>
     </div>
-    <form class="pedido sobe" id="pedido" action="#" novalidate>
+    <form class="pedido feixe sobe" id="pedido" action="#" novalidate>
       <h3>Peça sua prévia</h3>
       <p>Preencha o básico e a conversa já começa pronta no WhatsApp.</p>
       <div class="campo"><label for="p-nome">Nome do negócio</label><input id="p-nome" type="text" autocomplete="organization" placeholder="Ex.: Doceria da Ana"></div>
@@ -483,7 +505,7 @@ footer .links a:hover{color:var(--brasa)}
 
 <script>
 var RECURSOS=[
- {id:'video',cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.',foto:'hero-poster.png'},
+ {id:'video',cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.',foto:'chave-2.jpg'},
  {id:'3d',cat:'visual',nome:'Seu produto em 3D',desc:'O bolo, o móvel ou o sorriso que você vende, em destaque na página inteira.',foto:'web-ceu.jpg'},
  {id:'catalogo',cat:'vendas',nome:'Cardápio ou catálogo com pedido',desc:'O cliente escolhe o que quer e o pedido chega pronto no seu WhatsApp.',foto:'web-card.jpg'},
  {id:'zap',cat:'vendas',nome:'WhatsApp em toda a página',desc:'Mensagem já escrita com o que o cliente viu. Você só responde.',foto:'web-hero.jpg'},
@@ -542,9 +564,10 @@ var RECURSOS=[
       function anima(){raio+=(alvo-raio)*.18;cor.style.setProperty('--raio',raio.toFixed(1)+'px');if(Math.abs(alvo-raio)>.5)raf=requestAnimationFrame(anima);else raf=0;}
       c.addEventListener('mousemove',function(e){var r=f.getBoundingClientRect(),cr=c.getBoundingClientRect();
         cor.style.setProperty('--mx',(e.clientX-r.left)+'px');cor.style.setProperty('--my',(e.clientY-r.top)+'px');
-        var x=(e.clientX-cr.left)/cr.width-.5,y=(e.clientY-cr.top)/cr.height-.5;c.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg) translateZ(10px)';});
+        });
+      if(window.VanillaTilt)VanillaTilt.init(c,{max:9,speed:500,perspective:1100,scale:1.02,glare:true,'max-glare':.16});
       c.addEventListener('mouseenter',function(){alvo=150;if(!raf)anima();});
-      c.addEventListener('mouseleave',function(){alvo=0;if(!raf)anima();c.style.transform='';});
+      c.addEventListener('mouseleave',function(){alvo=0;if(!raf)anima();});
     });
   }
   desenha();atualiza();
@@ -554,10 +577,13 @@ var RECURSOS=[
     var cu=document.getElementById('cursor'),cp=document.getElementById('cursorPonto'),mx=0,my=0,cx=0,cy=0;
     addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cu.classList.add('vis');cp.classList.add('vis');cp.style.transform='translate('+mx+'px,'+my+'px)';
       cu.classList.toggle('grande',!!e.target.closest('a,button,.card,.quadro,canvas,input,select'));});
-    (function seg(){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cu.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(seg);})();
+    var vx=0,vy=0;(function seg(){vx+=(mx-cx)*.12;vy+=(my-cy)*.12;vx*=.72;vy*=.72;cx+=vx;cy+=vy;cu.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(seg);})();
     document.querySelectorAll('.pilula,.chamada').forEach(function(b){
-      b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.2)+'px,'+((e.clientY-r.top-r.height/2)*.3)+'px)';});
-      b.addEventListener('mouseleave',function(){b.style.transform='';});
+      var bx=0,by=0,bvx=0,bvy=0,alvoX=0,alvoY=0,rf=0;
+      function mola(){bvx+=(alvoX-bx)*.18;bvy+=(alvoY-by)*.18;bvx*=.7;bvy*=.7;bx+=bvx;by+=bvy;b.style.transform='translate('+bx.toFixed(2)+'px,'+by.toFixed(2)+'px)';
+        if(Math.abs(alvoX-bx)+Math.abs(alvoY-by)+Math.abs(bvx)+Math.abs(bvy)>.05)rf=requestAnimationFrame(mola);else{rf=0;if(!alvoX&&!alvoY)b.style.transform='';}}
+      b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();alvoX=(e.clientX-r.left-r.width/2)*.2;alvoY=(e.clientY-r.top-r.height/2)*.3;if(!rf)mola();});
+      b.addEventListener('mouseleave',function(){alvoX=0;alvoY=0;if(!rf)mola();});
     });
     document.querySelectorAll('.passo').forEach(function(p){var g=p.querySelector('.brilho');p.addEventListener('mousemove',function(e){var r=p.getBoundingClientRect();g.style.setProperty('--bx',(e.clientX-r.left)+'px');g.style.setProperty('--by',(e.clientY-r.top)+'px');});});
   }
@@ -568,6 +594,7 @@ var RECURSOS=[
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
 <script>
 (function(){
   var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -719,6 +746,8 @@ var RECURSOS=[
   gsap.fromTo('.navegador',{rotateY:-14,transformPerspective:1200},{rotateY:0,ease:'none',scrollTrigger:{trigger:'.exemplo',start:'top bottom',end:'center center',scrub:true}});
   gsap.utils.toArray('.lista .gr').forEach(function(g){gsap.from(g,{xPercent:-30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:g,start:'top 85%'}});});
   document.querySelectorAll('#pecas i').forEach(function(s){gsap.to(s,{y:function(){return s.dataset.v*260},rotate:s.dataset.v*180,ease:'none',scrollTrigger:{trigger:'.motivos',start:'top bottom',end:'bottom top',scrub:true}});});
+  if(window.VanillaTilt&&matchMedia('(hover:hover)').matches)VanillaTilt.init(document.querySelectorAll('.passo'),{max:7,speed:500,perspective:1000,glare:true,'max-glare':.12});
+  (function(){var m=document.getElementById('manifesto');if(!m)return;var out=[];(function visita(n,br){n.childNodes.forEach(function(c){if(c.nodeType===3){c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)){out.push(document.createTextNode(t));return;}var w=document.createElement('span');w.className='w'+(br?' br':'');w.textContent=t;out.push(w);});}else{visita(c,c.classList.contains('br')||br);}});})(m,false);m.textContent='';out.forEach(function(x){m.appendChild(x);});var ws=m.querySelectorAll('.w');ScrollTrigger.create({trigger:m,start:'top 82%',end:'bottom 38%',scrub:true,onUpdate:function(st){var n=Math.round(st.progress*ws.length);ws.forEach(function(w,i){w.classList.toggle('on',i<n);});}});})();
   gsap.from('.passo',{rotateY:-30,transformPerspective:900,opacity:0,x:-40,stagger:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.passos-grade',start:'top 80%'}});
   gsap.fromTo('footer .grande',{xPercent:8},{xPercent:-12,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
   addEventListener('load',function(){ScrollTrigger.refresh();});

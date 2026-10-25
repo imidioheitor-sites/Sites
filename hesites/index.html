@@ -10,7 +10,7 @@
 <meta property="og:description" content="Sites sob medida para pequenos negócios, com prévia antes de pagar e atendimento pelo WhatsApp.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="HEsites">
-<meta property="og:image" content="chave.jpg">
+<meta property="og:image" content="hero-poster.png">
 <meta name="theme-color" content="#0F0F0F">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -306,7 +306,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="hero" id="inicio" aria-label="Apresentação">
   <div class="hero-palco">
     <div class="hero-midia" id="heroMidia">
-      <video id="heroVideo" src="hero.mp4" poster="chave.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <video id="heroVideo" src="hero.mp4" poster="hero-poster.png" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
     </div>
     <div class="hero-txt" id="heroTxt">
       <div class="wrap">
@@ -340,7 +340,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="cena" id="cena" aria-label="Por que um site da HEsites">
   <div class="cena-palco">
     <canvas id="cena3d" aria-hidden="true"></canvas>
-    <img class="cena-reserva" src="chave.jpg" alt="" loading="lazy">
+    <img class="cena-reserva" src="hero-poster.png" alt="" loading="lazy">
     <span class="arraste" aria-hidden="true">arraste</span>
     <div class="falas">
       <div class="fala" data-i="0"><div class="wrap"><span class="num">01</span><h2>Seu cliente decide pelo celular</h2><p>Antes de ligar, ele procura, compara e julga pelo que vê na tela. O site é o seu primeiro atendimento, e ele precisa estar à altura do que você faz.</p></div></div>
@@ -369,7 +369,7 @@ footer .links a:hover{color:var(--brasa)}
 <section class="portal" id="vitrine" aria-labelledby="t-vitrine">
   <div class="portal-palco">
     <div class="portal-palavra" id="portalPalavra" aria-hidden="true">vitrine</div>
-    <div class="portal-img" id="portalImg"><img src="chave.jpg" alt="Celular com um site aberto, cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div>
+    <div class="portal-img" id="portalImg"><img src="hero-poster.png" alt="Celular com um site aberto, cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div>
     <div class="portal-legenda" id="portalLegenda"><div class="wrap">
       <span class="eyebrow">Aberto a noite toda</span>
       <h2 id="t-vitrine">Sua vitrine trabalha enquanto você dorme</h2>
@@ -385,7 +385,7 @@ footer .links a:hover{color:var(--brasa)}
       <figure class="quadro"><div class="moldura"><img src="ramo-festa.jpg" alt="Bolo de festa decorado com lua e estrelas" loading="lazy"></div><h3>Buffets e docerias</h3><p>O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-clinica.jpg" alt="Miniatura de consultório com cadeira de atendimento, espelho iluminado e um dente" loading="lazy"></div><h3>Clínicas e estética</h3><p>Procedimentos explicados com calma e agendamento a um toque.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-delivery.jpg" alt="Miniatura de cozinha com forno a lenha, hambúrguer, pizza e moto de entrega" loading="lazy"></div><h3>Restaurantes e delivery</h3><p>Cardápio com fotos que dão fome e pedido que chega organizado.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="chave-2.jpg" alt="Celular cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
+      <figure class="quadro"><div class="moldura"><img src="hero-poster.png" alt="Celular cercado por miniaturas de bolo, tesoura, dente, pizza, mármore e cadeira" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
     </div>
   </div>
 </section>
@@ -483,7 +483,7 @@ footer .links a:hover{color:var(--brasa)}
 
 <script>
 var RECURSOS=[
- {id:'video',cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.',foto:'chave-2.jpg'},
+ {id:'video',cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.',foto:'hero-poster.png'},
  {id:'3d',cat:'visual',nome:'Seu produto em 3D',desc:'O bolo, o móvel ou o sorriso que você vende, em destaque na página inteira.',foto:'web-ceu.jpg'},
  {id:'catalogo',cat:'vendas',nome:'Cardápio ou catálogo com pedido',desc:'O cliente escolhe o que quer e o pedido chega pronto no seu WhatsApp.',foto:'web-card.jpg'},
  {id:'zap',cat:'vendas',nome:'WhatsApp em toda a página',desc:'Mensagem já escrita com o que o cliente viu. Você só responde.',foto:'web-hero.jpg'},
@@ -581,17 +581,21 @@ var RECURSOS=[
     try{
       if(!window.THREE)throw 0;
       var R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,cel?1.5:2));
-      R.outputEncoding=THREE.sRGBEncoding;
+      R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.0;
       var S=new THREE.Scene(),C=new THREE.PerspectiveCamera(38,1,.1,100);C.position.set(0,0,10);
       S.add(new THREE.AmbientLight(0xffe8dc,.5));
       var l1=new THREE.PointLight(0xffffff,1.1,40);l1.position.set(-4,5,8);S.add(l1);
       var l2=new THREE.PointLight(0xff4d2e,2.2,30);l2.position.set(5,1,3);S.add(l2);
-      var l3=new THREE.PointLight(0xff8a5c,1,30);l3.position.set(-3,-5,-2);S.add(l3);
+      var l3=new THREE.PointLight(0xff8a5c,1,30);l3.position.set(-3,-5,-2);S.add(l3);var l4=new THREE.PointLight(0xff4d2e,3.2,26);l4.position.set(-1,2,-5);S.add(l4);
       var grupo=new THREE.Group();S.add(grupo);
+      (function(){var ea=new THREE.Scene();ea.background=new THREE.Color(0x0a0a0a);
+        function luz(c,i,x,y,z,w,h){var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(c).multiplyScalar(i),side:THREE.DoubleSide}));m.position.set(x,y,z);m.lookAt(0,0,0);ea.add(m);}
+        luz(0xfff1e0,6,-6,6,6,6,3);luz(0xff4d2e,9,7,0,3,3,8);luz(0xf2eee6,3,0,-7,2,10,2);luz(0xff8a5c,4,-6,-2,-4,4,4);
+        var pm=new THREE.PMREMGenerator(R);S.environment=pm.fromScene(ea,0.04).texture;pm.dispose();})();
       // celular
       function retArred(w,h,r){var s=new THREE.Shape(),x=-w/2,y=-h/2;s.moveTo(x+r,y);s.lineTo(x+w-r,y);s.quadraticCurveTo(x+w,y,x+w,y+r);s.lineTo(x+w,y+h-r);s.quadraticCurveTo(x+w,y+h,x+w-r,y+h);s.lineTo(x+r,y+h);s.quadraticCurveTo(x,y+h,x,y+h-r);s.lineTo(x,y+r);s.quadraticCurveTo(x,y,x+r,y);return s;}
       var W=2.1,H=4.4;
-      var corpo=new THREE.Mesh(new THREE.ExtrudeGeometry(retArred(W,H,.36),{depth:.2,bevelEnabled:true,bevelThickness:.06,bevelSize:.05,bevelSegments:6,curveSegments:16}),new THREE.MeshPhysicalMaterial({color:0x1a1a1a,metalness:.7,roughness:.28,clearcoat:1,clearcoatRoughness:.2}));
+      var corpo=new THREE.Mesh(new THREE.ExtrudeGeometry(retArred(W,H,.36),{depth:.2,bevelEnabled:true,bevelThickness:.06,bevelSize:.05,bevelSegments:6,curveSegments:16}),new THREE.MeshPhysicalMaterial({color:0x0b0b0b,metalness:.8,roughness:.3,clearcoat:1,clearcoatRoughness:.12,envMapIntensity:.5}));
       corpo.position.z=-.13;
       var cel3d=new THREE.Group();cel3d.add(corpo);
       var loader=new THREE.TextureLoader(),telas=['tela-hero.jpg','tela-card.jpg','tela-portal.jpg'].map(function(u){var t=loader.load(u);t.encoding=THREE.sRGBEncoding;t.anisotropy=4;return t;});
@@ -601,6 +605,10 @@ var RECURSOS=[
       telaG.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
       var telaM=new THREE.MeshBasicMaterial({map:telas[0],toneMapped:false});
       var tela=new THREE.Mesh(telaG,telaM);tela.position.z=.135;cel3d.add(tela);
+      var telaM2=new THREE.MeshBasicMaterial({map:telas[1],toneMapped:false,transparent:true,opacity:0,depthWrite:false});
+      var tela2=new THREE.Mesh(telaG,telaM2);tela2.position.z=.137;cel3d.add(tela2);
+      var vc=document.createElement('canvas');vc.width=256;vc.height=512;var vx=vc.getContext('2d'),vg=vx.createLinearGradient(0,0,256,512);vg.addColorStop(0,'rgba(255,255,255,.22)');vg.addColorStop(.38,'rgba(255,255,255,0)');vg.addColorStop(1,'rgba(255,77,46,.14)');vx.fillStyle=vg;vx.fillRect(0,0,256,512);
+      var vidro=new THREE.Mesh(telaG,new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(vc),transparent:true,depthWrite:false,toneMapped:false}));vidro.position.z=.14;cel3d.add(vidro);
       var ilha=new THREE.Mesh(new THREE.ExtrudeGeometry(retArred(.62,.16,.08),{depth:.01,bevelEnabled:false}),new THREE.MeshBasicMaterial({color:0x050505}));ilha.position.set(0,H/2-.28,.14);cel3d.add(ilha);
       var BX=cel?0:2.2,BY=cel?1.1:0;cel3d.position.set(BX,BY,0);cel3d.scale.setScalar(cel?.62:.92);grupo.add(cel3d);
       // brilho atrás
@@ -608,6 +616,7 @@ var RECURSOS=[
       var halo=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(hc),depthWrite:false,transparent:true}));halo.scale.set(10,10,1);halo.position.z=-1.5;cel3d.add(halo);
       // anel de luz
       var anel=new THREE.Mesh(new THREE.TorusGeometry(3.4,.018,8,160),new THREE.MeshBasicMaterial({color:0xff4d2e,transparent:true,opacity:.75}));anel.rotation.x=Math.PI/2.35;cel3d.add(anel);
+      var anel2=new THREE.Mesh(new THREE.TorusGeometry(3.9,.012,8,160),new THREE.MeshBasicMaterial({color:0xf2eee6,transparent:true,opacity:.35}));anel2.rotation.x=Math.PI/2.1;anel2.rotation.y=.4;cel3d.add(anel2);
       // miniaturas
       function std(c,o){return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.35,metalness:.05},o||{}));}
       function bolo(){var g=new THREE.Group(),a=Math.PI/3;
@@ -649,7 +658,7 @@ var RECURSOS=[
       var poeira=new THREE.Points(pg,new THREE.PointsMaterial({size:.13,map:new THREE.CanvasTexture(sc),transparent:true,depthWrite:false,color:0xffb59c}));S.add(poeira);
       function fit(){var w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();}
       fit();addEventListener('resize',fit);
-      var px=0,py=0,arrasto=0,arr=false,lx=0,visivel=false,telaAtual=0;
+      var fade=1,px=0,py=0,arrasto=0,arr=false,lx=0,visivel=false,telaAtual=0;
       addEventListener('pointermove',function(e){px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;if(arr){arrasto+=(e.clientX-lx)*.008;lx=e.clientX;}});
       cv.parentNode.addEventListener('pointerdown',function(e){if(e.pointerType==='mouse'){arr=true;lx=e.clientX;}});
       addEventListener('pointerup',function(){arr=false;});
@@ -657,13 +666,14 @@ var RECURSOS=[
       var ult=0,tempo=0;
       (function loop(ts){requestAnimationFrame(loop);if(!visivel||ts-ult<(cel?40:30))return;var dt=Math.min(.05,(ts-ult)/1000);ult=ts;tempo+=dt;
         var p=reduz?.3:cenaP.v;
-        var alvo=Math.min(2,Math.floor(p*3));if(alvo!==telaAtual){telaAtual=alvo;telaM.map=telas[alvo];telaM.needsUpdate=true;}
+        var alvo=Math.min(2,Math.floor(p*3));if(alvo!==telaAtual){telaM.map=telas[telaAtual];telaM.needsUpdate=true;telaAtual=alvo;telaM2.map=telas[alvo];telaM2.opacity=0;telaM2.needsUpdate=true;fade=0;}
+        if(fade<1){fade=Math.min(1,fade+dt*2.2);telaM2.opacity=fade;if(fade>=1){telaM.map=telas[telaAtual];telaM.needsUpdate=true;telaM2.opacity=0;}}
         cel3d.rotation.y=-.35+Math.sin(p*Math.PI*2)*.45+arrasto+Math.sin(tempo*.4)*.06;
         cel3d.rotation.x=Math.sin(tempo*.3)*.05+py*.12;
         cel3d.rotation.z=.08+px*.06;
         cel3d.position.y=BY+Math.sin(tempo*.8)*.08;cel3d.position.x=BX-(cel?0:p*.6);
         pecas.forEach(function(o){var u=o.userData;var a=u.a+tempo*u.vel*.35+p*2.6;o.position.set(Math.cos(a)*u.rad,u.y+Math.sin(tempo*u.vel+u.a)*.2,Math.sin(a)*u.rad*.55);o.rotation.x+=dt*u.gira*.6;o.rotation.y+=dt*u.gira;});
-        anel.rotation.z=tempo*.1;
+        anel.rotation.z=tempo*.1;anel.material.opacity=.55+Math.sin(tempo*1.4)*.2;anel2.rotation.z=-tempo*.14;l2.intensity=2.2+Math.sin(tempo*1.1)*.5;
         C.position.z=10-p*1.3;C.position.x=px*.6;C.position.y=-py*.4;C.lookAt(0,0,0);
         poeira.rotation.y=tempo*.01+p*.4;
         R.render(S,C);})(0);

@@ -1,0 +1,26 @@
+This folder is empty on purpose.
+
+The hero video and the dish photos live on the Higgsfield CDN, and the build
+environment that produced this site could not download them (its network policy
+blocks that host), so they could not be bundled into the archive.
+
+index.html already points at the CDN, so it works as-is when you open it.
+
+To make this folder self-contained, run from the parent directory:
+
+    ./fetch-assets.sh
+
+That downloads all ten files here, compresses them if ffmpeg / ImageMagick are
+installed, and switches index.html over to ./assets/.
+
+Files it will fetch:
+    hero.mp4              15s, 1284x716, the tea leaf salad turning in 3D
+    tea-leaf-salad.png    also used as the video poster and the 3D turntable
+    samusa-soup.png
+    rainbow-salad.png
+    platha.png
+    sesame-beef.png
+    garlic-noodles.png
+    pork-belly.png
+    coconut-rice.png
+    chili-lamb.png

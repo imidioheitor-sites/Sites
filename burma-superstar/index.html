@@ -1,0 +1,2353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Burma Superstar — Menu Sync</title>
+<meta name="description" content="One control room for every delivery platform. See how each Burma Superstar dish is listed on DoorDash, Uber Eats, Grubhub, Caviar and more — and catch what's wrong before your customers do.">
+<meta name="theme-color" content="#0B0705">
+<meta property="og:title" content="Burma Superstar — Menu Sync">
+<meta property="og:description" content="One control room for every delivery platform.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --void:#0B0705;
+  --void-2:#100A07;
+  --surface:#16100B;
+  --surface-2:#1D1610;
+  --border:#2C211A;
+  --border-soft:#221A14;
+  --cream:#F5EBDC;
+  --cream-dim:#CBB9A4;
+  --muted:#93806D;
+  --saffron:#E8912D;
+  --saffron-soft:rgba(232,145,45,.14);
+  --teal:#2E8C7A;
+  --chili:#D2503A;
+  --jade:#5BA97A;
+  --amber-glow:232,145,45;
+
+  --step--1:clamp(.72rem,.68rem + .18vw,.82rem);
+  --step-0:clamp(.94rem,.9rem + .2vw,1.02rem);
+  --step-1:clamp(1.1rem,1rem + .5vw,1.35rem);
+  --step-2:clamp(1.5rem,1.25rem + 1.2vw,2.4rem);
+  --step-3:clamp(2rem,1.4rem + 3vw,4rem);
+  --step-4:clamp(2.8rem,1.5rem + 6.5vw,7.5rem);
+
+  --gut:clamp(1.15rem,4vw,4.5rem);
+  --sec:clamp(5rem,11vw,11rem);
+  --r:14px;
+  --ease:cubic-bezier(.52,.01,0,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+/* NB: do NOT put overflow-x:hidden here. body already has it, and when both
+   carry it body stops propagating to the viewport, becomes a scroll
+   container, and every position:sticky descendant breaks — which silently
+   killed the portal's sticky frame. */
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--void);color:var(--cream);
+  font-family:"Roboto Flex","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:var(--step-0);line-height:1.6;font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{font-weight:400;line-height:1.02;letter-spacing:-.035em;margin:0}
+p{margin:0}
+a{color:inherit}
+img{max-width:100%;display:block}
+::selection{background:var(--saffron);color:var(--void)}
+.wrap{max-width:1420px;margin-inline:auto;padding-inline:var(--gut)}
+.eyebrow{
+  font-size:var(--step--1);letter-spacing:.24em;text-transform:uppercase;
+  color:var(--saffron);font-weight:500;display:flex;align-items:center;gap:.7rem;
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--saffron);opacity:.7;flex:none}
+.lede{color:var(--cream-dim);font-size:var(--step-1);max-width:56ch;font-weight:200;line-height:1.5}
+.sec{padding-block:var(--sec);position:relative}
+.rule{height:1px;background:var(--border-soft);border:0;margin:0}
+
+/* ============================================================
+   CURSOR (fluid canvas + dot)
+   ============================================================ */
+#fluid{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;display:block;opacity:.85}
+#dot{
+  position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;
+  background:var(--saffron);z-index:9999;pointer-events:none;
+  transform:translate3d(-50px,-50px,0);mix-blend-mode:screen;
+  transition:width .25s var(--ease),height .25s var(--ease),opacity .25s;
+}
+#dot.big{width:52px;height:52px;background:rgba(var(--amber-glow),.25);border:1px solid var(--saffron)}
+@media (hover:none){#fluid,#dot{display:none}}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:1.05rem var(--gut);
+  transition:background .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s;
+  border-bottom:1px solid transparent;
+}
+.nav.stuck{background:rgba(11,7,5,.82);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom-color:var(--border-soft)}
+.brand{display:flex;align-items:center;gap:.6rem;text-decoration:none;flex:none}
+.brand-mark{width:26px;height:26px;flex:none}
+.brand-txt{font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;font-weight:500;white-space:nowrap}
+.brand-txt b{color:var(--saffron);font-weight:500}
+.nav-links{display:flex;gap:1.9rem;align-items:center}
+.nav-links a{
+  text-decoration:none;font-size:.74rem;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;transition:color .3s var(--ease);position:relative;padding-block:.3rem;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--saffron);transition:width .35s var(--ease)}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  text-decoration:none;font-size:.74rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;
+  border:1px solid var(--saffron);color:var(--saffron);padding:.62rem 1.15rem;border-radius:999px;
+  transition:background .3s var(--ease),color .3s var(--ease);white-space:nowrap;
+}
+.nav-cta:hover{background:var(--saffron);color:var(--void)}
+@media(max-width:900px){.nav-links{display:none}}
+/* anchor targets must clear the fixed header */
+section[id],main[id]{scroll-margin-top:88px}
+@media(max-width:620px){
+  .nav-cta{display:none}
+  .nav{padding-block:.85rem}
+  .brand-txt{font-size:.74rem;letter-spacing:.16em}
+  section[id],main[id]{scroll-margin-top:70px}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero-media{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-media video,.hero-media img.fallback{
+  width:100%;height:100%;object-fit:cover;
+  transform:scale(1.08);will-change:transform;
+}
+.hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(120% 85% at 50% 8%,rgba(11,7,5,.1) 0%,rgba(11,7,5,.72) 58%,var(--void) 100%),
+    linear-gradient(to top,var(--void) 2%,rgba(11,7,5,.35) 42%,rgba(11,7,5,.6) 100%);
+}
+.hero-inner{position:relative;z-index:3;width:100%;padding-bottom:clamp(3rem,7vw,6rem);padding-top:8rem}
+.pressure{width:100%;height:clamp(64px,15vw,190px);position:relative;margin-block:1.4rem 1.1rem}
+.pressure h1{
+  margin:0;text-transform:uppercase;white-space:nowrap;text-align:center;
+  display:flex;justify-content:space-between;width:100%;
+  font-weight:100;font-size:1rem;line-height:.88;color:var(--cream);
+  user-select:none;
+}
+.pressure h1 span{display:inline-block;will-change:font-variation-settings}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2rem;align-items:end}
+.hero-sub{max-width:44ch;color:var(--cream-dim);font-weight:200;font-size:var(--step-1);line-height:1.45}
+.hero-stats{display:flex;gap:clamp(1.4rem,3vw,3rem);flex-wrap:wrap}
+.hstat b{display:block;font-size:var(--step-2);font-weight:300;color:var(--saffron);letter-spacing:-.04em;line-height:1}
+.hstat span{font-size:var(--step--1);letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.scroll-cue{
+  position:absolute;bottom:1.4rem;left:50%;transform:translateX(-50%);z-index:4;
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;gap:.55rem;
+}
+.scroll-cue i{display:block;width:1px;height:38px;background:linear-gradient(var(--saffron),transparent);animation:cue 2.2s var(--ease) infinite}
+@keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:820px){
+  .hero-grid{grid-template-columns:1fr;gap:1.6rem}
+  .hero-inner{padding-bottom:clamp(4.5rem,14vw,6rem)}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem}
+  .hstat b{font-size:clamp(1.5rem,7vw,2rem)}
+  .hstat span{font-size:.58rem;letter-spacing:.1em;line-height:1.3;display:block}
+  .scroll-cue{bottom:.6rem}
+  .scroll-cue i{height:26px}
+}
+
+/* ============================================================
+   PORTAL (scroll-driven)
+   ============================================================ */
+.portal{height:340svh;position:relative}
+.portal-stick{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center;background:var(--void)}
+.portal-rings{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.portal-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(var(--amber-glow),.16);
+  width:min(78vmin,660px);aspect-ratio:1;will-change:transform,opacity;
+}
+.portal-ring:nth-child(2){border-color:rgba(46,140,122,.16)}
+.portal-ring:nth-child(3){border-color:rgba(var(--amber-glow),.1)}
+.portal-ring:nth-child(4){border-style:dashed;border-color:rgba(var(--amber-glow),.12)}
+.portal-core{
+  position:relative;z-index:2;width:min(74vmin,620px);aspect-ratio:1;border-radius:50%;
+  overflow:hidden;will-change:clip-path,transform;
+  clip-path:circle(0% at 50% 50%);
+  box-shadow:0 0 0 1px rgba(var(--amber-glow),.28),0 0 90px 8px rgba(var(--amber-glow),.13);
+}
+.portal-core img{width:100%;height:100%;object-fit:cover;transform:scale(1.18);will-change:transform}
+.portal-core::after{content:"";position:absolute;inset:0;background:radial-gradient(circle,transparent 32%,rgba(11,7,5,.82) 100%)}
+.portal-copy{
+  position:absolute;z-index:4;text-align:center;padding-inline:var(--gut);
+  pointer-events:none;width:100%;will-change:opacity,transform;
+}
+.portal-copy::before{
+  content:"";position:absolute;left:50%;top:50%;translate:-50% -50%;
+  width:min(150%,940px);aspect-ratio:1.55;border-radius:50%;z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(8,5,3,.86) 0%,rgba(8,5,3,.66) 42%,transparent 72%);
+}
+.portal-copy h2,.portal-copy p{text-shadow:0 2px 22px rgba(6,4,2,.9),0 1px 4px rgba(6,4,2,.8)}
+.portal-copy h2{font-size:var(--step-3);font-weight:300;max-width:20ch;margin-inline:auto;will-change:transform,opacity}
+.portal-copy p{margin-top:1.1rem;color:var(--cream-dim);max-width:46ch;margin-inline:auto;font-weight:200}
+.portal-copy .em{color:var(--saffron)}
+.portal-layer{position:absolute;inset:0;display:grid;place-items:center;will-change:opacity,transform}
+.portal-dust{position:absolute;inset:0;z-index:1;pointer-events:none}
+
+/* ============================================================
+   TURNTABLE — 3D product animation
+   ============================================================ */
+.turn-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,6rem);align-items:center}
+.stage{
+  position:relative;aspect-ratio:1;width:100%;max-width:560px;margin-inline:auto;
+  perspective:1400px;cursor:grab;touch-action:pan-y;
+}
+.stage-inner{border-radius:50%}
+.stage::after{
+  content:"";position:absolute;inset:-6%;border-radius:50%;pointer-events:none;z-index:3;
+  background:radial-gradient(circle at 50% 46%,transparent 52%,rgba(11,7,5,.55) 74%,var(--void) 92%);
+}
+.stage:active{cursor:grabbing}
+.stage-inner{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.slice{
+  position:absolute;inset:0;border-radius:50%;overflow:hidden;
+  background-size:cover;background-position:center;
+  backface-visibility:hidden;
+}
+.plinth{
+  position:absolute;left:50%;bottom:6%;width:74%;aspect-ratio:3/1;translate:-50% 0;
+  background:radial-gradient(ellipse at center,rgba(var(--amber-glow),.2),transparent 68%);
+  filter:blur(16px);pointer-events:none;
+}
+.sheen{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;z-index:2;
+  background:linear-gradient(115deg,transparent 36%,rgba(255,236,205,.16) 49%,transparent 62%);
+  clip-path:circle(48% at 50% 50%);will-change:transform;
+}
+.stage-hint{
+  position:absolute;left:50%;bottom:-2.2rem;translate:-50% 0;white-space:nowrap;
+  font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);
+}
+@media(max-width:900px){.turn-grid{grid-template-columns:1fr;gap:3.5rem}}
+
+/* ============================================================
+   OBJECT REVEAL ON HOVER
+   ============================================================ */
+.reveal-list{border-top:1px solid var(--border-soft)}
+.reveal-row{
+  position:relative;display:grid;grid-template-columns:3.2rem 1fr auto;gap:1.2rem;align-items:baseline;
+  padding:clamp(1rem,2.4vw,1.7rem) 0;border-bottom:1px solid var(--border-soft);
+  text-decoration:none;transition:padding-left .5s var(--ease);
+}
+.reveal-row:hover{padding-left:1rem}
+.reveal-row .idx{font-size:var(--step--1);color:var(--muted);letter-spacing:.1em;font-weight:500}
+.reveal-row .nm{font-size:clamp(1.25rem,3.2vw,2.35rem);font-weight:300;letter-spacing:-.035em;transition:color .4s var(--ease)}
+.reveal-row .nm em{font-style:normal;color:var(--muted);font-size:.5em;letter-spacing:0;margin-left:.7rem;font-weight:300}
+.reveal-row:hover .nm{color:var(--saffron)}
+.reveal-row .pr{font-size:var(--step-0);color:var(--cream-dim);font-variant-numeric:tabular-nums;font-weight:300}
+.reveal-row .bar{position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--saffron);transition:width .55s var(--ease)}
+.reveal-row:hover .bar{width:100%}
+#reveal-float{
+  position:fixed;top:0;left:0;width:clamp(180px,20vw,290px);aspect-ratio:1;border-radius:12px;
+  overflow:hidden;pointer-events:none;z-index:55;opacity:0;
+  transform:translate3d(-9999px,-9999px,0) scale(.82) rotate(-7deg);
+  transition:opacity .35s var(--ease),transform .45s var(--ease);
+  box-shadow:0 26px 70px rgba(0,0,0,.62),0 0 0 1px rgba(var(--amber-glow),.24);
+  will-change:transform,opacity;
+}
+#reveal-float img{width:100%;height:100%;object-fit:cover}
+#reveal-float.on{opacity:1}
+.row-thumb{display:none}
+@media(max-width:820px){
+  #reveal-float{display:none}
+  .reveal-row{
+    grid-template-columns:1.7rem 52px minmax(0,1fr) auto;
+    gap:.75rem;align-items:center;padding-block:.85rem;
+  }
+  .reveal-row:hover{padding-left:0}
+  .reveal-row .idx{align-self:center}
+  .row-thumb{
+    display:block;width:52px;height:52px;border-radius:10px;object-fit:cover;
+    background:var(--surface-2);
+  }
+  .row-thumb.none{
+    display:grid;place-items:center;font-size:.5rem;color:var(--muted);
+    letter-spacing:.06em;border:1px dashed var(--border);text-align:center;
+  }
+  .reveal-row .nm{font-size:1.12rem;line-height:1.2}
+  .reveal-row .nm em{display:block;margin-left:0;font-size:.68rem;margin-top:.15rem}
+  .reveal-row .pr{font-size:.92rem;white-space:nowrap}
+}
+@media(max-width:360px){
+  .reveal-row{grid-template-columns:44px minmax(0,1fr) auto;gap:.6rem}
+  .reveal-row .idx{display:none}
+  .row-thumb{width:44px;height:44px}
+}
+
+/* ============================================================
+   BENTO
+   ============================================================ */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
+.cell{
+  position:relative;overflow:hidden;border:1px solid var(--border);border-radius:var(--r);
+  background:var(--surface);padding:clamp(1.15rem,2vw,1.7rem);min-height:190px;
+  display:flex;flex-direction:column;justify-content:space-between;gap:1.2rem;
+  transition:border-color .4s var(--ease),transform .4s var(--ease);
+  --gx:50%;--gy:50%;--gi:0;
+  transform-style:preserve-3d;will-change:transform;
+}
+.cell::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:radial-gradient(220px circle at var(--gx) var(--gy),rgba(var(--amber-glow),calc(var(--gi)*.85)) 0%,rgba(var(--amber-glow),calc(var(--gi)*.32)) 34%,transparent 66%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;
+}
+.cell:hover{border-color:rgba(var(--amber-glow),.34)}
+.cell .tag{font-size:.63rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.cell .big{font-size:var(--step-2);font-weight:300;letter-spacing:-.04em;line-height:1;color:var(--cream)}
+.cell .big.warn{color:var(--chili)}
+.cell .big.ok{color:var(--jade)}
+.cell .big.acc{color:var(--saffron)}
+.cell p{font-size:var(--step--1);color:var(--muted);line-height:1.5}
+.cell.wide{grid-column:span 2}
+.cell.tall{grid-row:span 2}
+@media(max-width:1000px){.bento{grid-template-columns:repeat(2,1fr)}.cell.tall{grid-row:auto}}
+@media(max-width:560px){.bento{grid-template-columns:1fr}.cell.wide{grid-column:auto}}
+
+/* ============================================================
+   SYNC TABLE — the core
+   ============================================================ */
+.tbl-bar{
+  display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:space-between;
+  margin-bottom:1.1rem;
+}
+.filters{display:flex;flex-wrap:wrap;gap:.45rem}
+.chip{
+  font:inherit;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;font-weight:500;
+  background:transparent;color:var(--muted);border:1px solid var(--border);
+  padding:.5rem .9rem;border-radius:999px;cursor:pointer;
+  transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease);
+}
+.chip:hover{color:var(--cream);border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--saffron);border-color:var(--saffron);color:var(--void)}
+.chip.danger[aria-pressed="true"]{background:var(--chili);border-color:var(--chili);color:#fff}
+.tools{display:flex;gap:.45rem;flex-wrap:wrap}
+.btn{
+  font:inherit;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;font-weight:500;
+  background:transparent;color:var(--cream-dim);border:1px solid var(--border);
+  padding:.5rem .9rem;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem;
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.btn:hover{color:var(--saffron);border-color:var(--saffron)}
+.btn svg{width:13px;height:13px;flex:none}
+
+.tbl-scroll{
+  overflow-x:auto;overflow-y:visible;border:1px solid var(--border);border-radius:var(--r);
+  background:var(--surface);-webkit-overflow-scrolling:touch;
+  scrollbar-color:var(--border) transparent;scrollbar-width:thin;
+}
+.tbl-scroll::-webkit-scrollbar{height:9px}
+.tbl-scroll::-webkit-scrollbar-track{background:var(--void-2)}
+.tbl-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+.tbl-scroll::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:1080px;font-size:.85rem}
+thead th{
+  position:sticky;top:0;z-index:5;background:var(--surface-2);
+  text-align:left;font-weight:500;padding:.85rem .7rem;white-space:nowrap;
+  border-bottom:1px solid var(--border);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+}
+thead th.major{color:var(--cream)}
+thead th.major .pdot{background:var(--saffron)}
+th.dish,td.dish{
+  position:sticky;left:0;z-index:4;background:var(--surface);
+  min-width:220px;border-right:1px solid var(--border);
+}
+thead th.dish{z-index:6;background:var(--surface-2)}
+.pdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:.45rem;vertical-align:middle}
+tbody td{padding:.72rem .7rem;border-bottom:1px solid var(--border-soft);vertical-align:middle}
+tbody tr{transition:background .25s var(--ease)}
+tbody tr:hover td{background:rgba(232,145,45,.045)}
+tbody tr:hover td.dish{background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+.dish-cell{display:flex;align-items:center;gap:.7rem}
+.dish-thumb{width:38px;height:38px;border-radius:8px;object-fit:cover;flex:none;background:var(--surface-2)}
+.dish-thumb.none{display:grid;place-items:center;font-size:.55rem;color:var(--muted);letter-spacing:.06em;border:1px dashed var(--border)}
+.dish-name{font-weight:400;color:var(--cream);line-height:1.25;font-size:.88rem}
+.dish-meta{font-size:.66rem;color:var(--muted);letter-spacing:.09em;text-transform:uppercase}
+
+.cellv{display:flex;flex-direction:column;gap:.16rem;min-width:82px}
+.cellv .price{font-variant-numeric:tabular-nums;font-weight:400;font-size:.86rem;color:var(--cream)}
+.cellv .price.up{color:var(--chili)}
+.cellv .price.dn{color:var(--teal)}
+.cellv .note{font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.28rem}
+.cellv .note.bad{color:var(--chili)}
+.cellv .note.warn{color:var(--saffron)}
+.cellv .note.good{color:var(--jade)}
+.cellv.missing .price{color:var(--muted);opacity:.55}
+.flag{width:5px;height:5px;border-radius:50%;flex:none;background:currentColor}
+.state{
+  display:inline-flex;align-items:center;gap:.35rem;font-size:.62rem;letter-spacing:.1em;
+  text-transform:uppercase;padding:.24rem .55rem;border-radius:999px;border:1px solid;white-space:nowrap;font-weight:500;
+}
+.state.ok{color:var(--jade);border-color:rgba(91,169,122,.36);background:rgba(91,169,122,.09)}
+.state.drift{color:var(--saffron);border-color:rgba(232,145,45,.36);background:var(--saffron-soft)}
+.state.bad{color:var(--chili);border-color:rgba(210,80,58,.36);background:rgba(210,80,58,.1)}
+.legend{display:flex;flex-wrap:wrap;gap:1.1rem;margin-top:1rem;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.hint-swipe{display:none;margin-top:.7rem;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);align-items:center;gap:.45rem}
+@media(max-width:900px){.hint-swipe{display:flex}.tbl-bar{flex-direction:column;align-items:stretch}}
+.empty{padding:3rem 1rem;text-align:center;color:var(--muted);font-size:var(--step-0)}
+
+/* dimension chips inside a platform cell */
+.dims{display:flex;gap:2px;margin-top:.18rem}
+.dim{
+  width:15px;height:15px;border-radius:4px;display:grid;place-items:center;
+  font-size:.5rem;font-weight:600;letter-spacing:0;line-height:1;
+  border:1px solid;cursor:help;user-select:none;
+}
+.dim.ok{color:var(--jade);border-color:rgba(91,169,122,.3);background:rgba(91,169,122,.08)}
+.dim.drift{color:var(--saffron);border-color:rgba(232,145,45,.36);background:var(--saffron-soft)}
+.dim.bad{color:var(--chili);border-color:rgba(210,80,58,.38);background:rgba(210,80,58,.1)}
+.dim.na{color:var(--muted);border-color:var(--border);opacity:.45}
+td.dish{cursor:pointer}
+tbody tr:hover td.dish .edit-cue{opacity:1;transform:none}
+.edit-cue{
+  margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:.3rem;
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron);
+  opacity:0;transform:translateX(-5px);transition:opacity .3s var(--ease),transform .3s var(--ease);
+}
+.edit-cue svg{width:11px;height:11px}
+@media(hover:none){.edit-cue{opacity:.75;transform:none}}
+
+/* ---------- editor drawer ---------- */
+.scrim{
+  position:fixed;inset:0;z-index:70;background:rgba(6,4,3,.72);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease);
+}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(660px,100%);
+  background:var(--void-2);border-left:1px solid var(--border);
+  transform:translateX(102%);transition:transform .5s var(--ease);
+  display:flex;flex-direction:column;overscroll-behavior:contain;
+}
+.drawer.on{transform:none}
+.dr-head{
+  padding:1.15rem var(--gut) 1.05rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:1rem;justify-content:space-between;flex:none;
+  background:var(--surface);
+}
+.dr-head h3{font-size:clamp(1.25rem,3.4vw,1.75rem);font-weight:300}
+.dr-head .sub{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.4rem}
+.dr-x{
+  background:transparent;border:1px solid var(--border);color:var(--cream-dim);
+  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1.1rem;line-height:1;flex:none;
+  transition:color .3s var(--ease),border-color .3s var(--ease);
+}
+.dr-x:hover{color:var(--saffron);border-color:var(--saffron)}
+.dr-body{flex:1;overflow-y:auto;padding:1.1rem var(--gut) 1.6rem;-webkit-overflow-scrolling:touch}
+.dr-foot{
+  flex:none;padding:.9rem var(--gut);border-top:1px solid var(--border);background:var(--surface);
+  display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;justify-content:space-between;
+}
+.pane{border:1px solid var(--border);border-radius:var(--r);margin-bottom:.7rem;background:var(--surface);overflow:hidden}
+.pane.ref{border-color:rgba(46,140,122,.45);background:linear-gradient(180deg,rgba(46,140,122,.07),transparent 60%),var(--surface)}
+.pane-head{
+  display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;cursor:pointer;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim);font-weight:500;
+}
+.pane.ref .pane-head{color:var(--teal);cursor:default}
+.pane-head .grow{flex:1}
+.pane-head .caret{color:var(--muted);font-size:.9rem;transition:transform .3s var(--ease)}
+.pane.open .pane-head .caret{transform:rotate(180deg)}
+.pane-body{display:none;padding:0 .9rem .9rem;gap:.6rem;grid-template-columns:1fr 1fr}
+.pane.open .pane-body{display:grid}
+.pane.ref .pane-body{display:grid}
+.f{display:flex;flex-direction:column;gap:.28rem}
+.f.wide{grid-column:1/-1}
+.f label{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.f input[type=text],.f input[type=number],.f select,.f textarea{
+  background:var(--void-2);border:1px solid var(--border);border-radius:8px;color:var(--cream);
+  padding:.5rem .6rem;font:inherit;font-size:.82rem;font-weight:300;width:100%;
+}
+.f textarea{min-height:62px;resize:vertical;line-height:1.5}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--saffron)}
+.f .diffnote{font-size:.6rem;color:var(--saffron);letter-spacing:.08em}
+.f .diffnote.ok{color:var(--jade)}
+.f.changed input,.f.changed select,.f.changed textarea{border-color:rgba(232,145,45,.5)}
+.tog{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--cream-dim);cursor:pointer;padding-top:1.1rem}
+.tog input{accent-color:var(--saffron);width:15px;height:15px}
+.pane-actions{grid-column:1/-1;display:flex;gap:.45rem;flex-wrap:wrap;padding-top:.2rem}
+.mini{
+  font:inherit;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+  background:transparent;border:1px solid var(--border);color:var(--cream-dim);
+  padding:.42rem .7rem;border-radius:999px;cursor:pointer;transition:color .3s,border-color .3s;
+}
+.mini:hover{color:var(--saffron);border-color:var(--saffron)}
+.mini.solid{background:var(--saffron);border-color:var(--saffron);color:var(--void)}
+.mini.solid:hover{filter:brightness(1.1);color:var(--void)}
+.dr-hint{font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.dr-hint b{color:var(--teal);font-weight:400}
+@media(max-width:700px){
+  .pane-body{grid-template-columns:1fr}
+  .drawer{width:100%}
+  .tog{padding-top:.2rem}
+}
+
+/* io editor */
+.io{margin-top:1.1rem;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.io summary{
+  cursor:pointer;padding:.95rem 1.2rem;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--cream-dim);font-weight:500;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.io summary::-webkit-details-marker{display:none}
+.io summary::after{content:"+";color:var(--saffron);font-size:1.1rem;line-height:1}
+.io[open] summary::after{content:"–"}
+.io-body{padding:0 1.2rem 1.2rem;display:grid;gap:.8rem}
+.io textarea{
+  width:100%;min-height:190px;resize:vertical;background:var(--void-2);color:var(--cream-dim);
+  border:1px solid var(--border);border-radius:10px;padding:.9rem;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.76rem;line-height:1.6;
+}
+.io textarea:focus{outline:none;border-color:var(--saffron)}
+.io-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.io-msg{font-size:.7rem;color:var(--muted);letter-spacing:.06em}
+.io-msg.ok{color:var(--jade)}
+.io-msg.err{color:var(--chili)}
+.io-note{font-size:.7rem;color:var(--muted);line-height:1.6}
+.io-note code{color:var(--saffron);font-family:ui-monospace,Menlo,monospace;font-size:.92em;overflow-wrap:anywhere;word-break:break-word}
+.io-body{min-width:0}
+.io-body>*{min-width:0;max-width:100%}
+.io-note{overflow-wrap:anywhere}
+
+/* ============================================================
+   PLATFORM STRIP / FOOTER
+   ============================================================ */
+.strip{display:flex;gap:.55rem;flex-wrap:wrap}
+.pill{
+  display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);
+  border-radius:999px;padding:.55rem 1rem;font-size:.72rem;letter-spacing:.1em;color:var(--cream-dim);
+  transition:border-color .35s var(--ease),color .35s var(--ease);
+}
+.pill:hover{border-color:var(--saffron);color:var(--cream)}
+.pill.major{border-color:rgba(232,145,45,.4);color:var(--cream)}
+.foot{border-top:1px solid var(--border-soft);padding-block:clamp(3rem,6vw,5rem) 2rem}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:2.5rem}
+.foot h4{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;font-weight:500}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:.6rem}
+.foot a{text-decoration:none;color:var(--cream-dim);font-size:.88rem;transition:color .3s var(--ease)}
+.foot a:hover{color:var(--saffron)}
+.foot-bot{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--border-soft);font-size:.7rem;color:var(--muted);letter-spacing:.08em}
+@media(max-width:820px){.foot-grid{grid-template-columns:1fr;gap:2rem}}
+
+/* reveal-on-scroll */
+.rise{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rise.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .rise{opacity:1;transform:none;transition:none}
+  .scroll-cue i{animation:none}
+  .hero-media video{display:none}
+}
+</style>
+</head>
+<body>
+<canvas id="fluid" aria-hidden="true"></canvas>
+<div id="dot" aria-hidden="true"></div>
+<div id="reveal-float" aria-hidden="true"><img alt="" id="reveal-img"></div>
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title" aria-hidden="true">
+  <div class="dr-head">
+    <div>
+      <h3 id="dr-title">Dish</h3>
+      <div class="sub" id="dr-sub"></div>
+    </div>
+    <button class="dr-x" id="dr-close" aria-label="Close editor">&times;</button>
+  </div>
+  <div class="dr-body" id="dr-body"></div>
+  <div class="dr-foot">
+    <button class="mini" id="dr-push">Push reference to every platform</button>
+    <div style="display:flex;gap:.5rem">
+      <button class="mini" id="dr-cancel">Cancel</button>
+      <button class="mini solid" id="dr-save">Save changes</button>
+    </div>
+  </div>
+</aside>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <a class="brand" href="#top">
+    <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <circle cx="16" cy="16" r="14.5" stroke="#E8912D" stroke-width="1.1"/>
+      <circle cx="16" cy="16" r="6.4" fill="#E8912D" fill-opacity=".18" stroke="#E8912D" stroke-width="1.1"/>
+      <circle cx="16" cy="16" r="1.9" fill="#E8912D"/>
+      <path d="M16 1.5v5M16 25.5v5M1.5 16h5M25.5 16h5" stroke="#E8912D" stroke-width="1.1" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-txt">Burma <b>Superstar</b></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#sync">Sync Table</a>
+    <a href="#audit">Audit</a>
+    <a href="#dish">The Dish</a>
+    <a href="#menu">Menu</a>
+    <a href="#platforms">Platforms</a>
+  </nav>
+  <a class="nav-cta" href="#sync">Open Control Room</a>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-media">
+    <video id="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+    <img class="fallback" id="hero-fallback" alt="" hidden>
+  </div>
+  <div class="hero-inner wrap">
+    <p class="eyebrow">Delivery menu control room &middot; San Francisco</p>
+    <div class="pressure" id="pressure"><h1 aria-label="Menu Sync"></h1></div>
+    <div class="hero-grid">
+      <p class="hero-sub">Your menu lives on nine platforms at once. This is the one screen that shows you all of them &mdash; every dish, every price, every listing that quietly drifted out of date.</p>
+      <div class="hero-stats">
+        <div class="hstat"><b id="s-dishes">0</b><span>Dishes tracked</span></div>
+        <div class="hstat"><b id="s-plats">0</b><span>Platforms</span></div>
+        <div class="hstat"><b id="s-issues">0</b><span>Issues found</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><i></i></div>
+</section>
+
+<!-- ================= PORTAL ================= -->
+<section class="portal" id="portal">
+  <div class="portal-stick">
+    <canvas class="portal-dust" id="dust" aria-hidden="true"></canvas>
+    <div class="portal-rings" aria-hidden="true">
+      <div class="portal-ring"></div><div class="portal-ring"></div>
+      <div class="portal-ring"></div><div class="portal-ring"></div>
+    </div>
+    <div class="portal-layer">
+      <div class="portal-core" id="portal-core"><img id="portal-img" alt=""></div>
+    </div>
+    <div class="portal-copy" id="portal-copy-a">
+      <h2>One kitchen.<br>Nine storefronts.</h2>
+      <p>DoorDash, Uber&nbsp;Eats, Grubhub, Caviar, Seamless, Postmates, ChowNow, Toast and Yelp each hold their own copy of your menu.</p>
+    </div>
+    <div class="portal-copy" id="portal-copy-b" style="opacity:0">
+      <h2>Every copy <span class="em">drifts.</span></h2>
+      <p>A price changes here. A photo never made it there. An item sold out three months ago and is still taking orders.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SYNC TABLE ================= -->
+<section class="sec wrap" id="sync">
+  <p class="eyebrow rise">The sync table</p>
+  <h2 class="rise" style="font-size:var(--step-3);margin-top:1.1rem;max-width:17ch">See every dish on every platform.</h2>
+  <p class="lede rise" style="margin-top:1.3rem">Your own website is the <b style="color:var(--teal);font-weight:400">reference</b>. Every platform is compared against it on five things &mdash; price, menu tag, image, description and modifications.</p>
+  <p class="rise" style="margin-top:1rem;margin-bottom:2.4rem;color:var(--muted);font-size:var(--step--1);letter-spacing:.13em;text-transform:uppercase;display:flex;align-items:center;gap:.55rem">
+    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--saffron)" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+    Click any dish to edit it &mdash; change the reference and every status re-grades instantly
+  </p>
+
+  <div class="tbl-bar rise">
+    <div class="filters" id="filters"></div>
+    <div class="tools">
+      <button class="btn" id="only-issues" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        Issues only
+      </button>
+      <button class="btn" id="exp-csv">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Export CSV
+      </button>
+      <button class="btn" id="exp-json">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Export JSON
+      </button>
+    </div>
+  </div>
+
+  <div class="tbl-scroll rise">
+    <table id="sync-table">
+      <thead><tr id="thead-row"></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <p class="hint-swipe"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Swipe the table sideways to see every platform</p>
+
+  <div class="legend">
+    <span><i class="flag" style="color:var(--jade)"></i> In sync</span>
+    <span><i class="flag" style="color:var(--saffron)"></i> Drifted &mdash; price or copy differs</span>
+    <span><i class="flag" style="color:var(--chili)"></i> Broken &mdash; missing, unlisted or sold out</span>
+  </div>
+
+  <details class="io rise">
+    <summary>Import &amp; export &mdash; CSV / JSON</summary>
+    <div class="io-body">
+      <p class="io-note">One row per dish <b>per platform</b>. Paste a CSV or JSON export and press <b>Load</b> to replace the table with your real data. Edits stay in this browser (<code>localStorage</code>) &mdash; nothing is uploaded anywhere. Columns: <code>dish_id, dish_name, burmese, platform, listed, available, price, tag, image, description, modifications, verified</code>. <code>modifications</code> are pipe-separated; <code>platform</code> must be one of <code>reference, doordash, ubereats, grubhub, caviar, seamless, postmates, chownow, toast, yelp</code>.</p>
+      <textarea id="io-text" spellcheck="false" placeholder="Paste CSV or JSON here…"></textarea>
+      <div class="io-row">
+        <button class="btn" id="io-load">Load into table</button>
+        <button class="btn" id="io-fill-csv">Fill with current CSV</button>
+        <button class="btn" id="io-fill-json">Fill with current JSON</button>
+        <button class="btn" id="io-reset">Reset to seed data</button>
+        <span class="io-msg" id="io-msg"></span>
+      </div>
+    </div>
+  </details>
+</section>
+
+<hr class="rule">
+
+<!-- ================= AUDIT BENTO ================= -->
+<section class="sec wrap" id="audit">
+  <p class="eyebrow rise">What it catches</p>
+  <h2 class="rise" style="font-size:var(--step-3);margin-top:1.1rem;max-width:15ch">The quiet losses.</h2>
+  <div class="bento rise" id="bento" style="margin-top:2.8rem"></div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= 3D DISH ================= -->
+<section class="sec wrap" id="dish">
+  <div class="turn-grid">
+    <div>
+      <p class="eyebrow rise">The signature</p>
+      <h2 class="rise" style="font-size:var(--step-3);margin-top:1.1rem;max-width:13ch">Laphet Thoke</h2>
+      <p class="lede rise" style="margin-top:1.3rem">Fermented tea leaves, crisp split peas, roasted peanuts, sesame, fried garlic and shredded cabbage &mdash; tossed at the table. The dish that put Burmese food on the map in San Francisco.</p>
+      <p class="rise" style="margin-top:1.6rem;color:var(--muted);font-size:var(--step--1);letter-spacing:.14em;text-transform:uppercase">Listed on 9 of 9 platforms &middot; 3 price variants live</p>
+      <div class="strip rise" style="margin-top:1.8rem" id="dish-strip"></div>
+    </div>
+    <div>
+      <div class="stage" id="stage" role="img" aria-label="Interactive 3D view of the tea leaf salad — drag to rotate">
+        <div class="stage-inner" id="stage-inner"></div>
+        <div class="sheen" id="sheen"></div>
+        <div class="plinth"></div>
+        <span class="stage-hint">Drag to rotate &middot; it spins on its own</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= MENU / OBJECT REVEAL ================= -->
+<section class="sec wrap" id="menu">
+  <p class="eyebrow rise">The menu</p>
+  <h2 class="rise" style="font-size:var(--step-3);margin-top:1.1rem;max-width:16ch">Hover a dish. Meet the dish.</h2>
+  <p class="lede rise" style="margin-top:1.3rem;margin-bottom:2.6rem">Prices shown are the source of truth from the restaurant's own site &mdash; the number every platform should be matching.</p>
+  <div class="reveal-list rise" id="reveal-list"></div>
+</section>
+
+<hr class="rule">
+
+<!-- ================= PLATFORMS ================= -->
+<section class="sec wrap" id="platforms">
+  <p class="eyebrow rise">Coverage</p>
+  <h2 class="rise" style="font-size:var(--step-3);margin-top:1.1rem;max-width:18ch">Nine platforms, one source of truth.</h2>
+  <p class="lede rise" style="margin-top:1.3rem;margin-bottom:2.4rem">The four majors carry most of the volume. The rest still take orders &mdash; and still go stale.</p>
+  <div class="strip rise" id="plat-strip"></div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="foot wrap">
+  <div class="foot-grid">
+    <div>
+      <a class="brand" href="#top" style="margin-bottom:1.2rem">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="16" cy="16" r="14.5" stroke="#E8912D" stroke-width="1.1"/>
+          <circle cx="16" cy="16" r="6.4" fill="#E8912D" fill-opacity=".18" stroke="#E8912D" stroke-width="1.1"/>
+          <circle cx="16" cy="16" r="1.9" fill="#E8912D"/>
+        </svg>
+        <span class="brand-txt">Burma <b>Superstar</b></span>
+      </a>
+      <p style="color:var(--muted);font-size:.86rem;max-width:34ch;margin-top:1rem">A delivery-menu control room. Built so one person can check nine storefronts in the time it used to take to check one.</p>
+    </div>
+    <div>
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="#sync">Sync table</a></li>
+        <li><a href="#audit">Audit</a></li>
+        <li><a href="#dish">The dish</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#platforms">Platforms</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Locations</h4>
+      <ul>
+        <li>309 Clement St<br><span style="color:var(--muted);font-size:.8rem">Richmond District, San Francisco</span></li>
+        <li style="margin-top:.4rem">Oakland &middot; Alameda</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>&copy; <span id="yr"></span> Burma Superstar &mdash; Menu Sync</span>
+    <span id="seed-note">Seed data &mdash; replace via CSV / JSON import</span>
+  </div>
+</footer>
+</main>
+
+<script>
+"use strict";
+/* ============================================================
+   ASSETS — flip LOCAL to true after running fetch-assets.sh
+   ============================================================ */
+var ASSET_LOCAL = false;
+var ASSET_CDN = "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/";
+var ASSET_MAP = {
+  "hero.mp4"           : "hf_20260824_195938_c305d714-419d-4860-a314-832a03d66bc2.mp4",
+  "tea-leaf-salad.png" : "hf_20260824_195737_e27afdd1-da83-4edd-95a4-c6a859cef1a0.png",
+  "samusa-soup.png"    : "hf_20260824_195758_3f94b48f-b138-4e61-a477-1c911ed7d367.png",
+  "rainbow-salad.png"  : "hf_20260824_195758_84434e4d-e6ef-4696-84f7-9d46e10c980d.png",
+  "platha.png"         : "hf_20260824_195758_12fee7ab-9845-4a17-96b9-f3661dea4f73.png",
+  "sesame-beef.png"    : "hf_20260824_195758_a6700c99-2c5d-49e8-b4f7-5ee89a927fed.png",
+  "garlic-noodles.png" : "hf_20260824_195758_f958da0f-9aa5-42ed-9270-72452f3456f7.png",
+  "pork-belly.png"     : "hf_20260824_195758_272c8c86-1a34-47c0-8b75-6f53a3518c2c.png",
+  "coconut-rice.png"   : "hf_20260824_195758_f8392653-6310-4ce2-90c2-ff62224d12ea.png",
+  "chili-lamb.png"     : "hf_20260824_195758_bf262599-59c6-4d6a-960c-59d14a70d3a9.png"
+};
+function asset(name){
+  if (ASSET_LOCAL) return "./assets/" + name;
+  return ASSET_CDN + (ASSET_MAP[name] || name);
+}
+
+/* ============================================================
+   PLATFORMS — the restaurant's own site is the REFERENCE
+   ============================================================ */
+var PLATFORMS = [
+  { k:"reference", n:"Reference",  short:"Reference", ref:true, mult:1.00 },
+  { k:"doordash",  n:"DoorDash",   short:"DoorDash",  major:true, mult:1.19 },
+  { k:"ubereats",  n:"Uber Eats",  short:"Uber Eats", major:true, mult:1.25 },
+  { k:"grubhub",   n:"Grubhub",    short:"Grubhub",   major:true, mult:1.19 },
+  { k:"caviar",    n:"Caviar",     short:"Caviar",    major:true, mult:1.10 },
+  { k:"seamless",  n:"Seamless",   short:"Seamless",  mult:1.19 },
+  { k:"postmates", n:"Postmates",  short:"Postmates", mult:1.25 },
+  { k:"chownow",   n:"ChowNow",    short:"ChowNow",   mult:1.00 },
+  { k:"toast",     n:"Toast",      short:"Toast",     mult:1.00 },
+  { k:"yelp",      n:"Yelp",       short:"Yelp",      mult:1.19 }
+];
+var PKEYS = PLATFORMS.map(function(p){ return p.k; });
+var REF = "reference";
+
+/* the five things compared on every platform */
+var DIMS = [
+  { k:"price", n:"Price",         letter:"$" },
+  { k:"cat",   n:"Menu tag",      letter:"T" },
+  { k:"img",   n:"Image",         letter:"I" },
+  { k:"desc",  n:"Description",   letter:"D" },
+  { k:"mods",  n:"Modifications", letter:"M" }
+];
+/* Above this markup over the reference the listing reads as a rip-off; below the
+   reference price the restaurant is paying commission out of its own margin. */
+var MARKUP_CEILING = 0.30;
+
+var CATS = ["Salads", "Soups", "Appetizers", "Entrées", "Noodles", "Rice"];
+
+/* ============================================================
+   SEED — real Burma Superstar dishes.
+   `v:true` marks a value confirmed from a public source; everything else is an
+   estimate anchored to the restaurant's published $9-$18 dine-in range, and is
+   meant to be replaced via the editor or a CSV/JSON import.
+   ============================================================ */
+var SEED = [
+  { id:"tea-leaf-salad", name:"Tea Leaf Salad", burmese:"Laphet Thoke", img:"tea-leaf-salad.png",
+    cat:"Salads", price:16.00, priceV:true, descV:true,
+    desc:"Crunchy textures from fried garlic, peanuts, sunflower seeds, and roasted sesame mixed with lemon juice, tomatoes, fresh greens, jalapenos, fish sauce & dried shrimp.",
+    mods:["Add chicken +$6","Add prawns +$8","No dried shrimp (vegetarian)","Dressing on the side"],
+    dev:{ doordash:{ price:19.00, priceV:true },
+          ubereats:{ mods:["Add chicken +$6","Dressing on the side"] },
+          yelp:{ img:false } } },
+
+  { id:"rainbow-salad", name:"Rainbow Salad", burmese:"", img:"rainbow-salad.png",
+    cat:"Salads", price:16.00,
+    desc:"Twenty-two ingredients — four kinds of noodles, green papaya, potato and dried shrimp — folded together in a tamarind dressing.",
+    mods:["Add chicken +$6","No dried shrimp (vegetarian)","Extra tamarind dressing"],
+    dev:{ postmates:null,
+          yelp:{ img:false, desc:"A colourful salad with many ingredients." },
+          grubhub:{ mods:["Add chicken +$6"] } } },
+
+  { id:"samusa-soup", name:"Samusa Soup", burmese:"", img:"samusa-soup.png",
+    cat:"Soups", price:12.00,
+    desc:"Vegetarian samusas and falafel torn into a tangy tamarind lentil broth with cabbage, onion and fresh cilantro.",
+    mods:["Extra samusas +$4","Extra spicy","Vegan"],
+    dev:{ doordash:{ price:23.45, priceV:true },
+          yelp:{ img:false } } },
+
+  { id:"platha", name:"Platha", burmese:"", img:"platha.png",
+    cat:"Appetizers", price:9.00,
+    desc:"Flaky Burmese flatbread, layered and griddled to golden, served with a coconut curry dip.",
+    mods:["Extra curry dip +$2","Add egg +$3"],
+    dev:{ doordash:{ price:17.45, priceV:true },
+          ubereats:{ cat:"Entrées" },
+          yelp:{ img:false } } },
+
+  { id:"sesame-beef", name:"Sesame Beef", burmese:"", img:"sesame-beef.png",
+    cat:"Entrées", price:18.00, descV:true,
+    desc:"Lightly battered strips of beef tossed with sesame seeds in a sweet, tangy sauce.",
+    mods:["Brown rice +$2","Extra sauce +$1","Spice level"],
+    dev:{ yelp:{ price:26.95, img:false, desc:"Beef with sesame seeds." },
+          chownow:{ mods:["Brown rice +$2"] } } },
+
+  { id:"garlic-noodles", name:"Garlic Noodles", burmese:"", img:"garlic-noodles.png",
+    cat:"Noodles", price:14.00, descV:true,
+    desc:"Egg noodles with fried garlic, sprinkled with scallions, fresh onions, cucumbers, and our house sweet and spicy sauce.",
+    mods:["Add chicken +$6","Add tofu +$4","Extra fried garlic"],
+    dev:{} },
+
+  { id:"pork-belly", name:"Pork Belly", burmese:"Wet Thar Chin", img:"pork-belly.png",
+    cat:"Entrées", price:18.00, descV:true,
+    desc:"Pork belly tossed with pickled mustard greens, Thai chilies and ginger in a Burma Superstar family recipe.",
+    mods:["Brown rice +$2","Spice level","Extra pickled greens +$2"],
+    dev:{ toast:{ avail:false }, yelp:null } },
+
+  { id:"chili-lamb", name:"Chili Lamb", burmese:"", img:"chili-lamb.png",
+    cat:"Entrées", price:18.00,
+    desc:"Grass-fed lamb seared in a dark chilli sauce with onions, fresh chillies and mint.",
+    mods:["Spice level","Brown rice +$2"],
+    dev:{ seamless:null, yelp:{ img:false } } },
+
+  { id:"coconut-rice", name:"Coconut Rice", burmese:"", img:"coconut-rice.png",
+    cat:"Rice", price:5.00, descV:true,
+    desc:"Jasmine rice cooked in coconut milk.",
+    mods:["Large +$3"],
+    dev:{} },
+
+  { id:"nan-gyi-dok", name:"Nan Gyi Dok", burmese:"", img:"", cat:"Noodles", price:16.00, descV:true,
+    desc:"Flour noodles with coconut chicken curry, roasted chickpea flour, hard-boiled egg, cabbage, wontons, turmeric, chili and fried onions.",
+    mods:["Add egg +$3","Extra wontons +$2","Spice level"],
+    dev:{ doordash:{ cat:"Entrées" }, ubereats:{ img:false }, grubhub:{ img:false },
+          caviar:{ img:false }, seamless:{ img:false }, postmates:null,
+          chownow:{ img:false }, toast:{ img:false }, yelp:null } },
+
+  { id:"ohn-no-kauswe", name:"Chicken Coconut Noodle Soup", burmese:"Ohn No Kauswe", img:"",
+    cat:"Soups", price:16.00,
+    desc:"Egg noodles in a coconut chicken broth with fried noodle crisps, hard-boiled egg, onion and lime.",
+    mods:["Add egg +$3","Extra noodle crisps","Spice level"],
+    dev:{ grubhub:{ img:false }, seamless:{ img:false, desc:"Coconut noodle soup." },
+          postmates:{ img:false }, chownow:{ img:false }, yelp:null } },
+
+  { id:"mango-chicken", name:"Mango Chicken", burmese:"", img:"", cat:"Entrées", price:17.00,
+    desc:"Chicken with fresh mango, bell pepper and onion in a light sweet-tart glaze.",
+    mods:["Brown rice +$2","Spice level"],
+    dev:{ grubhub:{ price:12.95 }, seamless:{ img:false }, postmates:{ img:false },
+          chownow:{ img:false }, yelp:null } }
+];
+
+/* ------------------------------------------------------------
+   Materialise: each platform keeps its OWN stored copy of the listing,
+   exactly like the real world. That is what makes editing the reference
+   meaningful — the platforms do not follow it, so they fall out of sync.
+   ------------------------------------------------------------ */
+function round05(n){ return Math.round(n * 20) / 20; }
+function materialise(seed){
+  return seed.map(function(d){
+    var out = {
+      id:d.id, name:d.name, burmese:d.burmese || "", img:d.img || "",
+      plat:{}
+    };
+    PLATFORMS.forEach(function(pf){
+      var dev = d.dev ? d.dev[pf.k] : undefined;
+      if (dev === null){ out.plat[pf.k] = null; return; }   /* not listed */
+      dev = dev || {};
+      var base = pf.ref ? d.price : round05(d.price * pf.mult);
+      out.plat[pf.k] = {
+        price: dev.price != null ? dev.price : base,
+        cat:   dev.cat  != null ? dev.cat  : d.cat,
+        desc:  dev.desc != null ? dev.desc : d.desc,
+        img:   dev.img  === false ? false : true,
+        mods:  (dev.mods || d.mods || []).slice(),
+        avail: dev.avail === false ? false : true,
+        /* provenance: was this number read from a real public source? */
+        v:     pf.ref ? !!d.priceV : !!dev.priceV,
+        vd:    pf.ref ? !!d.descV  : false
+      };
+    });
+    return out;
+  });
+}
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   STATE
+   ============================================================ */
+var LS_KEY = "burma-menu-sync-v2";
+var DATA = loadData();
+var activeCat = "All";
+var issuesOnly = false;
+
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function loadData(){
+  try{
+    var raw = localStorage.getItem(LS_KEY);
+    if (raw){
+      var parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length && parsed[0].plat) return parsed;
+    }
+  }catch(e){}
+  return materialise(SEED);
+}
+function saveData(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(DATA)); }catch(e){}
+}
+function money(n){ return "$" + Number(n).toFixed(2); }
+function normText(t){ return String(t == null ? "" : t).toLowerCase().replace(/\s+/g," ").replace(/[.’']/g,"").trim(); }
+function sameMods(a, b){
+  a = (a||[]).map(normText).sort(); b = (b||[]).map(normText).sort();
+  if (a.length !== b.length) return false;
+  for (var i=0;i<a.length;i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+function refOf(dish){ return dish.plat ? dish.plat[REF] : null; }
+
+/* ============================================================
+   DIAGNOSTICS — every platform graded on all five dimensions
+   ============================================================ */
+var RANK = { ok:0, drift:1, bad:2 };
+function worse(a,b){ return RANK[b] > RANK[a] ? b : a; }
+
+function diagnose(dish, pk){
+  var meta = PLATFORMS.filter(function(p){ return p.k === pk; })[0] || {};
+  var cell = dish.plat ? dish.plat[pk] : null;
+  var ref  = refOf(dish);
+  var dims = {};
+  DIMS.forEach(function(d){ dims[d.k] = { s:"na", note:"Not listed" }; });
+
+  if (!cell || cell.price == null){
+    return { level:"bad", dims:dims, listed:false, notes:["Not listed on this platform"] };
+  }
+  if (cell.avail === false){
+    DIMS.forEach(function(d){ dims[d.k] = { s:"na", note:"Unavailable" }; });
+    return { level:"bad", dims:dims, listed:true, notes:["Listed but switched off"] };
+  }
+  if (meta.ref){
+    DIMS.forEach(function(d){ dims[d.k] = { s:"ok", note:"This is the reference" }; });
+    return { level:"ok", dims:dims, listed:true, isRef:true, notes:["Source of truth"] };
+  }
+
+  var level = "ok", notes = [];
+
+  /* price */
+  if (!ref || ref.price == null){
+    dims.price = { s:"na", note:"No reference price" };
+  } else if (cell.price < ref.price){
+    dims.price = { s:"bad", note:"Under the reference price (" + money(ref.price) + ")" };
+    level = worse(level,"bad"); notes.push("Priced under reference");
+  } else {
+    var delta = (cell.price - ref.price) / ref.price;
+    if (delta > MARKUP_CEILING){
+      dims.price = { s:"drift", note:"+" + Math.round(delta*100) + "% over the reference (" + money(ref.price) + ")" };
+      level = worse(level,"drift"); notes.push("+" + Math.round(delta*100) + "% markup");
+    } else {
+      dims.price = { s:"ok", note:"+" + Math.round(delta*100) + "% over reference — within range" };
+    }
+  }
+
+  /* menu tag / category */
+  if (ref && normText(cell.cat) !== normText(ref.cat)){
+    dims.cat = { s:"drift", note:'Tagged "' + cell.cat + '" — reference says "' + ref.cat + '"' };
+    level = worse(level,"drift"); notes.push("Wrong menu tag");
+  } else {
+    dims.cat = { s:"ok", note:"Tag matches: " + cell.cat };
+  }
+
+  /* image */
+  if (cell.img === false){
+    dims.img = { s:"drift", note:"No image on this platform" };
+    level = worse(level,"drift"); notes.push("No image");
+  } else {
+    dims.img = { s:"ok", note:"Image present" };
+  }
+
+  /* description */
+  if (ref && normText(cell.desc) !== normText(ref.desc)){
+    dims.desc = { s:"drift", note:"Description differs from the reference" };
+    level = worse(level,"drift"); notes.push("Description differs");
+  } else {
+    dims.desc = { s:"ok", note:"Description matches" };
+  }
+
+  /* modifications */
+  if (ref && !sameMods(cell.mods, ref.mods)){
+    var refN = (ref.mods||[]).length, cN = (cell.mods||[]).length;
+    var missing = (ref.mods||[]).filter(function(m){
+      return (cell.mods||[]).map(normText).indexOf(normText(m)) < 0;
+    });
+    dims.mods = { s:"drift", note: missing.length
+      ? "Missing: " + missing.join(", ")
+      : "Modifications differ (" + cN + " here vs " + refN + " on the reference)" };
+    level = worse(level,"drift"); notes.push(missing.length ? "Missing " + missing.length + " option" + (missing.length>1?"s":"") : "Options differ");
+  } else {
+    dims.mods = { s:"ok", note:(cell.mods||[]).length + " modifications, matching" };
+  }
+
+  if (!notes.length) notes.push("Matches the reference");
+  return { level:level, dims:dims, listed:true, notes:notes };
+}
+
+function rowStatus(dish){
+  var worst = "ok";
+  PKEYS.forEach(function(k){
+    if (k === REF) return;
+    worst = worse(worst, diagnose(dish, k).level);
+  });
+  return worst;
+}
+function countIssues(){
+  var n = 0;
+  DATA.forEach(function(d){
+    PKEYS.forEach(function(k){
+      if (k === REF) return;
+      if (diagnose(d, k).level !== "ok") n++;
+    });
+  });
+  return n;
+}
+function countUnverified(){
+  var n = 0;
+  DATA.forEach(function(d){
+    PKEYS.forEach(function(k){
+      var c = d.plat ? d.plat[k] : null;
+      if (c && c.price != null && !c.v) n++;
+    });
+  });
+  return n;
+}
+
+/* ============================================================
+   RENDER — table
+   ============================================================ */
+function el(tag, cls, txt){
+  var n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (txt != null) n.textContent = txt;
+  return n;
+}
+function renderHead(){
+  var tr = document.getElementById("thead-row");
+  tr.innerHTML = "";
+  tr.appendChild(el("th", "dish", "Menu item"));
+  PLATFORMS.forEach(function(p){
+    var th = el("th", p.major || p.ref ? "major" : "");
+    var dot = el("span", "pdot");
+    if (p.ref) dot.style.background = "var(--teal)";
+    th.appendChild(dot);
+    th.appendChild(document.createTextNode(p.short));
+    if (p.ref) th.title = "Your own website — what every platform is compared against";
+    tr.appendChild(th);
+  });
+  tr.appendChild(el("th", "", "Status"));
+}
+function statusChip(level){
+  var map = { ok:["ok","In sync"], drift:["drift","Drifted"], bad:["bad","Broken"] };
+  var m = map[level];
+  var s = el("span", "state " + m[0]);
+  s.appendChild(el("i", "flag"));
+  s.appendChild(document.createTextNode(m[1]));
+  return s;
+}
+function renderBody(){
+  var tb = document.getElementById("tbody");
+  tb.innerHTML = "";
+  var rows = DATA.filter(function(d){
+    var ref = refOf(d);
+    if (activeCat !== "All" && (!ref || ref.cat !== activeCat)) return false;
+    if (issuesOnly && rowStatus(d) === "ok") return false;
+    return true;
+  });
+
+  if (!rows.length){
+    var tr0 = el("tr");
+    var td0 = el("td", "empty", "Nothing to show for this filter.");
+    td0.colSpan = PLATFORMS.length + 2;
+    tr0.appendChild(td0);
+    tb.appendChild(tr0);
+    return;
+  }
+
+  rows.forEach(function(d){
+    var ref = refOf(d);
+    var tr = el("tr");
+
+    /* dish cell — the click target for the editor */
+    var td = el("td", "dish");
+    td.setAttribute("role", "button");
+    td.setAttribute("tabindex", "0");
+    td.title = "Click to edit " + d.name + " on every platform";
+    var box = el("div", "dish-cell");
+    if (d.img){
+      var im = new Image();
+      im.className = "dish-thumb"; im.loading = "lazy"; im.alt = "";
+      im.src = asset(d.img);
+      box.appendChild(im);
+    } else {
+      box.appendChild(el("div", "dish-thumb none", "no img"));
+    }
+    var txt = el("div");
+    txt.appendChild(el("div", "dish-name", d.name));
+    txt.appendChild(el("div", "dish-meta", d.burmese ? (ref ? ref.cat : "") + " · " + d.burmese : (ref ? ref.cat : "")));
+    box.appendChild(txt);
+    var cue = el("span", "edit-cue");
+    cue.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Edit';
+    box.appendChild(cue);
+    td.appendChild(box);
+    td.addEventListener("click", function(){ openEditor(d.id); });
+    td.addEventListener("keydown", function(e){
+      if (e.key === "Enter" || e.key === " "){ e.preventDefault(); openEditor(d.id); }
+    });
+    tr.appendChild(td);
+
+    /* platform cells */
+    PKEYS.forEach(function(k){
+      var cell = d.plat ? d.plat[k] : null;
+      var dg = diagnose(d, k);
+      var tdp = el("td");
+      var v = el("div", "cellv" + (!cell || cell.price == null ? " missing" : ""));
+
+      var priceCls = dg.dims.price.s === "bad" ? "dn" : dg.dims.price.s === "drift" ? "up" : "";
+      var priceTxt = (cell && cell.price != null)
+        ? (cell.avail === false ? money(cell.price) : money(cell.price))
+        : "—";
+      var price = el("div", "price " + priceCls, priceTxt);
+      if (cell && cell.price != null){
+        price.title = (cell.v ? "Verified from a public source" : "Estimated — replace with the real value")
+                    + "\n" + dg.dims.price.note;
+        if (!cell.v) price.style.borderBottom = "1px dashed rgba(147,128,109,.55)";
+      }
+      v.appendChild(price);
+
+      if (!dg.listed || (cell && cell.avail === false)){
+        var note = el("div", "note bad");
+        note.appendChild(el("i", "flag"));
+        note.appendChild(document.createTextNode(dg.listed ? "Sold out" : "Not listed"));
+        v.appendChild(note);
+      } else {
+        var dims = el("div", "dims");
+        DIMS.forEach(function(dim){
+          if (dim.k === "price") return;
+          var st = dg.dims[dim.k];
+          var chip = el("span", "dim " + st.s, dim.letter);
+          chip.title = dim.n + " — " + st.note;
+          dims.appendChild(chip);
+        });
+        v.appendChild(dims);
+      }
+      tdp.appendChild(v);
+      tr.appendChild(tdp);
+    });
+
+    var tds = el("td");
+    tds.appendChild(statusChip(rowStatus(d)));
+    tr.appendChild(tds);
+    tb.appendChild(tr);
+  });
+}
+function renderFilters(){
+  var wrap = document.getElementById("filters");
+  wrap.innerHTML = "";
+  var cats = ["All"];
+  DATA.forEach(function(d){
+    var r = refOf(d);
+    if (r && cats.indexOf(r.cat) < 0) cats.push(r.cat);
+  });
+  cats.forEach(function(c){
+    var b = el("button", "chip", c);
+    b.type = "button";
+    b.setAttribute("aria-pressed", String(c === activeCat));
+    b.addEventListener("click", function(){ activeCat = c; renderFilters(); renderBody(); });
+    wrap.appendChild(b);
+  });
+}
+function renderStats(){
+  animateNum(document.getElementById("s-dishes"), DATA.length);
+  animateNum(document.getElementById("s-plats"), PLATFORMS.length);
+  animateNum(document.getElementById("s-issues"), countIssues());
+}
+function animateNum(node, target){
+  if (!node) return;
+  var start = 0, t0 = null, dur = 1100;
+  function step(ts){
+    if (!t0) t0 = ts;
+    var k = Math.min(1, (ts - t0) / dur);
+    var e = 1 - Math.pow(1 - k, 3);
+    node.textContent = String(Math.round(start + (target - start) * e));
+    if (k < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ============================================================
+   RENDER — bento, reveal list, platform strips
+   ============================================================ */
+function renderBento(){
+  var wrap = document.getElementById("bento");
+  if (!wrap) return;
+  var c = { notListed:0, soldOut:0, price:0, cat:0, img:0, desc:0, mods:0, ok:0, total:0 };
+  var worst = 0, worstName = "";
+  DATA.forEach(function(d){
+    var ref = refOf(d);
+    PKEYS.forEach(function(k){
+      if (k === REF) return;
+      c.total++;
+      var dg = diagnose(d, k);
+      if (!dg.listed){ c.notListed++; return; }
+      var cell = d.plat[k];
+      if (cell.avail === false){ c.soldOut++; return; }
+      var clean = true;
+      if (dg.dims.price.s !== "ok"){
+        c.price++; clean = false;
+        if (ref && cell.price > ref.price){
+          var dl = (cell.price - ref.price) / ref.price;
+          if (dl > worst){ worst = dl; worstName = d.name; }
+        }
+      }
+      if (dg.dims.cat.s  !== "ok"){ c.cat++;  clean = false; }
+      if (dg.dims.img.s  !== "ok"){ c.img++;  clean = false; }
+      if (dg.dims.desc.s !== "ok"){ c.desc++; clean = false; }
+      if (dg.dims.mods.s !== "ok"){ c.mods++; clean = false; }
+      if (clean) c.ok++;
+    });
+  });
+  var cells = [
+    { tag:"Not listed", big:String(c.notListed), cls:"warn", wide:true,
+      p:"Dish-and-platform pairs where the item simply is not there. Every one is an order that cannot be placed." },
+    { tag:"Sold out / switched off", big:String(c.soldOut), cls:"warn",
+      p:"Still unavailable on a platform after the kitchen brought it back." },
+    { tag:"Price out of band", big:String(c.price), cls:"warn",
+      p: worstName ? ("Under the reference, or more than " + Math.round(MARKUP_CEILING*100) + "% over it. Worst: " + worstName + " at +" + Math.round(worst*100) + "%.")
+                   : "Every listed price sits within range of the reference." },
+    { tag:"Wrong menu tag", big:String(c.cat), cls:"acc",
+      p:"Filed under a different section than the reference — customers browsing that category never see it." },
+    { tag:"Missing image", big:String(c.img), cls:"acc",
+      p:"Listings with no photo. Items with photos are ordered far more often." },
+    { tag:"Description differs", big:String(c.desc), cls:"acc",
+      p:"Copy that no longer matches the reference on your own site." },
+    { tag:"Modifications differ", big:String(c.mods), cls:"acc",
+      p:"Add-ons, spice levels and swaps that are missing or different from the reference." },
+    { tag:"Fully in sync", big:String(c.ok), cls:"ok",
+      p:"Listings matching the reference on price, tag, image, description and modifications." }
+  ];
+  wrap.innerHTML = "";
+  cells.forEach(function(cc){
+    var d = el("div", "cell" + (cc.wide ? " wide" : ""));
+    d.appendChild(el("div", "tag", cc.tag));
+    var body = el("div");
+    body.appendChild(el("div", "big " + (cc.cls || ""), cc.big));
+    body.appendChild(el("p", "", cc.p));
+    d.appendChild(body);
+    wrap.appendChild(d);
+  });
+  wireBento();
+}
+function renderRevealList(){
+  var wrap = document.getElementById("reveal-list");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  DATA.forEach(function(d, i){
+    var ref = refOf(d);
+    var row = el("div", "reveal-row");
+    row.setAttribute("data-img", d.img ? asset(d.img) : "");
+    row.appendChild(el("div", "idx", String(i + 1).padStart(2, "0")));
+    if (d.img){
+      var th = new Image();
+      th.className = "row-thumb"; th.loading = "lazy"; th.alt = "";
+      th.src = asset(d.img);
+      row.appendChild(th);
+    } else {
+      row.appendChild(el("div", "row-thumb none", "no photo"));
+    }
+    var nm = el("div", "nm");
+    nm.appendChild(document.createTextNode(d.name));
+    if (d.burmese) nm.appendChild(el("em", "", d.burmese));
+    row.appendChild(nm);
+    row.appendChild(el("div", "pr", ref && ref.price != null ? money(ref.price) : "—"));
+    row.appendChild(el("div", "bar"));
+    wrap.appendChild(row);
+  });
+  wireReveal();
+}
+function renderStrips(){
+  [["plat-strip", false], ["dish-strip", true]].forEach(function(pair){
+    var wrap = document.getElementById(pair[0]);
+    if (!wrap) return;
+    wrap.innerHTML = "";
+    PLATFORMS.forEach(function(p){
+      var s = el("span", "pill" + (p.major || p.ref ? " major" : ""));
+      var dot = el("i", "flag");
+      dot.style.color = p.ref ? "var(--teal)" : (p.major ? "var(--saffron)" : "var(--muted)");
+      s.appendChild(dot);
+      s.appendChild(document.createTextNode(p.n));
+      wrap.appendChild(s);
+    });
+  });
+}
+function renderAll(){
+  renderHead(); renderFilters(); renderBody();
+  renderBento(); renderRevealList(); renderStrips(); renderStats();
+  var note = document.getElementById("seed-note");
+  if (note){
+    var un = countUnverified();
+    note.textContent = un
+      ? un + " prices still estimated — click a dish to correct them"
+      : "All prices verified";
+  }
+}
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   CSV / JSON — long format, one row per dish x platform.
+   Columns: dish_id,dish_name,burmese,platform,listed,available,
+            price,tag,image,description,modifications,verified
+   modifications are pipe-separated:  Add egg +$3|Spice level
+   ============================================================ */
+var CSV_COLS = ["dish_id","dish_name","burmese","platform","listed","available",
+                "price","tag","image","description","modifications","verified"];
+
+function csvEscape(v){
+  v = v == null ? "" : String(v);
+  return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v;
+}
+function yn(b){ return b ? "yes" : "no"; }
+function isYes(v){ return /^(y|yes|true|1)$/i.test(String(v||"").trim()); }
+
+function toCSV(){
+  var lines = [CSV_COLS.join(",")];
+  DATA.forEach(function(d){
+    PLATFORMS.forEach(function(pf){
+      var c = d.plat ? d.plat[pf.k] : null;
+      var row = c
+        ? [d.id, d.name, d.burmese||"", pf.k, "yes", yn(c.avail !== false),
+           c.price != null ? Number(c.price).toFixed(2) : "", c.cat||"", yn(c.img !== false),
+           c.desc||"", (c.mods||[]).join("|"), yn(!!c.v)]
+        : [d.id, d.name, d.burmese||"", pf.k, "no", "", "", "", "", "", "", ""];
+      lines.push(row.map(csvEscape).join(","));
+    });
+  });
+  return lines.join("\n");
+}
+function parseCSV(text){
+  var rows=[], row=[], cur="", q=false;
+  for (var i=0;i<text.length;i++){
+    var ch=text[i];
+    if (q){
+      if (ch === '"'){ if (text[i+1] === '"'){ cur+='"'; i++; } else q=false; }
+      else cur+=ch;
+    } else {
+      if (ch === '"') q=true;
+      else if (ch === ","){ row.push(cur); cur=""; }
+      else if (ch === "\n"){ row.push(cur); rows.push(row); row=[]; cur=""; }
+      else if (ch !== "\r") cur+=ch;
+    }
+  }
+  if (cur !== "" || row.length){ row.push(cur); rows.push(row); }
+  return rows.filter(function(r){ return r.some(function(c){ return String(c).trim() !== ""; }); });
+}
+function fromCSV(text){
+  var rows = parseCSV(text);
+  if (rows.length < 2) throw new Error("needs a header row plus at least one line");
+  var head = rows[0].map(function(h){ return String(h).trim().toLowerCase(); });
+  function ix(n){ return head.indexOf(n); }
+  if (ix("dish_id") < 0 && ix("dish_name") < 0) throw new Error('needs a "dish_id" or "dish_name" column');
+  if (ix("platform") < 0) throw new Error('needs a "platform" column');
+
+  var byId = {}, order = [];
+  for (var r=1;r<rows.length;r++){
+    var c = rows[r];
+    var get = function(n){ var i = ix(n); return i>=0 ? String(c[i]==null?"":c[i]).trim() : ""; };
+    var name = get("dish_name");
+    var id = get("dish_id") || name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    if (!id) continue;
+    var pk = get("platform").toLowerCase();
+    if (PKEYS.indexOf(pk) < 0) continue;
+    if (!byId[id]){
+      var seedMatch = SEED.filter(function(s){ return s.id === id; })[0];
+      byId[id] = { id:id, name:name || (seedMatch ? seedMatch.name : id), burmese:get("burmese") || (seedMatch ? seedMatch.burmese : ""), img:seedMatch ? seedMatch.img : "", plat:{} };
+      PKEYS.forEach(function(k){ byId[id].plat[k] = null; });
+      order.push(id);
+    }
+    var listedCol = ix("listed");
+    var listed = listedCol >= 0 ? isYes(get("listed")) : true;
+    var priceRaw = get("price");
+    if (!listed || (priceRaw === "" && !get("tag") && !get("description"))){ byId[id].plat[pk] = null; continue; }
+    var num = parseFloat(priceRaw.replace(/[^0-9.\-]/g,""));
+    byId[id].plat[pk] = {
+      price: isFinite(num) ? num : null,
+      cat:   get("tag") || "Uncategorised",
+      desc:  get("description"),
+      img:   ix("image") >= 0 ? isYes(get("image")) : true,
+      mods:  get("modifications") ? get("modifications").split("|").map(function(m){ return m.trim(); }).filter(Boolean) : [],
+      avail: ix("available") >= 0 ? isYes(get("available")) : true,
+      v:     ix("verified") >= 0 ? isYes(get("verified")) : false,
+      vd:    false
+    };
+  }
+  var out = order.map(function(id){ return byId[id]; });
+  if (!out.length) throw new Error("no usable rows found");
+  return out;
+}
+function normaliseJSON(arr){
+  if (!Array.isArray(arr)) throw new Error("expected a JSON array of dishes");
+  return arr.map(function(d,i){
+    if (!d || !d.name) throw new Error("dish " + (i+1) + ' has no "name"');
+    var out = { id:d.id || String(d.name).toLowerCase().replace(/[^a-z0-9]+/g,"-"),
+                name:d.name, burmese:d.burmese||"", img:d.img||"", plat:{} };
+    var src = d.plat || d.platforms || {};
+    PKEYS.forEach(function(k){
+      var c = src[k];
+      if (c == null){ out.plat[k] = null; return; }
+      if (typeof c === "number") c = { price:c };
+      out.plat[k] = {
+        price: c.price != null ? Number(c.price) : null,
+        cat:   c.cat || c.category || "Uncategorised",
+        desc:  c.desc || c.description || "",
+        img:   c.img !== false,
+        mods:  Array.isArray(c.mods) ? c.mods.slice() : (typeof c.mods === "string" ? c.mods.split("|") : []),
+        avail: c.avail !== false,
+        v:     !!c.v, vd: !!c.vd
+      };
+    });
+    return out;
+  });
+}
+function download(filename, text, mime){
+  try{
+    var blob = new Blob([text], { type: mime || "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 400);
+    return true;
+  }catch(e){ return false; }
+}
+function ioSay(msg, kind){
+  var n = document.getElementById("io-msg");
+  if (!n) return;
+  n.textContent = msg;
+  n.className = "io-msg" + (kind ? " " + kind : "");
+  if (msg) setTimeout(function(){ if (n.textContent === msg){ n.textContent=""; n.className="io-msg"; } }, 6000);
+}
+function wireIO(){
+  var ta = document.getElementById("io-text");
+  document.getElementById("exp-csv").addEventListener("click", function(){
+    var csv = toCSV();
+    if (!download("burma-menu-sync.csv", csv, "text/csv;charset=utf-8")){
+      ta.value = csv; document.querySelector(".io").open = true;
+      ioSay("Download blocked here — the CSV is in the box below.", "err");
+    }
+  });
+  document.getElementById("exp-json").addEventListener("click", function(){
+    var js = JSON.stringify(DATA, null, 2);
+    if (!download("burma-menu-sync.json", js, "application/json")){
+      ta.value = js; document.querySelector(".io").open = true;
+      ioSay("Download blocked here — the JSON is in the box below.", "err");
+    }
+  });
+  document.getElementById("io-fill-csv").addEventListener("click", function(){
+    ta.value = toCSV(); ioSay("Current table written out as CSV.", "ok");
+  });
+  document.getElementById("io-fill-json").addEventListener("click", function(){
+    ta.value = JSON.stringify(DATA, null, 2); ioSay("Current table written out as JSON.", "ok");
+  });
+  document.getElementById("io-load").addEventListener("click", function(){
+    var txt = (ta.value||"").trim();
+    if (!txt){ ioSay("Paste some CSV or JSON first.", "err"); return; }
+    try{
+      DATA = (txt[0] === "[" || txt[0] === "{") ? normaliseJSON(JSON.parse(txt)) : fromCSV(txt);
+      activeCat = "All"; issuesOnly = false;
+      document.getElementById("only-issues").setAttribute("aria-pressed","false");
+      saveData(); renderAll();
+      ioSay("Loaded " + DATA.length + " dishes.", "ok");
+    }catch(err){ ioSay("Could not read that: " + err.message, "err"); }
+  });
+  document.getElementById("io-reset").addEventListener("click", function(){
+    DATA = materialise(SEED);
+    activeCat = "All"; issuesOnly = false;
+    document.getElementById("only-issues").setAttribute("aria-pressed","false");
+    try{ localStorage.removeItem(LS_KEY); }catch(e){}
+    renderAll(); ioSay("Back to the seed data.", "ok");
+  });
+  document.getElementById("only-issues").addEventListener("click", function(){
+    issuesOnly = !issuesOnly;
+    this.setAttribute("aria-pressed", String(issuesOnly));
+    renderBody();
+  });
+}
+
+/* ============================================================
+   EDITOR DRAWER — click a dish, edit any platform.
+   Editing the REFERENCE re-grades every other platform live.
+   ============================================================ */
+var EDIT_ID = null, DRAFT = null, LAST_FOCUS = null;
+
+function fieldRow(label, node, wide){
+  var f = el("div", "f" + (wide ? " wide" : ""));
+  f.appendChild(el("label", null, label));
+  f.appendChild(node);
+  return f;
+}
+function inputEl(type, val){
+  var i = document.createElement("input");
+  i.type = type; i.value = val == null ? "" : val;
+  if (type === "number"){ i.step = "0.01"; i.min = "0"; }
+  return i;
+}
+function paneFor(pk){
+  var pf = PLATFORMS.filter(function(p){ return p.k === pk; })[0];
+  var cell = DRAFT.plat[pk];
+  var pane = el("div", "pane" + (pf.ref ? " ref open" : ""));
+  pane.setAttribute("data-pk", pk);
+
+  var head = el("div", "pane-head");
+  var dot = el("i", "flag");
+  dot.style.color = pf.ref ? "var(--teal)" : (pf.major ? "var(--saffron)" : "var(--muted)");
+  head.appendChild(dot);
+  head.appendChild(el("span", "grow", pf.n + (pf.ref ? " — source of truth" : "")));
+  var badge = el("span", "", "");
+  badge.id = "badge-" + pk;
+  head.appendChild(badge);
+  if (!pf.ref) head.appendChild(el("span", "caret", "▾"));
+  pane.appendChild(head);
+  if (!pf.ref){
+    head.addEventListener("click", function(){ pane.classList.toggle("open"); });
+  }
+
+  var body = el("div", "pane-body");
+
+  var listedWrap = el("label", "tog");
+  var listedCb = document.createElement("input");
+  listedCb.type = "checkbox"; listedCb.checked = !!cell;
+  listedWrap.appendChild(listedCb);
+  listedWrap.appendChild(document.createTextNode("Listed on this platform"));
+  if (pf.ref){ listedCb.checked = true; listedCb.disabled = true; }
+
+  var availWrap = el("label", "tog");
+  var availCb = document.createElement("input");
+  availCb.type = "checkbox"; availCb.checked = cell ? cell.avail !== false : true;
+  availWrap.appendChild(availCb);
+  availWrap.appendChild(document.createTextNode("Currently available"));
+
+  var priceI = inputEl("number", cell ? cell.price : "");
+  var catS = document.createElement("select");
+  CATS.concat(cell && CATS.indexOf(cell.cat) < 0 && cell.cat ? [cell.cat] : []).forEach(function(c){
+    var o = document.createElement("option"); o.value = c; o.textContent = c;
+    if (cell && cell.cat === c) o.selected = true;
+    catS.appendChild(o);
+  });
+  var imgWrap = el("label", "tog");
+  var imgCb = document.createElement("input");
+  imgCb.type = "checkbox"; imgCb.checked = cell ? cell.img !== false : true;
+  imgWrap.appendChild(imgCb);
+  imgWrap.appendChild(document.createTextNode("Has an image"));
+
+  var descT = document.createElement("textarea");
+  descT.value = cell ? cell.desc || "" : "";
+  var modsT = document.createElement("textarea");
+  modsT.value = cell ? (cell.mods || []).join("\n") : "";
+  modsT.placeholder = "One modification per line";
+
+  body.appendChild(fieldRow("Price ($)", priceI));
+  body.appendChild(fieldRow("Menu tag", catS));
+  body.appendChild(listedWrap);
+  body.appendChild(availWrap);
+  body.appendChild(imgWrap);
+  body.appendChild(el("div", "f"));
+  body.appendChild(fieldRow("Description", descT, true));
+  body.appendChild(fieldRow("Modifications (one per line)", modsT, true));
+
+  if (!pf.ref){
+    var acts = el("div", "pane-actions");
+    var copy = el("button", "mini", "Copy the reference into " + pf.n);
+    copy.type = "button";
+    copy.addEventListener("click", function(){
+      var r = DRAFT.plat[REF];
+      if (!r) return;
+      listedCb.checked = true; availCb.checked = true;
+      priceI.value = r.price;
+      catS.value = r.cat;
+      imgCb.checked = true;
+      descT.value = r.desc || "";
+      modsT.value = (r.mods || []).join("\n");
+      pull(); refreshBadges();
+    });
+    acts.appendChild(copy);
+    body.appendChild(acts);
+  }
+  pane.appendChild(body);
+
+  function pull(){
+    if (!listedCb.checked && !pf.ref){ DRAFT.plat[pk] = null; return; }
+    var prev = DRAFT.plat[pk] || {};
+    var pv = parseFloat(priceI.value);
+    DRAFT.plat[pk] = {
+      price: isFinite(pv) ? pv : null,
+      cat: catS.value,
+      desc: descT.value,
+      img: imgCb.checked,
+      mods: modsT.value.split("\n").map(function(m){ return m.trim(); }).filter(Boolean),
+      avail: availCb.checked,
+      /* a hand-edited value stops being an estimate */
+      v: prev.price === (isFinite(pv) ? pv : null) ? !!prev.v : true,
+      vd: !!prev.vd
+    };
+  }
+  [priceI, catS, descT, modsT].forEach(function(n){
+    n.addEventListener("input", function(){ pull(); refreshBadges(); markChanged(n); });
+    n.addEventListener("change", function(){ pull(); refreshBadges(); });
+  });
+  [listedCb, availCb, imgCb].forEach(function(n){
+    n.addEventListener("change", function(){ pull(); refreshBadges(); });
+  });
+  function markChanged(n){ var f = n.closest(".f"); if (f) f.classList.add("changed"); }
+  return pane;
+}
+function refreshBadges(){
+  PLATFORMS.forEach(function(pf){
+    var b = document.getElementById("badge-" + pf.k);
+    if (!b) return;
+    var dg = diagnose(DRAFT, pf.k);
+    var map = { ok:["ok","In sync"], drift:["drift","Drifted"], bad:["bad","Broken"] };
+    var m = map[dg.level];
+    b.className = "state " + m[0];
+    b.innerHTML = "";
+    b.appendChild(el("i", "flag"));
+    b.appendChild(document.createTextNode(pf.ref ? "Reference" : m[1]));
+    b.title = dg.notes.join(" · ");
+  });
+}
+function openEditor(id){
+  var dish = DATA.filter(function(d){ return d.id === id; })[0];
+  if (!dish) return;
+  EDIT_ID = id;
+  DRAFT = clone(dish);
+  LAST_FOCUS = document.activeElement;
+
+  document.getElementById("dr-title").textContent = dish.name;
+  document.getElementById("dr-sub").textContent =
+    (dish.burmese ? dish.burmese + " · " : "") + "Editing across " + PLATFORMS.length + " platforms";
+
+  var body = document.getElementById("dr-body");
+  body.innerHTML = "";
+  var hint = el("p", "dr-hint");
+  hint.innerHTML = "Change the <b>reference</b> and every platform below is re-graded against the new values straight away. " +
+                   "Use <em>Copy the reference into&hellip;</em> to fix a platform, then Save.";
+  body.appendChild(hint);
+  PLATFORMS.forEach(function(pf){ body.appendChild(paneFor(pf.k)); });
+  refreshBadges();
+
+  document.getElementById("scrim").classList.add("on");
+  var dr = document.getElementById("drawer");
+  dr.classList.add("on");
+  dr.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  setTimeout(function(){ document.getElementById("dr-close").focus(); }, 60);
+}
+function closeEditor(){
+  document.getElementById("scrim").classList.remove("on");
+  var dr = document.getElementById("drawer");
+  dr.classList.remove("on");
+  dr.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  EDIT_ID = null; DRAFT = null;
+  if (LAST_FOCUS && LAST_FOCUS.focus) LAST_FOCUS.focus();
+}
+function saveEditor(){
+  if (!EDIT_ID || !DRAFT) return closeEditor();
+  for (var i=0;i<DATA.length;i++){
+    if (DATA[i].id === EDIT_ID){ DATA[i] = clone(DRAFT); break; }
+  }
+  saveData(); renderAll(); closeEditor();
+}
+function wireEditor(){
+  document.getElementById("dr-close").addEventListener("click", closeEditor);
+  document.getElementById("dr-cancel").addEventListener("click", closeEditor);
+  document.getElementById("scrim").addEventListener("click", closeEditor);
+  document.getElementById("dr-save").addEventListener("click", saveEditor);
+  document.getElementById("dr-push").addEventListener("click", function(){
+    if (!DRAFT) return;
+    var r = DRAFT.plat[REF];
+    if (!r) return;
+    PKEYS.forEach(function(k){
+      if (k === REF) return;
+      var prev = DRAFT.plat[k];
+      if (!prev) return;                       /* leave unlisted platforms alone */
+      prev.cat = r.cat; prev.desc = r.desc; prev.img = true;
+      prev.mods = (r.mods || []).slice(); prev.avail = true;
+    });
+    openEditorRefresh();
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && EDIT_ID) closeEditor();
+  });
+}
+/* re-render the panes from DRAFT without losing it */
+function openEditorRefresh(){
+  var body = document.getElementById("dr-body");
+  var hint = body.firstChild;
+  body.innerHTML = "";
+  if (hint) body.appendChild(hint);
+  PLATFORMS.forEach(function(pf){ body.appendChild(paneFor(pf.k)); });
+  refreshBadges();
+}
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   ENVIRONMENT
+   ============================================================ */
+var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var FINE = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+var SMALL = window.matchMedia && window.matchMedia("(max-width: 820px)").matches;
+var RICH = FINE && !REDUCED;
+var MOUSE = { x: innerWidth / 2, y: innerHeight / 2, px: innerWidth / 2, py: innerHeight / 2, vx:0, vy:0 };
+
+addEventListener("pointermove", function(e){
+  MOUSE.x = e.clientX; MOUSE.y = e.clientY;
+}, { passive:true });
+
+/* ============================================================
+   CURSOR — magnetic dot + warm spice-ember trail on canvas
+   ============================================================ */
+function initCursor(){
+  var dot = document.getElementById("dot");
+  var cv = document.getElementById("fluid");
+  if (!RICH || !cv || !dot){
+    if (cv) cv.style.display = "none";
+    if (dot) dot.style.display = "none";
+    return;
+  }
+  var ctx = cv.getContext("2d", { alpha:true });
+  var dpr = Math.min(devicePixelRatio || 1, 2);
+  function size(){
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size();
+  addEventListener("resize", size);
+
+  var parts = [];
+  var PALETTE = [[232,145,45],[210,80,58],[46,140,122],[245,235,220]];
+  var dx = MOUSE.x, dy = MOUSE.y;
+
+  function emit(n, speed){
+    for (var i = 0; i < n; i++){
+      var c = PALETTE[(Math.random() * PALETTE.length) | 0];
+      var a = Math.random() * Math.PI * 2;
+      var s = (0.4 + Math.random() * 1.5) * (0.5 + speed * 0.05);
+      parts.push({
+        x: MOUSE.x + (Math.random() - 0.5) * 10,
+        y: MOUSE.y + (Math.random() - 0.5) * 10,
+        vx: Math.cos(a) * s + MOUSE.vx * 0.16,
+        vy: Math.sin(a) * s + MOUSE.vy * 0.16 - 0.18,
+        r: 5 + Math.random() * 26 + speed * 0.4,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.02,
+        c: c
+      });
+    }
+    if (parts.length > 420) parts.splice(0, parts.length - 420);
+  }
+
+  /* interactive elements grow the dot */
+  var hotSel = "a,button,summary,.reveal-row,.cell,.chip,.btn,.stage,input,textarea";
+  addEventListener("pointerover", function(e){
+    if (e.target.closest && e.target.closest(hotSel)) dot.classList.add("big");
+  }, { passive:true });
+  addEventListener("pointerout", function(e){
+    if (e.target.closest && e.target.closest(hotSel)) dot.classList.remove("big");
+  }, { passive:true });
+
+  (function loop(){
+    MOUSE.vx = MOUSE.x - MOUSE.px;
+    MOUSE.vy = MOUSE.y - MOUSE.py;
+    MOUSE.px = MOUSE.x; MOUSE.py = MOUSE.y;
+    var speed = Math.hypot(MOUSE.vx, MOUSE.vy);
+
+    dx += (MOUSE.x - dx) * 0.22;
+    dy += (MOUSE.y - dy) * 0.22;
+    dot.style.transform = "translate3d(" + (dx - dot.offsetWidth / 2) + "px," + (dy - dot.offsetHeight / 2) + "px,0)";
+
+    if (speed > 0.7) emit(Math.min(5, 1 + (speed / 14) | 0), speed);
+
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.globalCompositeOperation = "lighter";
+    for (var i = parts.length - 1; i >= 0; i--){
+      var p = parts[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vx *= 0.945; p.vy *= 0.945; p.vy -= 0.012;
+      p.life -= p.decay;
+      if (p.life <= 0){ parts.splice(i, 1); continue; }
+      var alpha = p.life * p.life * 0.5;
+      var g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (1.5 - p.life * 0.5));
+      g.addColorStop(0, "rgba(" + p.c[0] + "," + p.c[1] + "," + p.c[2] + "," + alpha + ")");
+      g.addColorStop(1, "rgba(" + p.c[0] + "," + p.c[1] + "," + p.c[2] + ",0)");
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * (1.5 - p.life * 0.5), 0, 6.2832);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    requestAnimationFrame(loop);
+  })();
+}
+
+/* ============================================================
+   TEXT PRESSURE — variable-font headline that reacts to the cursor
+   ============================================================ */
+function initPressure(){
+  var host = document.getElementById("pressure");
+  if (!host) return;
+  var h1 = host.querySelector("h1");
+  var TEXT = "MENU SYNC";
+  h1.innerHTML = "";
+  var spans = [];
+  TEXT.split("").forEach(function(ch){
+    var s = document.createElement("span");
+    s.textContent = ch === " " ? " " : ch;
+    s.style.fontVariationSettings = "'wght' 300, 'wdth' 100, 'slnt' 0";
+    h1.appendChild(s);
+    spans.push(s);
+  });
+
+  function fit(){
+    var w = host.clientWidth, h = host.clientHeight;
+    if (!w) return;
+    /* h1 is a full-width flex row, so its own scrollWidth is the container
+       width and useless for fitting. Measure the glyphs on a shrink-to-fit
+       probe that inherits the same font, then scale to the container. */
+    var probe = document.createElement("span");
+    probe.textContent = TEXT;
+    probe.style.cssText = "position:absolute;left:-99999px;top:0;visibility:hidden;" +
+      "white-space:pre;font-size:100px;font-weight:100;text-transform:uppercase;" +
+      "letter-spacing:-.035em;font-variation-settings:'wght' 300,'wdth' 100";
+    host.appendChild(probe);
+    var natural = probe.getBoundingClientRect().width || w;
+    host.removeChild(probe);
+    var size = Math.max(30, Math.min(100 * (w / natural) * 0.94, h * 1.06));
+    h1.style.fontSize = size + "px";
+  }
+  fit();
+  addEventListener("resize", fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+
+  if (!RICH){
+    spans.forEach(function(s){ s.style.fontVariationSettings = "'wght' 320, 'wdth' 118, 'slnt' 0"; });
+    return;
+  }
+
+  var cx = innerWidth / 2, cy = innerHeight / 2;
+  function attr(d, max, lo, hi){
+    var v = hi - Math.abs((hi * d) / max);
+    return Math.max(lo, v + lo);
+  }
+  (function tick(){
+    cx += (MOUSE.x - cx) / 12;
+    cy += (MOUSE.y - cy) / 12;
+    var box = h1.getBoundingClientRect();
+    var maxD = Math.max(120, box.width / 2);
+    for (var i = 0; i < spans.length; i++){
+      var r = spans[i].getBoundingClientRect();
+      var d = Math.hypot(cx - (r.x + r.width / 2), cy - (r.y + r.height / 2));
+      var wdth = Math.round(attr(d, maxD, 60, 150));
+      var wght = Math.round(attr(d, maxD, 120, 820));
+      var slnt = -Math.round(attr(d, maxD, 0, 9));
+      spans[i].style.fontVariationSettings = "'wght' " + wght + ", 'wdth' " + wdth + ", 'slnt' " + slnt;
+    }
+    requestAnimationFrame(tick);
+  })();
+}
+
+/* ============================================================
+   NAV + SCROLL REVEAL + HERO
+   ============================================================ */
+function initChrome(){
+  var nav = document.getElementById("nav");
+  function onScroll(){
+    if (nav) nav.classList.toggle("stuck", scrollY > 40);
+  }
+  onScroll();
+  addEventListener("scroll", onScroll, { passive:true });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold:.12, rootMargin:"0px 0px -8% 0px" });
+  document.querySelectorAll(".rise").forEach(function(n){ io.observe(n); });
+
+  /* hero media */
+  var vid = document.getElementById("hero-video");
+  var fb = document.getElementById("hero-fallback");
+  var poster = asset("tea-leaf-salad.png");
+  if (fb) fb.src = poster;
+  if (vid){
+    vid.poster = poster;
+    if (REDUCED){
+      vid.remove();
+      if (fb) fb.hidden = false;
+    } else {
+      vid.src = asset("hero.mp4");
+      vid.addEventListener("error", function(){
+        vid.style.display = "none";
+        if (fb) fb.hidden = false;
+      });
+      var pl = vid.play();
+      if (pl && pl.catch) pl.catch(function(){});
+    }
+  }
+
+  /* hero parallax */
+  if (!REDUCED){
+    var media = document.querySelector(".hero-media");
+    var inner = document.querySelector(".hero-inner");
+    addEventListener("scroll", function(){
+      var y = scrollY;
+      if (y > innerHeight * 1.2) return;
+      if (media) media.style.transform = "translate3d(0," + (y * 0.22) + "px,0)";
+      if (inner){
+        inner.style.transform = "translate3d(0," + (y * -0.06) + "px,0)";
+        inner.style.opacity = String(Math.max(0, 1 - y / (innerHeight * 0.75)));
+      }
+    }, { passive:true });
+  }
+
+  var yr = document.getElementById("yr");
+  if (yr) yr.textContent = new Date().getFullYear();
+}
+</script>
+
+<script>
+"use strict";
+/* ============================================================
+   PORTAL — scroll-driven opening
+   ============================================================ */
+function initPortal(){
+  var sec = document.getElementById("portal");
+  var core = document.getElementById("portal-core");
+  var img = document.getElementById("portal-img");
+  var a = document.getElementById("portal-copy-a");
+  var b = document.getElementById("portal-copy-b");
+  var rings = Array.prototype.slice.call(document.querySelectorAll(".portal-ring"));
+  if (!sec || !core) return;
+  if (img) img.src = asset("tea-leaf-salad.png");
+
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function seg(p, s, e){ return clamp((p - s) / (e - s)); }
+
+  function frame(){
+    var r = sec.getBoundingClientRect();
+    var total = sec.offsetHeight - innerHeight;
+    var p = clamp(-r.top / (total || 1));
+
+    /* the aperture opens, then swallows the screen */
+    var open = seg(p, 0.06, 0.55) * 78;
+    var swallow = seg(p, 0.86, 1) * 90;
+    core.style.clipPath = "circle(" + (open + swallow) + "% at 50% 50%)";
+    core.style.transform = "scale(" + (0.86 + seg(p, 0, 0.55) * 0.14 + seg(p, 0.86, 1) * 0.9) + ")";
+    if (img) img.style.transform = "scale(" + (1.3 - seg(p, 0.06, 0.7) * 0.28) + ") rotate(" + (p * 26) + "deg)";
+
+    rings.forEach(function(ring, i){
+      var k = seg(p, i * 0.05, 0.55 + i * 0.06);
+      var sc = 0.35 + k * (1 + i * 0.32);
+      ring.style.transform = "scale(" + sc + ") rotate(" + (p * (i % 2 ? -80 : 80)) + "deg)";
+      ring.style.opacity = String((0.15 + k * 0.85) * (1 - seg(p, 0.82, 1)));
+    });
+
+    /* A must be fully gone before B arrives — they occupy the same box, so any
+       overlap stacks two paragraphs on each other and neither can be read. */
+    var outA = seg(p, 0.36, 0.50);
+    var inB  = seg(p, 0.54, 0.66);
+    var outB = seg(p, 0.86, 0.96);
+    if (a){
+      a.style.opacity = String(1 - outA);
+      a.style.transform = "translateY(" + (-outA * 54) + "px)";
+      a.style.visibility = outA >= 1 ? "hidden" : "visible";
+    }
+    if (b){
+      var bOp = inB * (1 - outB);
+      b.style.opacity = String(bOp);
+      b.style.transform = "translateY(" + ((1 - inB) * 54 - outB * 46) + "px)";
+      b.style.visibility = bOp <= 0.001 ? "hidden" : "visible";
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* portal dust field — reacts to the cursor */
+function initDust(){
+  var cv = document.getElementById("dust");
+  if (!cv || REDUCED) { if (cv) cv.style.display = "none"; return; }
+  var ctx = cv.getContext("2d");
+  var dpr = Math.min(devicePixelRatio || 1, 2);
+  var pts = [], W = 0, H = 0;
+  function build(){
+    var r = cv.parentElement.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cv.width = W * dpr; cv.height = H * dpr;
+    cv.style.width = W + "px"; cv.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pts = [];
+    var step = SMALL ? 46 : 34;
+    for (var x = step / 2; x < W; x += step){
+      for (var y = step / 2; y < H; y += step){
+        pts.push({ ax:x, ay:y, x:x, y:y });
+      }
+    }
+  }
+  build();
+  addEventListener("resize", build);
+
+  (function draw(){
+    var box = cv.getBoundingClientRect();
+    var mx = MOUSE.x - box.left, my = MOUSE.y - box.top;
+    ctx.clearRect(0, 0, W, H);
+    var R = 210, R2 = R * R;
+    for (var i = 0; i < pts.length; i++){
+      var p = pts[i];
+      var ddx = p.ax - mx, ddy = p.ay - my;
+      var d2 = ddx * ddx + ddy * ddy;
+      var tx = p.ax, ty = p.ay, glow = 0;
+      if (d2 < R2){
+        var d = Math.sqrt(d2) || 1;
+        var k = 1 - d / R;
+        var push = k * k * 40;
+        tx = p.ax + (ddx / d) * push;
+        ty = p.ay + (ddy / d) * push;
+        glow = k;
+      }
+      p.x += (tx - p.x) * 0.12;
+      p.y += (ty - p.y) * 0.12;
+      var alpha = 0.1 + glow * 0.75;
+      ctx.fillStyle = "rgba(232,145,45," + alpha.toFixed(3) + ")";
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1 + glow * 1.5, 0, 6.2832);
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  })();
+}
+
+/* ============================================================
+   3D PRODUCT — layered turntable, drag to rotate
+   ============================================================ */
+function initTurntable(){
+  var stage = document.getElementById("stage");
+  var inner = document.getElementById("stage-inner");
+  var sheen = document.getElementById("sheen");
+  if (!stage || !inner) return;
+
+  var url = asset("tea-leaf-salad.png");
+  var N = SMALL ? 9 : 15;
+  var DEPTH = SMALL ? 30 : 46;
+  for (var i = 0; i < N; i++){
+    var k = i / (N - 1);
+    var s = document.createElement("div");
+    s.className = "slice";
+    s.style.backgroundImage = "url('" + url + "')";
+    /* back layers shrink as well as dim, so the stack reads as a bowl with
+       depth instead of an extruded cylinder smearing out of frame */
+    s.style.transform = "translateZ(" + (-DEPTH * (1 - k)).toFixed(2) + "px) scale(" + (0.82 + k * 0.18).toFixed(3) + ")";
+    s.style.opacity = String(i === N - 1 ? 1 : (0.04 + Math.pow(k, 2.6) * 0.5).toFixed(3));
+    s.style.filter = "brightness(" + (0.18 + Math.pow(k, 1.6) * 0.82).toFixed(2) + ") saturate(" + (0.55 + k * 0.55).toFixed(2) + ")";
+    inner.appendChild(s);
+  }
+
+  var MAX_Y = 54;
+  var userY = 0, rotY = -18, rotX = 12, dragging = false, lastX = 0, lastY = 0, hover = 0;
+  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+  function now(){ return (window.performance && performance.now) ? performance.now() : Date.now(); }
+  function clampY(v){ return v < -MAX_Y ? -MAX_Y : v > MAX_Y ? MAX_Y : v; }
+
+  function apply(){
+    inner.style.transform = "rotateX(" + rotX.toFixed(2) + "deg) rotateY(" + rotY.toFixed(2) + "deg)";
+    if (sheen) sheen.style.transform = "translateX(" + (Math.sin(rotY * Math.PI / 180) * 15).toFixed(1) + "%)";
+  }
+  apply();
+
+  stage.addEventListener("pointerdown", function(e){
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    try{ stage.setPointerCapture(e.pointerId); }catch(err){}
+  });
+  stage.addEventListener("pointermove", function(e){
+    if (!dragging) return;
+    var dxp = e.clientX - lastX, dyp = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    userY = clampY(userY + dxp * 0.4);
+    rotX = Math.max(-26, Math.min(40, rotX - dyp * 0.24));
+    rotY = clampY(userY);
+    apply();
+  });
+  function release(e){
+    if (!dragging) return;
+    dragging = false;
+    try{ stage.releasePointerCapture(e.pointerId); }catch(err){}
+  }
+  stage.addEventListener("pointerup", release);
+  stage.addEventListener("pointercancel", release);
+  stage.addEventListener("pointerenter", function(){ hover = 1; });
+  stage.addEventListener("pointerleave", function(){ hover = 0; });
+
+  if (!REDUCED){
+    (function spin(){
+      if (!dragging){
+        var t = (now() - t0) / 1000;
+        userY *= 0.985;                    /* drag slowly hands back to the idle swing */
+        var swing = Math.sin(t * 0.4) * (hover ? 9 : 26);
+        rotY = clampY(swing + userY);
+        rotX += ((hover ? 7 : 12 + Math.sin(t * 0.27) * 3) - rotX) * 0.03;
+        apply();
+      }
+      requestAnimationFrame(spin);
+    })();
+  }
+}
+
+/* ============================================================
+   OBJECT REVEAL ON HOVER
+   ============================================================ */
+function wireReveal(){
+  var float = document.getElementById("reveal-float");
+  var fimg = document.getElementById("reveal-img");
+  var rows = document.querySelectorAll(".reveal-row");
+  if (!float || !fimg || !RICH) return;
+
+  var tx = 0, ty = 0, cxp = 0, cyp = 0, on = false, running = false, activeRow = null;
+
+  function loop(){
+    cxp += (tx - cxp) * 0.16;
+    cyp += (ty - cyp) * 0.16;
+    var tilt = Math.max(-11, Math.min(11, (tx - cxp) * 0.32));
+    float.style.transform = "translate3d(" + (cxp - float.offsetWidth / 2) + "px," + (cyp - float.offsetHeight / 2) + "px,0) scale(" + (on ? 1 : 0.82) + ") rotate(" + (on ? tilt : -7) + "deg)";
+    if (on || Math.abs(tx - cxp) > 0.5) requestAnimationFrame(loop);
+    else running = false;
+  }
+  function kick(){ if (!running){ running = true; requestAnimationFrame(loop); } }
+
+  rows.forEach(function(row){
+    var src = row.getAttribute("data-img");
+    function open(e){
+      if (!src) return;
+      if (fimg.getAttribute("src") !== src) fimg.src = src;
+      tx = e.clientX; ty = e.clientY;
+      if (!on){ cxp = tx; cyp = ty; }
+      on = true;
+      activeRow = row;
+      float.classList.add("on");
+      kick();
+    }
+    row.addEventListener("pointerenter", open);
+    row.addEventListener("pointermove", function(e){
+      if (activeRow !== row) { open(e); return; }
+      tx = e.clientX; ty = e.clientY; kick();
+    });
+    row.addEventListener("pointerleave", function(){
+      /* a stale leave from a row we already left must not close the card */
+      if (activeRow !== row) return;
+      activeRow = null;
+      on = false;
+      float.classList.remove("on");
+      kick();
+    });
+  });
+}
+
+/* ============================================================
+   BENTO — spotlight, tilt, magnetism, ripple, particles
+   ============================================================ */
+function wireBento(){
+  var cells = document.querySelectorAll("#bento .cell");
+  if (!RICH){ return; }
+  cells.forEach(function(card){
+    var timers = [];
+    function clearParts(){
+      timers.forEach(clearTimeout); timers = [];
+      card.querySelectorAll(".spark").forEach(function(s){
+        s.style.opacity = "0";
+        setTimeout(function(){ s.remove(); }, 320);
+      });
+    }
+    card.addEventListener("pointermove", function(e){
+      var r = card.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      card.style.setProperty("--gx", x + "px");
+      card.style.setProperty("--gy", y + "px");
+      card.style.setProperty("--gi", "1");
+      var rx = ((y - r.height / 2) / (r.height / 2)) * -5;
+      var ry = ((x - r.width / 2) / (r.width / 2)) * 5;
+      var mx = (x - r.width / 2) * 0.035, my = (y - r.height / 2) * 0.035;
+      card.style.transform = "perspective(900px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) translate3d(" + mx.toFixed(1) + "px," + my.toFixed(1) + "px,0)";
+    });
+    card.addEventListener("pointerenter", function(){
+      for (var i = 0; i < 7; i++){
+        timers.push(setTimeout(function(){
+          var r = card.getBoundingClientRect();
+          var s = document.createElement("i");
+          s.className = "spark";
+          s.style.cssText = "position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(232,145,45,.95);box-shadow:0 0 8px rgba(232,145,45,.7);pointer-events:none;z-index:3;opacity:0;transition:opacity .4s,transform 2.6s cubic-bezier(.2,.6,.2,1);left:" + (Math.random() * r.width) + "px;top:" + (Math.random() * r.height) + "px;";
+          card.appendChild(s);
+          requestAnimationFrame(function(){
+            s.style.opacity = ".85";
+            s.style.transform = "translate(" + ((Math.random() - .5) * 60) + "px," + ((Math.random() - .5) * 60) + "px)";
+          });
+        }, i * 110));
+      }
+    });
+    card.addEventListener("pointerleave", function(){
+      card.style.setProperty("--gi", "0");
+      card.style.transform = "";
+      clearParts();
+    });
+    card.addEventListener("click", function(e){
+      var r = card.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      var max = Math.max(Math.hypot(x, y), Math.hypot(x - r.width, y), Math.hypot(x, y - r.height), Math.hypot(x - r.width, y - r.height));
+      var rip = document.createElement("i");
+      rip.style.cssText = "position:absolute;border-radius:50%;pointer-events:none;z-index:2;width:" + (max * 2) + "px;height:" + (max * 2) + "px;left:" + (x - max) + "px;top:" + (y - max) + "px;background:radial-gradient(circle,rgba(232,145,45,.34) 0%,rgba(232,145,45,.14) 32%,transparent 68%);transform:scale(0);opacity:1;transition:transform .8s cubic-bezier(.2,.6,.2,1),opacity .8s;";
+      card.appendChild(rip);
+      requestAnimationFrame(function(){ rip.style.transform = "scale(1)"; rip.style.opacity = "0"; });
+      setTimeout(function(){ rip.remove(); }, 900);
+    });
+  });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+function boot(){
+  renderAll();
+  wireIO();
+  wireEditor();
+  initChrome();
+  initCursor();
+  initPressure();
+  initPortal();
+  initDust();
+  initTurntable();
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+else boot();
+</script>
+</body>
+</html>

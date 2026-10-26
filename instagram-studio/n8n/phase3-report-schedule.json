@@ -1,0 +1,105 @@
+{
+  "name": "Instagram-Studio — Fase 3 (Relatório semanal)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Fase 3 — Relatório de performance (semanal)\n\nUma vez por semana chama `POST /report`. O serviço lê `relatorios/insights.json` (seus números reais), o Claude analisa o que repetir/ajustar, atualiza os melhores horários (que voltam a alimentar o `edit`) e devolve o relatório por email.\n\n**Antes de ativar:**\n1. Coloque seus números em `relatorios/insights.json` (veja `insights.example.json`). Dá para automatizar o preenchimento com um nó de analytics do Metricool antes deste passo.\n2. `ANTHROPIC_API_KEY` no serviço para a análise rica (sem ela, relatório heurístico).\n3. No nó HTTP: URL + `x-studio-token`. No Gmail: credencial + destinatário.",
+        "height": 320,
+        "width": 400
+      },
+      "id": "note1",
+      "name": "Leia-me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 40]
+    },
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "weeks", "weeksInterval": 1, "triggerAtDay": [1], "triggerAtHour": 8 }] }
+      },
+      "id": "trigger",
+      "name": "Toda semana (seg 08h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [160, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4599/report",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-studio-token", "value": "COLE_SEU_STUDIO_TOKEN" }]
+        },
+        "options": {}
+      },
+      "id": "http",
+      "name": "studio /report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [420, 420]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-count",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "iff",
+      "name": "Tem dados?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 420]
+    },
+    {
+      "parameters": {
+        "sendTo": "voce@exemplo.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.summary }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "gmail",
+      "name": "Gmail: relatório semanal",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 340]
+    },
+    {
+      "parameters": {},
+      "id": "noop",
+      "name": "Sem dados ainda",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [940, 520]
+    }
+  ],
+  "connections": {
+    "Toda semana (seg 08h)": {
+      "main": [[{ "node": "studio /report", "type": "main", "index": 0 }]]
+    },
+    "studio /report": {
+      "main": [[{ "node": "Tem dados?", "type": "main", "index": 0 }]]
+    },
+    "Tem dados?": {
+      "main": [
+        [{ "node": "Gmail: relatório semanal", "type": "main", "index": 0 }],
+        [{ "node": "Sem dados ainda", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {}
+}

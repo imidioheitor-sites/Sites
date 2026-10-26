@@ -1,0 +1,105 @@
+{
+  "name": "Instagram-Studio — Postagem (Metricool)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Postagem — agenda no Metricool\n\nA cada 30 min chama `POST /publish` no serviço. Ele lê o `cronograma.json` da Fase 2, agenda cada post no Metricool (legenda sua + mídia editada) e devolve o resumo.\n\n**Pré-requisitos:**\n1. Plano do Metricool com **API** (pegue o `userToken` em Configurações → API) e o `blogId`/`userId` da marca.\n2. Instagram conectado como **Business/Creator** no Metricool (para auto-publicar).\n3. A mídia precisa de **URL pública**: defina `metricool.publicBaseUrl` + `STUDIO_MEDIA_TOKEN` (o serviço serve `/media`), ou coloque `media-url.txt` em cada post.\n4. Variáveis no serviço: `METRICOOL_USER_TOKEN`, `METRICOOL_USER_ID`, `METRICOOL_BLOG_ID`.\n\nSem token, `/publish` roda em **dry-run** (mostra o payload, não envia).",
+        "height": 340,
+        "width": 400
+      },
+      "id": "note1",
+      "name": "Leia-me",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [120, 40]
+    },
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "minutes", "minutesInterval": 30 }] }
+      },
+      "id": "trigger",
+      "name": "A cada 30 min",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [160, 440]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:4599/publish",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "x-studio-token", "value": "COLE_SEU_STUDIO_TOKEN" }]
+        },
+        "options": {}
+      },
+      "id": "http",
+      "name": "studio /publish",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [420, 440]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "cond-count",
+              "leftValue": "={{ $json.count }}",
+              "rightValue": 0,
+              "operator": { "type": "number", "operation": "gt" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "iff",
+      "name": "Tem o que agendar?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [680, 440]
+    },
+    {
+      "parameters": {
+        "sendTo": "voce@exemplo.com",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.summary }}",
+        "options": { "appendAttribution": false }
+      },
+      "id": "gmail",
+      "name": "Gmail: resultado do agendamento",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [940, 360]
+    },
+    {
+      "parameters": {},
+      "id": "noop",
+      "name": "Nada a agendar",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [940, 540]
+    }
+  ],
+  "connections": {
+    "A cada 30 min": {
+      "main": [[{ "node": "studio /publish", "type": "main", "index": 0 }]]
+    },
+    "studio /publish": {
+      "main": [[{ "node": "Tem o que agendar?", "type": "main", "index": 0 }]]
+    },
+    "Tem o que agendar?": {
+      "main": [
+        [{ "node": "Gmail: resultado do agendamento", "type": "main", "index": 0 }],
+        [{ "node": "Nada a agendar", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "pinData": {},
+  "meta": {}
+}

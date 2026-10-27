@@ -52,6 +52,9 @@ img,svg{display:block;max-width:100%}
 @keyframes rola{0%{transform:scaleY(0);opacity:0}30%{opacity:1}100%{transform:scaleY(1);opacity:0}}
 .abertura{position:relative;z-index:2;background:var(--abertura-bg);padding:clamp(70px,12vw,150px) 0 clamp(70px,10vw,120px);color:var(--abertura-fg)}
 .abertura::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:42vh;background:linear-gradient(0deg,var(--abertura-bg),transparent);pointer-events:none;opacity:var(--f,0)}
+.abertura .fx-grain{position:absolute;inset:0;z-index:0;opacity:.55;pointer-events:none}
+.abertura .wrap{position:relative;z-index:1}
+.abertura .acoes a.pill-star{background:#24130d;padding:16px 30px}
 .abertura h1{font-size:clamp(42px,8vw,124px);line-height:.95;margin:16px 0 22px;max-width:14ch}
 .abertura h1 em{font-style:italic}
 .abertura .sub{font-size:clamp(16px,1.6vw,20px);max-width:520px;opacity:.88}
@@ -248,12 +251,13 @@ footer{background:#170b06;padding:70px 0 40px;overflow:hidden;position:relative}
 </section>
 
 <section class="abertura" id="abertura">
+  <div class="fx-grain" data-grainient data-colors='["#24130d","#341c13","#5a2e1c","#9a5a2e","#d8b06a"]' data-angle="55" data-flow="0.8" data-silk="0.3" data-grain-amount="0.07" data-speed="0.6"></div>
   <div class="wrap">
     <div class="eyebrow">Doceria artística · Goiânia/GO</div>
     <h1 class="display">Doces que fazem a <em style="color:var(--gold)">festa</em> inteira.</h1>
     <p class="sub">Bem-casados, bombons, bolos e mesas de bolo para casamentos, aniversários e eventos.</p>
     <div class="acoes">
-      <a class="pill" href="https://wa.me/5562996614771?text=Oi%2C%20vim%20pelo%20site%20e%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
+      <a class="pill pill-star" data-starborder data-radius="999" data-duration="4.5" data-color="#f1d596" data-glow=".7" data-background-color="#24130d" data-text-color="#f8f0e4" data-border-color="rgba(216,176,106,.35)" href="https://wa.me/5562996614771?text=Oi%2C%20vim%20pelo%20site%20e%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
       <a class="cta-link" href="#cardapio" style="margin-top:0">Ver os doces <svg viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M0 6h20M15 1l5 5-5 5"/></svg></a>
     </div>
     <div class="cidade">Parque Amazônia · Goiânia</div>
@@ -375,6 +379,8 @@ footer{background:#170b06;padding:70px 0 40px;overflow:hidden;position:relative}
 
 <div class="cur" id="cur"></div><div class="cur-dot" id="curDot"></div>
 
+<script defer src="grainient.js"></script>
+<script defer src="star-border.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>

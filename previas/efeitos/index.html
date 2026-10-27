@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catálogo de efeitos HEsites</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#120f17;--ink:#f8f0e4;--mut:#b9a99a;--gold:#d8b06a;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header.top{padding:56px 24px 24px;max-width:1100px;margin:auto}
+h1{font-size:clamp(34px,6vw,64px);line-height:1;margin:0 0 12px;letter-spacing:-.03em}
+header p{color:var(--mut);max-width:60ch}
+nav.idx{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+nav.idx a{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:99px;font-size:13px}
+section.ef{max-width:1100px;margin:0 auto;padding:36px 24px}
+section.ef h2{margin:0 0 4px;font-size:22px}
+section.ef .tag{color:var(--gold);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+section.ef p.uso{color:var(--mut);margin:6px 0 16px;max-width:70ch;font-size:14px}
+.stage{position:relative;height:340px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#1a141f}
+.stage.photo{background:url(fotos/bolo.jpg) center/cover}
+.center{position:absolute;inset:0;display:grid;place-items:center;z-index:2;gap:14px;align-content:center}
+.btn{display:inline-block;padding:14px 26px;font-weight:600;color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Catálogo de efeitos</h1>
+  <p>11 efeitos do React Bits em JavaScript puro (sem React, sem biblioteca), prontos para o builder dos sites. Todos respeitam prefers-reduced-motion, pausam fora da tela e têm alternativa para aparelhos sem WebGL. Nenhum vai no primeiro quadro: o abertura do site continua só o vídeo.</p>
+  <nav class="idx"><a href="#glass">GlassSurface</a><a href="#star">StarBorder</a><a href="#grain">Grainient</a><a href="#dither">Dither</a><a href="#waves">Waves</a><a href="#slats">MicroSlats</a><a href="#shards">AeroShards</a><a href="#sliced">SlicedWaves</a><a href="#rays">LightRays</a><a href="#grid">GridMotion</a><a href="#wheel">OptionWheel</a></nav>
+</header>
+
+<section class="ef" id="glass"><div class="tag">Vidro líquido</div><h2>GlassSurface</h2><p class="uso">Pílulas, botões e cartões de vidro sobre foto ou vídeo (menu do topo, cartões de preço, selo). Chromium: refração real; Safari/Firefox: vidro fosco simples.</p>
+  <div class="stage photo">
+    <div class="center">
+      <div data-glass data-width="320" data-height="76" data-border-radius="38" data-distortion-scale="-180" data-displace="0.5" data-background-opacity="0.1"><span>Pedir orçamento</span></div>
+      <div data-glass data-width="260" data-height="64" data-border-radius="32" data-border-width="0.07" data-brightness="50" data-opacity="0.93" data-blur="11" data-saturation="1" data-red-offset="0" data-green-offset="10" data-blue-offset="20"><span>Bem-casados</span></div>
+    </div>
+  </div></section>
+
+<section class="ef" id="star"><div class="tag">Botão / CTA</div><h2>StarBorder</h2><p class="uso">Estrela de luz percorrendo a borda do botão de WhatsApp. Passe o mouse (volta extra) e clique (pulso).</p>
+  <div class="stage"><div class="center">
+    <a class="btn" href="#" data-starborder data-radius="999" data-duration="4" data-glow=".6" data-hover="lap" data-color="#f8e3b0" data-sparkle>Chamar no WhatsApp</a>
+    <a class="btn" href="#" data-starborder data-radius="14" data-duration="5" data-stars="3" data-color="#f97316" data-trail-color="#d8b06a" data-glow=".8">Ver o cardápio</a>
+  </div></div></section>
+
+<section class="ef" id="grain"><div class="tag">Fundo</div><h2>Grainient</h2><p class="uso">Gradiente fluido com grão de filme, o cursor arrasta as cores e o clique faz um redemoinho. Ótimo atrás de seções de texto.</p>
+  <div class="stage" data-grainient data-colors='["#120f17","#2a0f0a","#9a3412","#f97316","#fed7aa"]' data-angle="55" data-flow="0.8" data-silk="0.35" data-grain-amount="0.08"></div></section>
+
+<section class="ef" id="dither"><div class="tag">Fundo</div><h2>Dither</h2><p class="uso">Ondas pixeladas em dithering (estilo retrô). O cursor apaga, ilumina ou ondula. Combina com negócios de personalidade (bar, barbearia, tatuagem).</p>
+  <div class="stage" data-dither data-wave-color="#bcbcbc" data-background-color="#120f17" data-dither-mode="bayer" data-color-num="4" data-pixel-size="2" data-wave-speed="0.05" data-wave-frequency="3" data-wave-amplitude="0.3" data-mouse-effect="erase" data-mouse-radius="0.3"></div></section>
+
+<section class="ef" id="waves"><div class="tag">Fundo</div><h2>Waves</h2><p class="uso">Linhas finas que ondulam e se arrastam com o cursor; clique abre um ripple. Elegante para consultório, advocacia, escritório.</p>
+  <div class="stage" data-waves data-line-color="#f8e3b0" data-spacing="10" data-amplitude="32" data-twist="1" data-speed="1" data-mouse-radius="175" data-mouse-strength="1"></div></section>
+
+<section class="ef" id="slats"><div class="tag">Fundo</div><h2>MicroSlats</h2><p class="uso">Ripas que brilham em ondas, com afunilamento plano (sem 3D). Bom para marcenaria, estúdio, arquitetura.</p>
+  <div class="stage" data-microslats data-preset="swell" data-color="#A855F7" data-glint-color="#ffffff" data-background-color="#120f17" data-slat-width="10" data-slat-height="25" data-gap="3" data-roundness="0.75" data-scale="1.5" data-speed="0.6" data-direction="250" data-chop="0.55" data-glint="0.7" data-contrast="1.25" data-perspective="0.55" data-fog="0.55"></div></section>
+
+<section class="ef" id="shards"><div class="tag">Fundo</div><h2>AeroShards</h2><p class="uso">Cacos de vidro flutuando com paralaxe e brilho. Interpretação 2D decorativa (profundidade só em escala/desfoque). Clique pulsa, segurar junta os cacos.</p>
+  <div class="stage" data-aeroshards data-shard-color="#896ABD" data-accent-color="#A855F7" data-placement="full" data-material="glass" data-markers="plus" data-count="1300" data-depth-of-field="0.75" data-vignette="0.3" data-glow="0.35" data-grain="0.06"></div></section>
+
+<section class="ef" id="sliced"><div class="tag">Fundo</div><h2>SlicedWaves</h2><p class="uso">Fitas coloridas fatiadas em barras. Boa para fechamento de página ou rodapé de festa/evento.</p>
+  <div class="stage" data-slicedwaves data-color1="#ffd9a8" data-color2="#ff5fa2" data-color3="#5b8cff" data-ribbons="3" data-spacing="28" data-perspective="0.45" data-blur="0.6" data-glow="1" data-position="0.78" data-bar-width="0.5" data-ribbon-height="0.26" data-spread="0.1" data-amplitude="0.1" data-brightness="1.25" data-grain="0.08"></div></section>
+
+<section class="ef" id="rays"><div class="tag">Fundo</div><h2>LightRays</h2><p class="uso">Raios de luz saindo de um canto, com sombra do cursor. Serve para dar clima (spa, restaurante, igreja, estúdio).</p>
+  <div class="stage" data-lightrays data-rays-origin="top-center" data-rays-color="#ffe9c2" data-rays-speed="1" data-light-spread="0.5" data-ray-length="3" data-glow="0.6" data-haze="0.25" data-ray-density="1" data-ray-sharpness="0.35" data-cursor-shadow></div></section>
+
+<section class="ef" id="grid"><div class="tag">Galeria</div><h2>GridMotion</h2><p class="uso">Parede de fotos em linhas que derivam em sentidos opostos, spotlight no cursor. Use as fotos reais do cliente; sem inclinação 3D (tilt fica em 0).</p>
+  <div class="stage" data-gridmotion data-rows="3" data-aspect-ratio="1.33" data-gap="14" data-radius="14" data-angle="-12" data-speed="24" data-spotlight="0.6" data-dim="0.35" data-fade="0.5"
+    data-items='["fotos/bolo.jpg","fotos/doces.jpg","Casamentos","fotos/salao.jpg","fotos/salgados.jpg","Aniversários","fotos/lua.jpg"]'></div></section>
+
+<section class="ef" id="wheel"><div class="tag">Menu / lista</div><h2>OptionWheel</h2><p class="uso">Roda de opções em curva (serviços, categorias do cardápio). Role, arraste ou use as setas.</p>
+  <div class="stage" style="height:380px;font-weight:600" data-optionwheel data-items='["Bem-casados","Bolos","Bombons","Mesa de doces","Salgados","Lembrancinhas"]' data-default-selected="2" data-text-color="#a6a6a6" data-active-color="#f8e3b0" data-font-size="2.4" data-inset="60"></div></section>
+
+<footer style="max-width:1100px;margin:0 auto;padding:40px 24px 80px;color:var(--mut);font-size:13px">HEsites · kit de efeitos em JavaScript puro · base: React Bits</footer>
+
+<script src="kit/glass-surface.js"></script><script src="kit/star-border.js"></script><script src="kit/grainient.js"></script><script src="kit/dither.js"></script>
+<script src="kit/waves.js"></script><script src="kit/micro-slats.js"></script><script src="kit/aero-shards.js"></script><script src="kit/sliced-waves.js"></script>
+<script src="kit/light-rays.js"></script><script src="kit/grid-motion.js"></script><script src="kit/option-wheel.js"></script>
+</body></html>

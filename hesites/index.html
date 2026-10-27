@@ -130,6 +130,15 @@ main>section:not(.hero),main>.letreiro{position:relative;z-index:2}
 .card .add.ok{background:var(--brasa);color:var(--tinta)}
 
 /* galeria horizontal */
+.abertura{position:relative;overflow:hidden;isolation:isolate}
+.abertura .fundo{position:absolute;inset:0;z-index:-1;opacity:.85}
+.abertura .fundo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,15,15,.72),rgba(15,15,15,.25) 70%,rgba(15,15,15,.1))}
+.menu[data-glass]{padding:.55rem 1.5rem;color:var(--papel)}
+.menu[data-glass] a{opacity:.92}
+.menu[data-glass] .glass-surface__content{gap:28px;padding:.15rem .6rem}
+.pilula[data-starborder]{background:var(--brasa)}
+.quadro .moldura.fone{display:grid;place-items:center;aspect-ratio:4/5;background:radial-gradient(circle at 50% 40%,#2a1510,var(--grafite) 70%)}
+.quadro .moldura.fone [data-iphone]{width:56%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
 .galeria{position:relative;background:var(--tinta)}
 .galeria-palco{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
 .trilha{display:flex;gap:4vw;padding:0 8vw;will-change:transform;align-items:center}
@@ -280,7 +289,7 @@ footer .links a:hover{color:var(--brasa)}
       <img src="logo.svg" alt="" width="40" height="40">
       <b>HE<span>sites</span></b>
     </a>
-    <nav class="menu" aria-label="Seções">
+    <nav class="menu" aria-label="Seções" data-glass data-border-radius="999" data-blur="14" data-background-opacity="0.12" data-distortion-scale="-60" data-brightness="40" data-opacity="0.9">
       <a href="#no-site">O que vai no site</a>
       <a href="#ramos">Ramos</a>
       <a href="#como">Como funciona</a>
@@ -301,16 +310,17 @@ footer .links a:hover{color:var(--brasa)}
 </section>
 
 <section class="abertura" aria-label="Apresentação">
+  <div class="fundo" aria-hidden="true" data-grainient data-colors='["#0F0F0F","#1B0F0B","#5a1e10","#c23a1e","#0F0F0F"]' data-angle="35" data-speed="0.5" data-grain-amount="0.08" data-contrast="1.1" data-interactive="false"></div>
   <div class="wrap">
     <span class="eyebrow h-in">Sites para pequenos negócios</span>
     <h1 aria-label="Sites que fazem o cliente parar de rolar.">
       <span class="l"><span>Sites que</span></span>
       <span class="l"><span>fazem o cliente</span></span>
-      <span class="l"><span><em>parar</em> de rolar</span></span>
+      <span class="l"><span><em><span data-aurora-text data-colors='["#FF4D2E","#ffb39f","#D93A1E","#F2EEE6"]' data-speed="1.2">parar</span></em> de rolar</span></span>
     </h1>
     <div class="barra h-in"></div>
-    <p class="sub h-in">A HEsites cria sites com vídeo e cara de marca grande para quem tem um negócio de verdade. Você vê o seu pronto antes de pagar.</p>
-    <a class="pilula grande h-in" href="#contato" style="margin-top:14px">Quero ver o meu site →</a>
+    <p class="sub h-in">A HEsites cria sites com vídeo e cara de marca grande para quem tem um negócio de verdade. Você vê o seu pronto <span data-highlighter data-action="underline" data-color="#FF4D2E" data-stroke-width="2.5">antes de pagar</span>.</p>
+    <a class="pilula grande h-in" href="#contato" style="margin-top:14px" data-starborder data-radius="999" data-duration="4" data-glow=".7" data-color="#FF4D2E" data-background-color="#FF4D2E" data-text-color="#0F0F0F">Quero ver o meu site →</a>
     <div class="contatos h-in">
       <a href="https://wa.me/556293053099" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z"/></svg>+55 62 9305-3099</a>
       <a href="mailto:heitorimidiosilva@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>heitorimidiosilva@gmail.com</a>
@@ -351,7 +361,7 @@ footer .links a:hover{color:var(--brasa)}
       <figure class="quadro"><div class="moldura"><img src="ramo-festa.jpg" alt="Bolo de festa decorado com lua e estrelas" loading="lazy"></div><h3>Buffets e docerias</h3><p>O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-clinica.jpg" alt="Miniatura de consultório com cadeira de atendimento, espelho iluminado e um dente" loading="lazy"></div><h3>Clínicas e estética</h3><p>Procedimentos explicados com calma e agendamento a um toque.</p></figure>
       <figure class="quadro"><div class="moldura"><img src="ramo-delivery.jpg" alt="Miniatura de cozinha com forno a lenha, hambúrguer, pizza e moto de entrega" loading="lazy"></div><h3>Restaurantes e delivery</h3><p>Cardápio com fotos que dão fome e pedido que chega organizado.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="tela-hero.jpg" alt="Tela inicial de um site da HEsites no celular" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
+      <figure class="quadro"><div class="moldura fone"><div data-iphone data-src="tela-hero.jpg" role="img" aria-label="Tela inicial de um site da HEsites no celular"></div></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
     </div>
   </div>
 </section>
@@ -433,6 +443,12 @@ footer .links a:hover{color:var(--brasa)}
 
 <div class="cursor" id="cursor"></div><div class="cursor-ponto" id="cursorPonto"></div>
 
+<script src="kit/glass-surface.js"></script>
+<script src="kit/grainient.js"></script>
+<script src="kit/star-border.js"></script>
+<script src="kit/aurora-text.js"></script>
+<script src="kit/highlighter.js"></script>
+<script src="kit/iphone.js"></script>
 <script>
 var RECURSOS=[
  {id:'video',ico:"<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m10 9.5 5 2.5-5 2.5z\"/>",cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.'},

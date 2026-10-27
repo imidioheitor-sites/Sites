@@ -27,8 +27,8 @@ section.ef p.uso{color:var(--mut);margin:6px 0 16px;max-width:70ch;font-size:14p
 <body>
 <header class="top">
   <h1>Catálogo de efeitos</h1>
-  <p>11 efeitos do React Bits em JavaScript puro (sem React, sem biblioteca), prontos para o builder dos sites. Todos respeitam prefers-reduced-motion, pausam fora da tela e têm alternativa para aparelhos sem WebGL. Nenhum vai no primeiro quadro: o abertura do site continua só o vídeo.</p>
-  <nav class="idx"><a href="#glass">GlassSurface</a><a href="#star">StarBorder</a><a href="#grain">Grainient</a><a href="#dither">Dither</a><a href="#waves">Waves</a><a href="#slats">MicroSlats</a><a href="#shards">AeroShards</a><a href="#sliced">SlicedWaves</a><a href="#rays">LightRays</a><a href="#grid">GridMotion</a><a href="#wheel">OptionWheel</a></nav>
+  <p>12 efeitos do React Bits em JavaScript puro (sem React, sem biblioteca), prontos para o builder dos sites. Todos respeitam prefers-reduced-motion, pausam fora da tela e têm alternativa para aparelhos sem WebGL. Nenhum vai no primeiro quadro: o abertura do site continua só o vídeo.</p>
+  <nav class="idx"><a href="#glass">GlassSurface</a><a href="#star">StarBorder</a><a href="#grain">Grainient</a><a href="#dither">Dither</a><a href="#waves">Waves</a><a href="#slats">MicroSlats</a><a href="#shards">AeroShards</a><a href="#sliced">SlicedWaves</a><a href="#rays">LightRays</a><a href="#grid">GridMotion</a><a href="#wheel">OptionWheel</a><a href="#cross">Crosshair</a></nav>
 </header>
 
 <section class="ef" id="glass"><div class="tag">Vidro líquido</div><h2>GlassSurface</h2><p class="uso">Pílulas, botões e cartões de vidro sobre foto ou vídeo (menu do topo, cartões de preço, selo). Chromium: refração real; Safari/Firefox: vidro fosco simples.</p>
@@ -73,9 +73,12 @@ section.ef p.uso{color:var(--mut);margin:6px 0 16px;max-width:70ch;font-size:14p
 <section class="ef" id="wheel"><div class="tag">Menu / lista</div><h2>OptionWheel</h2><p class="uso">Roda de opções em curva (serviços, categorias do cardápio). Role, arraste ou use as setas.</p>
   <div class="stage" style="height:380px;font-weight:600" data-optionwheel data-items='["Bem-casados","Bolos","Bombons","Mesa de doces","Salgados","Lembrancinhas"]' data-default-selected="2" data-text-color="#a6a6a6" data-active-color="#f8e3b0" data-font-size="2.4" data-inset="60"></div></section>
 
+<section class="ef" id="cross"><div class="tag">Cursor / mira</div><h2>Crosshair</h2><p class="uso">Mira que segue o mouse, trava em links e botões medindo o alvo, pulso no clique. Só no computador (desligada em toque). Para sites tech, gamer, estúdio, portfólio.</p>
+  <div class="stage" data-crosshair data-color="#f8e3b0" data-target-effect="lock" data-show-coordinates data-click-pulse><div class="center"><a class="btn" href="#" style="border:1px solid #f8e3b0;border-radius:12px">Ver portfólio</a><a class="btn" href="#" style="border:1px solid #f8e3b0;border-radius:12px">Falar no WhatsApp</a></div></div></section>
+
 <footer style="max-width:1100px;margin:0 auto;padding:40px 24px 80px;color:var(--mut);font-size:13px">HEsites · kit de efeitos em JavaScript puro · base: React Bits</footer>
 
 <script src="kit/glass-surface.js"></script><script src="kit/star-border.js"></script><script src="kit/grainient.js"></script><script src="kit/dither.js"></script>
 <script src="kit/waves.js"></script><script src="kit/micro-slats.js"></script><script src="kit/aero-shards.js"></script><script src="kit/sliced-waves.js"></script>
-<script src="kit/light-rays.js"></script><script src="kit/grid-motion.js"></script><script src="kit/option-wheel.js"></script>
+<script src="kit/light-rays.js"></script><script src="kit/grid-motion.js"></script><script src="kit/option-wheel.js"></script><script src="kit/crosshair.js"></script>
 </body></html>

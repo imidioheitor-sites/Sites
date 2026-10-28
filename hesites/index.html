@@ -19,6 +19,7 @@
 <link rel="canonical" href="https://hesites.com/">
 <meta name="theme-color" content="#0F0F0F">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
@@ -547,7 +548,7 @@ var RECURSOS=[
   function desenha(){
     grade.innerHTML=RECURSOS.map(function(it,i){
       return '<article class="card'+(filtro!=='tudo'&&it.cat!==filtro?' oculto':'')+'" data-id="'+esc(it.id)+'">'+
-      '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img src="'+esc(it.img)+'" alt="" loading="lazy"><svg hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it.ico+'</svg></div>'+
+      '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img src="'+esc(it.img)+'" alt="" loading="lazy" decoding="async" width="448" height="560"><svg hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it.ico+'</svg></div>'+
       '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button type="button" class="add'+(meu[it.nome]?' ok':'')+'" aria-pressed="'+(!!meu[it.nome])+'" data-nome="'+esc(it.nome)+'">'+(meu[it.nome]?'No meu site ✓':'Quero no meu site +')+'</button></div></article>';
     }).join('');
   }

@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://hesites.com/sitemap.xml

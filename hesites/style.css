@@ -1,21 +1,24 @@
-:root{--bg:#f7f5f0;--fg:#16150f;--muted:#5d5a52;--accent:#D93A1E;--accent-2:#fbe6e1;--line:#e2ddd2;--card:#ffffff;--dark:#101410}
+:root{--bg:#0F0F0F;--fg:#F2EEE6;--muted:#B8B1A5;--accent:#FF4D2E;--accent-2:rgba(255,77,46,.14);--line:#2a2a28;--card:#1A1A1A;--dark:#0a0a0a}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:"Source Sans 3",system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.6}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"Manrope",system-ui,-apple-system,sans-serif;font-size:17px;line-height:1.6}
 a{color:var(--accent)}
 img,svg{max-width:100%}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header.top{position:sticky;top:0;z-index:10;background:rgba(247,245,240,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top{position:sticky;top:0;z-index:10;background:rgba(15,15,15,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:1.25rem;letter-spacing:.02em}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--fg);font-family:"Unbounded",system-ui,sans-serif;font-weight:600;font-size:1.25rem;letter-spacing:.02em}
 .brand svg,.brand img{width:30px;height:30px}
 nav.links{display:flex;gap:22px;font-size:.95rem}
 nav.links a{color:var(--fg);text-decoration:none}
 nav.links a:hover{color:var(--accent)}
-.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600}
+.btn{display:inline-block;background:var(--accent);color:#0F0F0F;text-decoration:none;padding:12px 22px;border-radius:999px;font-weight:600}
 .btn.ghost{background:transparent;color:var(--fg);border:1px solid var(--fg)}
+h1,h2,h3{font-weight:800;letter-spacing:-.02em}
+nav.links a,.btn.sm{min-height:44px;display:inline-flex;align-items:center}
+footer .links a,footer li a{display:inline-block;padding:6px 0}
 .btn.sm{padding:8px 16px;font-size:.9rem}
-h1,h2,h3{font-family:"Fraunces",Georgia,serif;line-height:1.15;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:"Unbounded",system-ui,sans-serif;line-height:1.15;text-wrap:balance;margin:0}
 .hero{padding:88px 0 72px}
 .hero .eyebrow{display:inline-block;background:var(--accent-2);color:var(--accent);font-weight:600;font-size:.85rem;padding:6px 12px;border-radius:999px;margin-bottom:22px}
 .hero h1{font-size:clamp(2.2rem,5.5vw,4rem);max-width:15ch}
@@ -28,7 +31,7 @@ section p.intro{color:var(--muted);max-width:60ch;margin:0 0 36px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
 .card h3{font-size:1.2rem;margin-bottom:8px}
 .card p{margin:0;color:var(--muted)}
-.num{font-family:"Fraunces",Georgia,serif;color:var(--accent);font-size:1.6rem;font-weight:600;display:block;margin-bottom:8px}
+.num{font-family:"Unbounded",system-ui,sans-serif;color:var(--accent);font-size:1.6rem;font-weight:600;display:block;margin-bottom:8px}
 .dark{background:var(--dark);color:#eef1ec;border:0}
 .dark p.intro,.dark .card p{color:#b8c0b6}
 .dark .card{background:#182019;border-color:#283228}
@@ -39,7 +42,7 @@ section p.intro{color:var(--muted);max-width:60ch;margin:0 0 36px}
 footer{background:var(--dark);color:#b8c0b6;padding:48px 0 36px;font-size:.95rem}
 footer a{color:#e7ece5}
 footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
-footer h4{color:#fff;margin:0 0 10px;font-family:"Fraunces",Georgia,serif;font-weight:600}
+footer h4{color:#fff;margin:0 0 10px;font-family:"Unbounded",system-ui,sans-serif;font-weight:600}
 footer ul{list-style:none;padding:0;margin:0;display:grid;gap:6px}
 footer .legal{border-top:1px solid #283228;margin-top:32px;padding-top:20px;font-size:.85rem}
 .doc{max-width:760px;margin:0 auto;padding:56px 20px 80px}

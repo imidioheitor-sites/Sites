@@ -170,6 +170,19 @@ footer .grande{display:none}
 .galeria-titulo p{color:#CFC8BC;max-width:30ch;margin-top:18px}
 @media(max-height:700px){.quadro{width:min(60vw,360px)}}
 
+/* catalogo */
+.catalogo{padding:120px 0;background:var(--tinta)}
+.cat-grade{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));margin-top:44px}
+.cat-card{display:flex;flex-direction:column;border-radius:16px;overflow:hidden;background:#181818;border:1px solid rgba(255,255,255,.08);color:var(--papel);text-decoration:none;transition:transform .35s,border-color .35s}
+.cat-card:hover,.cat-card:focus-visible{transform:translateY(-6px);border-color:var(--brasa)}
+.cat-card img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;display:block;background:#222;flex:none}
+.cat-card .txt{padding:18px 20px 22px;display:grid;gap:6px}
+.cat-card .ramo{font-weight:700;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--brasa)}
+.cat-card h3{margin:0;font-size:1.35rem}
+.cat-card p{margin:0;color:#CFC8BC;font-size:.95rem}
+.cat-card .ver{margin-top:8px;font-weight:700;font-size:.9rem}
+.catalogo h2{font-size:clamp(2.2rem,5vw,4.4rem);margin:14px 0 0;max-width:16ch}
+.catalogo .sub{color:#CFC8BC;max-width:46ch;margin-top:14px}
 /* exemplo */
 .exemplo{padding:120px 0;background:linear-gradient(180deg,var(--tinta),#1B0F0B);overflow:hidden}
 .ex-grade{display:grid;gap:44px;align-items:center}
@@ -300,7 +313,7 @@ footer .links a:hover{color:var(--brasa)}
 <body>
 
 <a class="pula" href="#no-site">Pular para o conteúdo</a>
-<nav class="gv-menu" id="gvMenu" aria-label="Menu"><button class="burger x" id="gvFechar" aria-label="Fechar menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><a href="#no-site">O que vai no site</a><a href="#ramos">Ramos</a><a href="#como">Como funciona</a><a href="#contato">Contato</a></nav>
+<nav class="gv-menu" id="gvMenu" aria-label="Menu"><button class="burger x" id="gvFechar" aria-label="Fechar menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><a href="#no-site">O que vai no site</a><a href="#ramos">Ramos</a><a href="#catalogo">Catálogo</a><a href="#como">Como funciona</a><a href="#contato">Contato</a></nav>
 <header class="topo" id="topo">
   <div class="wrap">
     <a class="marca" href="#inicio" aria-label="HEsites, início">
@@ -310,6 +323,7 @@ footer .links a:hover{color:var(--brasa)}
     <nav class="menu" aria-label="Seções">
       <a href="#no-site">O que vai no site</a>
       <a href="#ramos">Ramos</a>
+      <a href="#catalogo">Catálogo</a>
       <a href="#como">Como funciona</a>
       <a href="#contato">Contato</a>
     </nav>
@@ -397,6 +411,22 @@ footer .links a:hover{color:var(--brasa)}
   </div>
 </section>
 
+
+<section class="catalogo" id="catalogo" aria-labelledby="t-cat">
+  <div class="wrap">
+    <span class="eyebrow sobe">Catálogo</span>
+    <h2 id="t-cat" class="sobe">Sites que já saíram da nossa bancada</h2>
+    <p class="sub sobe">Demonstrações de estilos e ramos diferentes. Cada site é feito sob medida, nenhum deles parte de um modelo pronto.</p>
+    <div class="cat-grade">
+      <a class="cat-card sobe" href="https://demo-ambra-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/ambra.jpg" alt="Prévia do site ÂMBRA" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Perfumaria</span><h3>ÂMBRA</h3><p>Perfumaria artesanal em pequenos lotes, com frasco girando em 3D.</p><span class="ver">Ver demonstração →</span></span></a>
+      <a class="cat-card sobe" href="https://demo-casa-mikka-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/casa-mikka.jpg" alt="Prévia do site Casa Mikka" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Moda e calçados</span><h3>Casa Mikka</h3><p>Boutique de calçados com catálogo, carrinho e pedido pelo WhatsApp.</p><span class="ver">Ver demonstração →</span></span></a>
+      <a class="cat-card sobe" href="https://demo-arbo-sempre-verde-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/arbo-sempre-verde.jpg" alt="Prévia do site Arbo Sempre Verde" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Arboricultura</span><h3>Arbo Sempre Verde</h3><p>Manejo de árvores e palmeiras com vídeo, galeria de antes e depois e orçamento.</p><span class="ver">Ver demonstração →</span></span></a>
+      <a class="cat-card sobe" href="https://demo-castdemo-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/castdemo.jpg" alt="Prévia do site CAST" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Estúdio de vídeo com IA</span><h3>CAST</h3><p>Landing de produto digital com pré-visualização ao vivo e galeria.</p><span class="ver">Ver demonstração →</span></span></a>
+      <a class="cat-card sobe" href="https://demo-irish-comeback-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/irish-comeback.jpg" alt="Prévia do site Irish Comeback" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Projeto de reciclagem</span><h3>Irish Comeback</h3><p>Do plástico do estádio a objetos impressos, contado como diário de obra.</p><span class="ver">Ver demonstração →</span></span></a>
+      <a class="cat-card sobe" href="https://demo-mnn-helu1.vercel.app" target="_blank" rel="noopener"><img src="catalogo/mnn.jpg" alt="Prévia do site Aniversário &amp; Despedida" loading="lazy" width="800" height="500"><span class="txt"><span class="ramo">Convite e evento</span><h3>Aniversário &amp; Despedida</h3><p>Convite digital com contagem regressiva, mural de fotos e Pix.</p><span class="ver">Ver demonstração →</span></span></a>
+    </div>
+  </div>
+</section>
 
 <section class="motivos claro" aria-labelledby="t-mot">
   <div class="pecas" id="pecas" aria-hidden="true"></div>

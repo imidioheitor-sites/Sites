@@ -147,41 +147,8 @@ main>section:not(.hero),main>.letreiro{position:relative;z-index:2}
 .card .add:hover{background:var(--brasa-escura)}
 .card .add.ok{background:var(--brasa);color:var(--tinta)}
 
-/* galeria horizontal */
-.abertura{position:relative;overflow:hidden;isolation:isolate}
-.abertura .fundo{position:absolute;inset:0;z-index:-1;opacity:.85}
-.abertura .fundo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,15,15,.72),rgba(15,15,15,.25) 70%,rgba(15,15,15,.1))}
-.menu.vidro{padding:.55rem 1.5rem;color:var(--papel)}
-.menu.vidro a{opacity:.92}
-.menu.vidro .glass-surface__content{gap:28px;padding:.15rem .6rem}
-.pilula[data-starborder]{background:var(--brasa)}
-.quadro .moldura.fone{display:grid;place-items:center;aspect-ratio:4/5;background:radial-gradient(circle at 50% 40%,#2a1510,var(--grafite) 70%)}
-.quadro .moldura.fone [data-iphone]{width:56%;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6))}
-.prova{position:relative;overflow:hidden;isolation:isolate;padding:clamp(90px,12vw,170px) 0 clamp(80px,10vw,140px);background:var(--tinta)}
-.prova .fundo-cubos{position:absolute;inset:0;z-index:-1;opacity:.55;-webkit-mask-image:radial-gradient(ellipse at 50% 45%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 45%,#000 20%,transparent 75%)}
-.prova .eyebrow{display:flex;justify-content:center}
-.prova h2.mascara{width:100%;margin:18px 0 0;color:var(--papel);min-height:clamp(150px,26vw,380px)}
-.prova .legenda{text-align:center;max-width:46ch;margin:10px auto 0;color:#CFC8BC}
-.fones{display:flex;justify-content:center;align-items:flex-start;gap:clamp(16px,5vw,64px);margin-top:clamp(40px,6vw,80px)}
-.fones .fone{width:min(34vw,260px);filter:drop-shadow(0 40px 50px rgba(0,0,0,.65))}
-.fones .fone:nth-child(2){margin-top:clamp(40px,8vw,110px)}
 .passos{position:relative;overflow:hidden;isolation:isolate}
-.passos .fundo-retro{position:absolute;inset:0;z-index:-1;opacity:.7}
 .passos .wrap{position:relative}
-.marca-tech{height:clamp(130px,19vw,280px);color:var(--papel);margin:0 0 10px}
-footer{padding-top:clamp(8px,2vw,28px)!important}
-.galeria{position:relative;background:var(--tinta)}
-.galeria-palco{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
-.trilha{display:flex;gap:4vw;padding:0 8vw;will-change:transform;align-items:center}
-.quadro{flex:none;width:min(72vw,480px);position:relative;margin:0}
-.quadro .moldura{border-radius:28px;overflow:hidden;aspect-ratio:4/5;background:var(--grafite)}
-.quadro img{width:100%;height:100%;object-fit:cover}
-.quadro h3{font-size:clamp(1.3rem,2.4vw,1.9rem);margin-top:18px}
-.quadro p{color:#CFC8BC;max-width:32ch;margin-top:8px}
-.galeria-titulo{flex:none;width:min(80vw,520px)}
-.galeria-titulo h2{font-size:clamp(2.6rem,6vw,5.4rem)}
-.galeria-titulo p{color:#CFC8BC;max-width:30ch;margin-top:18px}
-@media(max-height:700px){.quadro{width:min(60vw,360px)}}
 
 /* catalogo */
 .catalogo{padding:120px 0;background:var(--tinta)}
@@ -219,8 +186,6 @@ footer{padding-top:clamp(8px,2vw,28px)!important}
 .lista .gr{font-family:"Unbounded";font-weight:800;font-size:clamp(4rem,10vw,8rem);line-height:.8;color:var(--brasa);letter-spacing:-.06em}
 .lista h3{font-size:clamp(1.4rem,2.6vw,2.1rem)}
 .lista p{margin:0;color:var(--cinza-escuro);max-width:42ch}
-.pecas{position:absolute;inset:0;pointer-events:none}
-.pecas i{position:absolute;width:var(--s);height:var(--s);border:2px solid var(--brasa);border-radius:6px;opacity:.5}
 
 /* passos */
 .passos{padding:120px 0;background:linear-gradient(180deg,var(--tinta),#1B0F0B)}
@@ -304,21 +269,53 @@ footer .links a:hover{color:var(--brasa)}
 .gaveta .pilula{justify-content:center;width:100%;margin-top:6px}
 .gaveta .campo input{border-color:var(--areia)}
 
-/* cursor */
-.cursor{position:fixed;left:0;top:0;z-index:95;pointer-events:none;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:1.5px solid var(--papel);opacity:0;transition:width .25s,height .25s,margin .25s,background .25s,opacity .3s,border-color .25s;mix-blend-mode:difference}
-.cursor.vis{opacity:1}
-.cursor.grande{width:78px;height:78px;margin:-39px 0 0 -39px;background:rgba(255,77,46,.25);border-color:var(--brasa);mix-blend-mode:normal}
-.cursor-ponto{position:fixed;left:0;top:0;z-index:96;pointer-events:none;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--brasa);opacity:0}
-.cursor-ponto.vis{opacity:1}
-@media(hover:none){.cursor,.cursor-ponto{display:none}}
 
 .js-anim .sobe{opacity:0;transform:translateY(40px)}
 
-@media(max-width:759px){.cab h2,.galeria-titulo h2,.motivos h2,.passos h2,.contato h2{font-size:clamp(1.7rem,8.4vw,2.4rem)!important;line-height:1.04}.abertura h1{font-size:clamp(2.1rem,10vw,3rem)}.manifesto p{font-size:clamp(1.5rem,7vw,2.2rem)}}
+@media(max-width:759px){.cab h2,.ramos h2,.faixa h2,.motivos h2,.passos h2,.contato h2{font-size:clamp(1.7rem,8.4vw,2.4rem)!important;line-height:1.04}.abertura h1{font-size:clamp(2.1rem,10vw,3rem)}.manifesto p{font-size:clamp(1.5rem,7vw,2.2rem)}}
 @media(prefers-reduced-motion:reduce){
   .js-anim .sobe{opacity:1;transform:none}
   *{animation:none!important;transition:none!important}
 }
+/* v5: efeitos novos */
+.abertura .fundo{position:absolute;inset:0;z-index:-1}
+.abertura .fundo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,15,15,.7),rgba(15,15,15,.2) 70%,rgba(15,15,15,.05))}
+.abertura h1 em{font-style:normal;color:var(--brasa)}
+.abertura .sub strong{color:var(--papel);box-shadow:inset 0 -.38em 0 rgba(255,77,46,.45)}
+.manifesto{position:relative;overflow:hidden;isolation:isolate}
+.fundo-grade{position:absolute;inset:0;z-index:-1;-webkit-mask-image:radial-gradient(ellipse at 30% 50%,#000 25%,transparent 80%);mask-image:radial-gradient(ellipse at 30% 50%,#000 25%,transparent 80%)}
+.prova{padding:clamp(90px,12vw,160px) 0 0;background:var(--tinta);overflow:hidden}
+.prova .eyebrow{display:flex;justify-content:center}
+.prova .vtexto{width:100%;height:clamp(110px,17vw,250px);margin:18px 0 0;color:var(--papel)}
+.prova .legenda{text-align:center;max-width:46ch;margin:6px auto 0;color:#CFC8BC}
+.parede{position:relative;height:clamp(300px,46vw,540px);margin-top:clamp(40px,6vw,80px)}
+.ramos{padding:clamp(90px,11vw,150px) 0;background:var(--tinta);border-top:1px solid rgba(242,238,230,.08)}
+.ramos-grade{display:grid;gap:36px;align-items:center}
+@media(min-width:900px){.ramos-grade{grid-template-columns:1fr 1fr;gap:64px}}
+.ramos h2{font-size:clamp(2.2rem,5vw,4.4rem);margin:14px 0 8px;max-width:12ch}
+.ramos .sub{color:#CFC8BC;max-width:36ch}
+.roda{height:clamp(240px,34vw,340px);margin-top:10px;font-family:"Unbounded",system-ui,sans-serif;font-weight:800;outline-offset:-4px}
+.vitrine{margin:0}
+.vitrine .moldura{border-radius:28px;overflow:hidden;aspect-ratio:4/3;background:var(--grafite);position:relative}
+.vitrine img{width:100%;height:100%;object-fit:cover;transition:opacity .35s}
+.vitrine img.troca{opacity:0}
+.vitrine h3{font-size:clamp(1.3rem,2.4vw,1.9rem);margin-top:18px}
+.vitrine p{color:#CFC8BC;max-width:40ch;margin-top:8px}
+.motivos .fundo-ondas{position:absolute;inset:0;z-index:0;opacity:.5;pointer-events:none}
+.motivos .wrap{position:relative;z-index:1}
+.passos .fundo-fitas{position:absolute;inset:0;z-index:-1;opacity:.7}
+@media(max-width:759px){.passos .fundo-fitas{opacity:.4}}
+.passos .fundo-fitas::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--tinta),rgba(15,15,15,.35) 30%,rgba(15,15,15,.55) 100%)}
+.faixa{position:relative;overflow:hidden;isolation:isolate;padding:clamp(100px,14vw,190px) 0;background:var(--tinta);text-align:center}
+.faixa .fundo-slats{position:absolute;inset:0;z-index:-1;background:linear-gradient(135deg,#1B0F0B,#5a1e10)}
+.faixa .fundo-slats::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(15,15,15,.82),rgba(15,15,15,.3) 80%)}
+.faixa h2{font-size:clamp(2.2rem,6.4vw,5.6rem);max-width:14ch;margin:0 auto 34px}
+.faixa h2 em{font-style:normal;color:var(--brasa)}
+footer .fundo-dither{position:absolute;inset:0;z-index:-1;opacity:.55;-webkit-mask-image:linear-gradient(180deg,transparent,#000 45%);mask-image:linear-gradient(180deg,transparent,#000 45%)}
+footer .wrap{position:relative}
+.marca-grande{font-family:"Unbounded",system-ui,sans-serif;font-weight:800;font-size:clamp(3.2rem,15vw,15rem);line-height:.9;letter-spacing:-.05em;color:var(--papel);margin:0 0 6px;user-select:none}
+.marca-grande span{color:var(--brasa)}
+@media(prefers-reduced-motion:reduce){.fundo-dither,.fundo-ondas,.fundo-fitas,.fundo-slats{opacity:.35}}
 </style>
 </head>
 <body>
@@ -353,17 +350,17 @@ footer .links a:hover{color:var(--brasa)}
 </section>
 
 <section class="abertura" aria-label="Apresentação">
-  <div class="fundo" aria-hidden="true" data-grainient data-colors='["#0F0F0F","#1B0F0B","#5a1e10","#c23a1e","#0F0F0F"]' data-angle="35" data-speed="0.5" data-grain-amount="0.08" data-contrast="1.1" data-interactive="false"></div>
+  <div class="fundo" aria-hidden="true" data-lightrays data-rays-origin="top-left" data-rays-color="#ff7a55" data-light-spread="0.7" data-ray-length="3" data-glow="0.7" data-haze="0.3" data-ray-density="1.2" data-ray-sharpness="0.4" data-cursor-shadow></div>
   <div class="wrap">
     <span class="eyebrow h-in">Sites para pequenos negócios</span>
     <h1 aria-label="Sites que fazem o cliente parar de rolar.">
       <span class="l"><span>Sites que</span></span>
       <span class="l"><span>fazem o cliente</span></span>
-      <span class="l"><span><em><span data-aurora-text data-colors='["#FF4D2E","#ffb39f","#D93A1E","#F2EEE6"]' data-speed="1.2">parar</span></em> de rolar</span></span>
+      <span class="l"><span><em>parar</em> de rolar</span></span>
     </h1>
     <div class="barra h-in"></div>
-    <p class="sub h-in">A HEsites cria sites com vídeo e cara de marca grande para quem tem um negócio de verdade. Você vê o seu pronto <span data-highlighter data-action="underline" data-color="#FF4D2E" data-stroke-width="2.5">antes de pagar</span>.</p>
-    <a class="pilula grande h-in" href="#contato" style="margin-top:14px" data-starborder data-radius="999" data-duration="4" data-glow=".7" data-color="#FF4D2E" data-background-color="#FF4D2E" data-text-color="#0F0F0F">Quero ver o meu site →</a>
+    <p class="sub h-in">A HEsites cria sites com vídeo e cara de marca grande para quem tem um negócio de verdade. Você vê o seu pronto <strong>antes de pagar</strong>.</p>
+    <a class="pilula grande h-in brilha" href="#contato" style="margin-top:14px">Quero ver o meu site →</a>
     <div class="contatos h-in">
       <a href="https://wa.me/556293053099" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z"/></svg>+55 62 9305-3099</a>
       <a href="mailto:heitorimidiosilva@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>heitorimidiosilva@gmail.com</a>
@@ -378,20 +375,17 @@ footer .links a:hover{color:var(--brasa)}
 </div></div>
 
 <section class="manifesto" aria-label="Em uma frase">
+  <div class="fundo-grade" aria-hidden="true" data-interactive-grid data-width="56" data-height="56" data-squares="34,20" data-line-color="rgba(242,238,230,.07)" data-active-color="rgba(255,77,46,.4)"></div>
   <div class="wrap"><p id="manifesto">Seu cliente decide em três segundos. A gente faz esses segundos virarem <span class="br">pedido no seu WhatsApp.</span></p></div>
 </section>
 
 <section class="prova" aria-labelledby="t-prova">
-  <div class="fundo-cubos" aria-hidden="true" id="cubos"></div>
   <div class="wrap">
     <span class="eyebrow">Sites feitos para vender</span>
-    <h2 class="mascara" id="t-prova" aria-label="Cara de marca grande" data-masked-heading data-media-type="video" data-src="hero.mp4" data-poster="hero-poster.jpg" data-reveal="scale" data-spotlight data-outline data-outline-color="#FF4D2E" data-align="center" data-weight="800" data-text-scale=".085">Cara de marca grande</h2>
+    <h2 class="vtexto" id="t-prova" data-videotext data-src="hero.mp4" data-font-size="7.2" data-font-weight="800">MARCA GRANDE</h2>
     <p class="legenda">Do celular ao computador, cada pixel pensado para o seu cliente decidir rápido e chamar no WhatsApp.</p>
-    <div class="fones" aria-label="Exemplos de telas">
-      <div class="fone" data-iphone data-src="tela-hero.jpg" role="img" aria-label="Tela inicial de um site HEsites no celular"></div>
-      <div class="fone" data-iphone data-src="ramo-delivery.jpg" role="img" aria-label="Site de restaurante e delivery no celular"></div>
-    </div>
   </div>
+  <div class="parede" aria-hidden="true" data-gridmotion data-rows="3" data-aspect-ratio="1.33" data-gap="14" data-radius="16" data-angle="-8" data-speed="22" data-spotlight="0.6" data-dim="0.3" data-fade="0.6" data-items='["catalogo/ambra.jpg","ramo-festa.jpg","catalogo/casa-mikka.jpg","ramo-clinica.jpg","catalogo/arbo-sempre-verde.jpg","ramo-delivery.jpg","catalogo/castdemo.jpg","tela-hero.jpg","catalogo/irish-comeback.jpg","catalogo/mnn.jpg"]'></div>
 </section>
 
 <section class="itens-site claro" id="no-site" aria-labelledby="t-no-site">
@@ -410,15 +404,18 @@ footer .links a:hover{color:var(--brasa)}
   </div>
 </section>
 
-<section class="galeria" id="ramos" aria-label="Ramos que atendemos">
-  <div class="galeria-palco" id="galeriaPalco">
-    <div class="trilha" id="trilha">
-      <div class="galeria-titulo"><span class="eyebrow">Ramos</span><h2>Um site com a cara de cada negócio</h2><p>Nada de modelo pronto com o nome trocado.</p></div>
-      <figure class="quadro"><div class="moldura"><img src="ramo-festa.jpg" alt="Bolo de festa decorado com lua e estrelas" loading="lazy"></div><h3>Buffets e docerias</h3><p>O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="ramo-clinica.jpg" alt="Miniatura de consultório com cadeira de atendimento, espelho iluminado e um dente" loading="lazy"></div><h3>Clínicas e estética</h3><p>Procedimentos explicados com calma e agendamento a um toque.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="ramo-delivery.jpg" alt="Miniatura de cozinha com forno a lenha, hambúrguer, pizza e moto de entrega" loading="lazy"></div><h3>Restaurantes e delivery</h3><p>Cardápio com fotos que dão fome e pedido que chega organizado.</p></figure>
-      <figure class="quadro"><div class="moldura"><img src="tela-hero.jpg" alt="Tela inicial de um site da HEsites no celular" loading="lazy"></div><h3>E o seu ramo também</h3><p>Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.</p></figure>
+<section class="ramos" id="ramos" aria-labelledby="t-ramos">
+  <div class="wrap ramos-grade">
+    <div>
+      <span class="eyebrow">Ramos</span>
+      <h2 id="t-ramos">Um site com a cara de cada negócio</h2>
+      <p class="sub">Nada de modelo pronto com o nome trocado. Escolha o seu ramo.</p>
+      <div class="roda" id="roda" role="listbox" aria-label="Ramos" data-optionwheel data-default-selected="0" data-items='["Buffets e docerias","Clínicas e estética","Restaurantes e delivery","O seu ramo"]' data-text-color="#8f897f" data-active-color="#FF4D2E" data-font-size="1.7" data-inset="8"></div>
     </div>
+    <figure class="vitrine">
+      <div class="moldura"><img id="ramoImg" src="ramo-festa.jpg" alt="Bolo de festa decorado com lua e estrelas" width="800" height="600"></div>
+      <figcaption aria-live="polite"><h3 id="ramoTit">Buffets e docerias</h3><p id="ramoTxt">O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.</p></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -440,7 +437,7 @@ footer .links a:hover{color:var(--brasa)}
 </section>
 
 <section class="motivos claro" aria-labelledby="t-mot">
-  <div class="pecas" id="pecas" aria-hidden="true"></div>
+  <div class="fundo-ondas" id="ondas" aria-hidden="true"></div>
   <div class="wrap">
     <span class="eyebrow sobe">Por que a HEsites</span>
     <h2 id="t-mot" class="sobe">Três motivos para fazer com a gente</h2>
@@ -453,7 +450,7 @@ footer .links a:hover{color:var(--brasa)}
 </section>
 
 <section class="passos" id="como" aria-labelledby="t-como">
-  <div class="fundo-retro" aria-hidden="true" data-retro-grid data-angle="62" data-cell-size="64" data-opacity="0.55" data-light-line-color="#FF4D2E" data-dark-line-color="#FF4D2E" data-fade="#0F0F0F"></div>
+  <div class="fundo-fitas" aria-hidden="true" data-slicedwaves data-color1="#FF4D2E" data-color2="#ff9a7d" data-color3="#D93A1E" data-ribbons="3" data-spacing="28" data-perspective="0.4" data-blur="0.6" data-glow="1" data-position="0.5" data-ribbon-height="0.3" data-amplitude="0.12" data-brightness="1.1" data-grain="0.06"></div>
   <div class="wrap">
     <span class="eyebrow sobe">Como funciona</span>
     <h2 id="t-como" class="sobe">Do primeiro oi ao site no ar</h2>
@@ -465,11 +462,19 @@ footer .links a:hover{color:var(--brasa)}
   </div>
 </section>
 
+<section class="faixa" aria-labelledby="t-faixa">
+  <div class="fundo-slats" id="slats" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2 id="t-faixa" class="sobe">Seu site <em>pronto</em> antes de você pagar.</h2>
+    <a class="pilula grande brilha" href="#contato">Quero a minha prévia →</a>
+  </div>
+</section>
+
 <section class="contato claro" id="contato" aria-labelledby="t-contato">
   <div class="wrap ct-grade">
     <div>
       <span class="eyebrow sobe">Contato</span>
-      <h2 id="t-contato" class="sobe">Peça a sua <span data-aurora-text data-colors='["#D93A1E","#FF4D2E","#ff9a7d","#0F0F0F"]' data-speed="1">prévia</span></h2>
+      <h2 id="t-contato" class="sobe">Peça a sua prévia</h2>
       <div class="dados">
         <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5Z"/></svg></span><div><b>WhatsApp</b><a href="https://wa.me/556293053099" target="_blank" rel="noopener">+55 62 9305-3099</a></div></div>
         <div class="dado sobe"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><div><b>E-mail</b><a href="mailto:heitorimidiosilva@gmail.com">heitorimidiosilva@gmail.com</a></div></div>
@@ -485,7 +490,7 @@ footer .links a:hover{color:var(--brasa)}
       <div class="campo"><label for="p-cidade">Cidade</label><input id="p-cidade" type="text" autocomplete="address-level2" placeholder="Ex.: Goiânia/GO"></div>
       <div class="campo"><label for="p-insta">Instagram (opcional)</label><input id="p-insta" type="text" placeholder="@seunegocio"></div>
       <p class="escolhidos" id="escolhidos" aria-live="polite">Nenhum recurso marcado ainda. Você pode marcar na seção <a href="#no-site">O que vai no seu site</a>.</p>
-      <a class="pilula" id="enviarPedido" data-cool-mode data-particle="✨" data-size="24" href="https://wa.me/556293053099" target="_blank" rel="noopener">Pedir minha prévia no WhatsApp</a>
+      <a class="pilula" id="enviarPedido" href="https://wa.me/556293053099" target="_blank" rel="noopener">Pedir minha prévia no WhatsApp</a>
     </form>
   </div>
 </section>
@@ -493,7 +498,8 @@ footer .links a:hover{color:var(--brasa)}
 
 <footer>
   <div class="wrap">
-    <div class="marca-tech" data-tech-text data-text="HEsites" data-font-size="170" data-font-weight="800" data-reveal="letter" data-intro="assemble" data-accent-color="#FF4D2E" data-labels="false" data-specks="10"></div>
+    <div class="fundo-dither" id="dither" aria-hidden="true"></div>
+    <div class="marca-grande" aria-hidden="true">HE<span>sites</span></div>
     <div class="linha">
       <div><b>HEsites</b><br>Sites sob medida para pequenos negócios · Brasil</div>
       <nav class="links" aria-label="Institucional"><a href="privacidade">Política de Privacidade</a><a href="termos">Termos de Uso</a><a href="exclusao-de-dados">Exclusão de dados</a></nav>
@@ -514,26 +520,17 @@ footer .links a:hover{color:var(--brasa)}
   <a class="pilula" id="enviarGaveta" href="#" target="_blank" rel="noopener">Pedir minha prévia no WhatsApp</a>
 </aside>
 
-<div class="cursor" id="cursor"></div><div class="cursor-ponto" id="cursorPonto"></div>
 
-<script>if(innerWidth<760){var h=document.getElementById('t-prova');if(h)h.setAttribute('data-text-scale','.17')}</script>
-<script src="kit/glass-surface.js"></script>
-<script src="kit/grainient.js"></script>
-<script src="kit/star-border.js"></script>
-<script src="kit/aurora-text.js"></script>
-<script src="kit/highlighter.js"></script>
-<script src="kit/iphone.js"></script>
-<script src="kit/masked-heading.js"></script>
-<script src="kit/retro-grid.js"></script>
-<script src="kit/tech-text.js"></script>
-<script src="kit/cool-mode.js"></script>
-<script src="kit/cubes.js"></script>
-<script>
-(function(){var m=document.querySelector('nav.menu');if(m&&window.HeluGlass&&matchMedia('(min-width:900px)').matches){m.classList.add('vidro');HeluGlass.create(m,{borderRadius:999,blur:14,backgroundOpacity:.12,distortionScale:-60,brightness:40,opacity:.9});}})();
-</script>
-<script>
-(function(){var el=document.getElementById('cubos');if(el&&window.HeluCubes&&matchMedia('(min-width:760px) and (hover:hover)').matches)HeluCubes.create(el,{gridSize:9,faceColor:'#120F0D',edgeColor:'#FF4D2E',edgeWidth:1,faceOpacity:1,shading:.5,maxAngle:40,radius:3,autoAnimate:true,intro:true});})();
-</script>
+<script src="kit/light-rays.js"></script>
+<script src="kit/interactive-grid.js"></script>
+<script src="kit/video-text.js"></script>
+<script src="kit/grid-motion.js"></script>
+<script src="kit/option-wheel.js"></script>
+<script src="kit/waves.js"></script>
+<script src="kit/sliced-waves.js"></script>
+<script src="kit/micro-slats.js"></script>
+<script src="kit/dither.js"></script>
+<script src="kit/crosshair.js"></script>
 <script>
 var RECURSOS=[
  {id:'video',img:'card-video.jpg',ico:"<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"3\"/><path d=\"m10 9.5 5 2.5-5 2.5z\"/>",cat:'visual',nome:'Vídeo de abertura',desc:'Um vídeo feito sob medida para o seu negócio recebe quem chega.'},
@@ -592,10 +589,6 @@ var RECURSOS=[
   document.getElementById('voltarTopo').onclick=function(){if(window.__lenis)window.__lenis.scrollTo(0);else scrollTo({top:0,behavior:'smooth'});};
   addEventListener('scroll',function(){document.getElementById('topo').classList.toggle('solido',scrollY>innerHeight*.7);},{passive:true});
   if(matchMedia('(hover:hover)').matches){
-    var cu=document.getElementById('cursor'),cp=document.getElementById('cursorPonto'),mx=0,my=0,cx=0,cy=0;
-    addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cu.classList.add('vis');cp.classList.add('vis');cp.style.transform='translate('+mx+'px,'+my+'px)';
-      cu.classList.toggle('grande',!!e.target.closest('a,button,.card,.quadro,canvas,input,select'));});
-    var vx=0,vy=0;(function seg(){vx+=(mx-cx)*.12;vy+=(my-cy)*.12;vx*=.72;vy*=.72;cx+=vx;cy+=vy;cu.style.transform='translate('+cx+'px,'+cy+'px)';requestAnimationFrame(seg);})();
     document.querySelectorAll('.pilula,.chamada').forEach(function(b){
       var bx=0,by=0,bvx=0,bvy=0,alvoX=0,alvoY=0,rf=0;
       function mola(){bvx+=(alvoX-bx)*.18;bvy+=(alvoY-by)*.18;bvx*=.7;bvy*=.7;bx+=bvx;by+=bvy;b.style.transform='translate('+bx.toFixed(2)+'px,'+by.toFixed(2)+'px)';
@@ -605,7 +598,28 @@ var RECURSOS=[
     });
     document.querySelectorAll('.passo').forEach(function(p){var g=p.querySelector('.brilho');p.addEventListener('mousemove',function(e){var r=p.getBoundingClientRect();g.style.setProperty('--bx',(e.clientX-r.left)+'px');g.style.setProperty('--by',(e.clientY-r.top)+'px');});});
   }
-  var pc=document.getElementById('pecas');for(var i=0;i<12;i++){var s=document.createElement('i');s.style.setProperty('--s',(10+Math.random()*22)+'px');s.style.left=(Math.random()*100)+'%';s.style.top=(Math.random()*100)+'%';s.style.transform='rotate('+(Math.random()*45)+'deg)';s.dataset.v=(Math.random()*2-1).toFixed(2);pc.appendChild(s);}
+})();
+</script>
+<script>if(innerWidth<760){var vt=document.getElementById("t-prova");if(vt)vt.setAttribute("data-font-size","8")}</script>
+<script>
+(function(){
+  var desk=matchMedia('(min-width:760px)').matches, fino=matchMedia('(hover:hover)').matches;
+  var ro=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(desk&&window.HeluWaves2){var o=document.getElementById('ondas');if(o)HeluWaves2.create(o,{lineColor:'#0F0F0F',spacing:16,lineWidth:1,amplitude:26,scale:1,twist:1,speed:.6,mouseInteraction:fino,mouseRadius:160,mouseStrength:1,opacity:.35,backgroundColor:'transparent',lightMode:true,intro:false});}
+  if(desk&&window.HeluSlats){var sl=document.getElementById('slats');if(sl)HeluSlats.create(sl,{preset:'swell',color:'#FF4D2E',glintColor:'#ffd9c9',backgroundColor:'#120a08',slatWidth:10,slatHeight:26,gap:3,scale:1.4,speed:.5,direction:200,chop:.5,glint:.6,perspective:.3,fog:.5,interactive:fino});}
+  if(window.HeluDither){var di=document.getElementById('dither');if(di)HeluDither.create(di,{waveColor:'#FF4D2E',backgroundColor:'#0F0F0F',ditherMode:'bayer',colorNum:3,pixelSize:desk?3:4,waveSpeed:.03,waveFrequency:2.4,waveAmplitude:.35,enableMouseInteraction:fino,mouseEffect:'ripple',mouseRadius:.25,intro:false});}
+  if(fino&&!ro&&window.HeluCrosshair){HeluCrosshair.create(null,{color:'#FF4D2E',thickness:1,opacity:.75,showCoordinates:false,targetEffect:'lock',clickPulse:true,smoothing:.35});}
+  var roda=document.getElementById('roda');
+  if(roda&&window.HeluWheel){
+    var R=[
+      {n:'Buffets e docerias',img:'ramo-festa.jpg',alt:'Bolo de festa decorado com lua e estrelas',t:'O cliente monta o cardápio da festa e o pedido de orçamento chega pronto no seu WhatsApp.'},
+      {n:'Clínicas e estética',img:'ramo-clinica.jpg',alt:'Miniatura de consultório com cadeira de atendimento, espelho iluminado e um dente',t:'Procedimentos explicados com calma e agendamento a um toque.'},
+      {n:'Restaurantes e delivery',img:'ramo-delivery.jpg',alt:'Miniatura de cozinha com forno a lenha, hambúrguer, pizza e moto de entrega',t:'Cardápio com fotos que dão fome e pedido que chega organizado.'},
+      {n:'O seu ramo',img:'tela-hero.jpg',alt:'Tela inicial de um site da HEsites no celular',t:'Marcenaria, vidraçaria, pet shop, pilates. Se você atende cliente, cabe um site seu.'}];
+    var im=document.getElementById('ramoImg'),ti=document.getElementById('ramoTit'),tx=document.getElementById('ramoTxt');
+    roda.removeAttribute('data-optionwheel');roda.removeAttribute('data-items');
+    HeluWheel.create(roda,{items:R.map(function(r){return r.n}),defaultSelected:0,textColor:'#8f897f',activeColor:'#FF4D2E',fontSize:matchMedia('(max-width:759px)').matches?1.35:1.8,inset:8,blur:1,fade:.15,minOpacity:.18,onChange:function(i){var r=R[i];im.classList.add('troca');setTimeout(function(){im.src=r.img;im.alt=r.alt;im.classList.remove('troca')},180);ti.textContent=r.n;tx.textContent=r.t;}});
+  }
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -634,12 +648,7 @@ var RECURSOS=[
   gsap.utils.toArray('.sobe').forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}});});
   ScrollTrigger.batch('.card',{start:'top 90%',onEnter:function(b){gsap.fromTo(b,{opacity:0,y:60},{opacity:1,y:0,duration:1,ease:'power3.out',stagger:.08,clearProps:'transform'});}});
   gsap.fromTo('.itens-site',{backgroundColor:'#0F0F0F'},{backgroundColor:'#F2EEE6',ease:'none',scrollTrigger:{trigger:'.itens-site',start:'top bottom',end:'top 30%',scrub:true}});
-  var trilha=document.getElementById('trilha');
-  function dist(){return trilha.scrollWidth-innerWidth;}
-  gsap.to(trilha,{x:function(){return -dist()},ease:'none',scrollTrigger:{trigger:'#galeriaPalco',start:'top top',end:function(){return '+='+dist()},pin:true,scrub:.6,invalidateOnRefresh:true,
-    }});
   gsap.utils.toArray('.lista .gr').forEach(function(g){gsap.from(g,{xPercent:-30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:g,start:'top 85%'}});});
-  document.querySelectorAll('#pecas i').forEach(function(s){gsap.to(s,{y:function(){return s.dataset.v*260},rotate:s.dataset.v*180,ease:'none',scrollTrigger:{trigger:'.motivos',start:'top bottom',end:'bottom top',scrub:true}});});
   (function(){var m=document.getElementById('manifesto');if(!m)return;var out=[];(function visita(n,br){n.childNodes.forEach(function(c){if(c.nodeType===3){c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)){out.push(document.createTextNode(t));return;}var w=document.createElement('span');w.className='w'+(br?' br':'');w.textContent=t;out.push(w);});}else{visita(c,c.classList.contains('br')||br);}});})(m,false);m.textContent='';out.forEach(function(x){m.appendChild(x);});var ws=m.querySelectorAll('.w');ScrollTrigger.create({trigger:m,start:'top 82%',end:'bottom 38%',scrub:true,onUpdate:function(st){var n=Math.round(st.progress*ws.length);ws.forEach(function(w,i){w.classList.toggle('on',i<n);});}});})();
   gsap.from('.passo',{opacity:0,y:50,stagger:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.passos-grade',start:'top 80%'}});
   addEventListener('load',function(){ScrollTrigger.refresh();});

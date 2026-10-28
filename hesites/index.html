@@ -59,6 +59,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 .pula{position:absolute;left:-999px;top:8px;z-index:100;background:var(--brasa);color:var(--tinta);padding:10px 16px;border-radius:999px;font-weight:700}
 .pula:focus{left:16px}
 @media(max-width:519px){.marca b{display:none}}
+.contatos a,.contatos span{min-height:44px;display:inline-flex;align-items:center}
+footer .links a{display:inline-flex;align-items:center;min-height:44px}
+.topo .pilula{padding:.7rem 1.1rem;font-size:.9rem}
+.dados a{display:inline-flex;align-items:center;min-height:44px}
+.menu a{padding:10px 0}
 .pilula.grande{padding:1rem 1.6rem;font-size:1.02rem}
 .topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .marca{display:flex;align-items:center;gap:10px;text-decoration:none}
@@ -156,7 +161,6 @@ main>section:not(.hero),main>.letreiro{position:relative;z-index:2}
 .passos .wrap{position:relative}
 .marca-tech{height:clamp(130px,19vw,280px);color:var(--papel);margin:0 0 10px}
 footer{padding-top:clamp(8px,2vw,28px)!important}
-footer .grande{display:none}
 .galeria{position:relative;background:var(--tinta)}
 .galeria-palco{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center}
 .trilha{display:flex;gap:4vw;padding:0 8vw;will-change:transform;align-items:center}
@@ -244,8 +248,6 @@ footer .grande{display:none}
 .pedido .pilula{width:100%;justify-content:center;margin-top:4px}
 
 footer{background:var(--tinta);padding:80px 0 calc(120px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
-footer .grande{max-width:100%;overflow:hidden;font-family:"Unbounded";font-weight:800;font-size:clamp(3.4rem,16vw,15rem);line-height:.85;color:rgba(242,238,230,.08);white-space:nowrap;letter-spacing:-.05em}
-footer .grande span{color:rgba(255,77,46,.22)}
 footer .linha{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:center;margin-top:36px;color:#CFC8BC;font-size:.92rem}
 footer .links{display:flex;flex-wrap:wrap;gap:8px 22px}
 footer .links a{text-decoration:none}
@@ -374,7 +376,7 @@ footer .links a:hover{color:var(--brasa)}
   <div class="fundo-cubos" aria-hidden="true" id="cubos"></div>
   <div class="wrap">
     <span class="eyebrow">Sites feitos para vender</span>
-    <h2 class="mascara" id="t-prova" data-masked-heading data-media-type="video" data-src="hero.mp4" data-poster="hero-poster.jpg" data-reveal="scale" data-spotlight data-outline data-outline-color="#FF4D2E" data-align="center" data-weight="800" data-text-scale=".085">Cara de marca grande</h2>
+    <h2 class="mascara" id="t-prova" aria-label="Cara de marca grande" data-masked-heading data-media-type="video" data-src="hero.mp4" data-poster="hero-poster.jpg" data-reveal="scale" data-spotlight data-outline data-outline-color="#FF4D2E" data-align="center" data-weight="800" data-text-scale=".085">Cara de marca grande</h2>
     <p class="legenda">Do celular ao computador, cada pixel pensado para o seu cliente decidir rápido e chamar no WhatsApp.</p>
     <div class="fones" aria-label="Exemplos de telas">
       <div class="fone" data-iphone data-src="tela-hero.jpg" role="img" aria-label="Tela inicial de um site HEsites no celular"></div>
@@ -645,7 +647,6 @@ var RECURSOS=[
   document.querySelectorAll('#pecas i').forEach(function(s){gsap.to(s,{y:function(){return s.dataset.v*260},rotate:s.dataset.v*180,ease:'none',scrollTrigger:{trigger:'.motivos',start:'top bottom',end:'bottom top',scrub:true}});});
   (function(){var m=document.getElementById('manifesto');if(!m)return;var out=[];(function visita(n,br){n.childNodes.forEach(function(c){if(c.nodeType===3){c.textContent.split(/(\s+)/).forEach(function(t){if(!t)return;if(/^\s+$/.test(t)){out.push(document.createTextNode(t));return;}var w=document.createElement('span');w.className='w'+(br?' br':'');w.textContent=t;out.push(w);});}else{visita(c,c.classList.contains('br')||br);}});})(m,false);m.textContent='';out.forEach(function(x){m.appendChild(x);});var ws=m.querySelectorAll('.w');ScrollTrigger.create({trigger:m,start:'top 82%',end:'bottom 38%',scrub:true,onUpdate:function(st){var n=Math.round(st.progress*ws.length);ws.forEach(function(w,i){w.classList.toggle('on',i<n);});}});})();
   gsap.from('.passo',{opacity:0,y:50,stagger:.15,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.passos-grade',start:'top 80%'}});
-  gsap.fromTo('footer .grande',{xPercent:8},{xPercent:-12,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
   addEventListener('load',function(){ScrollTrigger.refresh();});
 })();
 </script>

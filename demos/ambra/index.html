@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ÂMBRA — Perfumaria Artesanal</title>
+<meta name="description" content="ÂMBRA — perfumaria artesanal. Fragrâncias compostas à mão, em pequenos lotes, num ateliê de bairro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0a0704;
+  --ink:#100b06;
+  --panel:#15100a;
+  --amber:#c8862f;
+  --amber-lo:#9a6320;
+  --gold:#e9b96a;
+  --gold-hi:#f4d29a;
+  --bone:#efe4d2;
+  --bone-dim:#b7a993;
+  --muted:#8a7c68;
+  --line:rgba(233,185,106,.16);
+  --line-hi:rgba(233,185,106,.34);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --edge:0px; /* sharp corners, no soft radius */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--void);
+  color:var(--bone);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--amber);color:#0a0704}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;line-height:1.02;letter-spacing:-.01em}
+
+/* ---------- film grain + vignette (texture only) ---------- */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation:grain 6s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-4%)}60%{transform:translate(-3%,2%)}80%{transform:translate(4%,-2%)}100%{transform:translate(0,0)}}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:55;
+  box-shadow:inset 0 0 220px 40px rgba(0,0,0,.75), inset 0 0 60px 0 rgba(0,0,0,.4)}
+
+/* ---------- custom cursor ---------- */
+.cur-dot,.cur-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:70;transform:translate(-50%,-50%);will-change:transform}
+.cur-dot{width:6px;height:6px;background:var(--gold-hi);border-radius:50%;box-shadow:0 0 10px 2px rgba(233,185,106,.7)}
+.cur-ring{width:34px;height:34px;border:1px solid var(--line-hi);border-radius:50%;transition:width .25s,height .25s,border-color .25s,background .25s}
+.cur-ring.big{width:74px;height:74px;border-color:rgba(233,185,106,.5);background:rgba(233,185,106,.05)}
+#ember{position:fixed;inset:0;pointer-events:none;z-index:65}
+@media (max-width:820px){.cur-dot,.cur-ring,#ember{display:none}}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--void);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .8s ease,visibility .8s}
+#loader.done{opacity:0;visibility:hidden}
+.load-mark{font-family:var(--serif);font-size:clamp(40px,9vw,84px);letter-spacing:.14em;color:var(--gold);position:relative}
+.load-bar{width:min(240px,54vw);height:1px;background:var(--line);position:relative;overflow:hidden}
+.load-bar i{position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--amber-lo),var(--gold-hi));animation:load 1.7s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes load{to{width:100%}}
+.load-sub{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- top nav ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:90;display:flex;align-items:center;justify-content:space-between;
+  padding:20px clamp(18px,4vw,52px);mix-blend-mode:difference}
+.brand{font-family:var(--serif);font-size:20px;letter-spacing:.34em;font-weight:500;color:#fff}
+.brand small{font-size:9px;letter-spacing:.3em;display:block;color:#fff;opacity:.7;margin-top:2px;font-family:var(--sans)}
+nav.top{display:flex;gap:26px;align-items:center}
+nav.top a{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#fff;opacity:.85;position:relative;padding:4px 0}
+nav.top a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:#fff;transition:width .3s}
+nav.top a:hover::after{width:100%}
+.nav-cta{border:1px solid rgba(255,255,255,.5);padding:9px 16px !important}
+@media (max-width:820px){nav.top a:not(.nav-cta){display:none}}
+
+/* ---------- section scaffolding ---------- */
+section{position:relative}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,52px)}
+.eyebrow{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--amber);display:inline-block}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* ---------- HERO ---------- */
+#hero{height:100svh;min-height:600px;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+#hero video,#hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#hero .poster{background-size:cover;background-position:center}
+#hero .veil{position:absolute;inset:0;background:
+  radial-gradient(120% 80% at 70% 30%,rgba(10,7,4,.15),rgba(10,7,4,.72) 70%),
+  linear-gradient(to top,var(--void) 2%,rgba(10,7,4,.15) 46%,rgba(10,7,4,.5))}
+.hero-inner{position:relative;z-index:3;width:100%;padding-bottom:clamp(34px,7vh,90px)}
+.tp-wrap{line-height:.86;margin-bottom:22px}
+.tp{font-family:var(--serif);font-weight:900;text-transform:uppercase;
+  font-size:clamp(74px,20vw,300px);letter-spacing:-.02em;color:var(--bone);display:flex;flex-wrap:wrap}
+.tp span{display:inline-block;transition:transform .12s linear,color .3s;transform-origin:50% 60%;will-change:transform;font-variation-settings:"opsz" 144,"wght" 340}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.hero-lead{max-width:44ch;font-size:clamp(15px,1.7vw,19px);color:var(--bone-dim);font-weight:300}
+.hero-lead b{color:var(--bone);font-weight:500}
+.scrollpip{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.scrollpip .track{width:1px;height:56px;background:var(--line);position:relative;overflow:hidden}
+.scrollpip .track i{position:absolute;left:0;top:-40%;height:40%;width:100%;background:var(--gold);animation:pip 2.2s cubic-bezier(.7,0,.3,1) infinite}
+@keyframes pip{0%{top:-45%}60%{top:100%}100%{top:100%}}
+
+/* ---------- MANIFESTO ---------- */
+#manifesto{padding:clamp(90px,15vh,180px) 0 clamp(60px,9vh,120px)}
+.mani-grid{display:grid;grid-template-columns:1fr;gap:44px}
+.mani-lead{font-family:var(--serif);font-size:clamp(28px,4.6vw,64px);line-height:1.05;font-weight:400;color:var(--bone);max-width:20ch}
+.mani-lead em{font-style:italic;color:var(--gold)}
+.mani-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,5vw,80px);align-items:end}
+.mani-body p{color:var(--bone-dim);font-weight:300;font-size:16px;margin-bottom:16px;max-width:46ch}
+.mani-body p b{color:var(--bone);font-weight:500}
+.mani-fig{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--panel)}
+.mani-fig img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.mani-fig.in img{transform:scale(1)}
+.mani-fig figcaption{position:absolute;left:0;bottom:0;right:0;padding:14px 16px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone);background:linear-gradient(to top,rgba(10,7,4,.85),transparent)}
+@media (max-width:860px){.mani-cols{grid-template-columns:1fr}}
+
+/* ---------- PORTAL (scrollable) ---------- */
+#portal{height:230vh;position:relative}
+.portal-sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.portal-img{position:absolute;inset:0;background-size:cover;background-position:center;
+  -webkit-clip-path:circle(9% at 50% 50%);clip-path:circle(9% at 50% 50%);transform:scale(1.18)}
+.portal-dim{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(10,7,4,.6) 70%);pointer-events:none}
+.portal-ring{position:absolute;width:min(78vmin,760px);height:min(78vmin,760px);border:1px solid var(--line-hi);border-radius:50%;pointer-events:none}
+.portal-txt{position:relative;z-index:4;text-align:center;padding:0 24px;mix-blend-mode:difference;color:#fff}
+.portal-txt h2{font-size:clamp(30px,6vw,86px);color:#fff}
+.portal-txt p{margin-top:14px;font-size:clamp(13px,1.5vw,17px);letter-spacing:.04em;color:#fff;opacity:.9;max-width:34ch;margin-left:auto;margin-right:auto}
+.portal-count{position:absolute;top:26px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);z-index:4}
+
+/* ---------- COLLECTION (object reveal on hover) ---------- */
+#collection{padding:clamp(90px,15vh,170px) 0}
+.col-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:44px;flex-wrap:wrap}
+.col-head h2{font-size:clamp(34px,6vw,92px);color:var(--bone)}
+.col-head p{max-width:34ch;color:var(--bone-dim);font-weight:300;font-size:15px}
+.flist{border-top:1px solid var(--line)}
+.frow{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:baseline;
+  padding:clamp(20px,3.4vw,40px) 6px;border-bottom:1px solid var(--line);cursor:pointer;
+  transition:padding-left .4s cubic-bezier(.2,.7,.2,1),background .4s}
+.frow:hover{padding-left:26px;background:linear-gradient(90deg,rgba(233,185,106,.05),transparent 60%)}
+.frow .num{font-family:var(--serif);font-size:14px;color:var(--amber);letter-spacing:.1em;min-width:44px}
+.frow .name{font-family:var(--serif);font-size:clamp(26px,4.4vw,58px);color:var(--bone);line-height:1;transition:color .35s,opacity .35s}
+.frow .name small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.frow:hover .name{color:var(--gold-hi)}
+.flist:hover .frow:not(:hover) .name{opacity:.4}
+.frow .meta{text-align:right;font-size:13px;color:var(--bone-dim);letter-spacing:.02em}
+.frow .meta b{display:block;color:var(--bone);font-size:15px;margin-bottom:4px;font-weight:500}
+.frow .meta .price{color:var(--gold);font-family:var(--serif);font-size:19px}
+#floater{position:fixed;top:0;left:0;z-index:50;width:min(30vw,340px);aspect-ratio:3/4;pointer-events:none;
+  opacity:0;transform:translate(-50%,-50%) scale(.9) rotate(-4deg);transition:opacity .35s,transform .5s cubic-bezier(.2,.7,.2,1);
+  overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6);will-change:transform,opacity}
+#floater.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}
+#floater img{width:100%;height:100%;object-fit:cover}
+#floater .cap{position:absolute;left:0;bottom:0;right:0;padding:12px 14px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;background:linear-gradient(to top,rgba(10,7,4,.9),transparent);color:var(--gold-hi)}
+@media (max-width:820px){
+  .frow{grid-template-columns:auto 1fr;gap:14px}
+  .frow .meta{grid-column:1/-1;text-align:left;display:flex;gap:20px;align-items:baseline;margin-top:12px}
+  #floater{display:none}
+  .frow .fimg-m{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;grid-column:1/-1;margin-top:16px}
+}
+@media (min-width:821px){.fimg-m{display:none}}
+
+/* ---------- 3D PRODUCT (drag to rotate, video-scrubbed) ---------- */
+#product{padding:clamp(80px,12vh,150px) 0;background:linear-gradient(180deg,var(--void),#0d0906 40%,var(--void))}
+.prod-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.prod-copy h2{font-size:clamp(32px,5vw,72px);color:var(--bone);margin-bottom:22px}
+.prod-copy p{color:var(--bone-dim);font-weight:300;max-width:42ch;margin-bottom:18px}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:26px}
+.spec div{background:var(--void);padding:16px 18px}
+.spec b{display:block;font-family:var(--serif);font-size:22px;color:var(--gold);margin-bottom:3px}
+.spec span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.stage{position:relative;aspect-ratio:1/1;background:radial-gradient(circle at 50% 42%,#1c140b,#0a0704 70%);overflow:hidden;cursor:ew-resize;touch-action:pan-y}
+.stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.stage .halo{position:absolute;inset:0;box-shadow:inset 0 0 120px 30px rgba(10,7,4,.7);pointer-events:none}
+.stage .hint{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:12px;
+  font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--bone-dim);pointer-events:none;transition:opacity .4s}
+.stage .hint svg{width:34px;height:12px}
+.stage.grabbed .hint{opacity:0}
+.stage .deg{position:absolute;top:18px;right:20px;font-family:var(--serif);font-size:13px;color:var(--amber);letter-spacing:.1em}
+@media (max-width:860px){.prod-grid{grid-template-columns:1fr}.stage{max-width:520px;margin:0 auto}}
+
+/* ---------- NOTES pyramid ---------- */
+#notes{padding:clamp(80px,12vh,150px) 0}
+.notes-head{max-width:60ch;margin-bottom:50px}
+.notes-head h2{font-size:clamp(30px,5vw,72px);color:var(--bone);margin-bottom:16px}
+.notes-head p{color:var(--bone-dim);font-weight:300}
+.pyr{display:grid;gap:14px}
+.tier{position:relative;display:grid;grid-template-columns:150px 1fr;gap:clamp(18px,3vw,44px);align-items:center;
+  border:1px solid var(--line);padding:clamp(18px,2.6vw,30px) clamp(18px,3vw,34px);overflow:hidden;transition:border-color .4s,background .4s}
+.tier:hover{border-color:var(--line-hi);background:rgba(233,185,106,.03)}
+.tier .thumb{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .6s;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000);mask-image:linear-gradient(90deg,transparent,#000)}
+.tier:hover .thumb{opacity:.34}
+.tier .lbl{position:relative;z-index:2}
+.tier .lbl b{font-family:var(--serif);font-size:clamp(22px,3vw,34px);color:var(--gold);display:block;line-height:1}
+.tier .lbl span{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.tier .ing{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:10px 22px;font-size:clamp(15px,1.9vw,20px);color:var(--bone);font-weight:300}
+.tier .ing i{font-style:normal;position:relative;padding-left:16px}
+.tier .ing i::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;background:var(--amber);border-radius:50%}
+@media (max-width:640px){.tier{grid-template-columns:1fr;gap:12px}}
+
+/* ---------- MARQUEE ---------- */
+.marq{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--ink)}
+.marq-track{display:flex;gap:60px;white-space:nowrap;animation:marq 34s linear infinite;width:max-content}
+.marq-track span{font-family:var(--serif);font-size:clamp(22px,3.4vw,40px);color:var(--bone);opacity:.5;letter-spacing:.02em}
+.marq-track span em{color:var(--gold);font-style:italic}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- TESTIMONIALS ---------- */
+#voices{padding:clamp(80px,12vh,150px) 0}
+.v-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.v-card{background:var(--void);padding:clamp(26px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;min-height:320px;transition:background .4s}
+.v-card:hover{background:var(--ink)}
+.v-card blockquote{font-family:var(--serif);font-size:clamp(18px,2vw,24px);line-height:1.32;color:var(--bone);font-weight:400}
+.v-card blockquote span{color:var(--gold)}
+.v-foot{margin-top:26px}
+.v-foot b{display:block;font-size:14px;color:var(--bone);letter-spacing:.02em}
+.v-foot small{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.v-foot em{display:block;margin-top:8px;font-style:normal;font-size:12px;color:var(--amber)}
+@media (max-width:860px){.v-grid{grid-template-columns:1fr}}
+
+/* ---------- CONTACT ---------- */
+#visit{padding:clamp(80px,12vh,150px) 0 0}
+.visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:start}
+.visit-grid h2{font-size:clamp(34px,6vw,90px);color:var(--bone);line-height:.98;margin-bottom:26px}
+.visit-grid h2 em{font-style:italic;color:var(--gold)}
+.vlist{border-top:1px solid var(--line)}
+.vitem{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line)}
+.vitem dt{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.vitem dd{color:var(--bone);font-size:16px}
+.vitem dd a:hover{color:var(--gold)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--line-hi);color:var(--bone);transition:.35s;background:transparent}
+.btn:hover{background:var(--gold);color:#0a0704;border-color:var(--gold)}
+.btn.solid{background:var(--amber);border-color:var(--amber);color:#0a0704}
+.btn.solid:hover{background:var(--gold-hi);border-color:var(--gold-hi)}
+.visit-fig{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--panel)}
+.visit-fig img{width:100%;height:100%;object-fit:cover}
+.visit-fig .tag{position:absolute;top:16px;left:16px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-hi);background:rgba(10,7,4,.6);padding:8px 12px;border:1px solid var(--line)}
+@media (max-width:860px){.visit-grid{grid-template-columns:1fr}.visit-fig{aspect-ratio:16/11}}
+
+/* ---------- FOOTER ---------- */
+footer{margin-top:clamp(70px,10vh,130px);border-top:1px solid var(--line);padding:60px 0 34px}
+.foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
+.foot-mark{font-family:var(--serif);font-size:clamp(56px,14vw,190px);letter-spacing:.06em;line-height:.8;color:var(--panel);
+  -webkit-text-stroke:1px var(--line-hi);text-stroke:1px var(--line-hi)}
+.foot-links{display:flex;gap:40px;flex-wrap:wrap}
+.foot-col b{display:block;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.foot-col a{display:block;color:var(--bone-dim);font-size:14px;padding:4px 0;transition:color .3s}
+.foot-col a:hover{color:var(--gold)}
+.foot-bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:50px;padding-top:22px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);letter-spacing:.04em}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.1ms !important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+<canvas id="ember" aria-hidden="true"></canvas>
+<div class="cur-ring" id="curRing" aria-hidden="true"></div>
+<div class="cur-dot" id="curDot" aria-hidden="true"></div>
+
+<div id="loader">
+  <div class="load-mark">ÂMBRA</div>
+  <div class="load-bar"><i></i></div>
+  <div class="load-sub">Perfumaria Artesanal</div>
+</div>
+
+<header>
+  <a class="brand" href="#hero">ÂMBRA<small>PERFUMARIA · EST. 2019</small></a>
+  <nav class="top">
+    <a href="#collection">Fragrâncias</a>
+    <a href="#product">O frasco</a>
+    <a href="#notes">Composição</a>
+    <a href="#visit">Ateliê</a>
+    <a class="nav-cta" href="#visit">Encomendar</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="poster" id="heroPoster"></div>
+  <video id="heroVid" autoplay muted loop playsinline preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="hero-inner wrap">
+    <div class="tp-wrap"><h1 class="tp" id="tp" aria-label="ÂMBRA"></h1></div>
+    <div class="hero-row">
+      <p class="hero-lead reveal">Fragrâncias compostas <b>à mão</b>, em lotes de trinta frascos, num ateliê de bairro. Sem atalhos, sem fórmula de prateleira — <b>só matéria-prima e paciência.</b></p>
+      <div class="scrollpip reveal d1"><span>O ateliê</span><span class="track"><i></i></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <div class="wrap mani-grid">
+    <div class="eyebrow reveal">01 — O ofício</div>
+    <h2 class="mani-lead reveal d1">Um perfume não se <em>fabrica</em>. Ele se compõe, gota a gota, e depois se espera.</h2>
+    <div class="mani-cols">
+      <div class="mani-body">
+        <p class="reveal"><b>ÂMBRA nasceu de uma teimosia:</b> a de macerar resinas, cítricos e madeiras do jeito antigo, deixando o álcool descansar semanas antes de qualquer frasco sair da bancada.</p>
+        <p class="reveal d1">Cada lote leva a assinatura de quem o fez e a data em que foi selado. Quando acaba, acaba — o próximo nunca sai exatamente igual, e é assim que gostamos.</p>
+        <p class="reveal d2">Não vendemos "notas de saída premium". Vendemos bergamota partida ao meio-dia, âmbar que só aparece depois da meia-noite, e a fumaça fininha de um sândalo que já viu coisa demais.</p>
+      </div>
+      <figure class="mani-fig reveal d1" data-fig>
+        <img data-src-key="atelier" alt="Bancada do ateliê ÂMBRA — frascos âmbar, pipetas e funis de latão sob luz quente">
+        <figcaption>A bancada — Rua das Palmeiras, 128</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAL (scrollable) -->
+<section id="portal">
+  <div class="portal-sticky">
+    <div class="portal-img" id="portalImg"></div>
+    <div class="portal-dim"></div>
+    <div class="portal-ring"></div>
+    <div class="portal-count">02 — A passagem</div>
+    <div class="portal-txt">
+      <h2>Entre na bancada</h2>
+      <p>Role e a abertura se alarga: do escuro do frasco para dentro do ateliê onde tudo começa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COLLECTION : object reveal on hover -->
+<section id="collection">
+  <div class="wrap">
+    <div class="col-head">
+      <h2 class="reveal">As quatro<br>assinaturas</h2>
+      <p class="reveal d1">Quatro composições permanentes. Cada frasco de 50&nbsp;ml é numerado à mão e traz a data do lote no verso.</p>
+    </div>
+    <div class="flist" id="flist">
+      <!-- rows injected -->
+    </div>
+  </div>
+</section>
+<div id="floater" aria-hidden="true"><img id="floaterImg" alt=""><div class="cap" id="floaterCap"></div></div>
+
+<!-- 3D PRODUCT : drag to rotate -->
+<section id="product">
+  <div class="wrap prod-grid">
+    <div class="prod-copy">
+      <div class="eyebrow reveal">03 — O frasco</div>
+      <h2 class="reveal d1">Gire o vidro.<br>Sinta o corte.</h2>
+      <p class="reveal d2">Vidro âmbar facetado, prensado num molde nosso, com tampa de latão escovado maciço. A luz entra por uma face e sai por outra — é isso que faz o líquido parecer aceso por dentro.</p>
+      <p class="reveal d2">Isto é um <b>estúdio do objeto</b>: uma renderização em vídeo do frasco girando, para você inspecionar cada aresta antes de encomendar.</p>
+      <div class="spec reveal d3">
+        <div><b>50 ml</b><span>Volume</span></div>
+        <div><b>22–24%</b><span>Concentração · Extrait</span></div>
+        <div><b>30</b><span>Frascos por lote</span></div>
+        <div><b>latão</b><span>Tampa maciça</span></div>
+      </div>
+    </div>
+    <div class="stage reveal d1" id="stage">
+      <video id="prodVid" muted playsinline preload="auto"></video>
+      <div class="halo"></div>
+      <div class="deg" id="degRead">0°</div>
+      <div class="hint" id="stageHint">
+        <svg viewBox="0 0 34 12" fill="none"><path d="M6 6h22M6 6l4-4M6 6l4 4M28 6l-4-4M28 6l-4 4" stroke="currentColor" stroke-width="1"/></svg>
+        Arraste para girar
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marq" aria-hidden="true">
+  <div class="marq-track">
+    <span>Âmbar <em>&</em> Resinas</span><span>·</span><span>Bergamota <em>&</em> Néroli</span><span>·</span><span>Sândalo <em>&</em> Oud</span><span>·</span><span>Feito à mão em pequenos lotes</span><span>·</span>
+    <span>Âmbar <em>&</em> Resinas</span><span>·</span><span>Bergamota <em>&</em> Néroli</span><span>·</span><span>Sândalo <em>&</em> Oud</span><span>·</span><span>Feito à mão em pequenos lotes</span><span>·</span>
+  </div>
+</div>
+
+<!-- NOTES pyramid -->
+<section id="notes">
+  <div class="wrap">
+    <div class="notes-head">
+      <div class="eyebrow reveal">04 — A pirâmide</div>
+      <h2 class="reveal d1">Como uma fragrância<br>se abre no tempo</h2>
+      <p class="reveal d2">Passe o cursor por cada camada. Do primeiro estalo cítrico ao rastro que fica no casaco no dia seguinte.</p>
+    </div>
+    <div class="pyr">
+      <div class="tier reveal" data-thumb="bergamot">
+        <div class="thumb" data-thumb-bg></div>
+        <div class="lbl"><b>Saída</b><span>0 – 15 min</span></div>
+        <div class="ing"><i>Bergamota calabresa</i><i>Casca de laranja</i><i>Pimenta-rosa</i><i>Néroli</i></div>
+      </div>
+      <div class="tier reveal d1" data-thumb="trio">
+        <div class="thumb" data-thumb-bg></div>
+        <div class="lbl"><b>Coração</b><span>15 min – 3 h</span></div>
+        <div class="ing"><i>Rosa-turca</i><i>Cardamomo</i><i>Íris</i><i>Jasmim-sambac</i></div>
+      </div>
+      <div class="tier reveal d2" data-thumb="amber">
+        <div class="thumb" data-thumb-bg></div>
+        <div class="lbl"><b>Fundo</b><span>3 h – dia seguinte</span></div>
+        <div class="ing"><i>Âmbar</i><i>Sândalo</i><i>Oud</i><i>Baunilha bourbon</i><i>Musgo</i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="voices">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="margin-bottom:40px">05 — Quem já usa</div>
+    <div class="v-grid">
+      <div class="v-card reveal">
+        <blockquote>"Comprei o <span>Brasa</span> pro casamento do meu irmão e três pessoas me pararam pra perguntar. Ninguém acreditou que era de um ateliê aqui do bairro."</blockquote>
+        <div class="v-foot"><b>Marina Tavares</b><small>Pinheiros</small><em>usa Brasa · Nº I</em></div>
+      </div>
+      <div class="v-card reveal d1">
+        <blockquote>"Uso o <span>Lenho</span> todo dia útil. De manhã é discreto; às seis da tarde vira outra coisa. Já é parte de como eu me visto."</blockquote>
+        <div class="v-foot"><b>Rafael Nogueira</b><small>Santa Teresa</small><em>usa Lenho · Nº III</em></div>
+      </div>
+      <div class="v-card reveal d2">
+        <blockquote>"O <span>Pomar</span> me devolve a casa da minha avó no interior. Comprei três frascos antes que o lote acabasse — e acabou em nove dias."</blockquote>
+        <div class="v-foot"><b>Cláudia Menezes</b><small>Botafogo</small><em>usa Pomar · Nº II</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / VISIT -->
+<section id="visit">
+  <div class="wrap visit-grid">
+    <div>
+      <div class="eyebrow reveal">06 — Onde nos encontrar</div>
+      <h2 class="reveal d1">Venha cheirar<br>antes de <em>levar.</em></h2>
+      <dl class="vlist reveal d2">
+        <div class="vitem"><dt>Ateliê</dt><dd>Rua das Palmeiras, 128 — loja 2<br>Vila Madalena · São Paulo</dd></div>
+        <div class="vitem"><dt>Horário</dt><dd>Terça a sábado · 11h às 19h</dd></div>
+        <div class="vitem"><dt>Encomendas</dt><dd><a href="https://wa.me/5511999990000" target="_blank" rel="noopener">WhatsApp · (11) 99999‑0000</a></dd></div>
+        <div class="vitem"><dt>Escrever</dt><dd><a href="mailto:atelie@ambra.example">atelie@ambra.example</a></dd></div>
+        <div class="vitem"><dt>Instagram</dt><dd><a href="https://instagram.com/ambra.perfumaria" target="_blank" rel="noopener">@ambra.perfumaria</a></dd></div>
+      </dl>
+      <div class="cta-row reveal d3">
+        <a class="btn solid" href="https://wa.me/5511999990000?text=Quero%20encomendar%20um%20frasco%20ÂMBRA" target="_blank" rel="noopener">Encomendar pelo WhatsApp</a>
+        <a class="btn" href="#collection">Ver as fragrâncias</a>
+      </div>
+    </div>
+    <figure class="visit-fig reveal d1">
+      <span class="tag">O ateliê</span>
+      <img data-src-key="atelier2" alt="Interior do ateliê ÂMBRA com frascos e utensílios de perfumaria sob luz quente">
+    </figure>
+  </div>
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-mark">ÂMBRA</div>
+        <div class="foot-links">
+          <div class="foot-col"><b>Fragrâncias</b>
+            <a href="#collection">Nº I · Brasa</a><a href="#collection">Nº II · Pomar</a><a href="#collection">Nº III · Lenho</a><a href="#collection">Nº IV · Ritual</a>
+          </div>
+          <div class="foot-col"><b>Ateliê</b>
+            <a href="#manifesto">O ofício</a><a href="#product">O frasco</a><a href="#notes">Composição</a><a href="#visit">Visitar</a>
+          </div>
+          <div class="foot-col"><b>Falar</b>
+            <a href="https://wa.me/5511999990000" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:atelie@ambra.example">E‑mail</a><a href="https://instagram.com/ambra.perfumaria" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="foot-bar">
+        <span>© 2026 ÂMBRA Perfumaria Artesanal · Feito à mão em São Paulo</span>
+        <span>Composto em pequenos lotes · Numerado e datado</span>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<script>
+/* ============ media manifest (Higgsfield CDN — carrega no navegador) ============ */
+const CDN="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/";
+const MEDIA={
+  video:   CDN+"hf_20260831_035652_7b050ec4-8665-470a-8a7b-02bee757375f.mp4",
+  hero:    CDN+"hf_20260830_230422_f0d3c156-e717-4df8-9b4e-c5cca52dca54.png",
+  bergamot:CDN+"hf_20260831_035713_0bba7e0b-14e4-4ff7-bc96-30bf2374a9e6.png",
+  amber:   CDN+"hf_20260831_035713_6a6c4907-6212-477d-8898-0cbdb8fa7fea.png",
+  wood:    CDN+"hf_20260831_035713_8b03470a-703c-4196-a7e8-31b937b98dca.png",
+  atelier: CDN+"hf_20260831_035713_e7061d94-86b6-4af9-b9ab-452087979f35.png",
+  trio:    CDN+"hf_20260831_035713_d7507f20-c491-42e3-a314-e094619da54f.png"
+};
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TOUCH = window.matchMedia('(max-width:820px)').matches || ('ontouchstart' in window);
+
+/* wire media sources */
+document.getElementById('heroPoster').style.backgroundImage=`url(${MEDIA.hero})`;
+(function(){const v=document.getElementById('heroVid');v.src=MEDIA.video;v.poster=MEDIA.hero;})();
+document.getElementById('portalImg').style.backgroundImage=`url(${MEDIA.atelier})`;
+document.querySelectorAll('[data-src-key]').forEach(img=>{
+  const k=img.getAttribute('data-src-key');
+  img.src = k==='atelier2' ? MEDIA.atelier : MEDIA[k];
+});
+document.querySelectorAll('[data-thumb]').forEach(t=>{
+  const bg=t.querySelector('[data-thumb-bg]'); if(bg) bg.style.backgroundImage=`url(${MEDIA[t.getAttribute('data-thumb')]})`;
+});
+
+/* ============ loader ============ */
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),1400));
+setTimeout(()=>document.getElementById('loader').classList.add('done'),3200); // safety
+
+/* ============ TextPressure wordmark ============ */
+(function(){
+  const el=document.getElementById('tp'); const letters="ÂMBRA".split("");
+  const spans=letters.map(ch=>{const s=document.createElement('span');s.textContent=ch;el.appendChild(s);return s;});
+  let mx=innerWidth/2,my=innerHeight*0.5,tx=mx,ty=my;
+  addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;},{passive:true});
+  function frame(){
+    mx+=(tx-mx)*0.15; my+=(ty-my)*0.15;
+    spans.forEach(s=>{
+      const r=s.getBoundingClientRect();const cx=r.left+r.width/2,cy=r.top+r.height/2;
+      const d=Math.hypot(mx-cx,my-cy);
+      const k=Math.max(0,1-d/560);
+      const w=340+k*560;                 // weight 340 -> ~900
+      const sx=1+k*0.14, sy=1+k*0.10;    // subtle press
+      s.style.fontVariationSettings=`"opsz" 144,"wght" ${w.toFixed(0)}`;
+      s.style.transform=`scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+      s.style.color = k>0.5 ? 'var(--gold-hi)' : '';
+    });
+    requestAnimationFrame(frame);
+  }
+  if(!RM) requestAnimationFrame(frame);
+})();
+
+/* ============ custom cursor + ember trail ============ */
+(function(){
+  if(TOUCH) return;
+  const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+  let x=innerWidth/2,y=innerHeight/2,rx=x,ry=y;
+  addEventListener('pointermove',e=>{x=e.clientX;y=e.clientY;dot.style.transform=`translate(${x}px,${y}px) translate(-50%,-50%)`;},{passive:true});
+  document.querySelectorAll('a,button,.frow,.stage,.tier,.v-card').forEach(el=>{
+    el.addEventListener('pointerenter',()=>ring.classList.add('big'));
+    el.addEventListener('pointerleave',()=>ring.classList.remove('big'));
+  });
+  const cv=document.getElementById('ember'),ctx=cv.getContext('2d');
+  let W,H,parts=[];
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+  size(); addEventListener('resize',size);
+  let px=x,py=y;
+  function loop(){
+    rx+=(x-rx)*0.18; ry+=(y-ry)*0.18;
+    ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    const dx=x-px,dy=y-py,sp=Math.hypot(dx,dy); px=x;py=y;
+    if(!RM && sp>1){const n=Math.min(3,Math.floor(sp/6)+1);
+      for(let i=0;i<n;i++)parts.push({x:x+(Math.random()-.5)*8,y:y+(Math.random()-.5)*8,vx:(Math.random()-.5)*.4-dx*0.02,vy:-Math.random()*.5-0.2,life:1,r:Math.random()*1.8+.6});}
+    ctx.clearRect(0,0,W,H);
+    for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy-=0.004;p.life-=0.018;
+      if(p.life<=0){parts.splice(i,1);continue;}
+      ctx.beginPath();const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+      g.addColorStop(0,`rgba(244,210,154,${p.life*0.9})`);g.addColorStop(.4,`rgba(200,134,47,${p.life*0.5})`);g.addColorStop(1,'rgba(200,134,47,0)');
+      ctx.fillStyle=g;ctx.arc(p.x,p.y,p.r*4,0,7);ctx.fill();}
+    if(parts.length>400)parts.splice(0,parts.length-400);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+/* ============ reveal on scroll ============ */
+(function(){
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.16});
+  document.querySelectorAll('.reveal,.mani-fig[data-fig]').forEach(el=>io.observe(el));
+})();
+
+/* ============ collection : rows + object reveal on hover ============ */
+(function(){
+  const data=[
+    {n:"Nº I",name:"Brasa",fam:"Âmbar · Incenso · Baunilha",notes:"Resina quente sobre pele",price:"R$ 420",img:"amber",cap:"Âmbar & resinas"},
+    {n:"Nº II",name:"Pomar",fam:"Bergamota · Néroli · Vetiver",notes:"Casca de bergamota ao meio‑dia",price:"R$ 390",img:"bergamot",cap:"Bergamota & cítricos"},
+    {n:"Nº III",name:"Lenho",fam:"Sândalo · Oud · Cedro",notes:"Madeira seca, fumaça fininha",price:"R$ 450",img:"wood",cap:"Sândalo & oud"},
+    {n:"Nº IV",name:"Ritual",fam:"Cardamomo · Rosa · Âmbar‑cinza",notes:"O frasco assinatura da casa",price:"R$ 480",img:"hero",cap:"O extrait da casa"}
+  ];
+  const list=document.getElementById('flist');
+  const fl=document.getElementById('floater'),flImg=document.getElementById('floaterImg'),flCap=document.getElementById('floaterCap');
+  data.forEach((d,i)=>{
+    const row=document.createElement('div');row.className='frow reveal'+(i?' d'+Math.min(i,4):'');
+    row.innerHTML=`<div class="num">${d.n}</div>
+      <div class="name">${d.name}<small>${d.fam}</small></div>
+      <div class="meta"><b>${d.notes}</b><span class="price">${d.price}</span> · 50 ml</div>
+      <img class="fimg-m" src="${MEDIA[d.img]}" alt="${d.name} — ${d.fam}">`;
+    row.addEventListener('pointerenter',()=>{if(TOUCH)return;flImg.src=MEDIA[d.img];flCap.textContent=d.cap;fl.classList.add('on');});
+    row.addEventListener('pointerleave',()=>fl.classList.remove('on'));
+    list.appendChild(row);
+  });
+  let fx=0,fy=0,cfx=0,cfy=0,raf=false;
+  addEventListener('pointermove',e=>{fx=e.clientX;fy=e.clientY;if(!raf){raf=true;requestAnimationFrame(mv);}},{passive:true});
+  function mv(){cfx+=(fx-cfx)*0.16;cfy+=(fy-cfy)*0.16;fl.style.left=cfx+'px';fl.style.top=cfy+'px';raf=false;
+    if(Math.abs(fx-cfx)>0.5||Math.abs(fy-cfy)>0.5){raf=true;requestAnimationFrame(mv);}}
+  // re-observe injected reveals
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.16});
+  document.querySelectorAll('#flist .reveal').forEach(el=>io.observe(el));
+})();
+
+/* ============ 3D product : drag-scrub video ============ */
+(function(){
+  const stage=document.getElementById('stage'),vid=document.getElementById('prodVid'),deg=document.getElementById('degRead');
+  vid.src=MEDIA.video;
+  let dur=5, ready=false;
+  vid.addEventListener('loadedmetadata',()=>{dur=vid.duration||5;ready=true;try{vid.currentTime=0.001;}catch(e){}});
+  let dragging=false, startX=0, startT=0;
+  const setT=(t)=>{const tt=((t%dur)+dur)%dur;if(ready){try{vid.currentTime=tt;}catch(e){}}deg.textContent=Math.round((tt/dur)*360)+'°';};
+  function down(e){dragging=true;stage.classList.add('grabbed');startX=(e.touches?e.touches[0].clientX:e.clientX);startT=vid.currentTime||0;}
+  function move(e){if(!dragging)return;const cx=(e.touches?e.touches[0].clientX:e.clientX);const dx=cx-startX;
+    const t=startT + (dx/stage.clientWidth)*dur*1.15; setT(t); if(e.cancelable&&e.touches)e.preventDefault();}
+  function up(){dragging=false;stage.classList.remove('grabbed');}
+  stage.addEventListener('pointerdown',down);addEventListener('pointermove',move,{passive:false});addEventListener('pointerup',up);
+  stage.addEventListener('touchstart',down,{passive:true});stage.addEventListener('touchmove',move,{passive:false});stage.addEventListener('touchend',up);
+  // idle gentle auto-rotation until first interaction
+  let idle=true, t0=performance.now();
+  stage.addEventListener('pointerdown',()=>idle=false); stage.addEventListener('touchstart',()=>idle=false);
+  function spin(now){if(idle&&ready&&!RM){setT(((now-t0)/1000*0.35)%dur);}requestAnimationFrame(spin);}
+  requestAnimationFrame(spin);
+})();
+
+/* ============ portal scroll-scrub ============ */
+(function(){
+  const sec=document.getElementById('portal'),img=document.getElementById('portalImg');
+  function upd(){
+    const r=sec.getBoundingClientRect();const total=sec.offsetHeight-innerHeight;
+    let p=Math.min(1,Math.max(0,(-r.top)/total));
+    const rad=9+p*70;               // circle radius 9% -> 79%
+    const sc=1.18-p*0.18;
+    img.style.clipPath=`circle(${rad}% at 50% 50%)`;
+    img.style.webkitClipPath=`circle(${rad}% at 50% 50%)`;
+    img.style.transform=`scale(${sc.toFixed(3)})`;
+  }
+  addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+})();
+
+/* ============ Lenis smooth scroll (accel/decel natural) ============ */
+(function(){
+  if(RM) return;
+  const s=document.createElement('script');
+  s.src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js";
+  s.onload=()=>{ try{
+    const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,touchMultiplier:1.6});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');if(id.length>1){const el=document.querySelector(id);if(el){e.preventDefault();lenis.scrollTo(el,{offset:0});}}
+    }));
+  }catch(e){} };
+  s.onerror=()=>{ /* fallback: native smooth anchors */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');if(id.length>1){const el=document.querySelector(id);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'});}}}));
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

@@ -481,7 +481,7 @@ footer .links a:hover{color:var(--brasa)}
       <div class="campo"><label for="p-ramo">Ramo</label><select id="p-ramo"><option value="">Escolha</option><option>Buffet ou doceria</option><option>Clínica ou estética</option><option>Restaurante ou delivery</option><option>Marcenaria, marmoraria ou vidraçaria</option><option>Pet shop ou veterinária</option><option>Academia ou pilates</option><option>Outro</option></select></div>
       <div class="campo"><label for="p-cidade">Cidade</label><input id="p-cidade" type="text" autocomplete="address-level2" placeholder="Ex.: Goiânia/GO"></div>
       <div class="campo"><label for="p-insta">Instagram (opcional)</label><input id="p-insta" type="text" placeholder="@seunegocio"></div>
-      <p class="escolhidos" id="escolhidos">Nenhum recurso marcado ainda. Você pode marcar na seção <a href="#no-site">O que vai no seu site</a>.</p>
+      <p class="escolhidos" id="escolhidos" aria-live="polite">Nenhum recurso marcado ainda. Você pode marcar na seção <a href="#no-site">O que vai no seu site</a>.</p>
       <a class="pilula" id="enviarPedido" data-cool-mode data-particle="✨" data-size="24" href="https://wa.me/556293053099" target="_blank" rel="noopener">Pedir minha prévia no WhatsApp</a>
     </form>
   </div>
@@ -504,7 +504,7 @@ footer .links a:hover{color:var(--brasa)}
 <button class="meu-btn" id="meuBtn" aria-label="Abrir meu site">Meu site <span id="meuN">0</span></button>
 
 <div class="veu" id="veu"></div>
-<aside class="gaveta" id="gaveta" aria-label="Meu site" aria-hidden="true">
+<aside class="gaveta" id="gaveta" role="dialog" aria-label="Meu site" aria-hidden="true" inert>
   <div class="g-topo"><h3>Meu site</h3><button class="fechar" id="fechar" aria-label="Fechar">×</button></div>
   <ul class="lista-meu" id="listaMeu"></ul>
   <div class="campo"><label for="g-nome">Nome do negócio</label><input id="g-nome" type="text" placeholder="Ex.: Doceria da Ana"></div>
@@ -548,15 +548,14 @@ var RECURSOS=[
     grade.innerHTML=RECURSOS.map(function(it,i){
       return '<article class="card'+(filtro!=='tudo'&&it.cat!==filtro?' oculto':'')+'" data-id="'+esc(it.id)+'">'+
       '<div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img src="'+esc(it.img)+'" alt="" loading="lazy"><svg hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+it.ico+'</svg></div>'+
-      '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button type="button" class="add'+(meu[it.nome]?' ok':'')+'" data-nome="'+esc(it.nome)+'">'+(meu[it.nome]?'No meu site ✓':'Quero no meu site +')+'</button></div></article>';
+      '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button type="button" class="add'+(meu[it.nome]?' ok':'')+'" aria-pressed="'+(!!meu[it.nome])+'" data-nome="'+esc(it.nome)+'">'+(meu[it.nome]?'No meu site ✓':'Quero no meu site +')+'</button></div></article>';
     }).join('');
-    ligaCards();
   }
   document.getElementById('abas').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;filtro=b.dataset.f;
     this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});desenha();if(window.ScrollTrigger)ScrollTrigger.refresh();});
   var gav=document.getElementById('gaveta'),veu=document.getElementById('veu'),btn=document.getElementById('meuBtn');
-  function abre(){gav.classList.add('on');veu.classList.add('on');gav.setAttribute('aria-hidden','false');}
-  function fecha(){gav.classList.remove('on');veu.classList.remove('on');gav.setAttribute('aria-hidden','true');}
+  function abre(){gav.removeAttribute('inert');gav.classList.add('on');veu.classList.add('on');gav.setAttribute('aria-hidden','false');var f=document.getElementById('fechar');if(f)f.focus();}
+  function fecha(){var aberta=gav.classList.contains('on');gav.classList.remove('on');veu.classList.remove('on');gav.setAttribute('aria-hidden','true');gav.setAttribute('inert','');if(aberta)btn.focus();}
   function val(id){return document.getElementById(id).value.trim();}
   function mensagem(nome){
     var nomes=Object.keys(meu),m='Olá! Vi o site da HEsites e quero uma prévia do meu site.';
@@ -580,26 +579,13 @@ var RECURSOS=[
   document.getElementById('pedido').addEventListener('submit',function(e){e.preventDefault();});
   document.addEventListener('click',function(e){
     var a=e.target.closest('.add');
-    if(a){var n=a.dataset.nome;if(meu[n])delete meu[n];else meu[n]=1;a.classList.toggle('ok',!!meu[n]);a.textContent=meu[n]?'No meu site ✓':'Quero no meu site +';atualiza();}
+    if(a){var n=a.dataset.nome;if(meu[n])delete meu[n];else meu[n]=1;a.classList.toggle('ok',!!meu[n]);a.setAttribute('aria-pressed',!!meu[n]);a.textContent=meu[n]?'No meu site ✓':'Quero no meu site +';atualiza();}
     var t=e.target.closest('[data-tira]');if(t){delete meu[t.dataset.tira];atualiza();desenha();}
   });
   btn.addEventListener('click',abre);veu.addEventListener('click',fecha);document.getElementById('fechar').addEventListener('click',fecha);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
-  function ligaCards(){
-    return;
-    if(!matchMedia('(hover:hover)').matches)return;
-    grade.querySelectorAll('.card').forEach(function(c){
-      var f=c.querySelector('.foto'),cor=c.querySelector('.cor'),raio=0,alvo=0,raf=0;
-      function anima(){raio+=(alvo-raio)*.18;cor.style.setProperty('--raio',raio.toFixed(1)+'px');if(Math.abs(alvo-raio)>.5)raf=requestAnimationFrame(anima);else raf=0;}
-      c.addEventListener('mousemove',function(e){var r=f.getBoundingClientRect(),cr=c.getBoundingClientRect();
-        cor.style.setProperty('--mx',(e.clientX-r.left)+'px');cor.style.setProperty('--my',(e.clientY-r.top)+'px');
-        });
-      c.addEventListener('mouseenter',function(){alvo=150;if(!raf)anima();});
-      c.addEventListener('mouseleave',function(){alvo=0;if(!raf)anima();});
-    });
-  }
   desenha();atualiza();
-  (function(){var m=document.getElementById('gvMenu'),b=document.getElementById('burger');function t(v){m.classList.toggle('on',v);b.setAttribute('aria-expanded',v);document.body.style.overflow=v?'hidden':'';}b.onclick=function(){t(true)};document.getElementById('gvFechar').onclick=function(){t(false)};m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){t(false)})});})();
+  (function(){var m=document.getElementById('gvMenu'),b=document.getElementById('burger');function t(v){m.classList.toggle('on',v);b.setAttribute('aria-expanded',v);document.body.style.overflow=v?'hidden':'';if(v)document.getElementById('gvFechar').focus();else if(document.activeElement&&m.contains(document.activeElement))b.focus();}addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('on'))t(false)});b.onclick=function(){t(true)};document.getElementById('gvFechar').onclick=function(){t(false)};m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){t(false)})});})();
   document.getElementById('voltarTopo').onclick=function(){if(window.__lenis)window.__lenis.scrollTo(0);else scrollTo({top:0,behavior:'smooth'});};
   addEventListener('scroll',function(){document.getElementById('topo').classList.toggle('solido',scrollY>innerHeight*.7);},{passive:true});
   if(matchMedia('(hover:hover)').matches){

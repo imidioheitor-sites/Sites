@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+  <div class="fundo-fx" data-interactive-grid data-width="44" data-height="44" data-squares="48,30" data-line-color="rgba(120,140,175,.16)" data-active-color="rgba(201,151,0,.28)" aria-hidden="true"></div>
   <div class="app">
     <header class="topo">
       <div>
@@ -24,7 +25,10 @@
     <main>
       <!-- PAINEL -->
       <section class="aba ativa" id="aba-painel">
+        <h2 class="manchete">Seu semestre, em <span data-aurora-text data-colors='["#c99700","#2f6fd6","#3ec486","#e3a33a"]' data-speed="0.8">números</span>.</h2>
         <div class="cartao destaque">
+          <div class="grao" data-grainient data-colors='["#071428","#0c2340","#183a66","#2c5a9a","#c99700"]' data-angle="35" data-speed="0.35" data-grain-amount="0.09" data-contrast="1.05" data-interactive="true" aria-hidden="true"></div>
+          <div class="conteudo">
           <div class="linha">
             <div>
               <p class="rotulo">GPA acumulado</p>
@@ -37,6 +41,7 @@
           </div>
           <div class="barra-meta"><div id="barraMeta"></div><span id="marcaMeta"></span></div>
           <p class="legenda" id="legendaMeta">—</p>
+          </div>
         </div>
 
         <div class="grade2">
@@ -55,7 +60,7 @@
         </div>
 
         <div class="cartao">
-          <p class="titulo-cartao">Onde focar agora</p>
+          <p class="titulo-cartao">Onde <span data-highlighter data-action="underline" data-color="#c99700" data-animation-duration="900" data-iterations="2">focar</span> agora</p>
           <ul class="lista sugestoes" id="sugestoes"></ul>
         </div>
       </section>
@@ -117,12 +122,12 @@
         <div class="chips" id="chips"></div>
         <form class="caixa" id="formChat">
           <input id="msg" placeholder="Pergunte sobre suas notas…" autocomplete="off">
-          <button class="botao" aria-label="Enviar">↑</button>
+          <button class="botao" aria-label="Enviar" data-starborder data-radius="12" data-duration="5" data-glow=".5" data-theme="dark" data-background-color="#0c2340" data-text-color="#ffffff">↑</button>
         </form>
       </section>
     </main>
 
-    <nav class="abas">
+    <nav class="abas" aria-label="Seções">
       <button data-aba="painel" class="ativa"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zm0 7h6v-5H4zm10 0h6v-9h-6zm0-16v5h6V4z"/></svg>Painel</button>
       <button data-aba="materias"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5zM8 10h8M8 14h8M8 18h5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Matérias</button>
       <button data-aba="simular"><svg viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>Simular</button>
@@ -136,5 +141,11 @@
 
   <script src="/gpa.js"></script>
   <script src="/app.js"></script>
+  <script src="/fx/interactive-grid.js"></script>
+  <script src="/fx/aurora-text.js"></script>
+  <script src="/fx/highlighter.js"></script>
+  <script src="/fx/star-border.js"></script>
+  <script src="/fx/grainient.js"></script>
+  <script src="/fx.js"></script>
 </body>
 </html>

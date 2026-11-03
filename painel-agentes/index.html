@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hotel da Fábrica HELU</title>
+<meta name="theme-color" content="#14121f"><meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Fábrica">
+<style>
+:root{--bg:#14121f;--panel:#1f1b33;--ink:#f1ecff;--mut:#9a92c0;--acc:#ffd23f;--line:#352f55;--red:#ff5d5d;--grn:#52ff8a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 ui-monospace,Menlo,Consolas,monospace}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(64px + env(safe-area-inset-bottom)) env(safe-area-inset-left);min-height:100vh}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:2px solid var(--line);padding:10px 14px}
+.top{display:flex;align-items:center;gap:10px}
+h1{font-size:15px;margin:0;color:var(--acc);letter-spacing:1px;flex:1}
+#live{font-size:12px;color:var(--mut)}#live.on{color:var(--grn)}#live.off{color:var(--red)}
+.kpis{display:flex;gap:6px;margin-top:8px;overflow-x:auto;scrollbar-width:none}.kpis::-webkit-scrollbar{display:none}
+.pill{flex:none;padding:3px 9px;border:1px solid var(--line);border-radius:10px;color:var(--mut);font-size:12px;white-space:nowrap}.pill b{color:var(--ink)}.pill.red{border-color:var(--red)}.pill.red b{color:var(--red)}
+main{max-width:1400px;margin:0 auto;padding:12px}
+.tab{display:none}.tab.on{display:block}
+.rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.room{background:var(--panel);border:2px solid var(--line);border-radius:12px;overflow:hidden}
+.room.wait{border-color:var(--red)}.room.work{border-color:var(--grn)}
+.rh{display:flex;align-items:center;gap:8px;padding:8px 10px;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.rh b{font-size:14px}.rh small{color:var(--mut);display:block;font-size:11px}
+.chip{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:9px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.chip.work{color:var(--grn);border-color:var(--grn)}.chip.wait,.chip.erro{color:var(--red);border-color:var(--red)}.chip.think{color:#c18bff;border-color:#c18bff}
+canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#14121f}
+h2{font-size:12px;color:var(--acc);margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px}
+.card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.card.p1,.card.urg{border-left-color:var(--red)}.card.p2{border-left-color:#ff9f43}.card.p3{border-left-color:#4db8ff}
+.card .t{font-weight:700}.card p{margin:4px 0;color:var(--mut)}.card a{color:var(--acc)}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:9px;padding:0 7px;margin-left:4px;color:var(--mut)}
+.row{display:flex;justify-content:space-between;gap:6px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.bar{height:5px;background:var(--line);border-radius:3px;margin:2px 0 6px}.bar i{display:block;height:100%;background:var(--acc);border-radius:3px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.log div{padding:3px 0;border-bottom:1px dashed var(--line);color:var(--mut)}.log b{color:var(--ink)}
+.org{padding-left:14px;border-left:1px solid var(--line);margin:4px 0}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;display:flex;background:var(--panel);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;color:var(--mut);font:inherit;padding:12px 4px;cursor:pointer}nav button.on{color:var(--acc);box-shadow:inset 0 3px var(--acc)}
+nav i{font-style:normal;background:var(--red);color:#fff;border-radius:9px;padding:0 6px;font-size:11px;margin-left:4px}
+#sheet{position:fixed;inset:0;z-index:10;background:#000a;display:none;align-items:flex-end;justify-content:center}
+#sheet.on{display:flex}
+#sheet .box{background:var(--panel);width:100%;max-width:640px;max-height:85vh;overflow:auto;border-radius:16px 16px 0 0;border:2px solid var(--line);padding:14px 14px calc(18px + env(safe-area-inset-bottom))}
+#sheet .x{float:right;background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:4px 10px;font:inherit}
+#gate{position:fixed;inset:0;z-index:20;background:var(--bg);display:none;align-items:center;justify-content:center;padding:20px}
+#gate.on{display:flex}#gate form{width:100%;max-width:340px;text-align:center}
+#gate input{width:100%;padding:12px;margin:12px 0 8px;background:var(--panel);border:2px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:16px}
+#gate button{width:100%;padding:12px;background:var(--acc);color:#14121f;border:0;border-radius:10px;font:inherit;font-weight:700;font-size:15px}
+#err{color:var(--red);min-height:20px;font-size:13px}
+.mut{color:var(--mut)}
+</style></head><body>
+<div id="gate"><form id="gf"><div style="font-size:42px">🏭</div><h1 style="font-size:18px">Hotel da Fábrica HELU</h1><div class="mut">Digite a chave de acesso</div><input id="gk" type="password" autocomplete="current-password" placeholder="chave" required><button>Entrar</button><div id="err"></div></form></div>
+<header><div class="top"><h1>▞ HOTEL DA FÁBRICA</h1><span id="live">● conectando</span></div>
+<div class="kpis" id="kpis"></div></header>
+<main>
+<section class="tab on" id="t-fab"><div class="rooms" id="rooms"></div>
+ <div class="two"><div><h2>🏆 Ranking (XP das últimas 24h)</h2><div id="rank"></div></div><div><h2>🏢 Organograma</h2><div id="org"></div></div></div></section>
+<section class="tab" id="t-eu"><div id="eu"></div></section>
+<section class="tab" id="t-log"><div class="two"><div><h2>📜 Atividade real</h2><div class="log" id="log"></div></div><div><h2>Leads por status</h2><div id="funil"></div></div></div></section>
+</main>
+<nav><button data-t="fab" class="on">🏨 Fábrica</button><button data-t="eu">❗ Preciso de você<i id="nb" hidden></i></button><button data-t="log">📜 Atividade</button></nav>
+<div id="sheet"><div class="box" id="sbox"></div></div>
+<script>
+// ====== configuração ======
+const API='https://himidio.app.n8n.cloud/webhook/painel-agentes-dados';
+const DONO='https://himidio.app.n8n.cloud/webhook/painel-helu';
+const POLL=20000;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let KEY=store.get('hf_k')||'';
+const hm=location.hash.match(/k=([^&]+)/);if(hm){KEY=decodeURIComponent(hm[1]);store.set('hf_k',KEY);history.replaceState(null,'',location.pathname+location.search)}
+let D=null,lastOk=0;
+
+// ====== estilo isométrico (derivado do Factory Hotel) ======
+const TW=40,TH=20,N=7,W=400,H=262;
+const COL={work:'#52ff8a',erro:'#ff5d5d',wait:'#ff5d5d',think:'#c18bff',idle:'#555a7a'};
+const ICON={work:'⚙',erro:'❗',wait:'❗',think:'💭',idle:'💤'};
+const ESTADO={work:'trabalhando',erro:'com erro',wait:'precisa de você',think:'ativo agora',idle:'em espera'};
+const HUE={seller:200,coder:140,reacher:330,watchdog:30,verifier:270,posvenda:50,infra:210};
+const EMO={seller:'💬',coder:'🎨',reacher:'📞',watchdog:'🐕',verifier:'🔧',posvenda:'🧾',infra:'🏗'};
+const hash=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h};
+const HAIR=['#2b1b12','#7a4a21','#d9a441','#c2412d','#3c3c52','#e8e0d0','#2fa36b','#7c4dff'];
+const SHIRT=['#e94f4f','#4f8fe9','#4fc97a','#e9b84f','#a24fe9','#4fd5e9','#e94fa3','#8fa3b5'];
+const SKIN=['#f2c9a0','#e0a878','#b9774a','#8a5233'];
+const SPOTS=[[1,1],[3,1],[5,1],[1,3],[3,3],[5,3]];
+const IDLE=[[1.2,5.3],[2.9,5.3],[4.6,5.3],[2.1,4.4],[3.8,4.4],[5.5,4.4]];
+const limpa=n=>String(n).replace(/^HELU FACTORY \|\s*/,'').replace(/^(Seller|Coder|Reacher|Watchdog|Verifier|Pos-venda|Infra|Testes)\s*\|\s*/i,'');
+const R={}; // salas: id -> {cv,ctx,chars,agent}
+function sala(id){ if(R[id])return R[id]; const cv=document.createElement('canvas'),dpr=Math.min(2,window.devicePixelRatio||1);cv.width=W*dpr;cv.height=H*dpr;const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);R[id]={id,cv,ctx,chars:new Map(),agent:null,vis:true};return R[id]}
+const iso=(gx,gy)=>[W/2+(gx-gy)*TW/2,92+(gx+gy)*TH/2];
+function poly(c,pts,fill){c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();c.fillStyle=fill;c.fill()}
+function box(c,gx,gy,w,d,h,top,l,r){const A=iso(gx,gy),B=iso(gx+w,gy),C=iso(gx+w,gy+d),D=iso(gx,gy+d),up=p=>[p[0],p[1]-h];poly(c,[D,C,up(C),up(D)],l);poly(c,[C,B,up(B),up(C)],r);poly(c,[up(A),up(B),up(C),up(D)],top)}
+function drawRoom(r,now){
+  const c=r.ctx,g=iso,id=r.id,hue=HUE[id]||200;c.clearRect(0,0,W,H);
+  poly(c,[g(0,0),g(N,0),[g(N,0)[0],g(N,0)[1]-90],[g(0,0)[0],g(0,0)[1]-90]],'#2d2750');
+  poly(c,[g(0,0),g(0,N),[g(0,N)[0],g(0,N)[1]-90],[g(0,0)[0],g(0,0)[1]-90]],'#3a3366');
+  poly(c,[[g(0,0)[0],g(0,0)[1]-70],[g(0,N)[0],g(0,N)[1]-70],[g(0,N)[0],g(0,N)[1]-64],[g(0,0)[0],g(0,0)[1]-64]],'hsl('+hue+' 60% 55%)');
+  for(let x=0;x<N;x++)for(let y=0;y<N;y++)poly(c,[g(x,y),g(x+1,y),g(x+1,y+1),g(x,y+1)],(x+y)%2?'#4a4378':'#554d88');
+  box(c,1,6,4,1,10,'#7a3b5e','#5c2b46','#6a3352');
+  const p=g(N/2,0);c.fillStyle='#0c0a16';c.fillRect(p[0]-70,p[1]-84,140,22);c.fillStyle='#ffd23f';c.font='bold 12px monospace';c.textAlign='center';c.fillText((r.agent?r.agent.nome:id).toUpperCase().slice(0,18),p[0],p[1]-68);
+  const seated=[...r.chars.values()].filter(ch=>ch.seat!=null);
+  SPOTS.forEach(([x,y],i)=>{
+    box(c,x,y,1.4,1,12,'#a8793f','#7d5a2f','#8e6836');
+    const o=seated.find(s=>s.seat===i),st=o?o.state:'idle',col=COL[st];
+    const m=g(x+.7,y+.5);c.fillStyle='#0c0a16';c.fillRect(m[0]-9,m[1]-34,18,13);
+    c.globalAlpha=st==='idle'?.35:.7+.3*Math.sin(now/120+i);c.fillStyle=col;c.fillRect(m[0]-7,m[1]-32,14,9);c.globalAlpha=1;
+    if(st!=='idle'){c.globalAlpha=.12;c.fillStyle=col;c.beginPath();c.ellipse(m[0],m[1]-6,38,16,0,0,7);c.fill();c.globalAlpha=1}});
+  const cs=[...r.chars.values()].sort((a,b)=>(a.x+a.y)-(b.x+b.y));cs.forEach(ch=>drawChar(c,ch,now));
+}
+function drawChar(c,a,now){
+  const [sx,sy]=iso(a.x,a.y),moving=Math.hypot(a.tx-a.x,a.ty-a.y)>.05;
+  const bob=moving?Math.abs(Math.sin(now/90))*3:(a.state==='idle'?Math.sin(now/600):0),px=sx,py=sy-bob,u=3;
+  c.fillStyle='rgba(0,0,0,.3)';c.beginPath();c.ellipse(px,sy,10,4,0,0,7);c.fill();
+  const Rr=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(Math.round(px+x*u),Math.round(py+y*u),w*u,h*u)};
+  const leg=moving?Math.sin(now/90)>0:0;
+  Rr(-2,-4,2,4,'#2a2748');Rr(0,-4+(leg?-1:0),2,4+(leg?1:0),'#2a2748');Rr(-3,-9,6,5,a.shirt);
+  const typing=!moving&&a.state==='work',sw=typing?(Math.sin(now/70)>0?1:0):0;
+  Rr(-4,-9+sw,1,4,a.shirt);Rr(3,-9+(typing?1-sw:0),1,4,a.shirt);
+  Rr(-3,-14,6,5,a.skin);Rr(-3,-15,6,2,a.hair);Rr(-3,-14,1,3,a.hair);Rr(2,-14,1,3,a.hair);Rr(-2,-12,1,1,'#111');Rr(1,-12,1,1,'#111');
+  if(a.lead){Rr(-2,-17,4,1,'#ffd23f');Rr(-3,-16,6,1,'#ffd23f')}else Rr(-3,-17,6,1,'#ff6bd5');
+  if((a.state==='wait'||a.state==='erro')&&Math.sin(now/150)>0){c.fillStyle='#ff5d5d';c.font='bold 18px monospace';c.textAlign='center';c.fillText('!',px,py-60)}
+  c.font='10px monospace';c.textAlign='center';c.fillStyle='#000a';const lbl=a.label;const w=c.measureText(lbl).width+8;c.fillRect(px-w/2,py+5,w,13);c.fillStyle=COL[a.state];c.fillText(lbl,px,py+15);
+  if(a.bubble){c.font='11px monospace';const t=a.bubble.slice(0,30),bw=c.measureText(t).width+14,bx=Math.max(2,Math.min(W-bw-2,px-bw/2)),by=py-82;
+    c.fillStyle='#fffbe8';c.fillRect(bx,by,bw,20);c.fillRect(px-4,by+20,8,5);c.strokeStyle=COL[a.state];c.lineWidth=2;c.strokeRect(bx,by,bw,20);c.fillStyle='#1b1830';c.textAlign='center';c.fillText(t,bx+bw/2,by+14)}
+  else if(a.state!=='idle'){c.font='13px sans-serif';c.fillText(ICON[a.state],px+14,py-52)}
+}
+// ====== estado -> personagens ======
+const rel=iso=>{if(!iso)return 'nunca';const s=(Date.now()-Date.parse(iso))/1000;if(s<60)return 'agora';if(s<3600)return Math.floor(s/60)+' min atrás';if(s<86400)return Math.floor(s/3600)+' h atrás';return Math.floor(s/86400)+' d atrás'};
+function fluxoEstado(f){if(f.rodando)return 'work';if(f.ultimoStatus==='error'&&f.ultima&&Date.now()-Date.parse(f.ultima)<6*3600e3)return 'erro';if(f.ultima&&Date.now()-Date.parse(f.ultima)<15*60e3)return 'think';return 'idle'}
+function aplicar(a){
+  const r=sala(a.id);r.agent=a;const want=[];
+  want.push({key:'lead',lead:true,label:a.nome,state:a.estado,bubble:a.avisos[0]?a.avisos[0]:(a.estado==='idle'?'':ESTADO[a.estado])});
+  const ord=[...a.fluxos].sort((x,y)=>{const s={work:0,erro:1,think:2,idle:3};const ex=fluxoEstado(x),ey=fluxoEstado(y);return (s[ex]-s[ey])||((y.ativo?1:0)-(x.ativo?1:0))});
+  ord.slice(0,4).forEach(f=>want.push({key:f.id,lead:false,label:limpa(f.nome).replace(/^\d+[a-z]?\.\s*/,'').slice(0,11),state:fluxoEstado(f),bubble:fluxoEstado(f)==='work'?limpa(f.nome).slice(0,28):''}));
+  const keys=new Set(want.map(w=>w.key));for(const k of r.chars.keys())if(!keys.has(k))r.chars.delete(k);
+  want.forEach(w=>{let ch=r.chars.get(w.key);if(!ch){const h=hash(a.id+w.key);ch={x:3,y:6.4,tx:3,ty:6.4,hair:HAIR[h%8],shirt:SHIRT[(h>>3)%8],skin:SKIN[(h>>6)%4],seat:null};r.chars.set(w.key,ch)}
+    Object.assign(ch,{lead:w.lead,label:w.label,state:w.state,bubble:w.bubble});});
+  // lugares: ativos sentam; ociosos vão ao sofá
+  const used=new Set();let lounge=0;
+  [...r.chars.entries()].forEach(([k,ch])=>{
+    if(ch.state!=='idle'){let i=ch.seat!=null&&!used.has(ch.seat)?ch.seat:SPOTS.findIndex((_,j)=>!used.has(j));if(i<0)i=0;used.add(i);ch.seat=i;ch.tx=SPOTS[i][0]+.7;ch.ty=SPOTS[i][1]+1.4}
+    else{ch.seat=null;const L=IDLE[lounge%6];ch.tx=L[0];ch.ty=L[1];lounge++}});
+}
+let tick=0;function frame(now){
+  for(const r of Object.values(R)){ if(!r.vis)continue;
+    for(const ch of r.chars.values()){const dx=ch.tx-ch.x,dy=ch.ty-ch.y,d=Math.hypot(dx,dy);if(d>.02){const s=Math.min(d,.035*2.2);ch.x+=dx/d*s;ch.y+=dy/d*s}}
+    drawRoom(r,now)}
+  requestAnimationFrame(frame)}
+const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(e=>{const r=Object.values(R).find(x=>x.cv===e.target.querySelector('canvas'));if(r)r.vis=e.isIntersecting}),{rootMargin:'100px'}):null;
+requestAnimationFrame(frame);
+
+// ====== telas ======
+function render(){
+  const d=D,r=d.resumo;
+  $('kpis').innerHTML=
+   '<span class="pill '+(r.precisaHeitor?'red':'')+'">❗ precisa de você <b>'+r.precisaHeitor+'</b></span>'+
+   '<span class="pill">agentes ativos <b>'+r.agentesAtivos+'/'+d.agentes.length+'</b></span>'+
+   '<span class="pill">rodando agora <b>'+r.rodandoAgora+'</b></span>'+
+   '<span class="pill">execuções 24h <b>'+r.execs24h+'</b></span>'+
+   '<span class="pill '+(r.erros24h?'red':'')+'">erros 24h <b>'+r.erros24h+'</b></span>'+
+   '<span class="pill">leads <b>'+r.leads+'</b></span>'+
+   '<span class="pill">vendas <b>'+r.fechados+'</b> · R$ '+(r.receita||0).toLocaleString('pt-BR')+'</span>'+
+   '<span class="pill">WhatsApp 7d <b>'+r.enviadas7d+'↑ '+r.recebidas7d+'↓</b></span>';
+  const box=$('rooms');
+  d.agentes.forEach(a=>{
+    aplicar(a);let el=document.getElementById('room-'+a.id);
+    if(!el){el=document.createElement('div');el.className='room';el.id='room-'+a.id;el.innerHTML='<button class="rh"></button>';el.appendChild(R[a.id].cv);box.appendChild(el);el.querySelector('button').onclick=()=>detalhe(a.id);if(io)io.observe(el)}
+    el.className='room '+(a.estado==='wait'||a.estado==='erro'?'wait':a.estado==='work'?'work':'');
+    el.querySelector('button').innerHTML='<span style="font-size:22px">'+EMO[a.id]+'</span><span><b>'+esc(a.nome)+'</b><small>'+esc(a.papel)+'</small></span><span class="chip '+a.estado+'">'+ESTADO[a.estado]+(a.rodando?' ('+a.rodando+')':'')+'</span>'});
+  const ag=[...d.agentes].map(a=>({...a,xp:a.execs24h*10+a.fluxosAtivos*2})).sort((a,b)=>b.xp-a.xp),mx=Math.max(1,...ag.map(a=>a.xp));
+  $('rank').innerHTML=ag.map(a=>'<div class="row"><span><span class="dot" style="background:'+COL[a.estado]+'"></span>'+esc(a.nome)+'</span><span>Lv'+(Math.floor(Math.sqrt(a.xp/5))+1)+' · '+a.xp+'xp</span></div><div class="bar"><i style="width:'+(a.xp/mx*100)+'%"></i></div>').join('');
+  const A=Object.fromEntries(d.agentes.map(a=>[a.id,a])),dot=id=>'<span class="dot" style="background:'+COL[A[id].estado]+'"></span>'+esc(A[id].nome)+' <span class="mut">'+ESTADO[A[id].estado]+'</span>';
+  $('org').innerHTML='<div>👤 <b>Heitor</b></div><div class="org">'+dot('reacher')+' <span class="mut">(único canal até você)</span>'+
+   '<div class="org">'+dot('seller')+'<div class="org">'+dot('coder')+'</div><div class="org">'+dot('posvenda')+'</div></div>'+
+   '<div class="org">'+dot('watchdog')+'</div><div class="org">'+dot('verifier')+'</div><div class="org">'+dot('infra')+'</div></div>';
+  // precisa de você
+  let h='<h2>O que precisa de você ('+r.precisaHeitor+')</h2>';
+  d.escalacoes.forEach(e=>h+='<div class="card urg"><div class="t">'+esc(e.empresa)+'<span class="tag">lead pedindo você</span></div><p>'+esc(e.motivo)+'</p>'+(e.sugestao?'<p><b>Sugestão:</b> '+esc(e.sugestao)+'</p>':'')+'<p>Tel '+esc(e.telefone)+'</p></div>');
+  d.avisos.forEach(e=>h+='<div class="card urg"><div class="t">'+esc(e.titulo)+'<span class="tag">'+esc(e.severidade||'aviso')+'</span><span class="tag">'+esc(e.origem)+'</span></div><p>'+esc(e.detalhe)+'</p></div>');
+  d.travados.forEach(p=>h+='<div class="card urg"><div class="t">'+esc(p.empresa)+'<span class="tag">'+esc(p.status)+'</span></div><p>Tel '+esc(p.telefone)+(p.site?' · <a href="'+esc(p.site)+'" target="_blank" rel="noopener">site</a>':'')+'</p></div>');
+  const pr={1:'trava tudo',2:'trava uma parte',3:'antes de escalar'};
+  d.pendencias.forEach(p=>h+='<div class="card p'+(p.prioridade||3)+'"><div class="t">'+esc(p.id)+' · '+esc(p.titulo)+'<span class="tag">'+esc(pr[p.prioridade]||'')+'</span><span class="tag">'+esc(p.area)+'</span></div><p><b>Trava:</b> '+esc(p.bloqueia)+'</p><p>'+esc(p.como)+(p.onde&&/^https?:/.test(p.onde)?' · <a href="'+esc(p.onde)+'" target="_blank" rel="noopener">abrir</a>':(p.onde?' · '+esc(p.onde):''))+'</p></div>');
+  if(!r.precisaHeitor)h+='<p class="mut">Nada esperando por você. 🎉</p>';
+  h+='<p class="mut"><a style="color:var(--acc)" href="'+DONO+'?k='+encodeURIComponent(KEY)+'" target="_blank" rel="noopener">Abrir o painel do dono (botão “Já resolvi”)</a></p>';
+  $('eu').innerHTML=h;const nb=$('nb');nb.hidden=!r.precisaHeitor;nb.textContent=r.precisaHeitor;
+  $('log').innerHTML=d.atividade.map(e=>{const a=A[e.agente];return '<div><b>'+esc(a?a.nome:'fábrica')+'</b> '+esc(limpa(e.texto))+' <span class="tag">'+esc(e.status)+'</span> <span class="mut">'+rel(new Date(e.t).toISOString())+'</span></div>'}).join('')||'<span class="mut">Sem atividade recente.</span>';
+  $('funil').innerHTML=Object.entries(d.funil).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="row"><span>'+esc(k)+'</span><b>'+v+'</b></div>').join('');
+  if($('sheet').classList.contains('on')&&curSheet)detalhe(curSheet,true);
+}
+let curSheet=null;
+function detalhe(id,keep){
+  const a=D.agentes.find(x=>x.id===id);if(!a)return;curSheet=id;
+  let h='<button class="x" onclick="fechar()">fechar</button><h2 style="margin-top:0">'+EMO[id]+' '+esc(a.nome)+' <span class="chip '+a.estado+'">'+ESTADO[a.estado]+'</span></h2><p class="mut">'+esc(a.papel)+'<br>24h: '+a.execs24h+' execuções, '+a.erros24h+' com erro · última: '+rel(a.ultimaExec)+'</p>';
+  if(a.avisos.length)h+='<div class="card urg"><div class="t">Precisa de você</div>'+a.avisos.map(x=>'<p>'+esc(x)+'</p>').join('')+'</div>';
+  h+='<h2>Fluxos n8n ('+a.fluxosAtivos+' publicados de '+a.fluxos.length+')</h2>';
+  a.fluxos.forEach(f=>{const s=fluxoEstado(f);h+='<div class="row"><span><span class="dot" style="background:'+COL[s]+'"></span>'+esc(limpa(f.nome))+(f.ativo?'':' <span class="tag">inativo</span>')+'</span><span class="mut">'+(f.execs24h?f.execs24h+'× · ':'')+(f.erros24h?'<span style="color:var(--red)">'+f.erros24h+' erro · </span>':'')+rel(f.ultima)+'</span></div>'});
+  $('sbox').innerHTML=h;$('sheet').classList.add('on')}
+function fechar(){$('sheet').classList.remove('on');curSheet=null}
+$('sheet').onclick=e=>{if(e.target.id==='sheet')fechar()};
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='t-'+b.dataset.t));scrollTo(0,0)});
+
+// ====== dados ======
+async function buscar(){
+  if(!KEY){$('gate').classList.add('on');return}
+  try{
+    const c=new AbortController(),to=setTimeout(()=>c.abort(),30000);
+    const res=await fetch(API+'?k='+encodeURIComponent(KEY),{signal:c.signal,cache:'no-store'});clearTimeout(to);
+    if(res.status===401||res.status===404){store.del('hf_k');KEY='';$('err').textContent='Chave incorreta.';$('gate').classList.add('on');return}
+    if(!res.ok)throw new Error(res.status);
+    D=await res.json();lastOk=Date.now();$('gate').classList.remove('on');render();
+  }catch(e){}
+  status();
+}
+function status(){const l=$('live');if(!lastOk){l.className='off';l.textContent='● sem conexão';return}const s=(Date.now()-lastOk)/1000;
+  if(s<POLL/1000*2.5){l.className='on';l.textContent='● ao vivo · '+new Date(Date.parse(D.geradoEm)).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+  else{l.className='off';l.textContent='● desatualizado ('+Math.floor(s/60)+' min)'}}
+$('gf').onsubmit=e=>{e.preventDefault();KEY=$('gk').value.trim();store.set('hf_k',KEY);$('err').textContent='';buscar()};
+buscar();setInterval(buscar,POLL);setInterval(status,5000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)buscar()});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>

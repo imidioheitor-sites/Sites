@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8">
+<html lang="pt-BR" class="dark" data-theme="dark"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Hotel da Fábrica HELU</title>
 <meta name="theme-color" content="#14121f"><meta name="robots" content="noindex,nofollow">
@@ -25,7 +25,7 @@ main{max-width:1400px;margin:0 auto;padding:12px}
 .rh b{font-size:14px}.rh small{color:var(--mut);display:block;font-size:11px}
 .chip{margin-left:auto;font-size:11px;padding:2px 8px;border-radius:9px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
 .chip.work{color:var(--grn);border-color:var(--grn)}.chip.wait,.chip.erro{color:var(--red);border-color:var(--red)}.chip.think{color:#c18bff;border-color:#c18bff}
-canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#14121f}
+.room canvas{display:block;width:100%;height:auto;image-rendering:pixelated;background:#14121f}
 h2{font-size:12px;color:var(--acc);margin:16px 0 8px;text-transform:uppercase;letter-spacing:1px}
 .card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
 .card.p1,.card.urg{border-left-color:var(--red)}.card.p2{border-left-color:#ff9f43}.card.p3{border-left-color:#4db8ff}
@@ -50,9 +50,17 @@ nav i{font-style:normal;background:var(--red);color:#fff;border-radius:9px;paddi
 #gate button{width:100%;padding:12px;background:var(--acc);color:#14121f;border:0;border-radius:10px;font:inherit;font-weight:700;font-size:15px}
 #err{color:var(--red);min-height:20px;font-size:13px}
 .mut{color:var(--mut)}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+main{position:relative;z-index:1}
+#gate .retro{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.55}
+#gate form{position:relative;z-index:1}
+#gate button{position:relative}
+h1 .aurora-text__fx{-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:reduce){#bg,#gate .retro{display:none}}
 </style></head><body>
-<div id="gate"><form id="gf"><div style="font-size:42px">🏭</div><h1 style="font-size:18px">Hotel da Fábrica HELU</h1><div class="mut">Digite a chave de acesso</div><input id="gk" type="password" autocomplete="current-password" placeholder="chave" required><button>Entrar</button><div id="err"></div></form></div>
-<header><div class="top"><h1>▞ HOTEL DA FÁBRICA</h1><span id="live">● conectando</span></div>
+<div id="bg" data-interactive-grid data-width="34" data-height="34" data-line-color="rgba(255,210,63,.07)" data-active-color="rgba(255,210,63,.38)"></div>
+<div id="gate"><div class="retro" data-retro-grid data-angle="72" data-cell-size="46" data-opacity="0.45" data-dark-line-color="#6f63c8" data-fade="#14121f"></div><form id="gf"><div style="font-size:42px">🏭</div><h1 style="font-size:18px">Hotel da Fábrica HELU</h1><div class="mut">Digite a chave de acesso</div><input id="gk" type="password" autocomplete="current-password" placeholder="chave" required><button data-starborder data-color="#ffd23f" data-speed="5s">Entrar</button><div id="err"></div></form></div>
+<header><div class="top"><h1>▞ HOTEL DA <span data-aurora-text data-colors='["#ffd23f","#ff6bd5","#52ff8a","#c18bff"]' data-speed="0.8">FÁBRICA</span></h1><span id="live">● conectando</span></div>
 <div class="kpis" id="kpis"></div></header>
 <main>
 <section class="tab on" id="t-fab"><div class="rooms" id="rooms"></div>
@@ -60,8 +68,9 @@ nav i{font-style:normal;background:var(--red);color:#fff;border-radius:9px;paddi
 <section class="tab" id="t-eu"><div id="eu"></div></section>
 <section class="tab" id="t-log"><div class="two"><div><h2>📜 Atividade real</h2><div class="log" id="log"></div></div><div><h2>Leads por status</h2><div id="funil"></div></div></div></section>
 </main>
-<nav><button data-t="fab" class="on">🏨 Fábrica</button><button data-t="eu">❗ Preciso de você<i id="nb" hidden></i></button><button data-t="log">📜 Atividade</button></nav>
+<nav><button data-t="fab" class="on" data-cool-mode data-particle="🏭" data-size="26">🏨 Fábrica</button><button data-t="eu">❗ Preciso de você<i id="nb" hidden></i></button><button data-t="log">📜 Atividade</button></nav>
 <div id="sheet"><div class="box" id="sbox"></div></div>
+<script src="fx/interactive-grid.js"></script><script src="fx/retro-grid.js"></script><script src="fx/aurora-text.js"></script><script src="fx/star-border.js"></script><script src="fx/highlighter.js"></script><script src="fx/cool-mode.js"></script><script src="fx/crosshair.js"></script>
 <script>
 // ====== configuração ======
 const API='https://himidio.app.n8n.cloud/webhook/painel-agentes-dados';
@@ -144,17 +153,32 @@ function aplicar(a){
     if(ch.state!=='idle'){let i=ch.seat!=null&&!used.has(ch.seat)?ch.seat:SPOTS.findIndex((_,j)=>!used.has(j));if(i<0)i=0;used.add(i);ch.seat=i;ch.tx=SPOTS[i][0]+.7;ch.ty=SPOTS[i][1]+1.4}
     else{ch.seat=null;const L=IDLE[lounge%6];ch.tx=L[0];ch.ty=L[1];lounge++}});
 }
-let tick=0;function frame(now){
+function efeitos(){
+  try{
+    if(window.HeluMark)HeluMark.init($('eu'));
+    if(window.HeluStar)HeluStar.init();
+    if(window.HeluAurora)HeluAurora.init();
+  }catch(e){}
+}
+const finoDesktop=matchMedia('(pointer:fine)').matches&&innerWidth>=980&&!matchMedia('(prefers-reduced-motion:reduce)').matches;
+function mira(){ if(finoDesktop&&window.HeluCrosshair&&!window._mira){ try{window._mira=HeluCrosshair.create(null,{color:'#ffd23f',targetEffect:'lock',clickPulse:true,showCoordinates:false,opacity:0.35,lineStyle:'dashed'});}catch(e){} } }
+function frame(now){
   for(const r of Object.values(R)){ if(!r.vis)continue;
     for(const ch of r.chars.values()){const dx=ch.tx-ch.x,dy=ch.ty-ch.y,d=Math.hypot(dx,dy);if(d>.02){const s=Math.min(d,.035*2.2);ch.x+=dx/d*s;ch.y+=dy/d*s}}
     drawRoom(r,now)}
-  requestAnimationFrame(frame)}
+  if(!document.hidden)requestAnimationFrame(frame);else setTimeout(()=>requestAnimationFrame(frame),1000)}
 const io=('IntersectionObserver' in window)?new IntersectionObserver(es=>es.forEach(e=>{const r=Object.values(R).find(x=>x.cv===e.target.querySelector('canvas'));if(r)r.vis=e.isIntersecting}),{rootMargin:'100px'}):null;
 requestAnimationFrame(frame);
 
 // ====== telas ======
+let sig='',ultimoRender=0;
 function render(){
   const d=D,r=d.resumo;
+  const s=JSON.stringify([d.resumo,d.agentes,d.pendencias,d.avisos,d.escalacoes,d.travados,d.funil,d.atividade]);
+  const mesmo=(s===sig)&&(Date.now()-ultimoRender<300000);
+  d.agentes.forEach(aplicar);
+  if(mesmo)return;
+  sig=s;ultimoRender=Date.now();
   $('kpis').innerHTML=
    '<span class="pill '+(r.precisaHeitor?'red':'')+'">❗ precisa de você <b>'+r.precisaHeitor+'</b></span>'+
    '<span class="pill">agentes ativos <b>'+r.agentesAtivos+'/'+d.agentes.length+'</b></span>'+
@@ -166,7 +190,7 @@ function render(){
    '<span class="pill">WhatsApp 7d <b>'+r.enviadas7d+'↑ '+r.recebidas7d+'↓</b></span>';
   const box=$('rooms');
   d.agentes.forEach(a=>{
-    aplicar(a);let el=document.getElementById('room-'+a.id);
+    let el=document.getElementById('room-'+a.id);
     if(!el){el=document.createElement('div');el.className='room';el.id='room-'+a.id;el.innerHTML='<button class="rh"></button>';el.appendChild(R[a.id].cv);box.appendChild(el);el.querySelector('button').onclick=()=>detalhe(a.id);if(io)io.observe(el)}
     el.className='room '+(a.estado==='wait'||a.estado==='erro'?'wait':a.estado==='work'?'work':'');
     el.querySelector('button').innerHTML='<span style="font-size:22px">'+EMO[a.id]+'</span><span><b>'+esc(a.nome)+'</b><small>'+esc(a.papel)+'</small></span><span class="chip '+a.estado+'">'+ESTADO[a.estado]+(a.rodando?' ('+a.rodando+')':'')+'</span>'});
@@ -177,7 +201,7 @@ function render(){
    '<div class="org">'+dot('seller')+'<div class="org">'+dot('coder')+'</div><div class="org">'+dot('posvenda')+'</div></div>'+
    '<div class="org">'+dot('watchdog')+'</div><div class="org">'+dot('verifier')+'</div><div class="org">'+dot('infra')+'</div></div>';
   // precisa de você
-  let h='<h2>O que precisa de você ('+r.precisaHeitor+')</h2>';
+  let h='<h2>O que precisa de você (<span data-highlighter data-action="circle" data-color="'+(r.precisaHeitor?'#ff5d5d':'#52ff8a')+'" data-stroke-width="1.5" data-iterations="2">'+r.precisaHeitor+'</span>)</h2>';
   d.escalacoes.forEach(e=>h+='<div class="card urg"><div class="t">'+esc(e.empresa)+'<span class="tag">lead pedindo você</span></div><p>'+esc(e.motivo)+'</p>'+(e.sugestao?'<p><b>Sugestão:</b> '+esc(e.sugestao)+'</p>':'')+'<p>Tel '+esc(e.telefone)+'</p></div>');
   d.avisos.forEach(e=>h+='<div class="card urg"><div class="t">'+esc(e.titulo)+'<span class="tag">'+esc(e.severidade||'aviso')+'</span><span class="tag">'+esc(e.origem)+'</span></div><p>'+esc(e.detalhe)+'</p></div>');
   d.travados.forEach(p=>h+='<div class="card urg"><div class="t">'+esc(p.empresa)+'<span class="tag">'+esc(p.status)+'</span></div><p>Tel '+esc(p.telefone)+(p.site?' · <a href="'+esc(p.site)+'" target="_blank" rel="noopener">site</a>':'')+'</p></div>');
@@ -189,6 +213,7 @@ function render(){
   $('log').innerHTML=d.atividade.map(e=>{const a=A[e.agente];return '<div><b>'+esc(a?a.nome:'fábrica')+'</b> '+esc(limpa(e.texto))+' <span class="tag">'+esc(e.status)+'</span> <span class="mut">'+rel(new Date(e.t).toISOString())+'</span></div>'}).join('')||'<span class="mut">Sem atividade recente.</span>';
   $('funil').innerHTML=Object.entries(d.funil).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="row"><span>'+esc(k)+'</span><b>'+v+'</b></div>').join('');
   if($('sheet').classList.contains('on')&&curSheet)detalhe(curSheet,true);
+  efeitos();
 }
 let curSheet=null;
 function detalhe(id,keep){
@@ -218,7 +243,7 @@ function status(){const l=$('live');if(!lastOk){l.className='off';l.textContent=
   if(s<POLL/1000*2.5){l.className='on';l.textContent='● ao vivo · '+new Date(Date.parse(D.geradoEm)).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
   else{l.className='off';l.textContent='● desatualizado ('+Math.floor(s/60)+' min)'}}
 $('gf').onsubmit=e=>{e.preventDefault();KEY=$('gk').value.trim();store.set('hf_k',KEY);$('err').textContent='';buscar()};
-buscar();setInterval(buscar,POLL);setInterval(status,5000);
+buscar();mira();setInterval(buscar,POLL);setInterval(status,5000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)buscar()});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>

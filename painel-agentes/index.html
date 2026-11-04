@@ -88,16 +88,16 @@ const TW=42,TH=21,N=7,W=420,H=284,WH=106,Y0=110;
 const COL={work:'#52ff8a',erro:'#ff5d5d',wait:'#ff5d5d',think:'#c18bff',idle:'#6d6b96'};
 const ICON={work:'⚙',erro:'❗',wait:'❗',think:'💭',idle:'💤'};
 const ESTADO={work:'trabalhando',erro:'com erro',wait:'precisa de você',think:'ativo agora',idle:'em espera'};
-const HUE={seller:210,coder:145,reacher:340,watchdog:35,verifier:275,posvenda:185,infra:250};
-const EMO={seller:'💬',coder:'🖥',reacher:'📞',watchdog:'🐕',verifier:'🔧',posvenda:'🧾',infra:'🗄'};
-const GLIFO={coder:'</>',verifier:'✓',watchdog:'⚠'};
+const HUE={seller:210,designer:305,coder:145,reacher:340,watchdog:35,verifier:275,posvenda:185,infra:250};
+const EMO={seller:'💬',designer:'🎨',coder:'🖥',reacher:'📞',watchdog:'🐕',verifier:'🔧',posvenda:'🧾',infra:'🗄'};
+const GLIFO={designer:'◐',coder:'</>',verifier:'✓',watchdog:'⚠'};
 const hash=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h};
 const HAIR=['#2b1b12','#7a4a21','#d9a441','#c2412d','#3c3c52','#e8e0d0','#2fa36b','#7c4dff'];
 const SHIRT=['#e94f4f','#4f8fe9','#4fc97a','#e9b84f','#a24fe9','#4fd5e9','#e94fa3','#8fa3b5'];
 const SKIN=['#f2c9a0','#e0a878','#b9774a','#8a5233'];
 const SPOTS=[[1,1],[3,1],[5,1],[1,3],[3,3],[5,3]];
 const IDLE=[[.9,4.4],[2.4,5.6],[4.3,5.9],[5.9,4.5],[6.1,2.6],[3.4,4.6],[1.6,6.2],[5.2,6.4]];
-const limpa=n=>String(n).replace(/^HELU FACTORY \|\s*/,'').replace(/^(Seller|Coder|Reacher|Watchdog|Verifier|Pos-venda|Infra|Testes)\s*\|\s*/i,'');
+const limpa=n=>String(n).replace(/^HELU FACTORY \|\s*/,'').replace(/^(Seller|Designer|Coder|Reacher|Watchdog|Verifier|Pos-venda|Infra|Testes)\s*\|\s*/i,'');
 const R={};
 function sala(id){ if(R[id])return R[id];
   const cv=document.createElement('canvas'),dpr=Math.min(2,window.devicePixelRatio||1);
@@ -212,6 +212,14 @@ function propsAgente(c,id,now,hue,r){
     box(c,6.0,1.0,.9,.9,48,'#23203e','#15132a','#1b1935');
     const p=iso(6.1,1.9);
     for(let i=0;i<6;i++){c.fillStyle=Math.sin(now/260+i*1.3)>0?'#52ff8a':'#20543b';c.fillRect(p[0]-7,p[1]-44+i*7,11,3)}
+  }
+  if(id==='designer'){
+    // cavalete com tela e paleta de cores girando
+    box(c,5.7,1.1,.15,.15,34,'#2a2748','#1b1a33','#232140');
+    const p=up(iso(5.8,1.2),30);c.save();
+    poly(c,[[p[0]-16,p[1]-18],[p[0]+14,p[1]-18],[p[0]+14,p[1]+6],[p[0]-16,p[1]+6]],'#fffbe8','rgba(0,0,0,.4)',1);
+    for(let i=0;i<4;i++){c.fillStyle='hsl('+((hue+i*55+now/40)%360|0)+',80%,60%)';c.beginPath();c.arc(p[0]-9+i*6,p[1]-6,2.6,0,7);c.fill()}
+    c.restore();
   }
   if(id==='watchdog'){
     box(c,6.0,4.6,.5,.5,16,'#2a2748','#1b1a33','#232140');
@@ -422,7 +430,7 @@ function render(){
   $('rank').innerHTML=ag.map(a=>'<div class="row"><span><span class="dot" style="background:'+COL[a.estado]+'"></span>'+esc(a.nome)+'</span><span>Lv'+(Math.floor(Math.sqrt(a.xp/5))+1)+' · '+a.xp+'xp</span></div><div class="bar"><i style="width:'+(a.xp/mx*100)+'%"></i></div>').join('');
   const A=Object.fromEntries(d.agentes.map(a=>[a.id,a])),dot=id=>'<span class="dot" style="background:'+COL[A[id].estado]+'"></span>'+esc(A[id].nome)+' <span class="mut">'+ESTADO[A[id].estado]+'</span>';
   $('org').innerHTML='<div>👤 <b>Heitor</b></div><div class="org">'+dot('reacher')+' <span class="mut">(único canal até você)</span>'+
-   '<div class="org">'+dot('seller')+'<div class="org">'+dot('coder')+'</div><div class="org">'+dot('posvenda')+'</div></div>'+
+   '<div class="org">'+dot('seller')+'<div class="org">'+(A.designer?dot('designer')+'<div class="org">':'')+dot('coder')+(A.designer?'</div>':'')+'</div><div class="org">'+dot('posvenda')+'</div></div>'+
    '<div class="org">'+dot('watchdog')+'</div><div class="org">'+dot('verifier')+'</div><div class="org">'+dot('infra')+'</div></div>';
   // precisa de você
   let h='<h2>O que precisa de você (<span data-highlighter data-action="circle" data-color="'+(r.precisaHeitor?'#ff5d5d':'#52ff8a')+'" data-stroke-width="1.5" data-iterations="2">'+r.precisaHeitor+'</span>)</h2>';

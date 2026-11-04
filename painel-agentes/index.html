@@ -57,6 +57,8 @@ main{position:relative;z-index:1}
 #gate button{position:relative}
 h1 .aurora-text__fx{-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:reduce){#bg,#croma,#gate .retro{display:none}.room{transition:none}}@media(max-width:700px){#bgrays,#bgretro{display:none}}
+.lt-top{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.lt-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);color:var(--ink);border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;cursor:pointer;text-decoration:none;display:inline-block}.lt-btn.pri{background:var(--acc);color:#14121f;border-color:var(--acc);font-weight:700}.lt-btn.ok{border-color:var(--grn);color:var(--grn)}.lt-btn.bad{border-color:var(--red);color:var(--red)}.lt-btn:disabled{opacity:.5}
+.lt-card .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.lt-card.feito{border-left-color:var(--grn);opacity:.8}.lt-card.nao{border-left-color:#6d6b96;opacity:.6}.lt-card.resp{border-left-color:#c18bff}.lt-card .resp-t{color:var(--ink);background:rgba(193,139,255,.12);border-radius:8px;padding:5px 8px;margin:4px 0}
 </style></head><body>
 <div id="croma"></div><div id="bg"><div id="bgdither" data-dither data-wave-color="#6f63c8" data-background-color="transparent" data-dither-mode="bayer" data-color-num="4" data-pixel-size="4" data-scale="0.6" data-wave-speed="0.03" data-wave-frequency="2.6" data-wave-amplitude="0.26" data-contrast="1.1" data-brightness="0.05" data-enable-mouse-interaction="true" data-mouse-effect="ripple" data-mouse-radius="0.3" data-click-ripple="true" data-dpr="1"></div><div id="bgrays" data-lightrays data-rays-origin="top-center" data-rays-color="#ffd23f" data-rays-speed="0.6" data-light-spread="0.75" data-ray-length="2.6" data-glow="0.45" data-haze="0.35" data-intensity="0.45" data-ray-density="0.8" data-follow-mouse="true" data-mouse-influence="0.18" data-pulsating="true" data-cursor-shadow="false"></div><div id="bgretro" data-retro-grid data-angle="68" data-cell-size="54" data-opacity="0.3" data-dark-line-color="#6f63c8" data-fade="#14121f"></div><div id="bggrid" data-interactive-grid data-width="34" data-height="34" data-line-color="rgba(255,210,63,.07)" data-active-color="rgba(255,210,63,.38)"></div></div>
 <div id="gate"><div class="retro" data-retro-grid data-angle="72" data-cell-size="46" data-opacity="0.45" data-dark-line-color="#6f63c8" data-fade="#14121f"></div><form id="gf"><div style="font-size:42px">🏭</div><h1 style="font-size:18px">Hotel da Fábrica HELU</h1><div class="mut">Digite a chave de acesso</div><input id="gk" type="password" autocomplete="current-password" placeholder="chave" required><button data-starborder data-color="#ffd23f" data-speed="5s">Entrar</button><div id="err"></div></form></div>
@@ -67,8 +69,9 @@ h1 .aurora-text__fx{-webkit-background-clip:text;background-clip:text;color:tran
  <div class="two"><div><h2>🏆 Ranking (XP das últimas 24h)</h2><div class="glassy pad" id="rank"></div></div><div><h2>🏢 Organograma</h2><div class="glassy pad" id="org"></div></div></div></section>
 <section class="tab" id="t-eu"><div id="eu"></div></section>
 <section class="tab" id="t-log"><div class="two"><div><h2>📜 Atividade real</h2><div class="log glassy" id="log"></div></div><div><h2>Leads por status</h2><div class="glassy pad" id="funil"></div></div></div></section>
+<section class="tab" id="t-leads"><div id="leads"></div></section>
 </main>
-<nav><button data-t="fab" class="on" data-cool-mode data-particle="🏭" data-size="26">🏨 Fábrica</button><button data-t="eu">❗ Preciso de você<i id="nb" hidden></i></button><button data-t="log">📜 Atividade</button></nav>
+<nav><button data-t="fab" class="on" data-cool-mode data-particle="🏭" data-size="26">🏨 Fábrica</button><button data-t="eu">❗ Preciso de você<i id="nb" hidden></i></button><button data-t="leads">📲 Leads<i id="nl" hidden></i></button><button data-t="log">📜 Atividade</button></nav>
 <div id="sheet"><div class="box" id="sbox"></div></div>
 <script src="fx/dither.js"></script><script src="fx/light-rays.js"></script><script src="fx/glass-surface.js"></script><script src="fx/tech-text.js"></script><script src="fx/interactive-grid.js"></script><script src="fx/retro-grid.js"></script><script src="fx/aurora-text.js"></script><script src="fx/star-border.js"></script><script src="fx/highlighter.js"></script><script src="fx/cool-mode.js"></script><script src="fx/crosshair.js"></script>
 <script>
@@ -480,7 +483,7 @@ requestAnimationFrame(frame);
 let sig='',ultimoRender=0;
 function render(){
   const d=D,r=d.resumo;
-  const s=JSON.stringify([d.resumo,d.agentes,d.pendencias,d.avisos,d.escalacoes,d.travados,d.funil,d.atividade]);
+  const s=JSON.stringify([d.resumo,d.agentes,d.pendencias,d.avisos,d.escalacoes,d.travados,d.funil,d.atividade,d.envios]);
   const mesmo=(s===sig)&&(Date.now()-ultimoRender<300000);
   d.agentes.forEach(aplicar);
   if(mesmo)return;
@@ -491,6 +494,7 @@ function render(){
    '<span class="pill">rodando agora <b>'+r.rodandoAgora+'</b></span>'+
    '<span class="pill">execuções 24h <b>'+r.execs24h+'</b></span>'+
    '<span class="pill '+(r.erros24h?'red':'')+'">erros 24h <b>'+r.erros24h+'</b></span>'+
+   (d.envios&&d.envios.lote?'<span class="pill">lote de hoje <b>'+d.envios.resumo.enviados+'/'+d.envios.resumo.total+'</b></span>':'')+
    '<span class="pill">leads <b>'+r.leads+'</b></span>'+
    '<span class="pill">vendas <b>'+r.fechados+'</b> · R$ '+(r.receita||0).toLocaleString('pt-BR')+'</span>'+
    '<span class="pill">WhatsApp 7d <b>'+r.enviadas7d+'↑ '+r.recebidas7d+'↓</b></span>';
@@ -516,6 +520,7 @@ function render(){
   d.pendencias.forEach(p=>h+='<div class="card p'+(p.prioridade||3)+'"><div class="t">'+esc(p.id)+' · '+esc(p.titulo)+'<span class="tag">'+esc(pr[p.prioridade]||'')+'</span><span class="tag">'+esc(p.area)+'</span></div><p><b>Trava:</b> '+esc(p.bloqueia)+'</p><p>'+esc(p.como)+(p.onde&&/^https?:/.test(p.onde)?' · <a href="'+esc(p.onde)+'" target="_blank" rel="noopener">abrir</a>':(p.onde?' · '+esc(p.onde):''))+'</p></div>');
   if(!r.precisaHeitor)h+='<p class="mut">Nada esperando por você. 🎉</p>';
   h+='<p class="mut"><a data-starborder data-color="#ffd23f" data-speed="6s" data-radius="10" style="display:inline-block;padding:6px 12px;color:var(--acc)" href="'+DONO+'?k='+encodeURIComponent(KEY)+'" target="_blank" rel="noopener">Abrir o painel do dono (botão “Já resolvi”)</a></p>';
+  leads();
   $('eu').innerHTML=h;const nb=$('nb');nb.hidden=!r.precisaHeitor;nb.textContent=r.precisaHeitor;
   $('log').innerHTML=d.atividade.map(e=>{const a=A[e.agente];return '<div><b>'+esc(a?a.nome:'fábrica')+'</b> '+esc(limpa(e.texto))+' <span class="tag">'+esc(e.status)+'</span> <span class="mut">'+rel(new Date(e.t).toISOString())+'</span></div>'}).join('')||'<span class="mut">Sem atividade recente.</span>';
   $('funil').innerHTML=Object.entries(d.funil).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="row"><span>'+esc(k)+'</span><b>'+v+'</b></div>').join('');
@@ -534,6 +539,55 @@ function detalhe(id,keep){
 function fechar(){$('sheet').classList.remove('on');curSheet=null}
 $('sheet').onclick=e=>{if(e.target.id==='sheet')fechar()};
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='t-'+b.dataset.t));scrollTo(0,0)});
+
+
+// ====== leads do dia (WhatsApp Web) ======
+const API_MARCAR='https://himidio.app.n8n.cloud/webhook/painel-leads-marcar';
+const TXT={
+ A:(e,c)=>'Oi, tudo bem? Aqui é o Heitor, faço sites pra pequenos negócios. Vi a '+e+' no Google, aí em '+c+', e montei uma ideia de site pra vocês receberem pedidos direto, sem depender de aplicativo de delivery. Posso te mandar pra dar uma olhada? Se não quiser receber mensagem minha, é só responder SAIR.',
+ B:(e,c)=>'Oi, tudo bem? Aqui é o Heitor, faço sites pra pequenos negócios. Vi a '+e+' no Google, aí em '+c+', e montei uma ideia de site pra vocês receberem encomendas e pedidos de orçamento direto. Posso te mandar pra dar uma olhada? Se não quiser receber mensagem minha, é só responder SAIR.',
+ C:(e,c)=>'Oi, tudo bem? Aqui é o Heitor, faço sites pra pequenos negócios. Vi a '+e+' no Google, aí em '+c+', e montei uma ideia de site pra vocês. Posso te mandar pra dar uma olhada? Se não quiser receber mensagem minha, é só responder SAIR.'};
+const msgDe=l=>l.mensagem||(TXT[l.variante]||TXT.C)(l.empresa,l.cidade);
+const STL={pendente:'pendente',sem_relatorio:'sem relatório',enviado:'enviado',sem_whatsapp:'sem WhatsApp',pulado:'pulado',respondeu:'respondeu',optout:'saiu (SAIR)'};
+const FEITO=['enviado','respondeu','optout'];
+const OV={};// marcações feitas aqui, antes do n8n devolver
+function promptLote(it){
+  return 'Você vai enviar primeiros contatos pelo meu WhatsApp Web (web.whatsapp.com), que já está logado neste navegador. Trabalhe em UMA única aba.\n\nLista, nesta ordem (número | empresa | cidade | texto a enviar):\n'+
+   it.map((l,i)=>(i+1)+'. '+l.numero+' | '+l.empresa+' | '+l.cidade+' | '+msgDe(l)).join('\n')+
+   '\n\nPara cada número, na ordem:\n1. Abra https://web.whatsapp.com/send?phone=NUMERO na mesma aba.\n2. Se aparecer que o número não tem WhatsApp, anote "sem WhatsApp" e pule.\n3. Se a conversa já tiver qualquer mensagem (minha ou deles), NÃO envie, anote "já tinha conversa" e pule.\n4. Se a conversa estiver vazia, digite o texto e envie com Enter.\n5. Espere um intervalo aleatório de 60 a 120 segundos antes do próximo.\n\nRegras de segurança: nunca envie para números fora da lista; se pedir QR code, pare e me avise; se o WhatsApp mostrar aviso de bloqueio, restrição ou spam, pare na hora e me avise; não responda a ninguém.\n\nNo fim, me mande uma tabela com número, empresa, status (enviado, sem WhatsApp ou já tinha conversa) e horário, e liste as respostas novas desses contatos e dos lotes anteriores.';
+}
+async function marcar(lote,numero,status){
+  const e=D.envios;const l=e.itens.find(x=>x.numero===numero);if(!l)return;
+  OV[lote+'|'+numero]=status;leads();
+  try{await fetch(API_MARCAR,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({k:KEY,lote,numero,empresa:l.empresa,cidade:l.cidade,categoria:l.categoria,variante:l.variante,mensagem:l.mensagem||'',status,resposta:l.resposta||'',classe:l.classe||''})})}catch(x){}
+}
+function copiar(t,btn){const ok=()=>{const o=btn.textContent;btn.textContent='copiado ✓';setTimeout(()=>btn.textContent=o,1600)};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,()=>{});else{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(x){}a.remove()}}
+function leads(){
+  const box=$('leads');if(!box||!D)return;const e=D.envios;
+  if(!e||!e.lote){box.innerHTML='<h2>📲 Leads de hoje</h2><p class="mut">Nenhum lote registrado ainda. A tarefa diária monta o lote de 20 contatos e ele aparece aqui.</p>';$('nl').hidden=true;return}
+  const it=e.itens.map(l=>{const o=OV[e.lote+'|'+l.numero];return o?{...l,status:o}:l});
+  const n=st=>it.filter(l=>st(l.status)).length,env=n(s=>FEITO.includes(s)),pend=n(s=>s==='pendente'||s==='sem_relatorio'),nao=n(s=>s==='sem_whatsapp'||s==='pulado'),resp=it.filter(l=>l.status==='respondeu'||l.resposta).length,pre=it.filter(l=>l.classe==='precisa_heitor').length;
+  $('nl').hidden=!pend;$('nl').textContent=pend;
+  let h='<h2>📲 Leads de hoje <span class="mut" style="font-weight:400">· lote '+esc(e.lote)+'</span></h2>'+
+   '<div class="kpis" style="margin:0 0 6px"><span class="pill">enviados <b>'+env+'/'+it.length+'</b></span><span class="pill">pendentes <b>'+pend+'</b></span><span class="pill">sem WhatsApp <b>'+nao+'</b></span><span class="pill '+(resp?'':'')+'">respostas <b>'+resp+'</b></span>'+(pre?'<span class="pill red">pedem você <b>'+pre+'</b></span>':'')+'</div>'+
+   '<div class="bar"><i style="width:'+Math.round(env/Math.max(1,it.length)*100)+'%"></i></div>'+
+   '<div class="lt-top"><button class="lt-btn pri" id="lt-cp">📋 Copiar prompt do lote</button><button class="lt-btn" id="lt-cpp">Copiar só os pendentes</button></div>';
+  h+=it.map(l=>{const f=FEITO.includes(l.status),nw=l.status==='sem_whatsapp'||l.status==='pulado';
+    const url='https://wa.me/'+encodeURIComponent(l.numero)+'?text='+encodeURIComponent(msgDe(l));
+    return '<div class="card lt-card '+(f?'feito':nw?'nao':'')+(l.resposta?' resp':'')+'"><div class="t">'+esc(l.empresa)+'<span class="tag">'+esc(l.cidade)+'</span><span class="tag">texto '+esc(l.variante)+'</span><span class="tag">'+esc(STL[l.status]||l.status)+'</span></div>'+
+     '<p>'+esc(l.categoria)+' · +'+esc(l.numero)+(l.enviadoEm?' · enviado '+esc(l.enviadoEm):'')+'</p>'+
+     (l.resposta?'<div class="resp-t">💬 '+esc(l.resposta)+(l.classe?' <span class="tag">'+esc(l.classe)+'</span>':'')+'</div>':'')+
+     '<div class="acts"><a class="lt-btn" href="'+esc(url)+'" target="_blank" rel="noopener">Abrir no WhatsApp</a>'+
+     (f||nw?'':'<button class="lt-btn ok" data-m="enviado" data-n="'+esc(l.numero)+'">Enviado ✓</button><button class="lt-btn bad" data-m="sem_whatsapp" data-n="'+esc(l.numero)+'">Sem WhatsApp</button>')+'</div></div>'}).join('');
+  if(e.respostasNovas&&e.respostasNovas.length)h+='<h2>💬 Respostas recentes</h2>'+e.respostasNovas.map(r=>'<div class="card resp"><div class="t">'+esc(r.empresa)+(r.classe?'<span class="tag">'+esc(r.classe)+'</span>':'')+'<span class="tag">'+rel(r.quando)+'</span></div><p>'+esc(r.resposta)+'</p></div>').join('');
+  if(e.historico&&e.historico.length)h+='<h2>Lotes anteriores</h2><div class="glassy pad">'+e.historico.map(x=>'<div class="row"><span>'+esc(x.lote)+'</span><span class="mut">'+x.enviados+'/'+x.total+' enviados · '+x.respostas+' respostas'+(x.optout?' · '+x.optout+' SAIR':'')+'</span></div>').join('')+'</div>';
+  h+='<p class="mut">Total da fábrica: '+e.total.enviados+' enviados em '+e.historico.length+' lote(s), '+e.total.respostas+' respostas.</p>';
+  box.innerHTML=h;
+  $('lt-cp').onclick=ev=>copiar(promptLote(it),ev.target);
+  $('lt-cpp').onclick=ev=>copiar(promptLote(it.filter(l=>l.status==='pendente'||l.status==='sem_relatorio')),ev.target);
+  box.querySelectorAll('button[data-m]').forEach(b=>b.onclick=()=>marcar(e.lote,b.dataset.n,b.dataset.m));
+}
 
 // ====== dados ======
 async function buscar(){

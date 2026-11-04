@@ -1,4 +1,4 @@
-const C='hf-v6';
+const C='hf-v7';
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['./','index.html','icon.svg','fx/dither.js','fx/light-rays.js','fx/glass-surface.js','fx/tech-text.js','fx/interactive-grid.js','fx/retro-grid.js','fx/aurora-text.js','fx/star-border.js','fx/highlighter.js','fx/cool-mode.js','fx/crosshair.js'])).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==location.origin)return;

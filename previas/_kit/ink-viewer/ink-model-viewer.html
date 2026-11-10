@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ink Model Viewer</title>
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   INK MODEL VIEWER — template 3D preto e branco (estética "ficha técnica")
+   Troque as variáveis abaixo para adaptar ao fundo do seu site.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --bg:#ffffff;        /* fundo da página (o canvas é transparente) */
+  --paper:#ffffff;     /* cor das superfícies do modelo (normalmente = --bg) */
+  --ink:#111111;       /* cor do traço */
+  --ui:#151515;        /* textos */
+  --muted:#8a8a8a;     /* legendas pequenas */
+  --font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+}
+:root[data-theme="dark"]{ --bg:#0b0b0b; --paper:#0b0b0b; --ink:#f2f2f2; --ui:#f2f2f2; --muted:#7c7c7c; }
+@media (prefers-color-scheme: dark){ :root[data-theme="auto"]{ --bg:#0b0b0b; --paper:#0b0b0b; --ink:#f2f2f2; --ui:#f2f2f2; --muted:#7c7c7c; } }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ui);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body.scroll-mode{overflow-y:auto} body:not(.scroll-mode){overflow:hidden}
+#stage{position:fixed;inset:0;z-index:0}
+#stage canvas{display:block;width:100%;height:100%}
+
+/* HUD — posições medidas no quadro 1920×1080 do vídeo de referência */
+.hud{position:fixed;inset:0;pointer-events:none;z-index:2}
+.hud .title{position:absolute;left:3.1%;top:3.4%;font-size:clamp(10px,0.93vw,18px);font-weight:500;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}
+.hud .title small{display:block;margin-top:.55em;font-size:.42em;font-weight:400;letter-spacing:0;text-transform:none;color:var(--muted)}
+.hud .label{position:absolute;left:3.1%;top:66%;font-size:clamp(10px,0.93vw,18px);font-weight:500;text-transform:uppercase;white-space:nowrap;min-height:1.2em}
+.hud .label.top{top:3.4%}
+.hud .label small{display:block;margin-top:.7em;font-size:.42em;font-weight:400;text-transform:none;color:var(--muted);transition:opacity .6s}
+.hud .label .caret{display:inline-block;width:.08em}
+.hud .formula{position:absolute;left:50%;top:86.4%;transform:translate(-50%,-50%);text-align:center;transition:opacity .45s ease}
+.hud .formula .katex{font-size:clamp(11px,1.12vw,22px);color:var(--ui)}
+.hud .formula small{display:block;margin-top:.35em;font-size:clamp(5px,.36vw,8px);color:var(--muted);white-space:nowrap}
+.hud .crumb{position:absolute;left:3.1%;bottom:3.1%;font-size:clamp(7px,.6vw,12px);font-weight:500;text-transform:uppercase;letter-spacing:.02em}
+.hud .crumb span{margin:0 .45em;color:var(--ui)}
+.hud .brand{position:absolute;right:2.2%;bottom:2.6%;display:flex;gap:1.4vw;align-items:flex-end}
+.hud .flag{width:clamp(16px,1.6vw,32px);aspect-ratio:3/2;display:flex;flex-direction:column;overflow:hidden}
+.hud .flag i{flex:1}
+.hud .logo{width:clamp(18px,1.55vw,30px);aspect-ratio:1;background:var(--ui);color:var(--bg);font-weight:800;font-size:clamp(6px,.62vw,12px);line-height:.95;display:flex;flex-direction:column;align-items:center;justify-content:center;letter-spacing:.02em}
+.hud .logo img{width:100%;height:100%;object-fit:contain}
+
+/* Seções de rolagem (modo scroll). Cada .sec = um "plano" da câmera. */
+#track{position:relative;z-index:1;pointer-events:none}
+#track .sec{height:100vh}
+
+/* Painel de controle (tecla E ou botão ⚙) */
+#panelBtn{position:fixed;right:14px;top:12px;z-index:5;border:1px solid var(--ui);background:var(--bg);color:var(--ui);font:500 11px var(--font);padding:6px 10px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase}
+#panel{position:fixed;right:14px;top:46px;z-index:5;width:min(320px,calc(100vw - 28px));max-height:calc(100vh - 70px);overflow:auto;background:var(--bg);color:var(--ui);border:1px solid var(--ui);padding:14px;font:12px/1.4 var(--font);display:none}
+#panel.open{display:block}
+#panel h4{margin:0 0 10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#panel label{display:block;margin:10px 0 4px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+#panel input[type=text],#panel select,#panel textarea{width:100%;font:12px var(--font);padding:6px;border:1px solid var(--muted);background:var(--bg);color:var(--ui)}
+#panel textarea{height:120px;font:11px ui-monospace,Menlo,monospace}
+#panel .row{display:flex;gap:6px;align-items:center}
+#panel button{font:500 11px var(--font);padding:6px 9px;border:1px solid var(--ui);background:var(--ui);color:var(--bg);cursor:pointer;text-transform:uppercase;letter-spacing:.05em}
+#panel button.ghost{background:transparent;color:var(--ui)}
+#panel input[type=range]{width:100%}
+#drop{position:fixed;inset:0;z-index:6;display:none;align-items:center;justify-content:center;background:color-mix(in srgb,var(--bg) 85%,transparent);border:2px dashed var(--ui);font:500 13px var(--font);letter-spacing:.1em;text-transform:uppercase}
+#drop.on{display:flex}
+#status{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;font:500 10px var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+@media (max-width:600px){ .hud .title{font-size:11px} .hud .label{font-size:11px;top:62%} .hud .formula .katex{font-size:13px} .hud .crumb{font-size:8px} }
+</style>
+</head>
+<body class="scroll-mode">
+<!--
+  COMO USAR (resumo — detalhes no how-it-was-made.md):
+  1. Edite o bloco <script id="viewer-config"> abaixo: model (URL .glb/.gltf/.stl/.obj), textos, seções.
+  2. Ou arraste um arquivo 3D para a página, ou abra o painel (⚙ / tecla E) e cole uma URL.
+  3. Parâmetros de URL: ?demo=rocket  ?model=URL  ?mode=auto  ?theme=dark  ?hud=0
+-->
+<script type="application/json" id="viewer-config">
+{
+  "demo": "chess",
+  "mode": "scroll",
+  "theme": "light",
+  "spin": 0,
+  "parallax": 0.035,
+  "lineWidth": 1.0,
+  "creaseAngle": 32
+}
+</script>
+
+<div id="stage"></div>
+<div id="track"></div>
+<div class="hud" id="hud">
+  <div class="title" id="title"></div>
+  <div class="label" id="label"><span id="labelText"></span><span class="caret"></span><small id="labelSub"></small></div>
+  <div class="formula" id="formula"><div id="formulaTex"></div><small id="formulaSub"></small></div>
+  <div class="crumb" id="crumb"></div>
+  <div class="brand"><div class="flag" id="flag"></div><div class="logo" id="logo"></div></div>
+</div>
+<div id="status">carregando modelo…</div>
+<button id="panelBtn" aria-controls="panel">⚙ Modelo</button>
+<div id="panel" role="dialog" aria-label="Configurar modelo">
+  <h4>Modelo 3D</h4>
+  <label for="demoSel">Demonstração</label>
+  <select id="demoSel"></select>
+  <label for="urlIn">URL (.glb / .gltf / .stl / .obj)</label>
+  <div class="row"><input type="text" id="urlIn" placeholder="https://…/modelo.glb"><button id="urlGo">OK</button></div>
+  <label>Arquivo local</label>
+  <div class="row"><input type="file" id="fileIn" accept=".glb,.gltf,.stl,.obj"></div>
+  <label for="modeSel">Movimento</label>
+  <select id="modeSel"><option value="scroll">Rolagem (scroll)</option><option value="auto">Automático (como o vídeo)</option><option value="orbit">Livre (arrastar)</option></select>
+  <label for="styleSel">Estilo forçado</label>
+  <select id="styleSel"><option value="">Por seção</option><option value="ink">Nanquim</option><option value="wire">Nanquim + malha</option><option value="field">Mapa de pressão</option></select>
+  <label for="explodeIn">Vista explodida</label><input type="range" id="explodeIn" min="0" max="1.5" step="0.01" value="0">
+  <label for="spinIn">Rotação contínua (°/s)</label><input type="range" id="spinIn" min="0" max="40" step="1" value="0">
+  <label for="lwIn">Espessura do traço</label><input type="range" id="lwIn" min="0.5" max="3" step="0.1" value="1">
+  <label for="themeSel">Fundo</label>
+  <select id="themeSel"><option value="light">Claro</option><option value="dark">Escuro</option><option value="auto">Seguir o sistema</option><option value="transparent">Transparente (herda o site)</option></select>
+  <label for="cfgOut">Seções (JSON — edite e aplique)</label>
+  <textarea id="cfgOut" spellcheck="false"></textarea>
+  <div class="row" style="margin-top:8px"><button id="cfgApply">Aplicar</button><button class="ghost" id="cfgCopy">Copiar</button></div>
+</div>
+<div id="drop">Solte o modelo 3D aqui</div>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/addons/" } }
+</script>
+<script src="vendor/katex/katex.min.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+
+/* ───────────── Demonstrações (seções = planos de câmera) ─────────────
+   Campos de cada seção:
+   title/sub  rótulo que "digita" + legenda pequena      formula/fsub  LaTeX + legenda
+   focus      nome do nó do modelo a enquadrar (opcional) az/el  ângulos (graus)
+   dist       distância em raios do foco                   off  [x,y,z] deslocamento do alvo (em raios)
+   style      ink | wire | field                            explode 0..1.5     drift  °/s de deriva
+   pos        "mid" (padrão, como no vídeo) ou "top"                                                    */
+const DEMOS = {
+  chess: {
+    name:'Xadrez — World Chess Championship', url:'models/chess-set.glb',
+    title:'WORLD CHESS CHAMPIONSHIP', titleSub:'Official set · 6 pieces · Thingiverse 6054837',
+    crumb:['STANLEYERLAND','WCC CHESS PIECES'], logo:['CH','ES'], flag:['#ffffff','#111111','#ffffff'],
+    sections:[
+      {title:'THE SET', sub:'Pawn · Rook · Knight · Bishop · Queen · King', az:-28, el:16, dist:1.15, style:'field', formula:'S \\approx 10^{120}', fsub:'Shannon number: lower bound of the game-tree complexity of chess.', drift:3},
+      {title:'THE SET', sub:'Six silhouettes, one family of curves.', az:-18, el:8, dist:1.3, style:'ink', formula:'S \\approx 10^{120}', fsub:'Shannon number: lower bound of the game-tree complexity of chess.', drift:2},
+      {title:'KNIGHT', sub:'b = 3.23 cm · h = 7.13 cm', focus:'Knight', az:-55, el:10, dist:1.6, style:'ink', formula:'\\Delta = (\\pm1,\\pm2)\\cup(\\pm2,\\pm1)', fsub:'The knight moves in an L: eight possible jumps from the centre.', drift:4},
+      {title:'KING', sub:'b = 3.81 cm · h = 9.53 cm', focus:'King', az:25, el:-6, dist:1.5, off:[0,0.3,0], style:'ink', formula:'\\tau = r \\times F', fsub:'Torque on the crown when the piece is tipped over.', drift:-3},
+      {title:'QUEEN', sub:'Coronet with 8 points', focus:'Queen', az:-10, el:34, dist:1.15, off:[0,0.4,0], style:'wire', formula:'Q_{max} = 27', fsub:'Maximum squares a queen controls from the centre of the board.', drift:3},
+      {title:'ROOK', sub:'b = 3.57 cm · h = 5.92 cm', focus:'Rook', az:40, el:22, dist:1.55, style:'ink', formula:'m = \\rho V', fsub:'Mass follows volume: the rook is the densest silhouette.', drift:-4},
+      {title:'PAWN', sub:'b = 2.92 cm · h = 5.47 cm', focus:'Pawn', az:-35, el:5, dist:1.6, style:'field', formula:'E_p = mgh', fsub:'Potential energy of a lifted piece.', drift:4},
+      {title:'THE CHAMPIONSHIP SET', sub:'Stanleyerland · CC BY', az:-30, el:24, dist:1.2, style:'ink', formula:'S \\approx 10^{120}', fsub:'Shannon number: lower bound of the game-tree complexity of chess.', drift:2}
+    ]},
+  king: { name:'Xadrez — Rei (peça única)', url:'models/chess-king.glb', title:'KING', titleSub:'World Chess Championship set', crumb:['STANLEYERLAND','KING'], logo:['CH','ES'], flag:['#ffffff','#111111','#ffffff'], sections:'auto' },
+  knight:{ name:'Xadrez — Cavalo (peça única)', url:'models/chess-knight.glb', title:'KNIGHT', titleSub:'World Chess Championship set', crumb:['STANLEYERLAND','KNIGHT'], logo:['CH','ES'], flag:['#ffffff','#111111','#ffffff'], sections:'auto' },
+  rocket:{
+    name:'Foguete — Model Rocket', url:'models/model-rocket.glb',
+    title:'MODEL ROCKET', titleSub:'A–C class motor · Thingiverse 2529',
+    crumb:['TELVIN_3D','MODEL ROCKET'], logo:['RO','CK'], flag:['#ffffff','#111111','#ffffff'],
+    sections:[
+      {title:'MODEL ROCKET', sub:'Five printed parts, four fins.', az:30, el:12, dist:1.1, style:'field', formula:'\\Delta v = v_e \\ln\\frac{m_0}{m_f}', fsub:'Tsiolkovsky: velocity change from exhaust speed and mass ratio.', drift:6},
+      {title:'NOSE CONE', sub:'Ogive profile · 4.0 in', focus:'Cone', az:-40, el:18, dist:1.3, style:'ink', formula:'D = \\tfrac{1}{2}\\rho V^2 C_D A', fsub:'Drag depends on air density, speed, drag coefficient and frontal area.', drift:4},
+      {title:'EXPLODED VIEW', sub:'Cone · plug · body · motor mount', az:20, el:8, dist:1.25, explode:0.55, style:'wire', formula:'F = \\dot m\\, v_e + (p_e - p_0)A_e', fsub:'Thrust: momentum flux plus pressure term at the nozzle exit.', drift:3},
+      {title:'FINS', sub:'Swept trapezoid · ×4', focus:'Fin1', az:-70, el:-12, dist:2.2, off:[0,0.2,0], style:'ink', formula:'\\frac{x_{CP}-x_{CG}}{d} \\geq 1', fsub:'Static margin: centre of pressure at least one calibre behind the CG.', drift:-5},
+      {title:'MOTOR MOUNT', sub:'Standard 18 mm A/B/C motor', focus:'Base', az:150, el:-28, dist:2.0, style:'ink', formula:'I = \\int F\\,dt', fsub:'Total impulse defines the motor class.', drift:5},
+      {title:'MODEL ROCKET', sub:'Telvin_3d · CC BY-NC', az:35, el:-8, dist:1.05, style:'ink', formula:'\\Delta v = v_e \\ln\\frac{m_0}{m_f}', fsub:'Tsiolkovsky: velocity change from exhaust speed and mass ratio.', drift:5}
+    ]}
+};
+/* Seções genéricas para qualquer modelo novo (sem configuração) */
+function autoSections(){
+  return [
+    {title:'OVERVIEW', sub:'Imported model', az:-30, el:14, dist:1.15, style:'field', formula:'L = \\tfrac{1}{2}\\rho V^2 S C_L', fsub:'Lift depends on air density, speed, area and lift coefficient.', drift:4},
+    {title:'GEOMETRY', sub:'Silhouette and crease edges', az:-30, el:14, dist:1.25, style:'ink', formula:'L = \\tfrac{1}{2}\\rho V^2 S C_L', fsub:'Lift depends on air density, speed, area and lift coefficient.', drift:3},
+    {title:'DETAIL', sub:'Close-up', az:40, el:28, dist:0.65, off:[0.15,0.25,0], style:'ink', formula:'M = I\\dot\\omega', fsub:'Angular acceleration from an applied moment.', drift:-4},
+    {title:'MESH', sub:'Polygon structure', az:110, el:-10, dist:0.85, style:'wire', formula:'F = ma', fsub:'Force changes momentum.', drift:4},
+    {title:'PROFILE', sub:'Side elevation', az:90, el:0, dist:1.1, style:'ink', formula:'\\tau = r \\times F', fsub:'Torque about the centre of mass.', drift:-3},
+    {title:'OVERVIEW', sub:'', az:-150, el:30, dist:1.2, style:'ink', formula:'L = \\tfrac{1}{2}\\rho V^2 S C_L', fsub:'Lift depends on air density, speed, area and lift coefficient.', drift:3}
+  ];
+}
+
+/* ───────────── Configuração (bloco JSON + URL) ───────────── */
+const CFG = Object.assign({}, JSON.parse(document.getElementById('viewer-config').textContent));
+const qs = new URLSearchParams(location.search);
+['demo','model','mode','theme'].forEach(k=>{ if(qs.get(k)) CFG[k]=qs.get(k); });
+if(qs.get('hud')==='0') document.getElementById('hud').style.display='none';
+if(qs.get('panel')==='0'){ document.getElementById('panelBtn').style.display='none'; }
+
+/* ───────────── Renderer ───────────── */
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true, preserveDrawingBuffer:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.setClearColor(0x000000,0);
+stage.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, 1, 0.01, 100);
+const root = new THREE.Group(); scene.add(root);
+
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim() || '#fff';
+const U = { // uniformes compartilhados por todos os materiais
+  uPaper:{value:new THREE.Color()}, uInk:{value:new THREE.Color()},
+  uField:{value:0}, uWire:{value:0}, uTime:{value:0},
+  uBMin:{value:new THREE.Vector3(-1,-1,-1)}, uBMax:{value:new THREE.Vector3(1,1,1)}, uAxis:{value:new THREE.Vector3(0,0,1)},
+  uFar:{value:100}
+};
+function readColors(){ U.uPaper.value.set(css('--paper')); U.uInk.value.set(css('--ink')); }
+
+/* Material da superfície: papel liso (nanquim) ↔ mapa de pressão "jet" (intro do vídeo) */
+const surfaceMat = new THREE.ShaderMaterial({
+  uniforms:U,
+  polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1,
+  side:THREE.DoubleSide,
+  vertexShader:/*glsl*/`
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
+    varying vec3 vW; varying vec3 vN;
+    void main(){
+      #include <beginnormal_vertex>
+      #include <morphnormal_vertex>
+      #include <skinbase_vertex>
+      #include <skinnormal_vertex>
+      #include <defaultnormal_vertex>
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      #include <project_vertex>
+      vec4 wp = vec4(transformed,1.0);
+      #ifdef USE_INSTANCING
+        wp = instanceMatrix * wp;
+      #endif
+      vW = (modelMatrix * wp).xyz; vN = normalize(transformedNormal);
+    }`,
+  fragmentShader:/*glsl*/`
+    uniform vec3 uPaper; uniform vec3 uInk; uniform float uField; uniform float uTime;
+    uniform vec3 uBMin; uniform vec3 uBMax; uniform vec3 uAxis;
+    varying vec3 vW; varying vec3 vN;
+    vec3 jet(float t){ t=clamp(t,0.,1.); return clamp(vec3(1.5-abs(4.*t-3.),1.5-abs(4.*t-2.),1.5-abs(4.*t-1.)),0.,1.); }
+    void main(){
+      vec3 p=(vW-uBMin)/max(uBMax-uBMin,vec3(1e-4));
+      float t=dot(p,normalize(uAxis)) / dot(abs(normalize(uAxis)),vec3(1.));
+      t += 0.06*sin(p.x*9.+uTime*1.3)*sin(p.y*7.-uTime) ;
+      vec3 c = jet(clamp(1.0-t,0.,1.))*0.95+0.05;
+      c = mix(c, vec3(0.42,0.66,0.98), 0.10);
+      float shade = 0.86+0.14*abs(normalize(vN).z);
+      vec3 fieldCol = mix(uPaper, c*shade, 0.80);
+      gl_FragColor = vec4(mix(uPaper, fieldCol, uField), 1.0);
+    }`
+});
+/* Material do passe de normais+profundidade (para o detector de contornos) */
+const normalMat = new THREE.ShaderMaterial({
+  uniforms:U, side:THREE.FrontSide,
+  vertexShader:/*glsl*/`
+    #include <common>
+    #include <morphtarget_pars_vertex>
+    #include <skinning_pars_vertex>
+    varying vec3 vN; varying float vZ;
+    void main(){
+      #include <beginnormal_vertex>
+      #include <morphnormal_vertex>
+      #include <skinbase_vertex>
+      #include <skinnormal_vertex>
+      #include <defaultnormal_vertex>
+      #include <begin_vertex>
+      #include <morphtarget_vertex>
+      #include <skinning_vertex>
+      #include <project_vertex>
+      vN = normalize(transformedNormal); vZ = -mvPosition.z;
+    }`,
+  fragmentShader:/*glsl*/`
+    uniform float uFar; varying vec3 vN; varying float vZ;
+    void main(){ vec3 n=normalize(vN); gl_FragColor=vec4(n*0.5+0.5, vZ/uFar); }`
+});
+/* Linhas de quina (EdgesGeometry) e malha (wireframe) */
+const edgeMat = new THREE.LineBasicMaterial({ color:0x111111, transparent:true, opacity:0.62 });
+const wireMat = new THREE.LineBasicMaterial({ color:0x111111, transparent:true, opacity:0.0, depthWrite:false });
+
+/* Passe de contorno: Sobel sobre normais+profundidade → traço de nanquim */
+const rtNormal = new THREE.WebGLRenderTarget(4,4,{ type:THREE.HalfFloatType, samples:4 });
+const inkQuad = new THREE.Mesh(new THREE.PlaneGeometry(2,2), new THREE.ShaderMaterial({
+  transparent:true, depthTest:false, depthWrite:false,
+  uniforms:{ tN:{value:rtNormal.texture}, uRes:{value:new THREE.Vector2()}, uW:{value:1}, uInk:U.uInk, uWire:U.uWire, uField:U.uField },
+  vertexShader:`varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }`,
+  fragmentShader:/*glsl*/`
+    uniform sampler2D tN; uniform vec2 uRes; uniform float uW; uniform vec3 uInk; uniform float uField;
+    varying vec2 vUv;
+    vec4 S(vec2 o){ return texture2D(tN, vUv + o*uW/uRes); }
+    void main(){
+      vec4 c=S(vec2(0)); vec4 l=S(vec2(-1,0)), r=S(vec2(1,0)), u=S(vec2(0,1)), d=S(vec2(0,-1));
+      vec4 lu=S(vec2(-1,1)), ru=S(vec2(1,1)), ld=S(vec2(-1,-1)), rd=S(vec2(1,-1));
+      // profundidade: segunda derivada (um plano inclinado nao vira traco; so o salto de silhueta)
+      float z=max(c.a,1e-4);
+      float dz = abs(2.*c.a - l.a - r.a) + abs(2.*c.a - u.a - d.a)
+               + 0.5*(abs(2.*c.a - lu.a - rd.a) + abs(2.*c.a - ru.a - ld.a));
+      // superficie quase de perfil (normal perpendicular a vista) exige salto maior,
+      // senao uma aleta inclinada vira mancha preta
+      float nz=abs(normalize(c.rgb*2.-1.).z);
+      float lo=mix(0.0060,0.0022,smoothstep(0.06,0.40,nz));
+      float de=smoothstep(lo,lo*3.4,dz/z);
+      // normais (dobras e detalhes) — limiar baixo dá o "rabisco" de ilustração técnica
+      vec3 nx=(ru.rgb+2.*r.rgb+rd.rgb)-(lu.rgb+2.*l.rgb+ld.rgb);
+      vec3 ny=(lu.rgb+2.*u.rgb+ru.rgb)-(ld.rgb+2.*d.rgb+rd.rgb);
+      float ng=sqrt(dot(nx,nx)+dot(ny,ny));
+      float ne=smoothstep(0.70,1.25,ng)*0.85 + smoothstep(0.40,0.70,ng)*0.10;
+      float a=clamp(max(de,ne),0.,1.);
+      a=min(a,0.92);
+      a*= mix(1.0,0.75,uField);
+      gl_FragColor=vec4(uInk,a);
+    }`
+}));
+const inkScene = new THREE.Scene(); inkScene.add(inkQuad);
+const orthoCam = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+
+/* ───────────── Estado do modelo ───────────── */
+let model=null, mixer=null, parts=[], wires=[], edges=[], R=1, center=new THREE.Vector3();
+let SECTIONS=[], DEMO=null;
+const clock = new THREE.Clock();
+const status = document.getElementById('status');
+
+function disposeModel(){
+  if(!model) return;
+  root.remove(model);
+  model.traverse(o=>{ if(o.geometry) o.geometry.dispose(); });
+  model=null; mixer=null; parts=[]; wires=[]; edges=[];
+}
+
+function prepare(obj, clips){
+  disposeModel();
+  // normaliza: centro na origem, raio 1
+  const box=new THREE.Box3().setFromObject(obj); const s=box.getBoundingSphere(new THREE.Sphere());
+  const wrap=new THREE.Group(); wrap.add(obj);
+  obj.position.sub(s.center); wrap.scale.setScalar(1/s.radius);
+  root.add(wrap); model=wrap; wrap.updateMatrixWorld(true);
+  R=1; center.set(0,0,0);
+  const wb=new THREE.Box3().setFromObject(wrap);
+  U.uBMin.value.copy(wb.min); U.uBMax.value.copy(wb.max);
+  const sz=wb.getSize(new THREE.Vector3()); // eixo do mapa de pressão = maior dimensão
+  U.uAxis.value.set(sz.x>=sz.y&&sz.x>=sz.z?1:0, sz.y>sz.x&&sz.y>=sz.z?1:0, sz.z>sz.x&&sz.z>sz.y?1:0);
+  if(U.uAxis.value.lengthSq()===0) U.uAxis.value.set(0,1,0);
+  // materiais + linhas
+  const meshes=[]; wrap.traverse(o=>{ if(o.isMesh) meshes.push(o); });
+  let tris=0; meshes.forEach(m=>tris+=(m.geometry.index?m.geometry.index.count:m.geometry.attributes.position.count)/3);
+  meshes.forEach(m=>{
+    m.material=surfaceMat; m.frustumCulled=false;
+    if(!m.geometry.attributes.normal) m.geometry.computeVertexNormals();
+    if(!m.isSkinnedMesh && !m.morphTargetInfluences){
+      const e=new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry, CFG.creaseAngle||28), edgeMat); e.raycast=()=>{}; m.add(e); edges.push(e);
+      if(tris<160000){ const w=new THREE.LineSegments(new THREE.WireframeGeometry(m.geometry), wireMat); w.visible=false; m.add(w); wires.push(w); }
+    }
+  });
+  // peças para vista explodida (cada malha / nó de topo)
+  const wc=new THREE.Vector3();
+  meshes.forEach(m=>{
+    const b=new THREE.Box3().setFromObject(m); b.getCenter(wc);
+    const p=m.parent; const a=p.worldToLocal(wc.clone()); const bb=p.worldToLocal(wc.clone().multiplyScalar(2));
+    parts.push({o:m, base:m.position.clone(), dir:bb.sub(a)});
+  });
+  if(clips && clips.length){ mixer=new THREE.AnimationMixer(obj); clips.forEach(c=>mixer.clipAction(c).play()); }
+  status.textContent='';
+}
+
+const loaders = { gltf:null, stl:new STLLoader(), obj:new OBJLoader() };
+function gltf(){ if(!loaders.gltf){ loaders.gltf=new GLTFLoader(); loaders.gltf.setMeshoptDecoder(MeshoptDecoder);} return loaders.gltf; }
+function extOf(name){ return (name.split('?')[0].split('.').pop()||'').toLowerCase(); }
+
+async function loadModel(src, ext){
+  status.textContent='carregando modelo…';
+  // .b64.txt: modelo binario guardado em base64 (para servidores que nao servem .glb)
+  if(typeof src==='string' && src.endsWith('.b64.txt')){
+    try{
+      const b=await (await fetch(src)).text(); const bin=atob(b.trim());
+      const buf=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) buf[i]=bin.charCodeAt(i);
+      const g=await gltf().parseAsync(buf.buffer,''); prepare(g.scene,g.animations); return;
+    }catch(err){ console.error(err); status.textContent='erro ao carregar: '+(err.message||err); return; }
+  }
+  ext = ext || extOf(typeof src==='string'?src:src.name);
+  try{
+    if(src instanceof File){
+      const buf=await src.arrayBuffer();
+      if(ext==='glb'||ext==='gltf'){ const g=await gltf().parseAsync(buf,''); prepare(g.scene,g.animations); }
+      else if(ext==='stl'){ prepare(new THREE.Mesh(loaders.stl.parse(buf))); }
+      else if(ext==='obj'){ prepare(loaders.obj.parse(new TextDecoder().decode(buf))); }
+      else throw new Error('formato não suportado: '+ext);
+    } else {
+      if(ext==='stl'){ prepare(new THREE.Mesh(await loaders.stl.loadAsync(src))); }
+      else if(ext==='obj'){ prepare(await loaders.obj.loadAsync(src)); }
+      else { const g=await gltf().loadAsync(src); prepare(g.scene,g.animations); }
+    }
+  }catch(err){ console.error(err); status.textContent='erro ao carregar: '+(err.message||err); }
+}
+
+/* ───────────── HUD ───────────── */
+const $=id=>document.getElementById(id);
+function setBrand(d){
+  $('title').innerHTML = (d.title||'')+(d.titleSub?`<small>${d.titleSub}</small>`:'');
+  $('crumb').innerHTML = (d.crumb||[]).join('<span>/</span>');
+  const L=d.logo||['3D','LAB']; $('logo').innerHTML = L.length&&L[0].startsWith&&/^(https?:|data:|\.|\/)/.test(L[0]) ? `<img src="${L[0]}" alt="">` : L.map(x=>`<div>${x}</div>`).join('');
+  $('flag').innerHTML=(d.flag||[]).map(c=>`<i style="background:${c}"></i>`).join(''); $('flag').style.display=d.flag&&d.flag.length?'flex':'none';
+}
+let typeTimer=null, curLabel=-1, curFormula='';
+function showSection(i){
+  if(i===curLabel) return; curLabel=i; const s=SECTIONS[i]; if(!s) return;
+  const t=$('labelText'), sub=$('labelSub'); clearInterval(typeTimer);
+  $('label').classList.toggle('top', s.pos==='top');
+  sub.style.opacity=0; t.textContent=''; let k=0; const txt=s.title||'';
+  typeTimer=setInterval(()=>{ k++; t.textContent=txt.slice(0,k); if(k>=txt.length){ clearInterval(typeTimer); sub.textContent=s.sub||''; sub.style.opacity=1; } }, 38);
+  const f=s.formula||'';
+  if(f!==curFormula){ curFormula=f; const box=$('formula'); box.style.opacity=0;
+    setTimeout(()=>{ try{ katex.render(f,$('formulaTex'),{throwOnError:false,displayMode:false}); }catch(e){ $('formulaTex').textContent=f; } $('formulaSub').textContent=s.fsub||''; box.style.opacity=1; },420); }
+}
+
+/* ───────────── Câmera: seções → pose ───────────── */
+const tmpB=new THREE.Box3(), tmpS=new THREE.Sphere();
+function poseOf(s, t){
+  let c=new THREE.Vector3(), r=1;
+  if(s.focus && model){ const o=model.getObjectByName(s.focus); if(o){ tmpB.setFromObject(o); tmpB.getBoundingSphere(tmpS); c.copy(tmpS.center); r=tmpS.radius; } }
+  const off=s.off||[0,0,0]; c.add(new THREE.Vector3(off[0],off[1],off[2]).multiplyScalar(r));
+  const az=THREE.MathUtils.degToRad((s.az||0)+(s.drift||0)*t), el=THREE.MathUtils.degToRad(s.el||0);
+  const fov=THREE.MathUtils.degToRad(camera.fov); const aspectK=Math.min(1,camera.aspect)*1.0;
+  const d=(s.dist||1.2)*r/Math.tan(fov/2)/Math.max(aspectK,0.55);
+  const dir=new THREE.Vector3(Math.cos(el)*Math.sin(az),Math.sin(el),Math.cos(el)*Math.cos(az));
+  // composicao: desloca o motivo no eixo X da tela (como no video: rotulo a esquerda, modelo a direita)
+  const shift = (s.shift===undefined?-0.12:s.shift);
+  const right = new THREE.Vector3().crossVectors(dir, new THREE.Vector3(0,1,0));
+  if(right.lengthSq()<1e-6) right.set(1,0,0); else right.normalize();
+  c.addScaledVector(right, -shift*2*d*Math.tan(fov/2)*camera.aspect);
+  return { target:c, pos:dir.multiplyScalar(d).add(c),
+           field:s.style==='field'?1:0, wire:s.style==='wire'?1:(s.style==='field'?0.55:0), explode:s.explode||0 };
+}
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const cam={ pos:new THREE.Vector3(0,0.3,4), target:new THREE.Vector3(), field:0, wire:0, explode:0 };
+let mode=CFG.mode||'scroll', forcedStyle='', userExplode=0, spin=CFG.spin||0, spinAngle=0;
+const pointer=new THREE.Vector2(), pSm=new THREE.Vector2();
+addEventListener('pointermove',e=>{ pointer.set(e.clientX/innerWidth*2-1, e.clientY/innerHeight*2-1); });
+
+/* Modo automático: mesmo ritmo do vídeo (~3 s por plano: 0,6 s de movimento + deriva) */
+const AUTO_HOLD=2.6, AUTO_MOVE=0.9;
+let autoT=0;
+function sectionBlend(){
+  const n=SECTIONS.length; if(!n) return null;
+  let i, f, local;
+  if(mode==='auto'){
+    const per=AUTO_HOLD+AUTO_MOVE; const tt=autoT%(per*n); i=Math.floor(tt/per); local=tt-i*per;
+    f = local<AUTO_HOLD?0:ease((local-AUTO_HOLD)/AUTO_MOVE);
+  } else {
+    const max=document.documentElement.scrollHeight-innerHeight; const p=max>0?scrollY/max:0;
+    const x=p*(n-1); i=Math.min(Math.floor(x),n-1); const fr=x-i;
+    f = ease(THREE.MathUtils.clamp((fr-0.45)/0.55,0,1)); local=fr*AUTO_HOLD*1.4;
+  }
+  const j=(i+1)%n; const a=poseOf(SECTIONS[i], local), b=poseOf(SECTIONS[mode==='auto'?j:Math.min(i+1,n-1)], local-AUTO_HOLD-AUTO_MOVE);
+  showSection(f>0.5? (mode==='auto'?j:Math.min(i+1,n-1)) : i);
+  return { target:a.target.lerp(b.target,f), pos:a.pos.lerp(b.pos,f), field:THREE.MathUtils.lerp(a.field,b.field,f), wire:THREE.MathUtils.lerp(a.wire,b.wire,f), explode:THREE.MathUtils.lerp(a.explode,b.explode,f) };
+}
+
+/* Órbita livre (arrastar / roda) */
+const orbit={az:-0.5, el:0.25, d:3.4, drag:false, x:0, y:0};
+renderer.domElement.addEventListener('pointerdown',e=>{ if(mode!=='orbit') return; orbit.drag=true; orbit.x=e.clientX; orbit.y=e.clientY; });
+addEventListener('pointerup',()=>orbit.drag=false);
+addEventListener('pointermove',e=>{ if(!orbit.drag) return; orbit.az-=(e.clientX-orbit.x)*0.006; orbit.el=THREE.MathUtils.clamp(orbit.el+(e.clientY-orbit.y)*0.006,-1.4,1.4); orbit.x=e.clientX; orbit.y=e.clientY; });
+renderer.domElement.addEventListener('wheel',e=>{ if(mode!=='orbit') return; e.preventDefault(); orbit.d=THREE.MathUtils.clamp(orbit.d*(1+e.deltaY*0.001),0.6,12); },{passive:false});
+renderer.domElement.style.touchAction='pan-y';
+
+/* ───────────── Loop ───────────── */
+function resize(){
+  const w=innerWidth,h=innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+  const pr=renderer.getPixelRatio(); rtNormal.setSize(w*pr,h*pr); inkQuad.material.uniforms.uRes.value.set(w*pr,h*pr);
+  inkQuad.material.uniforms.uW.value=(CFG.lineWidth||1)*Math.max(0.75,pr*0.55);
+}
+addEventListener('resize',resize);
+
+function frame(){
+  const dt=Math.min(clock.getDelta(),0.1); U.uTime.value+=dt; autoT+=dt;
+  if(mixer) mixer.update(dt);
+  let goal;
+  if(mode==='orbit'){ goal={ target:new THREE.Vector3(), pos:new THREE.Vector3(Math.cos(orbit.el)*Math.sin(orbit.az),Math.sin(orbit.el),Math.cos(orbit.el)*Math.cos(orbit.az)).multiplyScalar(orbit.d), field:0, wire:0, explode:0 }; showSection(0); }
+  else goal=sectionBlend();
+  if(goal){
+    if(forcedStyle){ goal.field=forcedStyle==='field'?1:0; goal.wire=forcedStyle==='wire'?1:(forcedStyle==='field'?0.55:0); }
+    const k=1-Math.exp(-dt*(mode==='auto'?14:7));
+    cam.pos.lerp(goal.pos,k); cam.target.lerp(goal.target,k);
+    cam.field+= (goal.field-cam.field)*k; cam.wire+=(goal.wire-cam.wire)*k; cam.explode+=(Math.max(goal.explode,userExplode)-cam.explode)*k;
+  }
+  // parallax do ponteiro
+  pSm.lerp(pointer,1-Math.exp(-dt*3));
+  const dist=cam.pos.distanceTo(cam.target);
+  camera.position.copy(cam.pos);
+  const right=new THREE.Vector3().subVectors(cam.target,cam.pos).cross(camera.up).normalize();
+  camera.position.addScaledVector(right, pSm.x*(CFG.parallax??0.035)*dist).addScaledVector(camera.up, -pSm.y*(CFG.parallax??0.035)*dist*0.6);
+  camera.lookAt(cam.target);
+  camera.near=Math.max(0.005,dist*0.02); camera.far=dist+6; camera.updateProjectionMatrix(); U.uFar.value=camera.far;
+  // rotação contínua + vista explodida
+  spinAngle+=THREE.MathUtils.degToRad(spin)*dt; root.rotation.y=spinAngle;
+  parts.forEach(p=>p.o.position.copy(p.base).addScaledVector(p.dir,cam.explode));
+  // estilos
+  U.uField.value=cam.field; wireMat.opacity=cam.wire*(0.18+0.12*cam.field);
+  wires.forEach(w=>w.visible=wireMat.opacity>0.01); edgeMat.opacity=0.62*(1-cam.field*0.55);
+  readColorsLazy();
+  // passe 1: normais/profundidade
+  edges.forEach(e=>e.visible=false); const wv=wires.map(w=>w.visible); wires.forEach(w=>w.visible=false);
+  scene.overrideMaterial=normalMat; renderer.setRenderTarget(rtNormal); renderer.setClearColor(0x808080,1); renderer.clear(); renderer.render(scene,camera);
+  scene.overrideMaterial=null; renderer.setRenderTarget(null); renderer.setClearColor(0x000000,0);
+  edges.forEach(e=>e.visible=true); wires.forEach((w,i)=>w.visible=wv[i]);
+  // passe 2: papel + quinas + malha
+  renderer.autoClear=true; renderer.render(scene,camera);
+  // passe 3: contornos
+  renderer.autoClear=false; renderer.render(inkScene,orthoCam); renderer.autoClear=true;
+  requestAnimationFrame(frame);
+}
+let colorTick=0; function readColorsLazy(){ if(colorTick--<=0){ colorTick=30; readColors(); edgeMat.color.copy(U.uInk.value); wireMat.color.copy(U.uInk.value); } }
+
+/* ───────────── Painel / arrastar-e-soltar ───────────── */
+function applyTheme(t){
+  const r=document.documentElement;
+  if(t==='transparent'){ r.dataset.theme='light'; document.body.style.background='transparent'; r.style.background='transparent'; }
+  else { r.dataset.theme=t; document.body.style.background=''; r.style.background=''; }
+  colorTick=0;
+}
+function buildTrack(){ $('track').innerHTML=SECTIONS.map(()=>'<section class="sec"></section>').join(''); document.body.classList.toggle('scroll-mode',mode==='scroll'); }
+function useDemo(key, customUrl){
+  DEMO = key && DEMOS[key] ? DEMOS[key] : { title:'MODEL', titleSub:'Imported model', crumb:['3D','MODEL'], logo:['3D','LAB'], sections:'auto' };
+  SECTIONS = Array.isArray(DEMO.sections)? DEMO.sections : autoSections();
+  if(CFG.sections && !key) SECTIONS=CFG.sections;
+  curLabel=-1; curFormula=''; setBrand(Object.assign({},DEMO,CFG.brand||{})); buildTrack();
+  $('cfgOut').value=JSON.stringify(SECTIONS,null,1);
+  scrollTo(0,0); autoT=0;
+}
+const sel=$('demoSel'); sel.innerHTML=Object.entries(DEMOS).map(([k,d])=>`<option value="${k}">${d.name}</option>`).join('');
+sel.onchange=()=>{ useDemo(sel.value); loadModel(DEMOS[sel.value].url); };
+$('urlGo').onclick=()=>{ const u=$('urlIn').value.trim(); if(u){ useDemo(null); loadModel(u); } };
+$('fileIn').onchange=e=>{ const f=e.target.files[0]; if(f){ useDemo(null); loadModel(f); } };
+$('modeSel').onchange=e=>{ mode=e.target.value; buildTrack(); };
+$('styleSel').onchange=e=>{ forcedStyle=e.target.value; };
+$('explodeIn').oninput=e=>{ userExplode=+e.target.value; };
+$('spinIn').oninput=e=>{ spin=+e.target.value; };
+$('lwIn').oninput=e=>{ CFG.lineWidth=+e.target.value; resize(); };
+$('themeSel').onchange=e=>applyTheme(e.target.value);
+$('cfgApply').onclick=()=>{ try{ SECTIONS=JSON.parse($('cfgOut').value); curLabel=-1; curFormula=''; buildTrack(); }catch(err){ alert('JSON inválido: '+err.message); } };
+$('cfgCopy').onclick=()=>navigator.clipboard&&navigator.clipboard.writeText($('cfgOut').value);
+$('panelBtn').onclick=()=>$('panel').classList.toggle('open');
+addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return; if(e.key==='e'||e.key==='E') $('panel').classList.toggle('open'); });
+let dragN=0;
+addEventListener('dragenter',e=>{ e.preventDefault(); dragN++; $('drop').classList.add('on'); });
+addEventListener('dragleave',()=>{ if(--dragN<=0){ dragN=0; $('drop').classList.remove('on'); } });
+addEventListener('dragover',e=>e.preventDefault());
+addEventListener('drop',e=>{ e.preventDefault(); dragN=0; $('drop').classList.remove('on'); const f=e.dataTransfer.files[0]; if(f){ useDemo(null); loadModel(f); } });
+
+/* API pública para usar como componente: window.InkViewer.load(url, {sections, brand}) */
+window.InkViewer={ load:(url,opts={})=>{ if(opts.sections) CFG.sections=opts.sections; if(opts.brand) CFG.brand=opts.brand; useDemo(null); return loadModel(url); },
+  setMode:m=>{ mode=m; buildTrack(); }, setStyle:s=>{ forcedStyle=s||''; }, setTheme:applyTheme, demos:DEMOS, get sections(){return SECTIONS;}, seek:t=>{ autoT=t; },
+  get model(){return model;}, get three(){return {THREE,scene,camera,root,renderer};} };
+
+/* ───────────── Início ───────────── */
+applyTheme(CFG.theme||'light'); $('themeSel').value=CFG.theme||'light'; $('modeSel').value=mode; $('spinIn').value=spin;
+resize();
+if(CFG.model){ useDemo(null); loadModel(CFG.model); } else { const k=DEMOS[CFG.demo]?CFG.demo:'chess'; sel.value=k; useDemo(k); loadModel(DEMOS[k].url); }
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

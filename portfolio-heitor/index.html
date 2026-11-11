@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Heitor Imídio — Engenharia, física e IA</title>
+<meta name="description" content="Portfólio de Heitor Imídio: engenharia mecânica na Notre Dame, CERN, IYPT, iFood, Projetei e HEsites.">
+<meta name="theme-color" content="#ecebe7">
+<meta property="og:title" content="Heitor Imídio — Engenharia, física e IA">
+<meta property="og:description" content="Do CERN ao iFood, da Projetei à Notre Dame. Um portfólio construído com cursores, tinta e física.">
+<meta property="og:image" content="img/heitor-cut.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c0c0d'/%3E%3Ctext x='32' y='43' font-family='Arial Black,Arial' font-weight='900' font-size='30' text-anchor='middle' fill='%23ecebe7'%3EHI%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/inter-tight-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body class="bw locked">
+
+<!-- ═════════ PORTAL DE IDIOMA ═════════ -->
+<div id="gate" role="dialog" aria-label="Language">
+  <div class="gate-grid"></div>
+  <div class="gate-top mono"><span data-i18n="gate.kicker">Portfólio</span><span>HI · ND ’30</span></div>
+  <h1 class="gate-title" data-i18n="gate.title">Escolha o idioma</h1>
+  <p class="gate-sub mono" data-i18n="gate.sub"></p>
+  <div class="flags">
+    <button class="flag" data-lang="pt" aria-label="Português (Brasil)">
+      <svg viewBox="0 0 640 448" class="flag-svg" aria-hidden="true">
+        <defs>
+          <filter id="wavePT" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.03" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="6s" values="0.008 0.03;0.012 0.045;0.008 0.03" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" class="disp"/></filter>
+        </defs>
+        <g filter="url(#wavePT)">
+          <rect width="640" height="448" fill="#009c3b"/>
+          <polygon points="320,36 596,224 320,412 44,224" fill="#ffdf00"/>
+          <circle cx="320" cy="224" r="94" fill="#002776"/>
+          <path d="M231 205c60-14 127-8 178 30" stroke="#fff" stroke-width="13" fill="none"/>
+        </g>
+      </svg>
+      <span class="flag-label"><b data-i18n="gate.pt">Português</b><i class="mono">BR · PT</i></span>
+    </button>
+    <button class="flag" data-lang="en" aria-label="English (United States)">
+      <svg viewBox="0 0 640 448" class="flag-svg" aria-hidden="true">
+        <defs>
+          <filter id="waveEN" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.03" numOctaves="2" seed="8" result="n"><animate attributeName="baseFrequency" dur="6s" values="0.01 0.03;0.006 0.05;0.01 0.03" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="0" xChannelSelector="R" yChannelSelector="G" class="disp"/></filter>
+        </defs>
+        <g filter="url(#waveEN)">
+          <rect width="640" height="448" fill="#fff"/>
+          <g fill="#b22234"><rect y="0" width="640" height="34.5"/><rect y="68.9" width="640" height="34.5"/><rect y="137.8" width="640" height="34.5"/><rect y="206.8" width="640" height="34.5"/><rect y="275.7" width="640" height="34.5"/><rect y="344.6" width="640" height="34.5"/><rect y="413.5" width="640" height="34.5"/></g>
+          <rect width="256" height="241" fill="#3c3b6e"/>
+          <g fill="#fff" id="stars"></g>
+        </g>
+      </svg>
+      <span class="flag-label"><b data-i18n="gate.en">English</b><i class="mono">US · EN</i></span>
+    </button>
+  </div>
+  <p class="gate-hint mono" data-i18n="gate.hint"></p>
+</div>
+
+<!-- fundo fixo: malha quadriculada + modelo 3D em tinta -->
+<div id="grid" aria-hidden="true"></div>
+<canvas id="ink-bg" aria-hidden="true"></canvas>
+<div id="flash" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+
+<!-- ═════════ NAVEGAÇÃO ═════════ -->
+<header id="nav">
+  <a class="logo" href="#hero" aria-label="Heitor Imídio"><span>HI</span><em class="mono">ND ’30</em></a>
+  <nav class="links mono" aria-label="Seções">
+    <a href="#hero" data-i18n="nav.hero"></a>
+    <a href="#ach" data-i18n="nav.ach"></a>
+    <a href="#proj" data-i18n="nav.proj"></a>
+    <a href="#tech" data-i18n="nav.tech"></a>
+    <a href="#contact" data-i18n="nav.contact"></a>
+  </nav>
+  <div class="tools">
+    <button id="btnSwarm" class="pill mono" type="button"><svg width="12" height="12" viewBox="0 0 14 14"><path d="M1.5 1l11 4.6-4.7 1.7-1.7 4.7z" fill="currentColor"/></svg><span data-i18n="nav.swarm"></span></button>
+    <button id="btnSound" class="pill mono" type="button" aria-pressed="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path class="w" d="M16 8a5 5 0 0 1 0 8M19 5a9 9 0 0 1 0 14"/></svg><span data-i18n="nav.sound"></span>: <b id="soundState">ON</b></button>
+    <button id="btnLang" class="lang" type="button" aria-label="Idioma / Language"><span class="lg pt">PT</span><span class="lg en">EN</span></button>
+  </div>
+</header>
+<div id="progress" aria-hidden="true"><i></i></div>
+
+<main>
+<!-- ═════════ 01 · HERO P&B ═════════ -->
+<section id="hero" class="st1">
+  <div class="pin">
+    <div class="hero-tag mono" data-build><span data-i18n="hero.tag"></span><span id="heroScrollTag" data-i18n="hero.scroll"></span> ↓</div>
+
+    <div class="giant g1" data-build aria-label="Heitor">HEITOR</div>
+    <div class="giant g2" data-build aria-hidden="true">IMÍDIO</div>
+
+    <!-- estágio 2: fundo desfocado + janela nítida -->
+    <div class="blurwin" id="blurwin" aria-hidden="true">
+      <img class="bw-bg" src="img/heitor-cut.png" alt="">
+      <div class="bw-win"><img src="img/heitor-cut.png" alt=""><i class="bw-cross"></i></div>
+      <div class="bw-k mono"><span data-i18n="hero.s2.k"></span><span data-i18n="hero.s2.k2"></span></div>
+    </div>
+
+    <img class="portrait" id="portrait" src="img/heitor-cut.png" alt="Heitor Imídio" data-build>
+
+    <div class="hero-card" id="heroCard" data-build>
+      <div class="role mono" data-i18n="hero.role"></div>
+      <p class="lead" data-i18n="hero.lead"></p>
+      <div class="chips" id="heroChips"></div>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat neu" data-build><b><span data-num="0.6" data-dec="1" data-pre="top ">0</span>%</b><small data-i18n="stat.1"></small></div>
+      <div class="stat neu" data-build><b><span data-num="0.7" data-dec="1">0</span>%</b><small data-i18n="stat.2"></small></div>
+      <div class="stat neu" data-build><b><span data-num="110">0</span></b><small data-i18n="stat.3"></small></div>
+      <div class="stat neu" data-build><b><span data-num="1500" data-sep=".">0</span>+</b><small data-i18n="stat.4"></small></div>
+    </div>
+
+    <div class="badge" data-build aria-hidden="true"><div data-circular-text data-text="PHYSICS ✦ ENGINEERING ✦ AI ✦ " data-spin="14" style="width:112px;height:112px;font-size:11px"></div><span>HI</span></div>
+
+    <!-- estágio 2: texto -->
+    <div class="s2txt" id="s2txt">
+      <h2 data-i18n="hero.s2.t"></h2>
+      <p data-i18n="hero.s2.p"></p>
+    </div>
+
+    <!-- estágio 3: modelo 3D de fundo -->
+    <div class="s3txt" id="s3txt">
+      <div class="s3item"><i class="mono">01</i><h3 data-i18n="hero.s3.a"></h3><p data-i18n="hero.s3.ap"></p></div>
+      <div class="s3item"><i class="mono">02</i><h3 data-i18n="hero.s3.b"></h3><p data-i18n="hero.s3.bp"></p></div>
+      <div class="s3item"><i class="mono">03</i><h3 data-i18n="hero.s3.c"></h3><p data-i18n="hero.s3.cp"></p></div>
+    </div>
+    <div class="figcap mono" id="figcap"><b data-i18n="fig.1"></b><span data-i18n="fig.1b"></span></div>
+    <div class="formula mono" id="formula">F = ṁ·vₑ + (pₑ − p₀)·Aₑ</div>
+
+    <div class="hero-foot" data-build>
+      <span class="mono">● Class of 2030</span><span class="mono">Goiânia → South Bend</span><span class="mono" id="heroStep">01 / 03</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 02 · CONQUISTAS (PÔSTER DE PAPEL) ═════════ -->
+<section id="ach">
+  <div class="ach-paper" data-noise data-alpha="12" data-size="320" data-fps="6" aria-hidden="true"></div>
+  <div class="ach-hero">
+    <div class="ach-top mono"><span data-i18n="ach.kicker"></span><span class="star-sm" aria-hidden="true">✦</span><span>HI · ND ’30</span></div>
+    <div class="poster">
+      <div class="p-note p-note-1 mono" aria-hidden="true"><b data-i18n="ach.note1"></b><span data-i18n="ach.note1b"></span></div>
+      <div class="p-orange" aria-hidden="true"></div>
+      <img class="p-photo" src="img/heitor-geneva-cut.png" alt="" data-lit>
+      <svg class="p-scribble" viewBox="0 0 300 120" aria-hidden="true"><path d="M5 80 C 40 10, 70 130, 110 60 S 180 10, 215 70 S 270 100, 295 30" fill="none" stroke="#0e0e0e" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <div class="p-num" aria-hidden="true"><span id="achNum" data-num="8" data-pad="2">00</span><i class="p-tape mono" data-i18n="ach.tape"></i></div>
+      <div class="p-word" aria-hidden="true" data-i18n="ach.big"></div>
+      <div class="p-guest mono" aria-hidden="true"><b data-i18n="ach.guest"></b><span>CERN ✦ IYPT ✦ iFood</span></div>
+      <svg class="p-star" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0Z" fill="#0e0e0e"/></svg>
+    </div>
+    <div class="ach-head wrap">
+      <h2 class="title" data-lit data-i18n="ach.title"></h2>
+      <p class="sub" data-lit data-i18n="ach.sub"></p>
+    </div>
+  </div>
+
+  <div class="ach-band" aria-hidden="true"><div data-curved-loop data-text="CERN ✦ IYPT ✦ iFOOD ✦ PROJETEI ✦ NOTRE DAME ✦ HEsites ✦ " data-curve="70" data-speed="2" data-interactive="true"></div></div>
+
+  <div class="wrap">
+    <div class="ach-tools" data-lit>
+      <button id="btnReignite" class="tix mono" type="button"><span class="dot"></span><span data-i18n="ach.replay"></span></button>
+      <div class="filters" id="achFilters"></div>
+    </div>
+  </div>
+  <div class="car" id="car">
+    <div class="car-track" id="carTrack"></div>
+  </div>
+  <div class="wrap car-ui" data-lit>
+    <div class="car-bar"><i id="carBar"></i></div>
+    <div class="car-btns"><button id="carPrev" class="sq-btn" aria-label="Anterior">←</button><button id="carNext" class="sq-btn" aria-label="Próximo">→</button><span class="mono" data-i18n="ach.drag"></span></div>
+  </div>
+
+  <div class="wrap ach-count">
+    <div class="countdown" data-lit>
+      <div><b data-num="20" data-suf="+">0</b><small class="mono" data-i18n="ach.c1"></small></div>
+      <div><b data-num="9">0</b><small class="mono" data-i18n="ach.c2"></small></div>
+      <div><b data-num="6">0</b><small class="mono" data-i18n="ach.c3"></small></div>
+      <div><b data-num="12" data-suf="k">0</b><small class="mono" data-i18n="ach.c4"></small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 · PROJETOS ═════════ -->
+<section id="proj">
+  <div class="wrap">
+    <div class="kick mono" data-lit><i></i><span data-i18n="proj.kicker"></span></div>
+    <h2 class="title" data-lit data-i18n="proj.title"></h2>
+    <p class="sub" data-lit data-i18n="proj.sub"></p>
+
+    <!-- primeiro múon -->
+    <article class="muon" id="muon">
+      <div class="muon-copy" data-lit>
+        <div class="mono kk" data-i18n="muon.k"></div>
+        <h3 data-i18n="muon.t"></h3>
+        <p data-i18n="muon.p"></p>
+        <div class="muon-stats">
+          <div><b data-num="20" data-suf="+">0</b><small data-i18n="muon.s1"></small></div>
+          <div><b data-num="9">0</b><small data-i18n="muon.s2"></small></div>
+          <div><b>~US$ 12k</b><small data-i18n="muon.s3"></small></div>
+        </div>
+        <button id="btnMuon" class="glassbtn dark mono" type="button"><span class="dot"></span><span data-i18n="muon.btn"></span></button>
+      </div>
+      <div class="chamber" id="chamber" data-lit>
+        <video id="muonVideo" playsinline muted loop preload="none" poster="img/muon-still.jpg" hidden></video>
+        <img class="ch-still" src="img/muon-still.jpg" alt="Primeiro múon detectado na câmara de nuvem">
+        <canvas id="chCanvas"></canvas>
+        <div class="ch-hud mono top"><span>CAM-01 · 03:44</span><span class="live"><i></i><span data-i18n="muon.live"></span></span></div>
+        <div class="ch-hud mono bot"><span id="chInfo">LN₂ −196 °C · UV 365 nm</span><span id="chCount">μ⁻ 00</span></div>
+        <div class="ch-cap mono" data-i18n="muon.cap"></div>
+      </div>
+    </article>
+
+    <!-- ink viewer 3D -->
+    <article class="inkpanel" id="inkpanel">
+      <div class="ink-copy" data-lit>
+        <div class="mono kk" data-i18n="ink.k"></div>
+        <h3 data-i18n="ink.t"></h3>
+        <p data-i18n="ink.p"></p>
+        <div class="seg" id="inkModels">
+          <button class="on" data-m="astro" data-i18n="ink.m1"></button><button data-m="jet" data-i18n="ink.m2"></button><button data-m="rocket" data-i18n="ink.m3"></button>
+        </div>
+        <div class="seg" id="inkStyles">
+          <button class="on" data-s="ink" data-i18n="ink.s1"></button><button data-s="color" data-i18n="ink.s2"></button><button data-s="wire" data-i18n="ink.s3"></button>
+        </div>
+      </div>
+      <div class="ink-stage neu-in" id="inkStage" data-lit><canvas id="ink-panel"></canvas><span class="mono ink-cap" id="inkCap">ASTRONAUT · NASA</span></div>
+    </article>
+
+    <!-- mural de projetos -->
+    <div class="mosaic" id="mosaic" data-lit></div>
+  </div>
+</section>
+
+<!-- ═════════ 04 · TECH (PAINEL INDUSTRIAL RX) ═════════ -->
+<section id="tech">
+  <div class="stage" id="techStage">
+    <div class="t-bg" aria-hidden="true"></div>
+    <svg class="t-circuit" id="tCircuit" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+        <path pathLength="1" d="M0 640 H410 L470 700 H1000 L1060 760 H1440"/>
+        <path pathLength="1" d="M0 250 H300 L360 190 H640 L690 240 H1010"/>
+        <path pathLength="1" d="M1130 0 V90 L1180 140 V430 L1230 480 H1440"/>
+        <path pathLength="1" d="M860 560 H1180 V610"/>
+        <path pathLength="1" d="M0 120 H120 L150 150 V330"/>
+      </g>
+      <g fill="currentColor"><rect x="404" y="634" width="12" height="12"/><rect x="994" y="694" width="12" height="12"/><rect x="634" y="184" width="12" height="12"/><rect x="1124" y="84" width="12" height="12"/><rect x="1174" y="604" width="12" height="12"/><rect x="144" y="324" width="12" height="12"/></g>
+    </svg>
+    <div class="t-cubes" id="tCubes" aria-hidden="true"></div>
+    <div class="t-top mono">
+      <span class="t-burger" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div class="t-kick"><i></i><span data-i18n="tech.kicker"></span></div>
+      <div class="t-chip"><span data-i18n="tech.chip"></span> <b id="tCount">01 / 06</b></div>
+    </div>
+    <div class="t-strip" id="tStrip"><div class="t-img" id="tImg"></div><span class="t-num mono" id="tNum"></span><i class="t-corner c1"></i><i class="t-corner c2"></i><i class="t-corner c3"></i><i class="t-corner c4"></i></div>
+    <div class="t-word" id="tWord" aria-hidden="true"></div>
+    <div class="t-panel">
+      <div class="t-col t-pick"><div class="t-h mono"><i>01</i> / <span data-i18n="tech.c1"></span></div><div class="t-rail" id="tRail"></div></div>
+      <div class="t-col t-copy" id="tCopy">
+        <div class="t-h mono"><i>02</i> / <span data-i18n="tech.c2"></span></div>
+        <div class="t-sub mono" id="tSub" data-b></div>
+        <h3 id="tTitle" data-b></h3>
+        <p id="tText" data-b></p>
+        <div class="t-tags mono" id="tTags" data-b></div>
+      </div>
+      <div class="t-col t-spec">
+        <div class="t-h mono"><i>03</i> / <span data-i18n="tech.c3"></span></div>
+        <dl class="t-dl mono" id="tSpec" data-b></dl>
+        <button class="t-btn mono" id="tNext" type="button" data-b><span data-i18n="tech.next"></span> <i>»</i></button>
+      </div>
+    </div>
+    <div class="t-foot mono"><span data-i18n="tech.hint"></span><span>SA/CT_II</span></div>
+    <div class="t-cursors" id="tCursors" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ═════════ 05 · CONTATO ═════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="kick mono"><i></i><span data-i18n="ct.kicker"></span></div>
+    <h2 class="title big" data-i18n="ct.title"></h2>
+    <p class="sub" data-i18n="ct.sub"></p>
+    <div class="ct-grid">
+      <div class="ct-card ct-photo">
+        <img src="img/heitor-geneva-cut.png" alt="">
+        <div class="ct-who"><b>Heitor Imídio</b><small class="mono">Mechanical Engineering · University of Notre Dame</small><small class="mono" data-i18n="ct.where"></small></div>
+      </div>
+      <div class="ct-links">
+        <button class="ct-card link" id="copyMail" type="button"><small class="mono" data-i18n="ct.email"></small><b>himidio@nd.edu</b><em class="mono" id="copyHint" data-i18n="ct.copy"></em></button>
+        <a class="ct-card link" href="https://www.linkedin.com/in/heitor-imidio/" target="_blank" rel="noopener"><small class="mono" data-i18n="ct.li"></small><b>in/heitor-imidio</b><em class="mono">↗</em></a>
+        <a class="ct-card link" href="https://hesites.com" target="_blank" rel="noopener"><small class="mono" data-i18n="ct.hes"></small><b>hesites.com</b><em class="mono">↗</em></a>
+      </div>
+      <form class="ct-card ct-form" id="ctForm">
+        <h3 data-i18n="ct.form"></h3>
+        <label class="mono" for="fTopic" data-i18n="ct.topic"></label>
+        <select id="fTopic"><option data-i18n="ct.t1"></option><option data-i18n="ct.t2"></option><option data-i18n="ct.t3"></option><option data-i18n="ct.t4"></option><option data-i18n="ct.t5"></option></select>
+        <label class="mono" for="fName" data-i18n="ct.name"></label>
+        <input id="fName" type="text" autocomplete="name">
+        <label class="mono" for="fMsg" data-i18n="ct.msg"></label>
+        <textarea id="fMsg" rows="4"></textarea>
+        <button class="glassbtn mono" type="submit"><span class="dot"></span><span data-i18n="ct.send"></span></button>
+      </form>
+    </div>
+    <footer class="foot mono"><span data-i18n="ct.foot"></span><span>3D: NASA astronaut (CC BY) · fonts: Inter Tight, Instrument Serif, JetBrains Mono, Anton, Space Mono</span></footer>
+  </div>
+</section>
+</main>
+
+<script src="js/data.js"></script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

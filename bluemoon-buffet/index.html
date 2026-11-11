@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Blue Moon Buffet Infantil e Eventos · Uberlândia</title>
+<meta name="description" content="Buffet infantil completo no Patrimônio, Uberlândia. Salão, salgados, doces e bolo num lugar só, desde 2008.">
+<meta name="theme-color" content="#0a1020">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e4e7ee;--hi:#ffffff;--lo:#c2c8d3;--ink:#263445;--soft:#6b7788;--mute:#8a95a6;--azul:#3d73d9;--or:#ff6a13;--or2:#ff8a3d;
+  --raise:9px 9px 18px var(--lo),-9px -9px 18px var(--hi);--raise-s:5px 5px 10px var(--lo),-5px -5px 10px var(--hi);
+  --press:inset 6px 6px 12px var(--lo),inset -6px -6px 12px var(--hi);--press-s:inset 3px 3px 6px var(--lo),inset -3px -3px 6px var(--hi);
+  --f:'Inter',system-ui,sans-serif;--ease:cubic-bezier(.52,.01,0,1);--pad:clamp(18px,4vw,56px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.5;overflow-x:hidden}
+img,video{display:block;max-width:100%}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.rot{font:600 12px var(--f);letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* topo */
+#topo{position:fixed;top:14px;left:var(--pad);right:var(--pad);z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 12px 10px 20px;border-radius:20px;background:var(--bg);box-shadow:var(--raise-s);
+  opacity:0;transform:translateY(-16px);transition:opacity .6s var(--ease),transform .6s var(--ease);pointer-events:none}
+#topo.vis{opacity:1;transform:none;pointer-events:auto}
+#topo .marca{display:flex;align-items:center;gap:10px;font:800 15px var(--f);letter-spacing:.06em;text-transform:uppercase}
+#topo .marca img{width:34px;height:34px;border-radius:50%;box-shadow:var(--raise-s)}
+#topo nav{display:flex;gap:6px;align-items:center}
+#topo nav a.l{padding:10px 16px;border-radius:14px;font:600 12px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);transition:box-shadow .3s,color .3s}
+#topo nav a.l:hover{box-shadow:var(--press-s);color:var(--azul)}
+@media(max-width:860px){#topo nav a.l{display:none}}
+
+/* botões */
+.mbtn{position:relative;display:inline-block;border:0;padding:7px;border-radius:18px;background:linear-gradient(180deg,#f4f4f6,#a9abb2 50%,#e9e9ec);box-shadow:0 14px 24px -8px #00000040,inset 0 1px #fff;transition:transform .2s}
+.mbtn span{display:block;padding:15px 30px;border-radius:13px;font:600 15px var(--f);letter-spacing:.04em;text-align:center}
+.mbtn.orange span{background:linear-gradient(180deg,var(--or2),#ff5e0a);color:#fff;box-shadow:inset 0 2px 2px #ffffff73,inset 0 -4px 6px #a0280059,0 18px 40px -6px #ff6a13b3}
+.mbtn.dark span{background:linear-gradient(180deg,#3a3a3e,#151517);color:#fff;box-shadow:inset 0 2px 2px #ffffff2e,inset 0 -3px 4px #0009}
+.mbtn:hover span{filter:brightness(1.07)}.mbtn:active{transform:translateY(2px)}
+.macio{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:16px;background:var(--bg);box-shadow:var(--raise-s);font:600 13px var(--f);letter-spacing:.12em;text-transform:uppercase;transition:box-shadow .3s,color .3s}
+.macio:hover{box-shadow:var(--press-s);color:var(--azul)}
+
+/* hero: vídeo puro -> poster */
+.hero{position:relative;height:250svh}
+.palco{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--bg)}
+.palco video,.palco .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.palco .poster{background:center/cover no-repeat}
+.veu2{position:absolute;inset:0;background:var(--bg);opacity:0}
+.rola{position:absolute;left:50%;bottom:26px;width:2px;height:46px;border-radius:2px;background:linear-gradient(#fff,transparent);opacity:.85;animation:desce 2.2s var(--ease) infinite;transform:translateX(-50%)}
+@keyframes desce{0%{transform:translateX(-50%) scaleY(0);transform-origin:top}50%{transform:translateX(-50%) scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:translateX(-50%) scaleY(0);transform-origin:bottom}}
+.poster-txt{position:absolute;inset:0;display:flex;align-items:center;padding:0 var(--pad);opacity:0}
+.poster-in{width:100%;max-width:1180px;margin:0 auto;position:relative}
+.chip{display:inline-flex;align-items:center;gap:14px;padding:14px 22px;border-radius:16px;box-shadow:var(--raise-s);font:500 12px/1.35 var(--f);letter-spacing:.14em;color:var(--soft);text-transform:uppercase}
+.dia{position:absolute;right:0;top:-4px;width:150px;height:140px;border-radius:26px;box-shadow:var(--raise);padding:18px 22px;display:flex;flex-direction:column;justify-content:space-between}
+.dia span:first-child{font:600 20px var(--f);color:#7d8899;letter-spacing:.04em}
+.dia b{font:300 56px/1 var(--f);color:var(--ink)}
+.h1{font:900 clamp(54px,12vw,156px)/.92 var(--f);letter-spacing:-.035em;margin:26px 0 0;color:var(--ink);text-shadow:4px 4px 8px rgba(38,52,69,.18);text-transform:uppercase}
+.h1 em{font-style:normal;color:var(--azul)}
+.tag{font:500 clamp(12px,1.5vw,18px) var(--f);letter-spacing:.28em;color:var(--soft);margin:22px 0 30px;text-transform:uppercase}
+.tag i{font-style:normal;margin:0 8px}
+.acoes{display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+@media(max-width:700px){.dia{display:none}.acoes .mbtn{width:100%}}
+
+/* seções */
+section.blk{position:relative;padding:clamp(70px,10vw,140px) var(--pad)}
+h2.t2{font:800 clamp(34px,6vw,84px)/.98 var(--f);letter-spacing:-.04em;text-transform:uppercase;max-width:14ch}
+.corpo-g{font:400 clamp(18px,1.8vw,22px)/1.45 var(--f);color:var(--soft);max-width:36ch}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,80px);align-items:end;margin-top:40px}
+@media(max-width:820px){.duas{grid-template-columns:1fr}}
+.card{background:var(--bg);border-radius:22px;box-shadow:var(--raise);padding:24px}
+.fatos{display:flex;gap:26px;flex-wrap:wrap;margin-top:clamp(50px,8vw,100px)}
+.pchip{width:210px;height:210px;border-radius:50%;box-shadow:var(--raise);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px}
+.pchip b{font:300 64px/1 var(--f);color:var(--ink)}
+.pchip small{margin-top:10px;font:500 13px/1.3 var(--f);color:var(--soft)}
+@media(max-width:560px){.pchip{width:calc(50% - 13px);height:auto;aspect-ratio:1}.pchip b{font-size:44px}}
+
+.faixa{margin:0 var(--pad);border-radius:999px;box-shadow:var(--press);padding:20px 0;overflow:hidden}
+.faixa [data-scroll-velocity]{font:800 clamp(24px,3.6vw,46px) var(--f);text-transform:uppercase;letter-spacing:-.02em;color:var(--mute)}
+
+/* tela do salão */
+.tela{padding:clamp(40px,6vw,80px) var(--pad)}
+.tela .moldura{position:relative;max-width:1180px;margin:0 auto;border-radius:28px;box-shadow:var(--raise);padding:14px;background:var(--bg)}
+.tela .imgbox{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/9;box-shadow:var(--press)}
+.tela img{position:absolute;left:0;top:-10%;width:100%;height:120%;object-fit:cover}
+.tela .leg{position:absolute;z-index:2;left:clamp(20px,4vw,54px);bottom:clamp(20px,4vw,50px);max-width:min(520px,80%);padding:24px 28px;border-radius:20px;background:var(--bg);box-shadow:var(--raise)}
+.tela .leg h2{font:800 clamp(26px,3.6vw,46px)/1 var(--f);letter-spacing:-.035em;text-transform:uppercase;margin-top:8px}
+@media(max-width:700px){.tela .imgbox{aspect-ratio:4/5}.tela .leg{position:relative;left:0;bottom:0;margin:16px 0 0;max-width:none}}
+
+/* cardápio */
+.abas{display:flex;gap:14px;flex-wrap:wrap;margin:40px 0 36px}
+.abas button{padding:13px 24px;border-radius:14px;box-shadow:var(--raise-s);font:600 12px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--soft);transition:all .3s}
+.abas button[aria-pressed=true]{box-shadow:var(--press-s);color:var(--azul)}
+#grade{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+@media(max-width:980px){#grade{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){#grade{grid-template-columns:1fr}}
+.cartao{background:var(--bg);border-radius:24px;box-shadow:var(--raise);padding:14px;display:flex;flex-direction:column}
+.cartao.oculto{display:none}
+.cartao .foto{position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;box-shadow:var(--press)}
+.cartao .foto img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.cartao:hover .foto img{transform:scale(1.06)}
+.cartao .n{position:absolute;top:12px;left:14px;z-index:2;font:700 12px var(--f);letter-spacing:.14em;color:#fff;text-shadow:0 1px 6px #0009}
+.cartao .txt{padding:20px 10px 10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cartao h3{font:800 20px/1.1 var(--f);letter-spacing:-.02em;text-transform:uppercase}
+.cartao p{color:var(--soft);font-size:15px;flex:1}
+.add{margin-top:14px;align-self:flex-start;padding:12px 20px;border-radius:14px;box-shadow:var(--raise-s);font:700 12px var(--f);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);transition:all .3s}
+.add:hover{color:var(--azul)}
+.add.ok{box-shadow:var(--press-s);color:var(--azul)}
+
+/* galeria */
+.rolo{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;padding:24px var(--pad) 40px;scrollbar-width:none;cursor:grab}
+.rolo::-webkit-scrollbar{display:none}.rolo.arr{cursor:grabbing;scroll-snap-type:none}
+.rolo figure{flex:0 0 min(78vw,440px);scroll-snap-align:start;border-radius:24px;box-shadow:var(--raise);padding:14px;background:var(--bg)}
+.rolo .mold{aspect-ratio:4/5;border-radius:16px;overflow:hidden;box-shadow:var(--press)}
+.rolo .mold img,.rolo .mold video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+.rolo figcaption{padding:16px 8px 6px;font:800 15px var(--f);letter-spacing:.04em;text-transform:uppercase}
+.rolo figcaption small{display:block;font:400 14px var(--f);text-transform:none;letter-spacing:0;color:var(--soft);margin-top:4px}
+
+/* motivos */
+.motivos{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:50px}
+@media(max-width:860px){.motivos{grid-template-columns:1fr}}
+.motivo{position:relative;padding:28px 26px 32px;min-height:230px}
+.motivo .fic{position:absolute;right:20px;top:20px;width:56px;height:56px;border-radius:50%;box-shadow:var(--raise-s);display:grid;place-items:center;font:700 14px var(--f);color:var(--azul)}
+.motivo .fn{font:300 32px var(--f);color:#a2abb8}
+.motivo h3{margin:46px 0 8px;font:800 20px/1.1 var(--f);letter-spacing:-.02em;text-transform:uppercase}
+.motivo p{color:var(--soft);font-size:15px}
+
+.revela{max-width:1000px;margin:0 auto;padding:40px var(--pad) 110px}
+.revela p{font:600 clamp(26px,3.6vw,46px)/1.2 var(--f);letter-spacing:-.02em;color:var(--ink)}
+.revela p span{opacity:.14;transition:opacity .3s}
+
+.passos{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:50px}
+@media(max-width:820px){.passos{grid-template-columns:1fr}}
+.passo{padding:30px 28px 34px}
+.passo .num{width:64px;height:64px;border-radius:50%;box-shadow:var(--press);display:grid;place-items:center;font:700 16px var(--f);color:var(--azul);margin-bottom:46px}
+.passo h3{font:800 24px/1.05 var(--f);letter-spacing:-.025em;text-transform:uppercase;margin-bottom:10px}
+.passo p{color:var(--soft)}
+
+.onde{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(30px,5vw,70px);margin-top:50px}
+@media(max-width:860px){.onde{grid-template-columns:1fr}}
+.info{display:grid;gap:20px}
+.info div{padding:20px 24px;border-radius:18px;box-shadow:var(--raise-s)}
+.info dt{font:700 11px var(--f);letter-spacing:.18em;text-transform:uppercase;color:var(--azul);margin-bottom:6px}
+.info dd{font-size:18px}
+.mapa{border-radius:24px;padding:14px;box-shadow:var(--raise);min-height:380px}
+.mapa iframe{width:100%;height:100%;min-height:352px;border:0;border-radius:16px;box-shadow:var(--press);filter:saturate(.7)}
+
+footer{padding:80px var(--pad) 40px}
+footer .card{max-width:1180px;margin:0 auto;padding:clamp(30px,5vw,60px)}
+footer .gigante{font:900 clamp(54px,14vw,200px)/.88 var(--f);letter-spacing:-.04em;text-transform:uppercase;color:var(--ink);text-shadow:4px 4px 8px rgba(38,52,69,.18)}
+footer .gigante span{color:var(--azul)}
+footer .rodape{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;color:var(--soft);font-size:14px}
+footer .rodape button{font:700 12px var(--f);letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.nota{margin-top:14px;color:var(--mute);font-size:12px}
+
+/* carrinho */
+#festaBtn{position:fixed;right:18px;bottom:18px;z-index:60;display:none;align-items:center;gap:12px;padding:14px 22px;border-radius:18px;background:var(--bg);box-shadow:var(--raise);font:700 12px var(--f);letter-spacing:.12em;text-transform:uppercase}
+#festaBtn.vis{display:inline-flex}
+#festaBtn b{background:var(--or);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:12px}
+#veu{position:fixed;inset:0;background:rgba(38,52,69,.35);z-index:70;opacity:0;pointer-events:none;transition:opacity .4s}
+#veu.on{opacity:1;pointer-events:auto}
+#gaveta{position:fixed;top:12px;right:12px;bottom:12px;width:min(430px,calc(100% - 24px));background:var(--bg);border-radius:26px;box-shadow:var(--raise);z-index:80;transform:translateX(110%);transition:transform .6s var(--ease);padding:28px 24px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+#gaveta.on{transform:none}
+#gaveta h2{font:800 30px/1 var(--f);letter-spacing:-.03em;text-transform:uppercase}
+#fechar{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:14px;box-shadow:var(--raise-s);font-size:22px;line-height:1}
+#itens{list-style:none;display:grid;gap:12px}
+#itens li{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-radius:14px;box-shadow:var(--press-s);font-size:16px}
+#itens li.vazio{color:var(--mute)}
+#itens button{color:var(--or);font:700 11px var(--f);text-transform:uppercase;letter-spacing:.1em}
+#gaveta label{display:grid;gap:8px;font:700 11px var(--f);letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+#gaveta input,#eqLinhas input,#eqLinhas select{background:var(--bg);box-shadow:var(--press-s);border:0;color:var(--ink);border-radius:12px;padding:14px;font:inherit;font-size:16px;width:100%;outline:none}
+#enviar{margin-top:auto}
+#equipe{display:none;position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;padding:30px var(--pad)}
+#equipe.on{display:block}#equipe table{width:100%;border-collapse:collapse;margin:20px 0}#equipe td{padding:6px}
+#equipe .bts{display:flex;gap:12px;flex-wrap:wrap}
+#equipe .bts button,#eqLinhas button{padding:10px 18px;border-radius:12px;box-shadow:var(--raise-s);font-size:13px}
+
+.js-anim [data-rev]{opacity:0;transform:translateY(34px)}
+.hero.sem-anim{height:auto}.hero.sem-anim .palco{position:relative;height:auto;padding:100px 0 60px}.hero.sem-anim .poster,.hero.sem-anim video,.hero.sem-anim .rola,.hero.sem-anim .veu2{display:none}.hero.sem-anim .poster-txt{position:relative;opacity:1}
+@media(prefers-reduced-motion:reduce){.js-anim [data-rev]{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header id="topo">
+  <a class="marca" href="#inicio"><img src="logo.png" alt="">Blue Moon</a>
+  <nav>
+    <a class="l" href="#cardapio">Cardápio</a><a class="l" href="#salao">O salão</a><a class="l" href="#como">Como funciona</a><a class="l" href="#onde">Onde estamos</a>
+    <a class="mbtn orange" href="#cardapio" style="padding:5px;border-radius:14px"><span style="padding:11px 20px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border-radius:10px">Montar a festa</span></a>
+  </nav>
+</header>
+
+<main id="inicio">
+  <div class="hero" id="hero">
+    <div class="palco">
+      <div class="poster" style="background-image:url(img/lua-macro.jpg)"></div>
+      <video id="heroVideo" src="video/hero-lua-loop.mp4" poster="img/lua-macro.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+      <div class="veu2" id="veu2"></div>
+      <div class="poster-txt" id="posterTxt"><div class="poster-in">
+        <div class="chip">Buffet infantil<br>Uberlândia · desde 2008</div>
+        <div class="dia"><span>ANOS</span><b data-count-up data-to="18" data-duration="2">18</b></div>
+        <h1 class="h1">A festa<br>que eles<br><em>vão lembrar</em></h1>
+        <p class="tag">Salgados <i>×</i> Doces <i>×</i> Festa</p>
+        <div class="acoes"><a class="mbtn orange" href="#cardapio"><span>Montar minha festa →</span></a><a class="macio" href="https://wa.me/5534992250152" target="_blank" rel="noopener">WhatsApp</a></div>
+      </div></div>
+      <div class="rola" id="rola"></div>
+    </div>
+  </div>
+
+  <section class="blk" id="festa"><div class="wrap">
+    <div class="duas">
+      <div class="card" data-rev><span class="rot">A festa</span><h2 class="t2" style="margin-top:14px;font-size:clamp(30px,4.6vw,64px)">Uma festa<br>para sentir.</h2></div>
+      <p class="corpo-g" data-rev>Salão e buffet num lugar só. Comida, doces e espaço pensados para criança. A equipe monta, serve e cuida de tudo durante a festa. Seu único trabalho é aparecer nas fotos.</p>
+    </div>
+    <div class="fatos">
+      <div class="pchip" data-rev><b data-count-up data-from="1990" data-to="2008" data-duration="2" data-separator="">2008</b><small>Ano em que abrimos as portas no Patrimônio</small></div>
+      <div class="pchip" data-rev><b data-count-up data-to="18" data-duration="2">18</b><small>Anos de festa de criança em Uberlândia</small></div>
+      <div class="pchip" data-rev><b data-count-up data-to="1" data-duration="1">1</b><small>Endereço só: comida, doces e salão juntos</small></div>
+    </div>
+  </div></section>
+
+  <div class="faixa"><div data-scroll-velocity data-text="Festa infantil ✦ Aniversários ✦ Eventos ✦ Desde 2008 ✦ Patrimônio ✦ " data-velocity="50"></div></div>
+
+  <section class="tela" id="salao">
+    <div class="moldura" data-rev>
+      <div class="imgbox"><img src="img/salao-festa.jpg" alt="Salão de festa do Blue Moon preparado para um aniversário infantil" loading="lazy" id="salaoImg"></div>
+      <div class="leg"><span class="rot">O salão</span><h2>Um céu inteiro só para a festa dele</h2></div>
+    </div>
+  </section>
+
+  <section class="blk" id="cardapio"><div class="wrap">
+    <span class="rot" data-rev>Cardápio da festa</span>
+    <h2 class="t2" data-rev style="margin-top:14px">Monte do jeito que seu filho gosta</h2>
+    <p class="corpo-g" data-rev style="margin-top:22px">Escolha o que não pode faltar, diga quantos convidados e mande para a gente. O orçamento chega pelo WhatsApp.</p>
+    <div class="abas" id="abas" role="group" aria-label="Filtrar cardápio">
+      <button data-f="tudo" aria-pressed="true">Tudo</button><button data-f="salgado" aria-pressed="false">Salgados</button><button data-f="doce" aria-pressed="false">Doces</button><button data-f="festa" aria-pressed="false">Festa</button>
+    </div>
+    <div id="grade"></div>
+  </div></section>
+
+  <section class="blk" style="padding-left:0;padding-right:0">
+    <div class="wrap" style="padding:0 var(--pad)">
+      <span class="rot" data-rev>Dia de festa</span>
+      <h2 class="t2" data-rev style="margin:14px 0 10px;max-width:16ch">Do primeiro salgadinho ao parabéns</h2>
+    </div>
+    <div class="rolo" id="rolo">
+      <figure><div class="mold"><video src="video/doces-loop.mp4" poster="img/mesa-doces.jpg" autoplay muted loop playsinline preload="metadata"></video></div><figcaption>A mesa dos doces<small>Brigadeiro, beijinho, algodão-doce e pirulito colorido.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/salgadinhos.jpg" alt="" loading="lazy"></div><figcaption>Chegou, comeu<small>Salgadinho quentinho saindo da cozinha a festa toda.</small></figcaption></figure>
+      <figure><div class="mold"><video src="video/bolo-velas-loop.mp4" poster="img/bolo-tema-lua.jpg" autoplay muted loop playsinline preload="metadata"></video></div><figcaption>O bolo do tema<small>Do jeito que a criança pediu, com o tema da festa.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/parabens-silhueta.jpg" alt="" loading="lazy"></div><figcaption>Hora do parabéns<small>A foto que vai para o álbum da família.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/baloes-prata.jpg" alt="" loading="lazy"></div><figcaption>Decoração<small>Balões e luzes no clima da noite.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/brinquedoteca.jpg" alt="" loading="lazy"></div><figcaption>Cantinho de brincar<small>Espaço macio para os pequenos.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/maos-bolo.jpg" alt="" loading="lazy"></div><figcaption>Hora de cortar<small>Fatia por fatia, com a família em volta.</small></figcaption></figure>
+      <figure><div class="mold"><img src="img/lembrancinhas.jpg" alt="" loading="lazy"></div><figcaption>Lembrancinhas<small>Para ninguém ir embora de mãos vazias.</small></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="revela"><p id="revela">Boa festa é invisível. Uma grande festa é sentida: a mesa posta, o bolo no tema, o salão inteiro feito para eles.</p></section>
+
+  <section class="blk"><div class="wrap">
+    <span class="rot" data-rev>Por que o Blue Moon</span>
+    <h2 class="t2" data-rev style="margin-top:14px">Três motivos para fechar com a gente</h2>
+    <div class="motivos">
+      <div class="card motivo" data-rev><span class="fn">01</span><span class="fic">18</span><h3>18 anos no mesmo endereço</h3><p>Desde 2008 na Av. Oscarina Cunha Chaves. Você sabe onde nos encontrar antes, durante e depois da festa.</p></div>
+      <div class="card motivo" data-rev><span class="fn">02</span><span class="fic">✦</span><h3>Cardápio do seu jeito</h3><p>Você escolhe salgados, doces, bolo e bebidas. A gente ajusta a quantidade ao número de convidados.</p></div>
+      <div class="card motivo" data-rev><span class="fn">03</span><span class="fic">→</span><h3>Fácil de chegar</h3><p>No Patrimônio, perto da Av. Francisco Galassi, com várias linhas de ônibus passando a poucos minutos.</p></div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="como"><div class="wrap">
+    <span class="rot" data-rev>Como funciona</span>
+    <h2 class="t2" data-rev style="margin-top:14px">Sua festa em três passos</h2>
+    <div class="passos">
+      <div class="card passo" data-rev><div class="num">01</div><h3>Monte o cardápio</h3><p>Escolha os itens aqui no site e diga a data e quantos convidados.</p></div>
+      <div class="card passo" data-rev><div class="num">02</div><h3>Receba o orçamento</h3><p>A gente confirma a data no WhatsApp e manda o valor certinho.</p></div>
+      <div class="card passo" data-rev><div class="num">03</div><h3>Venha comemorar</h3><p>No dia, é só chegar com o aniversariante. O resto é com a gente.</p></div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="onde"><div class="wrap">
+    <span class="rot" data-rev>Onde estamos</span>
+    <h2 class="t2" data-rev style="margin-top:14px">Venha conhecer o salão</h2>
+    <div class="onde">
+      <div data-rev><dl class="info">
+        <div><dt>Endereço</dt><dd>Av. Oscarina Cunha Chaves, 112, Patrimônio, Uberlândia/MG, 38411-102</dd></div>
+        <div><dt>Atendimento</dt><dd>Segunda a sexta, das 9h às 18h</dd></div>
+        <div><dt>Telefone e WhatsApp</dt><dd><a href="tel:+553432100774">(34) 3210-0774</a> · <a href="https://wa.me/5534992250152" target="_blank" rel="noopener">(34) 99225-0152</a></dd></div>
+        <div><dt>E-mail</dt><dd><a href="mailto:bluemoonbuffet@hotmail.com">bluemoonbuffet@hotmail.com</a></dd></div>
+      </dl><a class="mbtn orange" style="margin-top:28px" href="https://wa.me/5534992250152?text=Ol%C3%A1!%20Quero%20agendar%20uma%20visita%20ao%20Blue%20Moon." target="_blank" rel="noopener"><span>Agendar uma visita →</span></a></div>
+      <div class="mapa" data-rev><iframe title="Mapa do Blue Moon" loading="lazy" src="https://maps.google.com/maps?q=Avenida%20Oscarina%20Cunha%20Chaves%2C%20112%2C%20Uberl%C3%A2ndia%20MG&z=16&output=embed"></iframe></div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="card">
+  <div class="gigante">Blue <span>Moon</span></div>
+  <div class="rodape"><span>Blue Moon Buffet Infantil e Eventos · Av. Oscarina Cunha Chaves, 112 · Patrimônio · Uberlândia/MG</span><button id="voltarTopo">Voltar ao topo ↑</button></div>
+  <p class="nota">Prévia feita pela HELU TECH. Fotos ilustrativas, trocamos pelas fotos reais das festas do Blue Moon.</p>
+</div></footer>
+
+<button id="festaBtn" aria-label="Abrir minha festa">Minha festa <b id="festaN">0</b></button>
+<div id="veu"></div>
+<aside id="gaveta" aria-hidden="true">
+  <button id="fechar" aria-label="Fechar">×</button>
+  <span class="rot">Minha festa</span><h2>Seu orçamento</h2>
+  <ul id="itens"></ul>
+  <label>Data<input type="date" id="f-data"></label>
+  <label>Convidados<input type="number" id="f-conv" min="1" inputmode="numeric" placeholder="Ex.: 40"></label>
+  <label>Nome do aniversariante (opcional)<input type="text" id="f-nome"></label>
+  <a class="mbtn orange" id="enviar" href="#" target="_blank" rel="noopener"><span>Pedir orçamento no WhatsApp</span></a>
+</aside>
+<div id="equipe"><h2>Cardápio · área da equipe</h2><p style="color:var(--soft)">As mudanças ficam salvas neste aparelho. Use "Copiar cardápio" para mandar para a HELU publicar para todo mundo.</p>
+  <table><tbody id="eqLinhas"></tbody></table>
+  <div class="bts"><button id="eqNovo">+ Item</button><button id="eqSalvar">Salvar</button><button id="eqCopiar">Copiar cardápio</button><button id="eqReset">Voltar ao original</button><button id="eqFechar">Fechar</button></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="fx/count-up.js"></script><script src="fx/scroll-velocity.js"></script>
+<script>
+var CARDAPIO=[
+ {id:'salgados',cat:'salgado',nome:'Salgadinhos de festa',desc:'Coxinha, pastel, quibe e risole fritos na hora.',foto:'img/salgadinhos.jpg'},
+ {id:'assados',cat:'salgado',nome:'Mini lanches e assados',desc:'Mini hambúrguer, mini pizza e pão de queijo.',foto:'img/equipe-servindo.jpg'},
+ {id:'docinhos',cat:'doce',nome:'Docinhos',desc:'Brigadeiro, beijinho e cajuzinho em forminhas coloridas.',foto:'img/brigadeiro-macro.jpg'},
+ {id:'algodao',cat:'doce',nome:'Algodão-doce e pirulitos',desc:'O cantinho que as crianças visitam a festa inteira.',foto:'img/algodao-doce.jpg'},
+ {id:'bolo',cat:'festa',nome:'Bolo temático',desc:'No tema da festa, do tamanho certo para os convidados.',foto:'img/bolo-tema-lua.jpg'},
+ {id:'mesa',cat:'festa',nome:'Mesa decorada',desc:'Mesa do parabéns montada no tema escolhido.',foto:'img/mesa-convidados.jpg'}
+];
+(function(){
+  var ORIG=JSON.stringify(CARDAPIO);
+  try{var s=localStorage.getItem('bm2_cardapio');if(s)CARDAPIO=JSON.parse(s);}catch(e){}
+  var grade=document.getElementById('grade'),festa={},filtro='tudo';
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function desenha(){
+    grade.innerHTML=CARDAPIO.map(function(it,i){
+      return '<article class="cartao'+(filtro!=='tudo'&&it.cat!==filtro?' oculto':'')+'"><div class="foto"><span class="n">'+String(i+1).padStart(2,'0')+'</span><img src="'+esc(it.foto)+'" alt="'+esc(it.nome)+'" loading="lazy"></div>'+
+      '<div class="txt"><h3>'+esc(it.nome)+'</h3><p>'+esc(it.desc)+'</p><button class="add'+(festa[it.nome]?' ok':'')+'" data-nome="'+esc(it.nome)+'">'+(festa[it.nome]?'Na minha festa ✓':'Quero na festa +')+'</button></div></article>';
+    }).join('');
+  }
+  document.getElementById('abas').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;filtro=b.dataset.f;
+    this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});desenha();if(window.ScrollTrigger)ScrollTrigger.refresh();});
+  var gav=document.getElementById('gaveta'),veu=document.getElementById('veu'),btn=document.getElementById('festaBtn');
+  function abre(){gav.classList.add('on');veu.classList.add('on');gav.setAttribute('aria-hidden','false');}
+  function fecha(){gav.classList.remove('on');veu.classList.remove('on');gav.setAttribute('aria-hidden','true');}
+  function atualiza(){
+    var nomes=Object.keys(festa),ul=document.getElementById('itens');
+    document.getElementById('festaN').textContent=nomes.length;btn.classList.toggle('vis',nomes.length>0);
+    ul.innerHTML=nomes.length?nomes.map(function(n){return '<li>'+esc(n)+'<button data-tira="'+esc(n)+'">tirar</button></li>'}).join(''):'<li class="vazio">Escolha os itens do cardápio para montar a festa.</li>';
+    var d=document.getElementById('f-data').value,c=document.getElementById('f-conv').value,nm=document.getElementById('f-nome').value.trim();
+    var m='Olá! Vi o site do Blue Moon e quero um orçamento de festa.';
+    if(nm)m+='\nAniversariante: '+nm;if(d)m+='\nData: '+d.split('-').reverse().join('/');if(c)m+='\nConvidados: '+c;
+    if(nomes.length)m+='\nQuero no cardápio:\n• '+nomes.join('\n• ');
+    document.getElementById('enviar').href='https://wa.me/5534992250152?text='+encodeURIComponent(m);
+  }
+  ['f-data','f-conv','f-nome'].forEach(function(id){document.getElementById(id).addEventListener('input',atualiza)});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('.add');
+    if(a){var n=a.dataset.nome;if(festa[n])delete festa[n];else festa[n]=1;a.classList.toggle('ok',!!festa[n]);a.textContent=festa[n]?'Na minha festa ✓':'Quero na festa +';atualiza();}
+    var t=e.target.closest('[data-tira]');if(t){delete festa[t.dataset.tira];atualiza();desenha();}
+  });
+  btn.addEventListener('click',abre);veu.addEventListener('click',fecha);document.getElementById('fechar').addEventListener('click',fecha);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')fecha()});
+  document.getElementById('f-data').min=new Date().toISOString().slice(0,10);
+  desenha();atualiza();
+  // área da equipe
+  if(/[?&]equipe/.test(location.search)){
+    var eq=document.getElementById('equipe'),lin=document.getElementById('eqLinhas');
+    function linhas(){lin.innerHTML=CARDAPIO.map(function(it,i){return '<tr data-i="'+i+'"><td><input data-k="nome" value="'+esc(it.nome)+'" aria-label="Nome"></td><td><input data-k="desc" value="'+esc(it.desc)+'" aria-label="Descrição"></td><td style="width:120px"><select data-k="cat" aria-label="Categoria">'+['salgado','doce','festa'].map(function(c){return '<option'+(c===it.cat?' selected':'')+'>'+c+'</option>'}).join('')+'</select></td><td><input data-k="foto" value="'+esc(it.foto)+'" aria-label="Foto"></td><td><button data-rm="'+i+'" aria-label="Remover">×</button></td></tr>'}).join('');}
+    function le(){lin.querySelectorAll('tr').forEach(function(tr){var it=CARDAPIO[tr.dataset.i];tr.querySelectorAll('[data-k]').forEach(function(inp){it[inp.dataset.k]=inp.value;});});}
+    lin.addEventListener('click',function(e){var r=e.target.dataset.rm;if(r!==undefined){le();CARDAPIO.splice(+r,1);linhas();}});
+    document.getElementById('eqNovo').onclick=function(){le();CARDAPIO.push({id:'item'+Date.now(),cat:'festa',nome:'Novo item',desc:'',foto:'img/salao-festa.jpg'});linhas();};
+    document.getElementById('eqSalvar').onclick=function(){le();try{localStorage.setItem('bm2_cardapio',JSON.stringify(CARDAPIO));}catch(e){}desenha();this.textContent='Salvo ✓';};
+    document.getElementById('eqCopiar').onclick=function(){le();var t=JSON.stringify(CARDAPIO,null,1);if(navigator.clipboard)navigator.clipboard.writeText(t);this.textContent='Copiado ✓';};
+    document.getElementById('eqReset').onclick=function(){CARDAPIO=JSON.parse(ORIG);try{localStorage.removeItem('bm2_cardapio');}catch(e){}linhas();desenha();};
+    document.getElementById('eqFechar').onclick=function(){eq.classList.remove('on');};
+    linhas();eq.classList.add('on');
+  }
+})();
+
+(function(){
+  var reduz=matchMedia('(prefers-reduced-motion:reduce)').matches,cel=matchMedia('(max-width:759px)').matches;
+  var topo=document.getElementById('topo');
+  var lenis=null;
+  // arrastar a galeria
+  var rolo=document.getElementById('rolo'),dn=false,sx=0,sl=0;
+  rolo.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;dn=true;sx=e.clientX;sl=rolo.scrollLeft;rolo.classList.add('arr');});
+  addEventListener('pointerup',function(){dn=false;rolo.classList.remove('arr');});
+  addEventListener('pointermove',function(e){if(dn)rolo.scrollLeft=sl-(e.clientX-sx);});
+  document.getElementById('voltarTopo').onclick=function(){if(lenis)lenis.scrollTo(0);else scrollTo({top:0,behavior:'smooth'});};
+  if(reduz||!window.gsap||!window.ScrollTrigger){topo.classList.add('vis');document.getElementById('hero').classList.add('sem-anim');return;}
+  document.documentElement.classList.add('js-anim');
+  gsap.registerPlugin(ScrollTrigger);
+  if(window.Lenis&&!cel){lenis=new Lenis({lerp:.09});lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(function(t){lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);}
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(id.length<2)return;var el=document.querySelector(id);if(!el)return;e.preventDefault();if(lenis)lenis.scrollTo(el);else el.scrollIntoView({behavior:'smooth'});});});
+
+  // hero: vídeo puro -> clareia para o fundo suave e revela o pôster
+  var vid=document.querySelector('#heroVideo'),pst=document.querySelector('.poster');
+  var tl=gsap.timeline({scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom bottom',scrub:.6}});
+  tl.to([vid,pst],{scale:1.12,ease:'none',duration:1},0)
+    .to('#rola',{opacity:0,duration:.15},0)
+    .to('#veu2',{opacity:1,duration:.5,ease:'power1.in'},.12)
+    .fromTo('#posterTxt',{opacity:0,y:50},{opacity:1,y:0,duration:.4,ease:'power2.out'},.5);
+  ScrollTrigger.create({trigger:'#hero',start:'top top-=40',onEnter:function(){topo.classList.add('vis');},onLeaveBack:function(){topo.classList.remove('vis');}});
+  // texto que acende palavra a palavra
+  var rv=document.getElementById('revela');rv.innerHTML=rv.textContent.split(' ').map(function(w){return '<span>'+w+'</span>'}).join(' ');
+  gsap.to('#revela span',{opacity:1,stagger:.08,ease:'none',scrollTrigger:{trigger:'#revela',start:'top 80%',end:'bottom 45%',scrub:true}});
+  // revelar
+  gsap.utils.toArray('[data-rev]').forEach(function(el){gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});});
+  // paralaxe da tela cheia
+  gsap.fromTo('#salaoImg',{yPercent:-5},{yPercent:5,ease:'none',scrollTrigger:{trigger:'#salao',start:'top bottom',end:'bottom top',scrub:true}});
+})();
+</script>
+</body>
+</html>

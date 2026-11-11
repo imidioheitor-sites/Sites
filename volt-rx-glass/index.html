@@ -7,16 +7,17 @@
 <meta name="theme-color" content="#0A0A0C">
 <title>VOLT/RX · Acessórios para celular</title>
 <meta name="description" content="Capas, carregadores, fones, bases magnéticas, power banks e películas com acabamento de oficina. Site de exemplo da HEsites.">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/inter-tight-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
-<body>
+<body data-target-cursor data-target-selector="a, button, summary, .seletor button, .galeria img" data-color="#D1A584" data-size="22">
 <div class="grao" data-noise data-alpha="8" data-size="220" data-fps="6" aria-hidden="true"></div>
 
 <!-- navegação de vidro: aparece depois do primeiro quadro -->
 <header class="nav-wrap" id="navWrap">
   <div class="nav" id="nav" data-glass data-border-radius="999" data-distortion-scale="-150" data-blur="10" data-brightness="40" data-opacity="0.9" data-saturation="1.3">
-    <a class="marca" href="#abertura" aria-label="VOLT/RX, início">VOLT<span>/</span>RX</a>
+    <a class="marca" href="#topo" aria-label="VOLT/RX, início"><img src="img/logo-mark-cobre.svg" alt="" width="30" height="30">VOLT<span>/</span>RX</a>
     <nav class="links" aria-label="Seções">
       <a href="#monte">Monte o seu</a><a href="#tecnologia">Tecnologia</a><a href="#kits">Kits</a><a href="#duvidas">Dúvidas</a>
     </nav>
@@ -29,20 +30,13 @@
 </header>
 
 <main>
-<!-- S0 · primeiro quadro: só o vídeo -->
-<section class="s0" id="topo" aria-label="Capa Armor girando">
-  <div class="s0-stick">
-    <video id="heroVideo" src="video/hero-loop.mp4" poster="img/hero-poster.jpg" autoplay muted loop playsinline preload="auto"></video>
-    <div class="s0-veu" id="s0Veu"></div>
-  </div>
-</section>
-
 <!-- S1 · abertura -->
-<section class="s1" id="abertura">
+<section class="s1" id="topo">
   <div class="s1-fundo" data-grainient data-colors='["#0A0A0C","#242428","#5A3D2B","#A47556","#E6C7AE"]' data-angle="35" data-silk="0.6" data-softness="1.2" data-flow="0.6" data-speed="0.55" data-grain-amount="0.08" data-contrast="1.05" aria-hidden="true"></div>
   <div class="s1-sombra" aria-hidden="true"></div>
   <div class="wrap s1-grade">
     <div class="s1-texto">
+      <div class="emblema" data-glass data-shape="img/logo-mark.svg" data-border-radius="34" data-blur="9" data-displace="0.6" data-distortion-scale="-150" data-brightness="58" data-opacity="0.9" data-saturation="1.25" aria-hidden="true"></div>
       <p class="rotulo"><span class="bar"></span><span data-shiny-text data-color="#8C8F94" data-shine="#E6C7AE" data-speed="4">VOLT/RX · LINHA 2026</span></p>
       <h1 class="h1">
         <span class="l" data-blur-text data-by="words" data-delay="110" data-direction="bottom">Proteção, carga e som</span>
@@ -56,7 +50,8 @@
       </div>
     </div>
     <figure class="moldura s1-foto brilho-cobre" data-fade-content data-blur="true" data-duration="1.1" data-delay="0.3">
-      <img src="img/hero-trio.jpg" alt="Capa Armor, celular e carregador GaN com cabo trançado laranja" width="1600" height="1200">
+      <img src="img/extra-22.jpg" alt="Pessoa segurando o celular com a Capa Armor na rua, cidade ao fundo no fim da tarde" width="1600" height="1200" fetchpriority="high">
+      <figcaption><span class="mini">RX-01 · Capa Armor</span>Na mão, no fim do expediente. Pega firme e borda elevada para a tela.</figcaption>
     </figure>
   </div>
 </section>
@@ -77,11 +72,11 @@
       <figure class="conf-foto" id="confFoto">
         <img id="cfFoto" src="img/capa-armor.jpg" alt="Capa Armor" width="1536" height="1152">
         <img id="cfZoom" class="zoom-src" src="img/capa-armor.jpg" alt="" aria-hidden="true">
-        <div class="lente" id="lente" data-glass data-renderer="canvas" data-backdrop="#cfZoom" data-refraction="true" data-border-radius="999" data-border-width="0.12" data-distortion-scale="-200" data-blur="0" aria-hidden="true"></div>
+        <div class="lente" id="lente" data-glass data-renderer="webgl" data-backdrop="#cfZoom" data-refraction="true" data-border-radius="999" data-border-width="0.12" data-distortion-scale="-200" data-blur="0" aria-hidden="true"></div>
         <span class="cod" id="cfCod">RX-01</span>
         <span class="dica" id="dica">arraste a lente</span>
       </figure>
-      <div class="painel vidro brilho-cobre">
+      <div class="painel card-glass brilho-cobre" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-saturation="1.2">
         <p class="mini">Modelo</p>
         <div class="seletor" id="cfLista" role="radiogroup" aria-label="Produto"></div>
         <div class="linha2">
@@ -131,16 +126,16 @@
       <h2 class="h2">Quatro números que importam.</h2>
     </div>
     <div class="specs">
-      <article class="spec vidro brilho-cobre" data-border-glow data-color="#D1A584" data-size="240">
+      <article class="spec card-glass brilho-cobre" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-border-glow data-color="#D1A584" data-size="240">
         <span class="n">01</span><b><span data-count-up data-to="65" data-duration="1.8">0</span><small>W</small></b><h3>GaN de verdade</h3><p>Carrega notebook, tablet e celular com o mesmo bloco.</p>
       </article>
-      <article class="spec vidro brilho-aco" data-border-glow data-color="#A9BACB" data-size="240">
+      <article class="spec card-glass brilho-aco" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-border-glow data-color="#A9BACB" data-size="240">
         <span class="n">02</span><b><span data-count-up data-to="2.4" data-decimals="1" data-duration="1.8">0</span><small>m</small></b><h3>Queda testada</h3><p>Cantos com ar comprimido e borda elevada para a tela.</p>
       </article>
-      <article class="spec vidro brilho-patina" data-border-glow data-color="#8DBDB4" data-size="240">
+      <article class="spec card-glass brilho-patina" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-border-glow data-color="#8DBDB4" data-size="240">
         <span class="n">03</span><b><span data-count-up data-to="20000" data-separator="." data-duration="1.8">0</span><small>mAh</small></b><h3>Bateria real</h3><p>Power bank slim com visor e três saídas.</p>
       </article>
-      <article class="spec vidro brilho-latao" data-border-glow data-color="#DCC48F" data-size="240">
+      <article class="spec card-glass brilho-latao" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-border-glow data-color="#DCC48F" data-size="240">
         <span class="n">04</span><b><span data-count-up data-to="9" data-duration="1.8">0</span><small>H</small></b><h3>Vidro temperado</h3><p>Película com moldura de instalação: alinha de primeira.</p>
       </article>
     </div>
@@ -155,7 +150,7 @@
       <h2 class="h2">Na mochila, na mesa, na mão.</h2>
     </div>
     <div class="galeria" id="galeria" data-chroma-grid data-radius="260">
-      <img src="img/extra-22.jpg" alt="Celular com a Capa Armor na mão, cidade ao fundo" loading="lazy" width="1600" height="1200">
+      <img src="img/hero-trio.jpg" alt="Capa Armor, carregador GaN e cabo trançado sobre a bancada" loading="lazy" width="1600" height="1200">
       <img src="img/extra-13.jpg" alt="Pessoa usando o fone Pulse na rua" loading="lazy" width="1600" height="1200">
       <img src="img/extra-11.jpg" alt="Detalhe da borda laranja da capa" loading="lazy" width="1600" height="1200">
       <img src="img/extra-12.jpg" alt="Cabo USB-C trançado em close" loading="lazy" width="1600" height="1200">
@@ -183,17 +178,17 @@
       <h2 class="h2">Combine e pague menos.</h2>
     </div>
     <div class="kits">
-      <article class="kit vidro brilho-aco" data-fade-content data-blur="true">
+      <article class="kit card-glass brilho-aco" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content>
         <p class="mini">Kit A</p><h3>Proteção</h3><p class="itens">Capa Armor + Película 9H</p>
         <p class="pk"><s>R$ 119,80</s><b>R$ 99,90</b></p><p class="eco">Economia de <span data-highlighter data-action="underline" data-color="#A47556" data-stroke-width="2">R$ 19,90</span></p>
         <button class="btn-vidro" data-add="kit1">Adicionar</button>
       </article>
-      <article class="kit vidro brilho-cobre dest" data-fade-content data-blur="true" data-delay="0.1">
+      <article class="kit card-glass brilho-cobre dest" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-delay="0.1">
         <p class="mini">Kit B · mais pedido</p><h3>Viagem</h3><p class="itens">Carregador GaN 65W + Power Bank 20K + Cabo extra</p>
         <p class="pk"><s>R$ 389,70</s><b>R$ 319,90</b></p><p class="eco">Economia de <span data-highlighter data-action="underline" data-color="#B98B6B" data-stroke-width="2">R$ 69,80</span></p>
         <button class="btn-cobre" data-add="kit2" data-starborder data-color="#E6C7AE" data-radius="999" data-duration="4" data-glow="0.7" data-background-color="#A47556" data-text-color="#0A0A0C">Adicionar</button>
       </article>
-      <article class="kit vidro brilho-patina" data-fade-content data-blur="true" data-delay="0.2">
+      <article class="kit card-glass brilho-patina" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-delay="0.2">
         <p class="mini">Kit C</p><h3>Completo</h3><p class="itens">Capa, película, carregador, fone e base magnética</p>
         <p class="pk"><s>R$ 619,50</s><b>R$ 519,90</b></p><p class="eco">Economia de <span data-highlighter data-action="underline" data-color="#A47556" data-stroke-width="2">R$ 99,60</span></p>
         <button class="btn-vidro" data-add="kit3">Adicionar</button>
@@ -210,11 +205,11 @@
       <h2 class="h2">Perguntas rápidas.</h2>
     </div>
     <div class="faq" data-fade-content data-blur="true">
-      <details class="vidro"><summary>Serve no meu celular?</summary><p>Diga o modelo no pedido pelo WhatsApp. A gente confirma a compatibilidade antes de enviar.</p></details>
-      <details class="vidro"><summary>Qual o prazo de entrega?</summary><p>Postagem em até 48 horas úteis. O prazo final depende do seu CEP.</p></details>
-      <details class="vidro"><summary>Tem troca e garantia?</summary><p>7 dias para desistir da compra e 12 meses de garantia contra defeito de fabricação.</p></details>
-      <details class="vidro"><summary>O carregador de 65 W estraga a bateria?</summary><p>Não. Ele negocia a potência com o aparelho e entrega só o que o celular aceita.</p></details>
-      <details class="vidro"><summary>Como pago?</summary><p>Pix ou cartão. O link de pagamento vai pelo WhatsApp junto com o resumo do pedido.</p></details>
+      <div class="faq-item card-glass" data-glass data-border-radius="26" data-background-opacity="0.04" data-blur="9" data-brightness="40"><details><summary>Serve no meu celular?</summary><p>Diga o modelo no pedido pelo WhatsApp. A gente confirma a compatibilidade antes de enviar.</p></details></div>
+      <div class="faq-item card-glass" data-glass data-border-radius="26" data-background-opacity="0.04" data-blur="9" data-brightness="40"><details><summary>Qual o prazo de entrega?</summary><p>Postagem em até 48 horas úteis. O prazo final depende do seu CEP.</p></details></div>
+      <div class="faq-item card-glass" data-glass data-border-radius="26" data-background-opacity="0.04" data-blur="9" data-brightness="40"><details><summary>Tem troca e garantia?</summary><p>7 dias para desistir da compra e 12 meses de garantia contra defeito de fabricação.</p></details></div>
+      <div class="faq-item card-glass" data-glass data-border-radius="26" data-background-opacity="0.04" data-blur="9" data-brightness="40"><details><summary>O carregador de 65 W estraga a bateria?</summary><p>Não. Ele negocia a potência com o aparelho e entrega só o que o celular aceita.</p></details></div>
+      <div class="faq-item card-glass" data-glass data-border-radius="26" data-background-opacity="0.04" data-blur="9" data-brightness="40"><details><summary>Como pago?</summary><p>Pix ou cartão. O link de pagamento vai pelo WhatsApp junto com o resumo do pedido.</p></details></div>
     </div>
   </div>
 </section>
@@ -234,12 +229,13 @@
 </main>
 
 <footer class="rodape wrap">
-  <span class="marca">VOLT<span>/</span>RX</span>
+  <span class="marca"><img src="img/logo-mark-cobre.svg" alt="" width="26" height="26">VOLT<span>/</span>RX</span>
+  <button class="enxame" id="enxame" data-magnet data-padding="40" data-strength="5">Ver o enxame redesenhar a página</button>
   <span class="mini">Site de exemplo criado pela HEsites</span>
 </footer>
 
 <!-- carrinho -->
-<aside class="gaveta" id="gaveta" aria-hidden="true" aria-label="Carrinho">
+<aside class="gaveta card-glass" id="gaveta" aria-hidden="true" aria-label="Carrinho" data-glass data-border-radius="30" data-background-opacity="0.08" data-blur="14" data-brightness="34" data-saturation="1.3">
   <div class="g-top"><h3>Carrinho</h3><button id="fechar" aria-label="Fechar carrinho">×</button></div>
   <ul id="itens"></ul>
   <div class="g-fim">
@@ -250,7 +246,7 @@
 </aside>
 <div class="veu" id="veu"></div>
 
-<script src="fx/glass-surface.js"></script>
+<script src="fx/glass-artifact.js"></script>
 <script src="fx/grainient.js"></script>
 <script src="fx/blur-text.js"></script>
 <script src="fx/shiny-text.js"></script>
@@ -265,6 +261,8 @@
 <script src="fx/star-border.js"></script>
 <script src="fx/highlighter.js"></script>
 <script src="fx/noise.js"></script>
+<script src="fx/target-cursor.js"></script>
+<script src="fx/swarm-build.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

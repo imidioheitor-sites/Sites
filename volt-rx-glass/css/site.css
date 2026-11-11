@@ -41,27 +41,36 @@ button{font:inherit;color:inherit}
 
 /* ===== vidro líquido (modelo 01 do artefato) =====
    aro claro + miolo escuro translúcido + brilho de cor vazando por baixo + sombra projetada */
-.vidro,.moldura{position:relative;isolation:isolate;border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.015)) ,rgba(14,14,17,.62);
+.moldura{position:relative;isolation:isolate;border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.015)) ,rgba(14,14,17,.62);
   box-shadow:0 0 0 1px rgba(140,143,148,.55) inset,0 1px 0 rgba(255,255,255,.18) inset,0 -10px 30px -12px var(--brilho) inset,var(--sombra-flutua);
   -webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2)}
-.vidro::before,.moldura::before{content:"";position:absolute;inset:-7px;border-radius:33px;z-index:-1;pointer-events:none;
+.moldura::before{content:"";position:absolute;inset:-7px;border-radius:33px;z-index:-1;pointer-events:none;
   background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.05) 40%,rgba(255,255,255,.1));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:6px}
-.vidro::after,.moldura::after{content:"";position:absolute;left:8%;right:8%;bottom:-26px;height:60px;z-index:-2;border-radius:50%;
+.card-glass::after,.moldura::after{content:"";position:absolute;left:8%;right:8%;bottom:-26px;height:60px;z-index:-2;border-radius:50%;
   background:var(--brilho);filter:blur(28px);opacity:.55;pointer-events:none}
 .brilho-cobre{--brilho:var(--c400)}.brilho-aco{--brilho:var(--aco)}.brilho-patina{--brilho:var(--patina)}.brilho-latao{--brilho:var(--latao)}
 .moldura{padding:10px;margin:0}
 .moldura>img,.moldura>video{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:18px}
 
-/* GlassSurface: tom escuro por cima do filtro do kit */
-.glass-surface.nav,.glass-surface.pilula-vidro,.glass-surface.fecho-painel{background:rgba(10,10,12,.32)}
+/* ===== GlassSurface do artefato: ajustes de conteúdo ===== */
+.glass-surface.nav,.glass-surface.pilula-vidro,.glass-surface.fecho-painel{background:rgba(10,10,12,.3)}
+.card-glass{position:relative;isolation:isolate;background:rgba(14,14,17,.5)}
+.card-glass>.glass-surface__content{display:block;width:100%;height:100%;padding:0;text-align:left;border-radius:inherit}
+.card-glass>div:not(.glass-surface__content){z-index:2}
+.card-glass::after{content:"";position:absolute;left:8%;right:8%;bottom:-26px;height:60px;z-index:-2;border-radius:50%;background:var(--brilho);filter:blur(28px);opacity:.5;pointer-events:none}
+
+/* emblema de vidro com a forma do logo (pipeline de forma do artefato) */
+.emblema{width:96px;height:96px;margin:0 0 26px;display:block!important}
+@media (max-width:760px){.emblema{width:74px;height:74px;margin-bottom:20px}}
 
 /* ===== navegação ===== */
 .nav-wrap{position:fixed;top:14px;left:0;right:0;z-index:60;display:flex;flex-direction:column;align-items:center;pointer-events:none;transform:translateY(-120%);opacity:0;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s}
 .nav-wrap.on{transform:none;opacity:1}
 .nav{pointer-events:auto;width:min(860px,calc(100% - 24px));height:58px;display:flex!important}
 .nav .glass-surface__content{justify-content:space-between;gap:16px;padding:0 8px 0 22px}
-.marca{font:900 18px/1 var(--display);letter-spacing:.02em;text-decoration:none;color:var(--texto)}
+.marca{display:inline-flex;align-items:center;gap:10px;font:900 18px/1 var(--display);letter-spacing:.02em;text-decoration:none;color:var(--texto)}
+.marca img{display:block;border-radius:7px}
 .marca span{background:var(--grad-metal);-webkit-background-clip:text;background-clip:text;color:transparent}
 .links{display:flex;gap:26px}
 .links a{font-size:14px;text-decoration:none;color:var(--suave);transition:color .2s}
@@ -77,13 +86,9 @@ button{font:inherit;color:inherit}
 .menu-mob a:active{background:rgba(255,255,255,.06)}
 
 /* ===== S0 primeiro quadro ===== */
-.s0{position:relative;height:170svh;background:var(--g950)}
-.s0-stick{position:sticky;top:0;height:100svh;overflow:hidden;will-change:transform}
-.s0-stick video{width:100%;height:100%;object-fit:cover}
-.s0-veu{position:absolute;inset:0;background:var(--g950);opacity:0;pointer-events:none}
 
 /* ===== S1 abertura ===== */
-.s1{position:relative;z-index:2;margin-top:-70svh;min-height:100svh;display:flex;align-items:center;padding:120px 0 90px;border-radius:36px 36px 0 0;overflow:hidden;box-shadow:0 -30px 80px rgba(0,0,0,.6)}
+.s1{position:relative;z-index:2;min-height:100svh;display:flex;align-items:center;padding:150px 0 90px;overflow:hidden}
 .s1-fundo{position:absolute;inset:0;z-index:-2;background:linear-gradient(135deg,#0A0A0C,#5A3D2B 60%,#A47556)}
 .s1-sombra{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,10,12,.78) 0%,rgba(10,10,12,.45) 55%,rgba(10,10,12,.1) 100%)}
 .s1-grade{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;width:100%}
@@ -111,7 +116,7 @@ button{font:inherit;color:inherit}
   box-shadow:0 0 0 1.5px rgba(253,253,253,.55) inset,0 0 0 7px rgba(255,255,255,.12),0 0 34px -4px rgba(185,139,107,.75),0 24px 50px -12px rgba(0,0,0,.8)!important}
 .cod{position:absolute;left:18px;top:16px;z-index:3;padding:6px 10px;border-radius:999px;background:rgba(10,10,12,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:500 12px var(--mono);letter-spacing:.12em;color:var(--c200)}
 .dica{position:absolute;right:18px;bottom:16px;z-index:3;font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--g300);opacity:.85;transition:opacity .4s}
-.painel{padding:28px}
+.painel>.glass-surface__content{padding:28px}
 .seletor{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 24px}
 .seletor button{position:relative;display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 14px;border:0;border-radius:999px;cursor:pointer;text-align:left;font-size:13.5px;font-weight:700;line-height:1.2;color:var(--suave);
   background:rgba(255,255,255,.04);box-shadow:0 0 0 1px rgba(140,143,148,.3) inset;transition:background .2s,color .2s,box-shadow .2s}
@@ -152,7 +157,8 @@ button{font:inherit;color:inherit}
 
 /* ===== S5 tecnologia ===== */
 .specs{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-.spec{padding:24px;min-height:300px;display:flex;flex-direction:column;justify-content:flex-end}
+.spec{min-height:300px}
+.spec>.glass-surface__content{display:flex;flex-direction:column;justify-content:flex-end;padding:24px}
 .spec .n{position:absolute;top:22px;left:24px;font:500 11px var(--mono);color:var(--sutil)}
 .spec b{font:900 clamp(40px,4vw,56px)/1 var(--display);letter-spacing:-.04em;color:var(--texto);font-variant-numeric:tabular-nums;white-space:nowrap}
 .spec b small{font-size:.42em;letter-spacing:0;margin-left:4px;color:var(--suave)}
@@ -169,7 +175,7 @@ button{font:inherit;color:inherit}
 
 /* ===== S7 kits ===== */
 .kits{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:center}
-.kit{padding:30px 26px 26px}
+.kit>.glass-surface__content{padding:30px 26px 26px}
 .kit.dest{transform:scale(1.05);z-index:2}
 .kit h3{margin:10px 0 8px;font:900 32px/1 var(--display);letter-spacing:-.03em;color:var(--texto)}
 .kit .itens{margin:0 0 22px;min-height:3.2em;font-size:15px}
@@ -181,8 +187,9 @@ button{font:inherit;color:inherit}
 
 /* ===== S8 dúvidas ===== */
 .faq{display:grid;gap:14px}
-.faq details{border-radius:26px;padding:0}
-.faq details::after{opacity:.25}
+.faq-item::after{opacity:.22;--brilho:var(--c500)}
+.faq-item>.glass-surface__content{padding:0}
+.faq details{border-radius:26px}
 .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:20px 24px;font-weight:700;font-size:17px;color:var(--texto)}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.07);font:400 20px/1 var(--display);color:var(--c300);transition:transform .3s}
@@ -199,12 +206,15 @@ button{font:inherit;color:inherit}
 .fecho-in .h2{font-size:clamp(32px,5vw,64px)}
 
 /* ===== rodapé ===== */
+.enxame{border:0;cursor:pointer;padding:10px 18px;border-radius:999px;background:rgba(255,255,255,.05);color:var(--suave);font:500 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;box-shadow:0 0 0 1px rgba(140,143,148,.4) inset;transition:background .2s,color .2s}
+.enxame:hover{background:rgba(164,117,86,.25);color:var(--texto)}
 .rodape{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:34px;padding-bottom:max(40px,env(safe-area-inset-bottom))}
 
 /* ===== gaveta ===== */
-.gaveta{position:fixed;top:12px;right:12px;bottom:12px;z-index:80;width:min(420px,calc(100% - 24px));display:flex;flex-direction:column;padding:24px;border-radius:30px;
-  background:rgba(20,20,24,.78);-webkit-backdrop-filter:blur(24px) saturate(1.3);backdrop-filter:blur(24px) saturate(1.3);
-  box-shadow:0 0 0 1px rgba(140,143,148,.5) inset,0 1px 0 rgba(255,255,255,.18) inset,var(--sombra-flutua);transform:translateX(110%);visibility:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s}
+.gaveta{position:fixed;top:12px;right:12px;bottom:12px;z-index:80;width:min(420px,calc(100% - 24px));border-radius:30px;background:rgba(16,16,20,.62);
+  box-shadow:var(--sombra-flutua);transform:translateX(110%);visibility:hidden;transition:transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s .5s}
+.gaveta>.glass-surface__content{display:flex;flex-direction:column;padding:24px}
+.gaveta::after{display:none}
 .gaveta.on{transform:none;visibility:visible;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .g-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .g-top h3{margin:0;font:900 26px var(--display);color:var(--texto)}
@@ -233,7 +243,7 @@ button{font:inherit;color:inherit}
   .nav .marca{margin-right:auto}
   .carrinho{padding:0 14px}
   .menu-mob.on{display:flex}
-  .s1{padding:110px 0 70px;border-radius:26px 26px 0 0}
+  .s1{padding:124px 0 70px}
   .s1-grade{grid-template-columns:1fr;gap:42px}
   .s1-sombra{background:linear-gradient(180deg,rgba(10,10,12,.75),rgba(10,10,12,.5))}
   .s1-foto{transform:rotate(-2deg);margin:0 6px}
@@ -255,5 +265,10 @@ button{font:inherit;color:inherit}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .s0{height:100svh}.s1{margin-top:0}
+  .s1{margin-top:0}
 }
+
+/* legenda das fotos: toda imagem tem função e legenda */
+.s1-foto figcaption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:46px 22px 18px;font-size:13px;line-height:1.5;color:#D8D8DC;background:linear-gradient(to top,rgba(10,10,12,.92),rgba(10,10,12,0))}
+.s1-foto figcaption .mini{display:block;margin-bottom:4px;color:var(--cobre300)}
+.s1-foto{position:relative}

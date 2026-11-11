@@ -101,7 +101,6 @@ function iniciar() {
       el.style.transform = 'translate(' + (x - r) + 'px,' + (y - r) + 'px)';
       zm.style.transformOrigin = x + 'px ' + y + 'px';
       zm.style.transform = 'scale(' + ZOOM + ')';
-      if (el._glass && el._glass._paint) el._glass._paint();
     }
     function passo() {
       raf = 0;
@@ -159,23 +158,30 @@ function iniciar() {
   $('#veu').addEventListener('click', function () { gaveta(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { gaveta(false); menu(false); } });
 
-  /* ---------- primeiro quadro: o vídeo vira vitrine enquanto a abertura sobe ---------- */
-  var stick = $('.s0-stick'), veu = $('#s0Veu'), nav = $('#navWrap'), tick = false, ultimoY = scrollY;
+  /* ---------- navegação e menu durante a rolagem ---------- */
+  var nav = $('#navWrap'), tick = false, ultimoY = scrollY;
   function rolar() {
     tick = false;
-    var vh = innerHeight, y = scrollY;
-    var p = Math.max(0, Math.min(1, y / (vh * 0.7)));
-    if (!reduz) {
-      stick.style.transform = 'scale(' + (1 - 0.1 * p).toFixed(4) + ')';
-      stick.style.borderRadius = (28 * p).toFixed(1) + 'px';
-    }
-    veu.style.opacity = (0.5 * p).toFixed(3);
-    nav.classList.toggle('on', y > vh * 0.6);
+    var y = scrollY;
+    nav.classList.add('on');
     if (Math.abs(y - ultimoY) > 80 && $('#menuMob').classList.contains('on')) menu(false);
     if (!$('#menuMob').classList.contains('on')) ultimoY = y;
   }
   addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(rolar); } }, { passive: true });
   addEventListener('resize', rolar);
+
+  /* ---------- enxame de cursores (código do artefato), na paleta Grafite & Cobre ---------- */
+  var botaoEnxame = $('#enxame');
+  if (botaoEnxame) {
+    if (!window.SwarmBuild || reduz || !mouseFino) {
+      botaoEnxame.hidden = true;
+    } else {
+      var PALETA = ['#A47556', '#B98B6B', '#D1A584', '#E6C7AE', '#7E573E', '#4F857D', '#8DBDB4', '#6E8399', '#A9BACB', '#B8975A', '#DCC48F', '#B5564A'];
+      window.SwarmBuild.COLORS.splice(0, window.SwarmBuild.COLORS.length);
+      PALETA.forEach(function (c) { window.SwarmBuild.COLORS.push(c); });
+      botaoEnxame.addEventListener('click', function () { window.SwarmBuild.toggle({ sound: true, tour: true }); });
+    }
+  }
 
   lista(); conf(false); desenhar(); rolar(); lente.repousar(true);
 }

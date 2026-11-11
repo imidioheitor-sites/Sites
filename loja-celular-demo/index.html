@@ -4,83 +4,106 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0c0c0d">
+<meta name="theme-color" content="#ff5a1f">
 <title>VOLT/RX — Acessórios para celular</title>
 <meta name="description" content="Site de exemplo (demo) de loja tech de acessórios para celular.">
-<link rel="preload" href="fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/orbitron-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<div class="grao" data-noise data-alpha="11" data-size="300" data-fps="6" aria-hidden="true"></div>
+<div class="grao" data-noise data-alpha="9" data-size="300" data-fps="6" aria-hidden="true"></div>
+
 <header class="nav">
-  <a class="logo" href="#top">VOLT<b>/RX</b></a>
-  <nav><a href="#catalogo">Catálogo</a><a href="#tech">Tecnologia</a><a href="#galeria">Galeria</a><a href="#kits">Kits</a><a href="#faq">Dúvidas</a></nav>
-  <button class="carrinho" id="abrirCarrinho" data-magnet data-padding="50" data-strength="4">Carrinho <span id="qtd">0</span></button>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
+  <button class="cart" id="abrirCarrinho" data-magnet data-padding="50" data-strength="4">CART <span id="qtd">0</span></button>
 </header>
+<nav class="menu" id="menu" aria-hidden="true">
+  <a href="#produto">01 / Produto</a><a href="#video">02 / Em movimento</a><a href="#tech">03 / Tecnologia</a><a href="#galeria">04 / Galeria</a><a href="#kits">05 / Kits</a><a href="#faq">06 / Dúvidas</a>
+</nav>
 
 <section class="hero" id="top">
-  <div class="cubes" id="heroCubes" aria-hidden="true"></div>
-  <div class="hero-in">
-    <p class="mono tag">LOJA DE ACESSÓRIOS · MODELO DEMO</p>
-    <h1>PROTEJA.<br>CARREGUE.<br><span>ESCUTE.</span></h1>
-    <p class="lead">Capas, carregadores, fones e power banks com acabamento industrial. Entrega em todo o Brasil e 12 meses de garantia.</p>
-    <div class="cta"><a class="btn" href="#catalogo" data-magnet data-padding="60" data-strength="4">Ver catálogo →</a><a class="btn ghost" href="#kits" data-magnet data-padding="60" data-strength="4">Montar meu kit</a></div>
-    <dl class="nums"><div><dt><span data-count-up data-to="48" data-duration="2">0</span>h</dt><dd>envio rápido</dd></div><div><dt><span data-count-up data-to="12" data-duration="2">0</span>m</dt><dd>garantia</dd></div><div><dt><span data-count-up data-to="4" data-duration="2">0</span>.9</dt><dd>nota dos clientes</dd></div></dl>
-  </div>
-  <video class="hero-img" src="video/hero-loop.mp4" poster="img/hero-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Capa Armor girando"></video>
+  <div class="laranja" aria-hidden="true"></div>
+  <svg class="circuito" viewBox="0 0 1440 900" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="#111" stroke-width="1.6" vector-effect="non-scaling-stroke">
+      <path d="M0 134H262L308 176"/><path d="M308 176H720L768 158H1268L1320 226V70"/><path d="M768 44V180L864 270H1272L1320 226"/>
+      <path d="M1176 270L1248 336V540"/><path d="M1032 428H1224L1272 472V696H1440"/><path d="M624 630H888L960 562H1104"/>
+      <path d="M0 720H360L420 776H732"/><path d="M840 810H1180L1240 770"/><path d="M1270 742H1440"/>
+    </g>
+    <g fill="#111"><circle cx="264" cy="134" r="5"/><circle cx="1128" cy="270" r="5"/><circle cx="1176" cy="270" r="5"/><circle cx="1008" cy="562" r="5"/><circle cx="732" cy="776" r="5"/><circle cx="1416" cy="696" r="5"/></g>
+  </svg>
+  <div class="cubos" id="heroCubes" aria-hidden="true"></div>
+  <p class="mono l1">LOJA/DEMO_01</p><p class="mono l2">06 ITENS</p><p class="mono l3">52001</p>
+  <span class="xbox x1">×</span><span class="xbox x2">×</span>
+  <span class="quad q1"></span><span class="quad q2"></span>
+  <svg class="chev" viewBox="0 0 150 56" aria-hidden="true"><path d="M2 2l22 26L2 54h14l22-26L16 2z" fill="#ff5a1f"/><path d="M52 2l22 26-22 26h14l22-26L66 2z" fill="#ff5a1f"/><path d="M102 2l22 26-22 26h14l22-26L116 2z" fill="#d6471a"/></svg>
+  <h1 class="marca">VOLTLAB</h1>
+  <figure class="janela"><video src="video/hero-loop.mp4" poster="img/hero-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="Capa Armor girando"></video><figcaption class="mono">RX-01 · CAPA ARMOR</figcaption></figure>
+  <p class="intro">Capas, carregadores, fones e power banks com acabamento industrial. Envio em 48 h e 12 meses de garantia.</p>
+  <h2 class="gigante">RX-06</h2>
+  <a class="descer mono" href="#produto" data-magnet data-padding="60" data-strength="4">ver catálogo ↓</a>
 </section>
 
-<div class="faixa" aria-hidden="true"><div data-curved-loop data-text="CAPAS ✦ CARREGADORES ✦ FONES ✦ POWER BANKS ✦ PELÍCULAS ✦ " data-curve="40" data-speed="1.6" data-interactive="true"></div></div>
+<div class="faixa" aria-hidden="true"><div data-curved-loop data-text="CAPAS ✦ CARREGADORES ✦ FONES ✦ POWER BANKS ✦ PELÍCULAS ✦ " data-curve="36" data-speed="1.6" data-interactive="true"></div></div>
 
-<section class="sec" id="catalogo">
-  <p class="mono tag">01 · CATÁLOGO</p>
-  <h2 data-scroll-float>Seis itens. Zero enrolação.</h2>
-  <div class="filtros" id="filtros">
-    <button class="on" data-f="todos">Todos</button><button data-f="protecao">Proteção</button><button data-f="energia">Energia</button><button data-f="audio">Áudio</button>
+<section class="sec" id="produto">
+  <div class="topo-sec"><p class="mono">01 / PRODUTO</p><h2 class="titulo" data-scroll-float>Escolha seu RX</h2></div>
+  <div class="conf">
+    <figure class="foto"><img id="cfFoto" src="img/capa-armor.jpg" alt="" width="1536" height="1152"><span class="mono tag-foto" id="cfCod">RX-01</span></figure>
+    <div class="painel">
+      <div class="col">
+        <p class="mono rot">01 / MODELO</p>
+        <div class="lista" id="cfLista"></div>
+      </div>
+      <div class="col">
+        <p class="mono rot">02 / QUANTIDADE</p>
+        <div class="passo"><button id="menos" aria-label="Menos">−</button><b id="cfQtd">01</b><button id="mais" aria-label="Mais">+</button></div>
+        <p class="mono nota" id="cfDesc">—</p>
+      </div>
+      <div class="col">
+        <p class="mono rot">03 / FICHA TÉCNICA</p>
+        <dl class="ficha" id="cfFicha"></dl>
+        <p class="preco"><small>R$</small> <b id="cfPreco">—</b></p>
+        <button class="reservar" id="cfAdd" data-magnet data-padding="40" data-strength="5">ADICIONAR AO CART <span>»</span></button>
+      </div>
+    </div>
   </div>
-  <div class="grade" id="grade"></div>
 </section>
 
-<section class="sec" id="video">
-  <p class="mono tag">02 · EM MOVIMENTO</p>
-  <h2 data-scroll-float>Veja de perto.</h2>
+<section class="sec escuro" id="video">
+  <div class="topo-sec"><p class="mono">02 / EM MOVIMENTO</p><h2 class="titulo" data-scroll-float>Veja de perto</h2></div>
   <div class="duo">
-    <figure><video src="video/carregador-loop.mp4" autoplay muted loop playsinline preload="metadata"></video><figcaption class="mono">GaN 65W · cabo trançado</figcaption></figure>
-    <figure><video src="video/fone-loop.mp4" autoplay muted loop playsinline preload="metadata"></video><figcaption class="mono">Pulse TWS · estojo com LED</figcaption></figure>
+    <figure><video src="video/carregador-loop.mp4" autoplay muted loop playsinline preload="metadata"></video><figcaption class="mono">RX-02 · GaN 65W</figcaption></figure>
+    <figure><video src="video/fone-loop.mp4" autoplay muted loop playsinline preload="metadata"></video><figcaption class="mono">RX-03 · PULSE TWS</figcaption></figure>
   </div>
 </section>
 
-<section class="sec escuro" id="tech">
-  <p class="mono tag">03 · TECNOLOGIA</p>
-  <h2 data-scroll-float>Feito para durar no bolso.</h2>
+<section class="sec laranja-sec" id="tech">
+  <div class="topo-sec"><p class="mono">03 / TECNOLOGIA</p><h2 class="titulo" data-scroll-float>Feito para durar</h2></div>
   <div class="specs">
-    <article data-glare-hover data-color="#ff4a1c" data-opacity="0.18"><b>65W</b><h3>GaN real</h3><p>Carregador compacto que enche 0 a 70% do celular em cerca de 30 minutos.</p></article>
-    <article data-glare-hover data-color="#ff4a1c" data-opacity="0.18"><b>MIL</b><h3>Queda de 2,4 m</h3><p>Capa Armor com cantos em ar comprimido e borda elevada para a tela.</p></article>
-    <article data-glare-hover data-color="#ff4a1c" data-opacity="0.18"><b>20K</b><h3>mAh de verdade</h3><p>Power bank slim com visor digital e três saídas, aprovado para viagem de avião.</p></article>
-    <article data-glare-hover data-color="#ff4a1c" data-opacity="0.18"><b>9H</b><h3>Vidro temperado</h3><p>Película com moldura de instalação: alinha de primeira, sem bolha.</p></article>
+    <article data-glare-hover data-color="#ffffff" data-opacity="0.22"><b><span data-count-up data-to="65" data-duration="2">0</span>W</b><h3>GaN real</h3><p>0 a 70% do celular em cerca de 30 minutos.</p></article>
+    <article data-glare-hover data-color="#ffffff" data-opacity="0.22"><b><span data-count-up data-to="2.4" data-decimals="1" data-duration="2">0</span>m</b><h3>Queda militar</h3><p>Cantos em ar comprimido e borda elevada para a tela.</p></article>
+    <article data-glare-hover data-color="#ffffff" data-opacity="0.22"><b><span data-count-up data-to="20" data-duration="2">0</span>K</b><h3>mAh de verdade</h3><p>Power bank slim com visor e três saídas.</p></article>
+    <article data-glare-hover data-color="#ffffff" data-opacity="0.22"><b><span data-count-up data-to="9" data-duration="2">0</span>H</b><h3>Vidro temperado</h3><p>Moldura de instalação: alinha de primeira.</p></article>
   </div>
 </section>
 
 <section class="sec" id="galeria">
-  <p class="mono tag">04 · NO DIA A DIA</p>
-  <h2 data-scroll-float>Feito para a rua.</h2>
+  <div class="topo-sec"><p class="mono">04 / GALERIA</p><h2 class="titulo" data-scroll-float>Feito para a rua</h2></div>
   <div class="mosaico"><img src="img/extra-13.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-14.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-15.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-16.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-17.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-18.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-19.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-20.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-21.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-22.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-11.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"><img src="img/extra-12.jpg" alt="Acessórios VOLT/RX em uso" loading="lazy"></div>
   <img class="banner" src="img/hero-trio.jpg" alt="Linha RX completa" loading="lazy">
 </section>
 
 <section class="sec" id="kits">
-  <p class="mono tag">05 · KITS</p>
-  <h2 data-scroll-float>Combine e economize.</h2>
+  <div class="topo-sec"><p class="mono">05 / KITS</p><h2 class="titulo" data-scroll-float>Combine e economize</h2></div>
   <div class="kits">
-    <div class="kit"><h3>Kit Proteção</h3><p>Capa Armor + Película 9H</p><p class="preco"><s>R$ 169,80</s> R$ 139,90</p><button class="btn" data-add="kit1" data-magnet data-padding="50" data-strength="4">Adicionar</button></div>
-    <div class="kit dest"><h3>Kit Viagem</h3><p>Carregador 65W + Power Bank 20K + Cabo</p><p class="preco"><s>R$ 399,70</s> R$ 329,90</p><button class="btn" data-add="kit2" data-magnet data-padding="50" data-strength="4">Adicionar</button></div>
-    <div class="kit"><h3>Kit Completo</h3><p>Capa, película, carregador, fone e base magnética</p><p class="preco"><s>R$ 779,50</s> R$ 649,90</p><button class="btn" data-add="kit3" data-magnet data-padding="50" data-strength="4">Adicionar</button></div>
+    <div class="kit"><p class="mono">KIT_A</p><h3>Proteção</h3><p>Capa Armor + Película 9H</p><p class="pk"><s>R$ 169,80</s> <b>R$ 139,90</b></p><button class="reservar" data-add="kit1" data-magnet data-padding="40" data-strength="5">ADICIONAR <span>»</span></button></div>
+    <div class="kit dest"><p class="mono">KIT_B</p><h3>Viagem</h3><p>Carregador 65W + Power Bank 20K + Cabo</p><p class="pk"><s>R$ 399,70</s> <b>R$ 329,90</b></p><button class="reservar" data-add="kit2" data-magnet data-padding="40" data-strength="5">ADICIONAR <span>»</span></button></div>
+    <div class="kit"><p class="mono">KIT_C</p><h3>Completo</h3><p>Capa, película, carregador, fone e base magnética</p><p class="pk"><s>R$ 779,50</s> <b>R$ 649,90</b></p><button class="reservar" data-add="kit3" data-magnet data-padding="40" data-strength="5">ADICIONAR <span>»</span></button></div>
   </div>
 </section>
 
 <section class="sec" id="faq">
-  <p class="mono tag">06 · DÚVIDAS</p>
-  <h2 data-scroll-float>Perguntas rápidas.</h2>
+  <div class="topo-sec"><p class="mono">06 / DÚVIDAS</p><h2 class="titulo" data-scroll-float>Perguntas rápidas</h2></div>
   <div class="faq">
     <details><summary>Serve no meu modelo?</summary><p>Informe o modelo no pedido pelo WhatsApp e confirmamos a compatibilidade antes de enviar.</p></details>
     <details><summary>Qual o prazo de entrega?</summary><p>Postagem em até 48 horas úteis. O prazo final depende do CEP.</p></details>
@@ -88,12 +111,12 @@
   </div>
 </section>
 
-<footer class="rodape"><span class="mono">VOLT/RX · site de exemplo criado pela HEsites</span><a href="mailto:himidio@nd.edu">himidio@nd.edu</a></footer>
+<footer class="rodape"><span class="mono">VOLT/RX · SITE DE EXEMPLO CRIADO PELA HESITES</span><a class="mono" href="mailto:himidio@nd.edu">himidio@nd.edu</a></footer>
 
 <aside class="gaveta" id="gaveta" aria-hidden="true">
-  <div class="g-top"><h3>Seu carrinho</h3><button id="fechar" aria-label="Fechar">×</button></div>
+  <div class="g-top"><h3>CART</h3><button id="fechar" aria-label="Fechar">×</button></div>
   <ul id="itens"></ul>
-  <div class="g-fim"><p>Total <b id="total">R$ 0,00</b></p><a class="btn" id="zap" href="#" target="_blank" rel="noopener">Pedir pelo WhatsApp</a><small>Demo: o botão abre uma conversa de exemplo.</small></div>
+  <div class="g-fim"><p class="mono">TOTAL <b id="total">R$ 0,00</b></p><a class="reservar" id="zap" href="#" target="_blank" rel="noopener">PEDIR PELO WHATSAPP <span>»</span></a><small class="mono">Demo: abre uma conversa de exemplo.</small></div>
 </aside>
 <div class="veu" id="veu"></div>
 

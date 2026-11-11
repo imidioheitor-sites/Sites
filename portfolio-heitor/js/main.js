@@ -14,6 +14,15 @@ const FAST = qs.has('fast');                       // ?fast pula portal e cursor
 let LANG = (navigator.language || 'pt').toLowerCase().startsWith('en') ? 'en' : 'pt';
 try { const s = localStorage.getItem('hi-lang'); if (s === 'en' || s === 'pt') LANG = s; } catch (e) {}
 if (qs.get('l') === 'en' || qs.get('l') === 'pt') LANG = qs.get('l');
+Object.assign(T, {
+  'ach.note1': { pt: 'Nº 08', en: 'No. 08' }, 'ach.note1b': { pt: 'conquistas que mudaram a rota', en: 'achievements that changed the route' },
+  'ach.tape': { pt: 'CONQUISTAS', en: 'ACHIEVEMENTS' }, 'ach.big': { pt: 'Conquistas', en: 'Achievements' },
+  'ach.guest': { pt: 'CONVIDADO ESPECIAL ✦', en: 'SPECIAL GUEST ✦' },
+  'ach.c1': { pt: 'experimentos de física', en: 'physics experiments' }, 'ach.c2': { pt: 'raios cósmicos detectados', en: 'cosmic rays detected' },
+  'ach.c3': { pt: 'artigos para o IYPT', en: 'IYPT papers' }, 'ach.c4': { pt: 'US$ em bolsa do CERN', en: 'US$ CERN grant' },
+  'tech.chip': { pt: 'PROJETO', en: 'PROJECT' }, 'tech.c1': { pt: 'PROJETOS', en: 'PROJECTS' }, 'tech.c2': { pt: 'DETALHES', en: 'DETAILS' }, 'tech.c3': { pt: 'FICHA TÉCNICA', en: 'SPEC SHEET' },
+  'spec.model': { pt: 'Projeto', en: 'Project' }, 'spec.area': { pt: 'Área', en: 'Field' }, 'spec.stack': { pt: 'Tecnologias', en: 'Stack' }, 'spec.no': { pt: 'Nº', en: 'No.' },
+});
 const t = k => (T[k] || {})[LANG] || '';
 const pick = o => o[LANG] || o.pt;
 
@@ -42,6 +51,7 @@ try {
 /* ═════════ Conquistas (carrossel) ═════════ */
 const CATS = [['all', t('ach.all')], ['sci', LANG === 'pt' ? 'Ciência' : 'Science'], ['tech', 'Tech'], ['soc', LANG === 'pt' ? 'Impacto' : 'Impact'], ['lead', LANG === 'pt' ? 'Liderança' : 'Leadership'], ['edu', LANG === 'pt' ? 'Educação' : 'Education']];
 $('#achFilters').innerHTML = CATS.map(([k, l], i) => `<button data-c="${k}" class="${i ? '' : 'on'}">${l}</button>`).join('');
+$('#achNum').dataset.num = ACH.length;
 $('#carTrack').innerHTML = ACH.map((a, i) => `
   <article class="card" data-lit data-cat="${a.cat}" data-glare-hover data-color="#ffffff" data-opacity="0.35">
     <div class="c-media ${a.logo ? 'is-logo' : ''}">
@@ -118,9 +128,21 @@ $$('#inkStyles button').forEach(b => b.addEventListener('click', () => {
 }));
 
 /* ═════════ Seção 04: o site inteiro muda ═════════ */
+const PAL = [
+  { bg: '#ff5a1f', fg: '#0f0f0f', ac: '#0f0f0f', ac2: '#ffd9c7', strip: '#00897b', face: '#ff6f3a', edge: '#ffffff', fo: .55 },
+  { bg: '#e8e5de', fg: '#0f0f0f', ac: '#ff5a1f', ac2: '#0b1b4d', strip: '#ff5a1f', face: '#f6f3ec', edge: '#ff5a1f', fo: .9 },
+  { bg: '#0f0f10', fg: '#f4f1ea', ac: '#ff5a1f', ac2: '#ffb08f', strip: '#ff5a1f', face: '#1b1b1e', edge: '#ff5a1f', fo: .95 },
+  { bg: '#c1121f', fg: '#fff5f3', ac: '#ffd23f', ac2: '#ffffff', strip: '#ffffff', face: '#d4283a', edge: '#ffd23f', fo: .6 },
+  { bg: '#ff5a1f', fg: '#0f0f0f', ac: '#0f0f0f', ac2: '#ffd9c7', strip: '#6b3cff', face: '#ff6f3a', edge: '#0f0f0f', fo: .5 },
+  { bg: '#e8e5de', fg: '#0f0f0f', ac: '#e11d2e', ac2: '#0b1b4d', strip: '#0b1b4d', face: '#f6f3ec', edge: '#0b1b4d', fo: .9 },
+];
+TECH.forEach((p, i) => Object.assign(p.theme, PAL[i % PAL.length]));
 const N = TECH.length; $('#tech').style.setProperty('--n', N - 1);
 const stage = $('#techStage'), swarm = new MiniSwarm($('#tCursors'));
-$('#tRail').innerHTML = TECH.map((p, i) => `<button data-i="${i}" aria-label="${pick(p.title)}"><i></i><span>${p.word}</span></button>`).join('');
+$('#tRail').innerHTML = TECH.map((p, i) => `<button data-i="${i}" aria-label="${pick(p.title)}"><i></i><em class="mono">${String(i + 1).padStart(2, '0')}</em><span>${p.word}</span></button>`).join('');
+let cubes = null;
+function mkCubes() { const S = window.HeluCubes; if (!S || cubes) return; try { const th = TECH[0].theme; cubes = S.create($('#tCubes'), { gridSize: 9, gap: .16, faceColor: th.face, edgeColor: th.edge, edgeWidth: 1.4, faceOpacity: th.fo, shading: .35, maxAngle: 50, radius: 3.2, perspective: .25, rippleColor: th.ac, intro: true }); } catch (e) { console.warn('cubes', e); } }
+function circuitRun() { const c = $('#tCircuit'); c.classList.remove('run'); void c.getBoundingClientRect(); c.classList.add('run'); }
 let techIdx = -1, imgTimer = null;
 function pipeHTML() {
   const rows = [['SELLER', 'prospecta'], ['CODER', 'gera o site'], ['REACHER', 'avisa o dono'], ['WATCHDOG', 'vigia'], ['VERIFIER', 'melhora']];
@@ -134,14 +156,9 @@ function setStrip(p, i) {
 }
 function setTheme(p) {
   const th = p.theme; stage.style.setProperty('--bg', th.bg); stage.style.setProperty('--fg', th.fg); stage.style.setProperty('--ac', th.ac); stage.style.setProperty('--ac2', th.ac2); stage.style.setProperty('--strip', th.strip);
+  if (cubes) cubes.update({ faceColor: th.face, edgeColor: th.edge, faceOpacity: th.fo, rippleColor: th.ac });
 }
-function layoutTech(i) {
-  const left = i % 2 === 0; const sw = Math.min(innerWidth * .24, 360);
-  const strip = $('#tStrip'), copy = $('#tCopy');
-  if (innerWidth <= 1000) { strip.style.left = ''; copy.style.left = ''; copy.style.right = ''; return; }
-  strip.style.left = left ? `${innerWidth * .14}px` : `${innerWidth - innerWidth * .14 - sw}px`;
-  if (left) { copy.style.left = 'auto'; copy.style.right = '6vw'; } else { copy.style.right = 'auto'; copy.style.left = '10vw'; }
-}
+function layoutTech() {}
 async function setProject(i, animate) {
   if (i === techIdx) return; const first = techIdx < 0; techIdx = i; const p = TECH[i];
   $$('#tRail button').forEach((b, k) => b.classList.toggle('on', k === i));
@@ -150,6 +167,8 @@ async function setProject(i, animate) {
   const w = $('#tWord'); w.textContent = p.word; w.classList.remove('swap'); void w.offsetWidth; w.classList.add('swap');
   const bs = $$('[data-b]', stage); bs.forEach(b => b.classList.remove('in'));
   layoutTech(i);
+  $('#tSpec').innerHTML = [[t('spec.no'), p.num + ' / ' + String(N).padStart(2, '0')], [t('spec.model'), p.word], [t('spec.area'), pick(p.sub)], [t('spec.stack'), p.tags.join(' · ')]].map(r => `<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
+  circuitRun();
   $('#tSub').textContent = pick(p.sub); $('#tTitle').textContent = pick(p.title); $('#tText').textContent = pick(p.text);
   $('#tTags').innerHTML = p.tags.map(x => `<span>${x}</span>`).join(''); $('#tNum').textContent = p.num;
   setStrip(p, i); $('#tImg').style.opacity = 0;
@@ -181,7 +200,7 @@ $('#ctForm').addEventListener('submit', e => {
 /* ═════════ Contadores ═════════ */
 function countUp(el) {
   const to = parseFloat(el.dataset.num), dec = +(el.dataset.dec || 0), sep = el.dataset.sep || '', pre = el.dataset.pre || '', suf = el.dataset.suf || '';
-  const fmt = v => { let s = v.toFixed(dec); if (LANG === 'pt' && dec) s = s.replace('.', ','); if (sep) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, sep); return pre + s + suf; };
+  const pad = +(el.dataset.pad || 0); const fmt = v => { let s = v.toFixed(dec); if (pad) s = s.padStart(pad, '0'); if (LANG === 'pt' && dec) s = s.replace('.', ','); if (sep) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, sep); return pre + s + suf; };
   const t0 = performance.now(), D = 1600; (function f(n) { const k = clamp((n - t0) / D, 0, 1), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(to * e); if (k < 1) requestAnimationFrame(f); })(t0);
 }
 const counted = new WeakSet();
@@ -219,7 +238,7 @@ function sectionAt() {
 }
 function updateNav() {
   const sec = sectionAt(); const nav = document.documentElement.style;
-  if (sec === 'tech') { const th = TECH[Math.max(techIdx, 0)].theme; nav.setProperty('--nav-fg', th.fg); nav.setProperty('--nav-bg', 'rgba(0,0,0,.32)'); }
+  if (sec === 'tech') { const th = TECH[Math.max(techIdx, 0)].theme; nav.setProperty('--nav-fg', th.fg); nav.setProperty('--nav-bg', /^#0/.test(th.fg) ? 'rgba(255,255,255,.45)' : 'rgba(0,0,0,.4)'); }
   else if (sec === 'contact') { nav.setProperty('--nav-fg', '#f3f1ff'); nav.setProperty('--nav-bg', 'rgba(11,27,77,.5)'); }
   else { nav.setProperty('--nav-fg', '#0c0c0d'); nav.setProperty('--nav-bg', 'rgba(236,235,231,.6)'); }
   $$('.links a').forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + sec));
@@ -240,7 +259,7 @@ function layout() {
     if (sec === 'hero' && st === 3) { op = 1; const q = (p - .5) / .5; Object.assign(P, { az: -40 + q * 250, el: 14 - q * 10, dist: 1.38, sx: 0, sy: 0.07, field: 0 }); }
     else if (sec === 'hero' && st === 2) { op = .0; Object.assign(P, { az: -60, el: 20, dist: 1.25, sx: 0, field: 0 }); }
     else if (sec === 'hero') { op = 0; }
-    else if (sec === 'ach') { op = lit ? .95 : .85; Object.assign(P, { az: 20 + (y - $('#ach').offsetTop) * .05, el: 12, dist: 1.5, sx: -.27, sy: 0.05, field: lit ? 1 : 0 }); }
+    else if (sec === 'ach') { op = 0; }
     else { op = 0; }
     const cs = $('#ink-bg').style; if (+cs.opacity !== op) cs.opacity = op;
     ink.active = op > 0 || +(cs.opacity) > 0.02;
@@ -253,7 +272,7 @@ function layout() {
 function onScroll() { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; layout(); }); }
 addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { layoutTech(techIdx); layout(); });
 // acender ao chegar na seção 02
-new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && document.body.classList.contains('in') && !document.body.classList.contains('building')) ignite(); }), { threshold: .0, rootMargin: '0px 0px -45% 0px' }).observe($('#ach .title'));
+new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && document.body.classList.contains('in') && !document.body.classList.contains('building')) ignite(); }), { threshold: .0, rootMargin: '0px 0px -45% 0px' }).observe($('#ach .ach-top'));
 
 /* ═════════ Nav ═════════ */
 $$('.links a, .logo').forEach(a => a.addEventListener('click', e => {
@@ -313,7 +332,8 @@ function loadFx(list) {
 async function boot() {
   $$('#ach, #proj').forEach(s => { s.dataset.clickSpark = ''; s.dataset.color = '#ff4a1c'; });
   $$('.glassbtn,.t-btn').forEach(b => b.dataset.magnet = '');
-  await loadFx(['circular-text', 'glare-hover', 'magnet', 'click-spark', 'swarm-build']);
+  await loadFx(['circular-text', 'glare-hover', 'magnet', 'click-spark', 'noise', 'curved-loop', 'cubes', 'swarm-build']);
+  mkCubes(); if (cubes) cubes.update({ faceColor: TECH[Math.max(techIdx, 0)].theme.face, edgeColor: TECH[Math.max(techIdx, 0)].theme.edge, faceOpacity: TECH[Math.max(techIdx, 0)].theme.fo });
   layout();
 }
 const start = async lang => {

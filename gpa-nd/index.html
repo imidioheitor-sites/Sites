@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0C2340">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>HEsites GPA — Notre Dame</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icone.svg">
+  <link rel="preload" href="/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="fundo-fx" data-grainient data-colors='["#f4f1ea","#e9e4d8","#d9e1f0","#f3e3b4","#f4f1ea"]' data-angle="25" data-speed="0.18" data-grain-amount="0.05" data-contrast="1.0" data-light-mode="true" aria-hidden="true"></div>
+  <div class="grao-papel" data-noise data-alpha="9" data-size="300" data-fps="6" aria-hidden="true"></div>
+
+  <div class="app">
+    <header class="topo">
+      <a class="marca" href="#" aria-label="HEsites GPA"><span class="logo">HE</span><span class="mono">GPA · ND</span></a>
+      <nav class="abas" aria-label="Seções">
+        <button data-aba="painel" class="ativa"><svg viewBox="0 0 24 24"><path d="M4 13h6V4H4zm0 7h6v-5H4zm10 0h6v-9h-6zm0-16v5h6V4z"/></svg><span>Painel</span></button>
+        <button data-aba="materias"><svg viewBox="0 0 24 24"><path d="M5 4h11l3 3v13H5zM8 10h8M8 14h8M8 18h5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Matérias</span></button>
+        <button data-aba="curso"><svg viewBox="0 0 24 24"><path d="M3 9l9-5 9 5-9 5zM7 12v5c0 1.5 2.2 3 5 3s5-1.5 5-3v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Curso</span></button>
+        <button data-aba="simular"><svg viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Simular</span></button>
+        <button data-aba="bot"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg><span>Bot</span></button>
+      </nav>
+      <span class="selo mono" id="seloIA" title="Modo do bot">regras</span>
+    </header>
+
+    <main>
+      <!-- PAINEL -->
+      <section class="aba ativa" id="aba-painel">
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="sobre mono">Notre Dame · <span id="semestreAtual">—</span></p>
+            <h1 class="serif" id="saudacao">Meu GPA</h1>
+            <h2 class="manchete">Seu semestre, em <span data-aurora-text data-colors='["#c99700","#2f6fd6","#0c2340","#e3a33a"]' data-speed="0.8">números</span>.</h2>
+            <p class="lead">GPA na escala de ND, notas por prova, simulador de meta e o curso inteiro de Engenharia e Química: aulas, fórmulas, prazos e calculadoras.</p>
+            <div class="cta">
+              <button class="pilula escura" data-goto="curso" data-magnet data-padding="60" data-strength="4">Abrir o curso <i>→</i></button>
+              <button class="pilula vidro" data-goto="simular" data-magnet data-padding="60" data-strength="4">Simular minha meta</button>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="cartao destaque">
+              <div class="grao" data-grainient data-colors='["#071428","#0c2340","#183a66","#2c5a9a","#c99700"]' data-angle="35" data-speed="0.35" data-grain-amount="0.09" data-contrast="1.05" data-interactive="true" aria-hidden="true"></div>
+              <div class="conteudo">
+                <div class="selo-giro" aria-hidden="true"><div data-circular-text data-text="GPA ✦ NOTRE DAME ✦ CLASS OF 2030 ✦ " data-spin="16" style="width:116px;height:116px;font-size:10px"></div><span>HE</span></div>
+                <div class="linha">
+                  <div>
+                    <p class="rotulo">GPA acumulado</p>
+                    <p class="numero" id="gpaAcum">—</p>
+                  </div>
+                  <div class="direita">
+                    <p class="rotulo">Projeção c/ semestre atual</p>
+                    <p class="numero menor" id="gpaProj">—</p>
+                  </div>
+                </div>
+                <div class="barra-meta"><div id="barraMeta"></div><span id="marcaMeta"></span></div>
+                <p class="legenda" id="legendaMeta">—</p>
+              </div>
+            </div>
+            <div class="flutua f1 cartao mini vidro-card"><p class="rotulo">Semestre atual (proj.)</p><p class="numero menor" id="gpaSem">—</p></div>
+            <div class="flutua f2 cartao mini vidro-card"><p class="rotulo">Créditos concluídos</p><p class="numero menor" id="creditos">—</p></div>
+          </div>
+        </div>
+
+        <div class="faixa" aria-hidden="true"><div data-curved-loop data-text="GPA ✦ NOTAS ✦ METAS ✦ EG 10117 ✦ CHEM 10171 ✦ " data-curve="46" data-speed="1.6" data-interactive="true"></div></div>
+
+        <div class="bento">
+          <div class="cartao b-grafico">
+            <p class="titulo-cartao">GPA por semestre</p>
+            <div id="grafico" class="grafico"></div>
+          </div>
+          <div class="cartao b-atuais">
+            <div class="linha"><p class="titulo-cartao">Matérias em andamento</p><span class="dica">% atual → letra</span></div>
+            <ul class="lista" id="listaAtuais"></ul>
+          </div>
+          <div class="cartao b-prazos">
+            <div class="linha"><p class="titulo-cartao">Próximos prazos do curso</p><button class="link-mini" data-goto="curso">ver curso →</button></div>
+            <ul class="lista prazos" id="proximos"></ul>
+          </div>
+          <div class="cartao b-focar">
+            <p class="titulo-cartao">Onde <span data-highlighter data-action="underline" data-color="#c99700" data-animation-duration="900" data-iterations="2">focar</span> agora</p>
+            <ul class="lista sugestoes" id="sugestoes"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- MATÉRIAS -->
+      <section class="aba" id="aba-materias">
+        <h2 class="titulo-aba serif">Suas <em>matérias</em></h2>
+        <div id="semestres"></div>
+        <button class="pilula vidro largo" id="novoSemestre">+ Novo semestre</button>
+        <div class="cartao">
+          <p class="titulo-cartao">Dados</p>
+          <p class="legenda" id="ondeSalva">Tudo fica salvo em <code>data/notas.json</code> no seu computador.</p>
+          <div class="linha botoes">
+            <button class="botao secundario" id="exportar">Exportar</button>
+            <label class="botao secundario">Importar<input type="file" id="importar" accept=".json" hidden></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- CURSO (EG 10117 + CHEM 10171) -->
+      <section class="aba" id="aba-curso">
+        <div id="cursoRaiz"></div>
+      </section>
+
+      <!-- SIMULAR -->
+      <section class="aba" id="aba-simular">
+        <h2 class="titulo-aba serif">E se <em>eu tirar…</em></h2>
+        <div class="sim-grid">
+        <div class="cartao">
+          <p class="titulo-cartao">Meta de GPA</p>
+          <div class="campo-linha">
+            <label for="metaInput">Meta acumulada</label>
+            <input type="number" id="metaInput" step="0.01" min="0" max="4" inputmode="decimal">
+          </div>
+          <div class="campo-linha">
+            <label for="restInput">Créditos que ainda faltam</label>
+            <input type="number" id="restInput" step="1" min="1" inputmode="numeric">
+          </div>
+          <p class="resultado" id="resMeta">—</p>
+        </div>
+
+        <div class="cartao">
+          <p class="titulo-cartao">E se… (semestre atual)</p>
+          <p class="legenda">Mude a letra esperada de cada matéria e veja o efeito.</p>
+          <ul class="lista" id="simLista"></ul>
+          <div class="linha totais"><span>Semestre</span><strong id="simSem">—</strong></div>
+          <div class="linha totais"><span>Acumulado</span><strong id="simAcum">—</strong></div>
+        </div>
+
+        <div class="cartao">
+          <p class="titulo-cartao">Quanto preciso na prova?</p>
+          <div class="campo-linha">
+            <label for="calcMateria">Matéria</label>
+            <select id="calcMateria"></select>
+          </div>
+          <div class="campo-linha">
+            <label for="calcLetra">Letra desejada</label>
+            <select id="calcLetra"></select>
+          </div>
+          <p class="resultado" id="resCalc">—</p>
+        </div>
+        </div>
+      </section>
+
+      <!-- BOT -->
+      <section class="aba" id="aba-bot">
+        <h2 class="titulo-aba serif">Pergunte ao <em>bot</em></h2>
+        <div class="chat" id="chat"></div>
+        <div class="chips" id="chips"></div>
+        <form class="caixa" id="formChat">
+          <input id="msg" placeholder="Pergunte sobre suas notas ou o curso…" autocomplete="off">
+          <button class="botao" aria-label="Enviar" data-starborder data-radius="14" data-duration="5" data-glow=".5" data-theme="dark" data-background-color="#0c2340" data-text-color="#ffffff">↑</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="folha">
+    <form method="dialog" id="formFolha"></form>
+  </dialog>
+
+  <script src="/gpa.js"></script>
+  <script src="/app.js"></script>
+  <script src="/curso.js"></script>
+  <script src="/fx/grainient.js"></script>
+  <script src="/fx/noise.js"></script>
+  <script src="/fx/aurora-text.js"></script>
+  <script src="/fx/highlighter.js"></script>
+  <script src="/fx/star-border.js"></script>
+  <script src="/fx/circular-text.js"></script>
+  <script src="/fx/curved-loop.js"></script>
+  <script src="/fx/magnet.js"></script>
+  <script src="/fx/flip-card.js"></script>
+  <script src="/fx/dot-grid.js"></script>
+  <script src="/fx/tilted-card.js"></script>
+  <script src="/fx.js"></script>
+</body>
+</html>

@@ -133,14 +133,32 @@
   </div>
 </section>
 
-<!-- ═════════ 02 · CONQUISTAS (COR) ═════════ -->
+<!-- ═════════ 02 · CONQUISTAS (PÔSTER DE PAPEL) ═════════ -->
 <section id="ach">
+  <div class="ach-paper" data-noise data-alpha="12" data-size="320" data-fps="6" aria-hidden="true"></div>
+  <div class="ach-hero">
+    <div class="ach-top mono"><span data-i18n="ach.kicker"></span><span class="star-sm" aria-hidden="true">✦</span><span>HI · ND ’30</span></div>
+    <div class="poster">
+      <div class="p-note p-note-1 mono" aria-hidden="true"><b data-i18n="ach.note1"></b><span data-i18n="ach.note1b"></span></div>
+      <div class="p-orange" aria-hidden="true"></div>
+      <img class="p-photo" src="img/heitor-geneva-cut.png" alt="" data-lit>
+      <svg class="p-scribble" viewBox="0 0 300 120" aria-hidden="true"><path d="M5 80 C 40 10, 70 130, 110 60 S 180 10, 215 70 S 270 100, 295 30" fill="none" stroke="#0e0e0e" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <div class="p-num" aria-hidden="true"><span id="achNum" data-num="8" data-pad="2">00</span><i class="p-tape mono" data-i18n="ach.tape"></i></div>
+      <div class="p-word" aria-hidden="true" data-i18n="ach.big"></div>
+      <div class="p-guest mono" aria-hidden="true"><b data-i18n="ach.guest"></b><span>CERN ✦ IYPT ✦ iFood</span></div>
+      <svg class="p-star" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0Z" fill="#0e0e0e"/></svg>
+    </div>
+    <div class="ach-head wrap">
+      <h2 class="title" data-lit data-i18n="ach.title"></h2>
+      <p class="sub" data-lit data-i18n="ach.sub"></p>
+    </div>
+  </div>
+
+  <div class="ach-band" aria-hidden="true"><div data-curved-loop data-text="CERN ✦ IYPT ✦ iFOOD ✦ PROJETEI ✦ NOTRE DAME ✦ HEsites ✦ " data-curve="70" data-speed="2" data-interactive="true"></div></div>
+
   <div class="wrap">
-    <div class="kick mono lit" data-lit><i></i><span data-i18n="ach.kicker"></span></div>
-    <h2 class="title" data-lit data-i18n="ach.title"></h2>
-    <p class="sub" data-lit data-i18n="ach.sub"></p>
     <div class="ach-tools" data-lit>
-      <button id="btnReignite" class="glassbtn mono" type="button"><span class="dot"></span><span data-i18n="ach.replay"></span></button>
+      <button id="btnReignite" class="tix mono" type="button"><span class="dot"></span><span data-i18n="ach.replay"></span></button>
       <div class="filters" id="achFilters"></div>
     </div>
   </div>
@@ -149,7 +167,16 @@
   </div>
   <div class="wrap car-ui" data-lit>
     <div class="car-bar"><i id="carBar"></i></div>
-    <div class="car-btns"><button id="carPrev" class="neu-btn" aria-label="Anterior">←</button><button id="carNext" class="neu-btn" aria-label="Próximo">→</button><span class="mono" data-i18n="ach.drag"></span></div>
+    <div class="car-btns"><button id="carPrev" class="sq-btn" aria-label="Anterior">←</button><button id="carNext" class="sq-btn" aria-label="Próximo">→</button><span class="mono" data-i18n="ach.drag"></span></div>
+  </div>
+
+  <div class="wrap ach-count">
+    <div class="countdown" data-lit>
+      <div><b data-num="20" data-suf="+">0</b><small class="mono" data-i18n="ach.c1"></small></div>
+      <div><b data-num="9">0</b><small class="mono" data-i18n="ach.c2"></small></div>
+      <div><b data-num="6">0</b><small class="mono" data-i18n="ach.c3"></small></div>
+      <div><b data-num="12" data-suf="k">0</b><small class="mono" data-i18n="ach.c4"></small></div>
+    </div>
   </div>
 </section>
 
@@ -204,23 +231,44 @@
   </div>
 </section>
 
-<!-- ═════════ 04 · TECH (o site inteiro muda) ═════════ -->
+<!-- ═════════ 04 · TECH (PAINEL INDUSTRIAL RX) ═════════ -->
 <section id="tech">
   <div class="stage" id="techStage">
     <div class="t-bg" aria-hidden="true"></div>
-    <div class="t-grid" aria-hidden="true"></div>
-    <div class="t-word" id="tWord" aria-hidden="true"></div>
-    <div class="t-rail mono" id="tRail" aria-hidden="false"></div>
-    <div class="t-kick mono"><i></i><span data-i18n="tech.kicker"></span></div>
-    <div class="t-strip" id="tStrip"><div class="t-img" id="tImg"></div><span class="t-num mono" id="tNum"></span></div>
-    <div class="t-copy" id="tCopy">
-      <div class="t-sub mono" id="tSub" data-b></div>
-      <h3 id="tTitle" data-b></h3>
-      <p id="tText" data-b></p>
-      <div class="t-tags mono" id="tTags" data-b></div>
-      <button class="t-btn mono" id="tNext" type="button" data-b><span data-i18n="tech.next"></span> →</button>
+    <svg class="t-circuit" id="tCircuit" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+        <path pathLength="1" d="M0 640 H410 L470 700 H1000 L1060 760 H1440"/>
+        <path pathLength="1" d="M0 250 H300 L360 190 H640 L690 240 H1010"/>
+        <path pathLength="1" d="M1130 0 V90 L1180 140 V430 L1230 480 H1440"/>
+        <path pathLength="1" d="M860 560 H1180 V610"/>
+        <path pathLength="1" d="M0 120 H120 L150 150 V330"/>
+      </g>
+      <g fill="currentColor"><rect x="404" y="634" width="12" height="12"/><rect x="994" y="694" width="12" height="12"/><rect x="634" y="184" width="12" height="12"/><rect x="1124" y="84" width="12" height="12"/><rect x="1174" y="604" width="12" height="12"/><rect x="144" y="324" width="12" height="12"/></g>
+    </svg>
+    <div class="t-cubes" id="tCubes" aria-hidden="true"></div>
+    <div class="t-top mono">
+      <span class="t-burger" aria-hidden="true"><i></i><i></i><i></i></span>
+      <div class="t-kick"><i></i><span data-i18n="tech.kicker"></span></div>
+      <div class="t-chip"><span data-i18n="tech.chip"></span> <b id="tCount">01 / 06</b></div>
     </div>
-    <div class="t-foot mono"><span id="tCount">01 / 06</span><span data-i18n="tech.hint"></span></div>
+    <div class="t-strip" id="tStrip"><div class="t-img" id="tImg"></div><span class="t-num mono" id="tNum"></span><i class="t-corner c1"></i><i class="t-corner c2"></i><i class="t-corner c3"></i><i class="t-corner c4"></i></div>
+    <div class="t-word" id="tWord" aria-hidden="true"></div>
+    <div class="t-panel">
+      <div class="t-col t-pick"><div class="t-h mono"><i>01</i> / <span data-i18n="tech.c1"></span></div><div class="t-rail" id="tRail"></div></div>
+      <div class="t-col t-copy" id="tCopy">
+        <div class="t-h mono"><i>02</i> / <span data-i18n="tech.c2"></span></div>
+        <div class="t-sub mono" id="tSub" data-b></div>
+        <h3 id="tTitle" data-b></h3>
+        <p id="tText" data-b></p>
+        <div class="t-tags mono" id="tTags" data-b></div>
+      </div>
+      <div class="t-col t-spec">
+        <div class="t-h mono"><i>03</i> / <span data-i18n="tech.c3"></span></div>
+        <dl class="t-dl mono" id="tSpec" data-b></dl>
+        <button class="t-btn mono" id="tNext" type="button" data-b><span data-i18n="tech.next"></span> <i>»</i></button>
+      </div>
+    </div>
+    <div class="t-foot mono"><span data-i18n="tech.hint"></span><span>SA/CT_II</span></div>
     <div class="t-cursors" id="tCursors" aria-hidden="true"></div>
   </div>
 </section>
@@ -252,7 +300,7 @@
         <button class="glassbtn mono" type="submit"><span class="dot"></span><span data-i18n="ct.send"></span></button>
       </form>
     </div>
-    <footer class="foot mono"><span data-i18n="ct.foot"></span><span>3D: NASA astronaut (CC BY) · fonts: Inter Tight, Instrument Serif, JetBrains Mono</span></footer>
+    <footer class="foot mono"><span data-i18n="ct.foot"></span><span>3D: NASA astronaut (CC BY) · fonts: Inter Tight, Instrument Serif, JetBrains Mono, Anton, Space Mono</span></footer>
   </div>
 </section>
 </main>

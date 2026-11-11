@@ -1,0 +1,75 @@
+{
+  "aluno": "Heitor",
+  "metaGPA": 3.7,
+  "creditosParaFormar": 120,
+  "semestres": [
+    {
+      "nome": "Fall 2025",
+      "materias": [
+        { "codigo": "MATH 10550", "nome": "Calculus I", "creditos": 4, "nota": "A-" },
+        { "codigo": "ECON 10010", "nome": "Principles of Microeconomics", "creditos": 3, "nota": "B+" },
+        { "codigo": "FYS 10101", "nome": "First Year Seminar", "creditos": 3, "nota": "A" },
+        { "codigo": "MUS 10001", "nome": "Moreau First Year Experience", "creditos": 1, "nota": "S" },
+        { "codigo": "THEO 10001", "nome": "Foundations of Theology", "creditos": 3, "nota": "B" }
+      ]
+    },
+    {
+      "nome": "Spring 2026",
+      "materias": [
+        { "codigo": "MATH 10560", "nome": "Calculus II", "creditos": 4, "nota": "B+" },
+        { "codigo": "ECON 10020", "nome": "Principles of Macroeconomics", "creditos": 3, "nota": "A-" },
+        { "codigo": "CSE 10101", "nome": "Elements of Computing", "creditos": 3, "nota": "A" },
+        { "codigo": "PHIL 10100", "nome": "Introduction to Philosophy", "creditos": 3, "nota": "B" },
+        { "codigo": "WR 13300", "nome": "Writing and Rhetoric", "creditos": 3, "nota": "A-" }
+      ]
+    },
+    {
+      "nome": "Fall 2026",
+      "atual": true,
+      "materias": [
+        {
+          "codigo": "ACCT 20100", "nome": "Accountancy I", "creditos": 3, "nota": null,
+          "avaliacoes": [
+            { "nome": "Exam 1", "peso": 25, "nota": 84 },
+            { "nome": "Homework", "peso": 15, "nota": 95 },
+            { "nome": "Exam 2", "peso": 25, "nota": null },
+            { "nome": "Final", "peso": 35, "nota": null }
+          ]
+        },
+        {
+          "codigo": "ECON 30010", "nome": "Intermediate Microeconomics", "creditos": 3, "nota": null,
+          "avaliacoes": [
+            { "nome": "Midterm", "peso": 30, "nota": 78 },
+            { "nome": "Problem Sets", "peso": 20, "nota": 88 },
+            { "nome": "Final", "peso": 50, "nota": null }
+          ]
+        },
+        {
+          "codigo": "ACMS 20340", "nome": "Statistics for Business", "creditos": 3, "nota": null,
+          "avaliacoes": [
+            { "nome": "Quizzes", "peso": 20, "nota": 92 },
+            { "nome": "Midterm", "peso": 35, "nota": 90 },
+            { "nome": "Final", "peso": 45, "nota": null }
+          ]
+        },
+        {
+          "codigo": "THEO 20001", "nome": "Developmental Theology", "creditos": 3, "nota": null,
+          "avaliacoes": [
+            { "nome": "Paper 1", "peso": 25, "nota": 88 },
+            { "nome": "Participation", "peso": 15, "nota": 100 },
+            { "nome": "Paper 2", "peso": 25, "nota": null },
+            { "nome": "Final Paper", "peso": 35, "nota": null }
+          ]
+        },
+        {
+          "codigo": "MGT 20200", "nome": "Principles of Management", "creditos": 3, "nota": null,
+          "avaliacoes": [
+            { "nome": "Case Studies", "peso": 30, "nota": 94 },
+            { "nome": "Midterm", "peso": 30, "nota": 91 },
+            { "nome": "Team Project", "peso": 40, "nota": null }
+          ]
+        }
+      ]
+    }
+  ]
+}

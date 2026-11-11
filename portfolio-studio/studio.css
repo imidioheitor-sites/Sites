@@ -1,0 +1,51 @@
+/* Paleta Grafite & Cobre (artefato "Paleta Grafite Cobre") aplicada sobre o modelo Editorial Retrato. */
+:root{--g950:#0A0A0C;--g900:#1E1E21;--g850:#242428;--g800:#2D2D31;--g750:#333339;--g700:#3A3B42;--g600:#46474D;--g400:#8C8F94;--g300:#B9B9BC;--g200:#DCDCDF;--g100:#EDEDEF;--g50:#FDFDFD;
+--c900:#3B281C;--c700:#7E573E;--c600:#94684C;--c500:#A47556;--c400:#B98B6B;--c300:#D1A584;--c200:#E6C7AE}
+.e-page{background:var(--g950)}
+.e-hero{background:var(--g200)}
+.e-nav{color:var(--g900)}
+.giant-vp{color:var(--g950)}
+.e-handle{background:var(--g200);border-color:var(--g600);color:var(--g900)}
+.e-handle i{background:var(--c500)}
+.e-left,.e-right{color:var(--g950)}
+.e-tip{background:rgba(30,30,33,.62);border-color:rgba(209,165,132,.35)}
+.e-blur{background:var(--g850)}
+.eb-frame{border-color:var(--c300)}
+.eb-frame .plus:before,.eb-frame .plus:after{background:var(--c200)}
+.eb-cta{background:var(--g50);color:var(--c700)}
+.e-luna{background:var(--g800)}
+.el-frame{border-color:var(--c300)}
+.el-copy p span{color:var(--c300)}
+.e-ice{background:radial-gradient(ellipse at center,var(--g750),var(--g950) 70%)}
+.ice-card{box-shadow:0 40px 80px -20px #000,0 0 0 6px var(--g700);background:var(--g750)}
+.ice-frost{background:linear-gradient(180deg,rgba(237,237,239,.95),rgba(185,185,188,.55) 20%,rgba(46,46,50,.2) 55%,rgba(10,10,12,.45))}
+.ice-nav{color:var(--g700)}
+.e-foot{background:var(--g950);border-top:1px solid var(--g700)}
+.e-vel{color:var(--g50)}
+.e-quote{color:var(--c300)}
+.e-quote .e-mail{display:inline-block;margin-top:14px;font:500 15px "JetBrains Mono",monospace;letter-spacing:.04em;color:var(--g50);text-decoration:none;border-bottom:1px solid var(--c500);padding-bottom:3px}
+.e-quote .e-mail:hover{color:var(--c300)}
+/* botão do enxame */
+.swarm-btn{all:unset;cursor:pointer;position:fixed;left:16px;bottom:16px;z-index:9999;font:500 12px Inter,sans-serif;padding:9px 14px;border-radius:999px;background:rgba(30,30,33,.78);color:var(--g50);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(209,165,132,.45);transition:background .2s,border-color .2s}
+.swarm-btn:hover{background:var(--c700);border-color:var(--c300)}
+.swarm-btn:focus-visible{outline:2px solid var(--c300);outline-offset:2px}
+/* novos efeitos */
+.fx-progress{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--c700),var(--c300),var(--c500));z-index:9998;pointer-events:none}
+.fx-keylight{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:soft-light;opacity:0;transition:opacity .5s;background:radial-gradient(circle 34vmax at var(--lx,50%) var(--ly,40%),rgba(230,199,174,.95),rgba(164,117,86,.35) 45%,transparent 70%)}
+.e-hero:hover .fx-keylight{opacity:1}
+.fx-trail{position:fixed;inset:0;width:100vw;height:100vh;z-index:9997;pointer-events:none}
+.fx-iris{clip-path:circle(0% at var(--ix,50%) var(--iy,50%));transition:clip-path 1.1s cubic-bezier(.2,.75,.2,1)}
+.fx-iris.in{clip-path:circle(150% at var(--ix,50%) var(--iy,50%))}
+.fx-grain{position:fixed;inset:-50%;width:200%;height:200%;z-index:9996;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:fxg 1s steps(6) infinite}
+@keyframes fxg{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.fx-prime{position:fixed;inset:0;z-index:2147483000;background:var(--g950);opacity:0;pointer-events:none;transition:opacity .35s}
+.fx-prime.on{opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){.fx-grain{animation:none}.fx-iris{clip-path:none!important;transition:none}}
+@media (pointer:coarse){.fx-trail{display:none}}
+.giant-vp{font-size:clamp(70px,11.2vw,180px)}
+.e-right{max-width:22vw}
+.e-right{display:flex;flex-direction:column}
+.e-blur>div:last-of-type{position:absolute!important}
+.ice-links{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.75)}
+.ice-vert{-webkit-text-stroke:1.6px #fff;text-shadow:0 0 14px rgba(0,0,0,.6)}
+.ice-a{font-size:11.2cqw}

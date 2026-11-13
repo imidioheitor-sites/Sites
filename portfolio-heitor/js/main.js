@@ -159,7 +159,25 @@ function pipeHTML() {
   const rows = [['SELLER', 'prospecta'], ['CODER', 'gera o site'], ['REACHER', 'avisa o dono'], ['WATCHDOG', 'vigia'], ['VERIFIER', 'melhora']];
   return `<div class="t-pipe">${rows.map(r => `<div>${r[0]}<i>${r[1]}</i></div>`).join('')}</div>`;
 }
+let globeRAF = 0;
+function stopGlobe() { cancelAnimationFrame(globeRAF); globeRAF = 0; }
+function startGlobe(cv) {
+  const S = 220, dpr = Math.min(devicePixelRatio || 1, 2); cv.width = cv.height = S * dpr; const g = cv.getContext('2d'); g.scale(dpr, dpr);
+  const R = 92, pts = []; for (let i = 0; i < 520; i++) { const y = 1 - 2 * (i + .5) / 520, r = Math.sqrt(1 - y * y), a = i * 2.39996; pts.push([Math.cos(a) * r, y, Math.sin(a) * r]); }
+  const proj = (x, y, z, rot, tilt) => { const c = Math.cos(rot), s = Math.sin(rot), x1 = x * c + z * s, z1 = -x * s + z * c, ct = Math.cos(tilt), st = Math.sin(tilt); return [x1, y * ct - z1 * st, y * st + z1 * ct]; };
+  let t0 = performance.now();
+  const draw = now => {
+    const rot = (now - t0) / 4200; g.clearRect(0, 0, S, S); g.strokeStyle = '#fff'; g.fillStyle = '#fff'; g.lineWidth = 1;
+    g.globalAlpha = .9; g.beginPath(); g.arc(S / 2, S / 2, R, 0, 7); g.stroke();
+    g.globalAlpha = .3; for (let la = -60; la <= 60; la += 30) { g.beginPath(); for (let k = 0; k <= 64; k++) { const lo = k / 64 * Math.PI * 2, [x, y, z] = proj(Math.cos(la * Math.PI / 180) * Math.cos(lo), Math.sin(la * Math.PI / 180), Math.cos(la * Math.PI / 180) * Math.sin(lo), rot, .35); if (z > 0) g.lineTo(S / 2 + x * R, S / 2 - y * R); else g.moveTo(S / 2 + x * R, S / 2 - y * R); } g.stroke(); }
+    pts.forEach(p => { const [x, y, z] = proj(p[0], p[1], p[2], rot, .35); if (z > 0) { g.globalAlpha = .25 + .6 * z; g.fillRect(S / 2 + x * R - 1, S / 2 - y * R - 1, 2, 2); } });
+    globeRAF = requestAnimationFrame(draw);
+  };
+  globeRAF = requestAnimationFrame(draw);
+}
 function setStrip(p, i) {
+  stopGlobe(); $('#tGlobe')?.remove();
+  if (p.globe) { const cv = document.createElement('canvas'); cv.id = 'tGlobe'; cv.className = 't-globe'; cv.setAttribute('aria-label', 'Globo girando'); $('#tStrip').appendChild(cv); if (!RM) startGlobe(cv); else startGlobe(cv); }
   const el = $('#tImg'); el.className = 't-img' + (p.logo ? ' logo' : '') + (p.pipeline ? ' pipe' : ''); el.innerHTML = p.pipeline ? pipeHTML() : '';
   el.style.filter = p.pipeline || p.logo ? 'none' : p.filter || 'none';
   const set = k => { el.style.backgroundImage = p.imgs.length ? `url(img/${p.imgs[k % p.imgs.length]}.jpg)` : 'none'; };

@@ -335,6 +335,7 @@ body.color .card:nth-child(3n) .c-yr{background:var(--navy);color:#fff}
 .t-img::after{content:"";position:absolute;inset:0;background:var(--strip,var(--ac));mix-blend-mode:color;opacity:.9}
 .t-img.logo{background-color:#fff;background-size:60%;background-position:center;background-repeat:no-repeat}
 .t-img.logo::after{display:none}
+.t-globe{position:absolute;right:-34px;bottom:-34px;width:150px;height:150px;z-index:5;filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));pointer-events:none}
 .t-img.pipe{background:linear-gradient(160deg,color-mix(in srgb,var(--ac) 35%,#000),#0a0620)}
 .t-img.pipe::after{display:none}
 .t-pipe{position:absolute;inset:0;display:grid;place-content:center;gap:10px;padding:18px;z-index:2}

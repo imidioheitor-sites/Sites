@@ -260,6 +260,15 @@ function maybeRevert() {
 /* ═════════ Layout por scroll ═════════ */
 const hero = $('#hero'), heroSt = n => { ['st1', 'st2', 'st3'].forEach((c, i) => hero.classList.toggle(c, i + 1 === n)); };
 let heroNow = 1, ticking = false, lastY = -1;
+const HERO_SIMPLE = true;   // hero só com o vídeo (pedido do Heitor); estágios 2 e 3 ficam guardados no código
+if (HERO_SIMPLE) hero.classList.add('simple');
+(async () => { // vídeo do hero: coloque em video/hero.mp4 (ele olhando o cursor e depois trabalhando). Sem arquivo, fica a foto.
+  try {
+    const r = await fetch('video/hero.mp4', { method: 'HEAD' }); if (!r.ok || !/video/.test(r.headers.get('content-type') || '')) return;
+    const v = $('#heroVideo'); v.src = 'video/hero.mp4'; v.hidden = false; hero.classList.add('has-video');
+    v.play().catch(() => {}); v.addEventListener('error', () => { v.hidden = true; hero.classList.remove('has-video'); });
+  } catch (e) {}
+})();
 function sectionAt() {
   const mid = scrollY + innerHeight * .5;
   for (const id of ['contact', 'tech', 'proj', 'ach', 'hero']) { const el = $('#' + id); if (mid >= el.offsetTop) return id; }
@@ -277,8 +286,8 @@ function layout() {
   $('#progress i').style.transform = `scaleX(${clamp(y / (document.documentElement.scrollHeight - H), 0, 1)})`;
   const sec = sectionAt();
   // hero em estágios
-  const span = hero.offsetHeight - H, p = clamp(y / span, 0, 1);
-  const st = p < .2 ? 1 : p < .5 ? 2 : 3;
+  const span = Math.max(1, hero.offsetHeight - H), p = HERO_SIMPLE ? 0 : clamp(y / span, 0, 1);
+  const st = HERO_SIMPLE ? 1 : p < .2 ? 1 : p < .5 ? 2 : 3;
   if (st !== heroNow) { heroNow = st; heroSt(st); if (document.body.classList.contains('in')) { Sfx.play(st === 1 ? 'whooshdown' : 'whoosh', { vol: .35 }); } }
   $('#heroStep').textContent = `0${st} / 03`;
   $('#blurwin').style.setProperty('--wx', (-6 + clamp((p - .2) / .3, 0, 1) * 14) + 'vh');

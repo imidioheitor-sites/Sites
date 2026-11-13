@@ -103,6 +103,17 @@ const MOS = [['projetei-4', LANG === 'pt' ? 'Laboratório de impressão 3D' : '3
   ['projetei-8', 'B.LAB'], ['projetei-1', LANG === 'pt' ? 'Honra ao Mérito · Câmara de Goiânia' : 'Honor of Merit · Goiânia City Council'], ['projetei-9', LANG === 'pt' ? 'Crianças e brinquedos' : 'Kids and toys'], ['gala-5', LANG === 'pt' ? 'Gala do Prep' : 'Prep Gala']];
 $('#mosaic').innerHTML = MOS.map(([im, c]) => `<figure class="tile"><img src="img/${im}.jpg" alt="" loading="lazy"><span>${c}</span></figure>`).join('');
 
+/* ═════════ Galeria de momentos (fotos novas, legendas só com fatos confirmados) ═════════ */
+const GAL = [
+  ['orion', LANG === 'pt' ? 'Órion Business & Health Complex' : 'Órion Business & Health Complex', 'Heitor de blazer laranja e óculos em frente ao Órion Business & Health Complex', '50% 30%'],
+  ['embraer-ita', LANG === 'pt' ? 'Ao lado de fuselagem Embraer · ITA' : 'Next to an Embraer · ITA fuselage', 'Heitor sentado ao lado de uma fuselagem de avião Embraer', '50% 55%'],
+  ['sala-apresentacao', LANG === 'pt' ? 'Apresentando a parte experimental' : 'Presenting the experimental part', 'Heitor apresentando em sala diante de um slide sobre a parte experimental', '50% 40%'],
+  ['zurique-rio', LANG === 'pt' ? 'Zurique, Suíça' : 'Zurich, Switzerland', 'Heitor de jaqueta vermelha à beira do rio em Zurique', '50% 45%'],
+  ['zurique-museu', LANG === 'pt' ? 'Museu Nacional Suíço, Zurique' : 'Swiss National Museum, Zurich', 'Heitor de jaqueta vermelha no pátio do Museu Nacional Suíço, em Zurique', '50% 60%'],
+  ['sala-1', LANG === 'pt' ? 'Em sala de aula' : 'In the classroom', 'Heitor de blazer preto em sala de aula', '50% 30%'],
+  ['sala-2', LANG === 'pt' ? 'Em sala de aula' : 'In the classroom', 'Heitor de blazer preto em sala de aula, mãos sob o queixo', '50% 40%']];
+$('#gallery').innerHTML = GAL.map(([im, c, alt, pos]) => `<figure class="gtile"><img src="img/${im}.jpg" alt="${alt}" loading="lazy" style="object-position:${pos}"><span>${c}</span></figure>`).join('');
+
 /* ═════════ Muon ═════════ */
 let muon = null;
 try { muon = initMuon($('#chCanvas'), { onHit: n => { $('#chCount').textContent = 'μ⁻ ' + String(n).padStart(2, '0'); } }); } catch (e) {}

@@ -236,14 +236,6 @@ window.SITE = (function () {
       text: { pt: 'Uma fábrica automatizada: prospecta pequenos negócios, gera sites sob medida com vídeo por IA, vende e acompanha o pós-venda. Seller, Coder, Reacher, Watchdog e Verifier trabalham juntos.', en: 'An automated factory: it prospects small businesses, generates custom sites with AI video, sells and handles after-sales. Seller, Coder, Reacher, Watchdog and Verifier work together.' },
       tags: ['n8n', 'Multiagente', 'WebGL'],
       imgs: [], pipeline: true, theme: { bg: '#120a2e', fg: '#f5f1ff', ac: '#8a63ff', ac2: '#3ddc97', strip: '#8a63ff' }, filter: 'none'
-    },
-    {
-      id: 'aero', word: 'AERO', num: '08',
-      title: { pt: 'Foguetes e aeroespacial', en: 'Rockets & aerospace' },
-      sub: { pt: 'Antares Rocketry · propulsão · Notre Dame', en: 'Antares Rocketry · propulsion · Notre Dame' },
-      text: { pt: 'Testes de motor de foguete a propelente sólido, foguetemodelismo e agora IrishSAT, Baja SAE e UAV em Notre Dame. O próximo passo é pesquisa em Aeroespacial.', en: 'Solid-propellant rocket-motor tests, model rocketry and now IrishSAT, Baja SAE and UAV at Notre Dame. Next step: Aerospace research.' },
-      tags: ['Propulsão', 'CubeSat', 'UAV'],
-      imgs: ['iypt-3', 'harvard-3', 'cern-4'], theme: { bg: '#e9e6e1', fg: '#0c0c0d', ac: '#e11d2e', ac2: '#0b1b4d', strip: '#0b1b4d' }, filter: 'grayscale(1) contrast(1.15)'
     }
   ];
 

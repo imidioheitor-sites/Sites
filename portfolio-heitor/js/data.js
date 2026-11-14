@@ -163,7 +163,7 @@ window.SITE = (function () {
     },
     {
       id: 'debate', cat: 'lead', tag: { pt: 'Harvard · Panamá · Brasil', en: 'Harvard · Panama · Brazil' }, yr: '2024–2026',
-      imgs: ['hacia-1', 'harvard-2', 'harvard-4', 'harvard-5'],
+      imgs: ['hacia-1', 'harvard-2', 'harvard-cert', 'harvard-4', 'harvard-5'],
       title: { pt: 'Best Delegate no Harvard Summit of the Americas', en: 'Best Delegate at Harvard Summit of the Americas' },
       meta: { pt: 'HACIA, Panamá · Team Brazil de debate em Harvard', en: 'HACIA, Panama · Team Brazil debate at Harvard' },
       did: { pt: 'Melhor delegado no HACIA (Panamá), integrante do Team Brazil de debate em Harvard e premiado em MUNs (Best, Outstanding, Honorable). Também organizo o Debate para Todos.', en: 'Best Delegate at HACIA (Panama), member of Team Brazil debate at Harvard and awarded at MUNs (Best, Outstanding, Honorable). I also help run Debate for All.' },

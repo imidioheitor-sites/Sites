@@ -198,15 +198,7 @@ window.SITE = (function () {
       imgs: ['iypt-1', 'iypt-3', 'iypt-2'], theme: { bg: '#0b1b4d', fg: '#f3f1ff', ac: '#ff6a2b', ac2: '#ffb199', strip: '#ff6a2b' }, filter: 'grayscale(1) contrast(1.1)'
     },
     {
-      id: 'ifood', word: 'iFOOD', num: '03',
-      title: { pt: 'Agente de IA nacional', en: 'Nationwide AI agent' },
-      sub: { pt: 'Estágio de Engenharia de IA · 05–09/2026', en: 'AI Engineering internship · 05–09/2026' },
-      text: { pt: 'Um agente de IA construído e colocado em produção, usado em todo o Brasil pelas operações do iFood. Aprendi o que uma demo precisa para virar produto.', en: 'An AI agent built and shipped to production, used across Brazil by iFood operations. I learned what a demo needs to become a product.' },
-      tags: ['LLM agents', 'Produção', 'Python'],
-      imgs: ['ifood-logo'], logo: true, theme: { bg: '#b0121e', fg: '#fff5f3', ac: '#ffd23f', ac2: '#ffffff', strip: '#ffffff' }, filter: 'none'
-    },
-    {
-      id: 'projetei', word: 'PROJETEI', num: '04',
+      id: 'projetei', word: 'PROJETEI', num: '03',
       title: { pt: 'Projetei · brinquedos em 3D', en: 'Projetei · 3D-printed toys' },
       sub: { pt: 'Cofundador e presidente · 110 pessoas', en: 'Co-founder & President · 110 people' },
       text: { pt: '1.500 brinquedos impressos em 3D de 2.000 inscrições, entregues a crianças em Goiás. Equipe de 110 pessoas, parceria com o poder público e Honra ao Mérito na Câmara Municipal.', en: '1,500 3D-printed toys from 2,000 applications, delivered to children in Goiás. A 110-person team, public-sector partnership and an Honor of Merit at the City Council.' },
@@ -214,28 +206,28 @@ window.SITE = (function () {
       imgs: ['projetei-5', 'projetei-6', 'projetei-4'], theme: { bg: '#fff1e6', fg: '#1b0f08', ac: '#ff4a1c', ac2: '#ff9a6b', strip: '#ff4a1c' }, filter: 'saturate(1.15)'
     },
     {
-      id: 'debate', word: 'DEBATE', num: '05', globe: true,
-      title: { pt: 'Debate e simulações da ONU', en: 'Debate & Model UN' },
-      sub: { pt: 'HACIA (Panamá) · Harvard · Team Brazil', en: 'HACIA (Panama) · Harvard · Team Brazil' },
-      text: { pt: 'Melhor delegado no HACIA, no Panamá, integrante do Team Brazil de debate em Harvard e premiado em vários MUNs. Também organizo o Debate para Todos.', en: 'Best Delegate at HACIA in Panama, member of Team Brazil debate at Harvard and awarded at several MUNs. I also organize Debate for All.' },
-      tags: ['MUN', 'Diplomacia', 'Inglês'],
-      imgs: ['hacia-1', 'harvard-cert', 'harvard-2'], theme: { bg: '#0b1b4d', fg: '#f3f1ff', ac: '#ff6a2b', ac2: '#ffb199', strip: '#ff6a2b' }, filter: 'grayscale(1) contrast(1.1)'
+      id: 'ifood', word: 'iFOOD', num: '04',
+      title: { pt: 'Agente de IA nacional', en: 'Nationwide AI agent' },
+      sub: { pt: 'Estágio de Engenharia de IA · 05–09/2026', en: 'AI Engineering internship · 05–09/2026' },
+      text: { pt: 'Um agente de IA construído e colocado em produção, usado em todo o Brasil pelas operações do iFood. Aprendi o que uma demo precisa para virar produto.', en: 'An AI agent built and shipped to production, used across Brazil by iFood operations. I learned what a demo needs to become a product.' },
+      tags: ['LLM agents', 'Produção', 'Python'],
+      imgs: ['ifood-logo'], logo: true, theme: { bg: '#b0121e', fg: '#fff5f3', ac: '#ffd23f', ac2: '#ffffff', strip: '#ffffff' }, filter: 'none'
     },
     {
-      id: 'speaking', word: 'PALCO', num: '06',
-      title: { pt: 'Public speaking', en: 'Public speaking' },
-      sub: { pt: 'Gala do Prep · Fundação Estudar', en: 'Prep gala · Fundação Estudar' },
-      text: { pt: 'Co-apresentador da gala de 15 anos do Prep para mais de 300 convidados, que ajudou a arrecadar cerca de R$ 2 milhões para a Fundação Estudar.', en: 'Co-host of the Prep 15th-anniversary gala for 300+ guests, which helped raise about R$ 2 million for Fundação Estudar.' },
-      tags: ['Palco', 'Mediação', '300+ pessoas'],
-      imgs: ['gala-1', 'gala-3', 'gala-4'], theme: { bg: '#e9e6e1', fg: '#0c0c0d', ac: '#e11d2e', ac2: '#0b1b4d', strip: '#0b1b4d' }, filter: 'grayscale(1) contrast(1.15)'
-    },
-    {
-      id: 'hesites', word: 'HEsites', num: '07',
+      id: 'hesites', word: 'HEsites', num: '05',
       title: { pt: 'HEsites · fábrica de sites com IA', en: 'HEsites · AI website factory' },
       sub: { pt: 'Produto próprio · n8n · multiagente', en: 'Own product · n8n · multi-agent' },
       text: { pt: 'Uma fábrica automatizada: prospecta pequenos negócios, gera sites sob medida com vídeo por IA, vende e acompanha o pós-venda. Seller, Coder, Reacher, Watchdog e Verifier trabalham juntos.', en: 'An automated factory: it prospects small businesses, generates custom sites with AI video, sells and handles after-sales. Seller, Coder, Reacher, Watchdog and Verifier work together.' },
       tags: ['n8n', 'Multiagente', 'WebGL'],
       imgs: [], pipeline: true, theme: { bg: '#120a2e', fg: '#f5f1ff', ac: '#8a63ff', ac2: '#3ddc97', strip: '#8a63ff' }, filter: 'none'
+    },
+    {
+      id: 'aero', word: 'AERO', num: '06',
+      title: { pt: 'Foguetes e aeroespacial', en: 'Rockets & aerospace' },
+      sub: { pt: 'Antares Rocketry · propulsão · Notre Dame', en: 'Antares Rocketry · propulsion · Notre Dame' },
+      text: { pt: 'Testes de motor de foguete a propelente sólido, foguetemodelismo e agora IrishSAT, Baja SAE e UAV em Notre Dame. O próximo passo é pesquisa em Aeroespacial.', en: 'Solid-propellant rocket-motor tests, model rocketry and now IrishSAT, Baja SAE and UAV at Notre Dame. Next step: Aerospace research.' },
+      tags: ['Propulsão', 'CubeSat', 'UAV'],
+      imgs: ['iypt-3', 'harvard-3', 'cern-4'], theme: { bg: '#e9e6e1', fg: '#0c0c0d', ac: '#e11d2e', ac2: '#0b1b4d', strip: '#0b1b4d' }, filter: 'grayscale(1) contrast(1.15)'
     }
   ];
 

@@ -45,6 +45,7 @@ let ink = null, inkReady = false;
 try {
   ink = new Ink($('#ink-bg'), { paper: '#ecebe7', ink: '#111', lineWidth: 1.15, parallax: 0.025 });
   ink.show('astro', 'models/astronaut.glb').then(() => { inkReady = true; layout(); }).catch(e => console.warn('ink', e));
+  ink.enableDrag(window);
 } catch (e) { console.warn('WebGL indisponível', e); }
 
 /* ═════════ Conquistas (carrossel) ═════════ */
@@ -100,7 +101,7 @@ updateBar();
 /* ═════════ Projetos: mosaico ═════════ */
 const MOS = [['projetei-4', LANG === 'pt' ? 'Laboratório de impressão 3D' : '3D printing lab'], ['projetei-6', LANG === 'pt' ? 'Peças impressas' : 'Printed parts'], ['projetei-7', LANG === 'pt' ? 'Robótica FTC' : 'FTC robotics'],
   ['projetei-8', 'B.LAB'], ['projetei-1', LANG === 'pt' ? 'Honra ao Mérito · Câmara de Goiânia' : 'Honor of Merit · Goiânia City Council'], ['projetei-9', LANG === 'pt' ? 'Crianças e brinquedos' : 'Kids and toys'], ['gala-5', LANG === 'pt' ? 'Gala do Prep' : 'Prep Gala']];
-if ($('#mosaic')) $('#mosaic').innerHTML = MOS.map(([im, c]) => `<figure class="tile"><img src="img/${im}.jpg" alt="" loading="lazy"><span>${c}</span></figure>`).join('');
+$('#mosaic').innerHTML = MOS.map(([im, c]) => `<figure class="tile"><img src="img/${im}.jpg" alt="" loading="lazy"><span>${c}</span></figure>`).join('');
 
 /* ═════════ Galeria de momentos (fotos novas, legendas só com fatos confirmados) ═════════ */
 const GAL = [
@@ -124,10 +125,10 @@ let ink2 = null;
 try {
   ink2 = new Ink($('#ink-panel'), { paper: '#e4e2dc', ink: '#111', lineWidth: 1.2, spin: 10, parallax: 0.02 });
   ink2.pose = Object.assign(ink2.pose, { az: -35, el: 14, dist: 1.1 }); Object.assign(ink2.cam, ink2.pose);
-  ink2.show('rocket', 'models/astronaut.glb'); ink2.enableDrag($('#inkStage')); ink2.active = false;
+  ink2.show('astro', 'models/astronaut.glb'); ink2.enableDrag($('#inkStage')); ink2.active = false;
   new IntersectionObserver(e => { ink2.active = e[0].isIntersecting; }, { rootMargin: '100px' }).observe($('#inkStage'));
 } catch (e) { console.warn(e); }
-const CAPS = { astro: 'ASTRONAUT · NASA (CC BY)', jet: LANG === 'pt' ? 'CAÇA · MODELO PROCEDURAL' : 'FIGHTER · PROCEDURAL MODEL', rocket: LANG === 'pt' ? 'FOGUETE · MODELO PROCEDURAL (provisório)' : 'ROCKET · PROCEDURAL MODEL (placeholder)' };
+const CAPS = { astro: 'ASTRONAUT · NASA (CC BY)', jet: LANG === 'pt' ? 'CAÇA · MODELO PROCEDURAL' : 'FIGHTER · PROCEDURAL MODEL', rocket: LANG === 'pt' ? 'FOGUETE · MODELO PROCEDURAL' : 'ROCKET · PROCEDURAL MODEL' };
 $$('#inkModels button').forEach(b => b.addEventListener('click', async () => {
   if (!ink2) return; Sfx.play('click', { vol: .5 }); $$('#inkModels button').forEach(x => x.classList.toggle('on', x === b));
   await ink2.show(b.dataset.m, 'models/astronaut.glb'); $('#inkCap').textContent = CAPS[b.dataset.m]; Sfx.play('glitch', { vol: .25 });
@@ -158,28 +159,9 @@ function pipeHTML() {
   const rows = [['SELLER', 'prospecta'], ['CODER', 'gera o site'], ['REACHER', 'avisa o dono'], ['WATCHDOG', 'vigia'], ['VERIFIER', 'melhora']];
   return `<div class="t-pipe">${rows.map(r => `<div>${r[0]}<i>${r[1]}</i></div>`).join('')}</div>`;
 }
-let globeRAF = 0;
-function stopGlobe() { cancelAnimationFrame(globeRAF); globeRAF = 0; }
-function startGlobe(cv) {
-  const S = 220, dpr = Math.min(devicePixelRatio || 1, 2); cv.width = cv.height = S * dpr; const g = cv.getContext('2d'); g.scale(dpr, dpr);
-  const R = 92, pts = []; for (let i = 0; i < 520; i++) { const y = 1 - 2 * (i + .5) / 520, r = Math.sqrt(1 - y * y), a = i * 2.39996; pts.push([Math.cos(a) * r, y, Math.sin(a) * r]); }
-  const proj = (x, y, z, rot, tilt) => { const c = Math.cos(rot), s = Math.sin(rot), x1 = x * c + z * s, z1 = -x * s + z * c, ct = Math.cos(tilt), st = Math.sin(tilt); return [x1, y * ct - z1 * st, y * st + z1 * ct]; };
-  let t0 = performance.now();
-  const draw = now => {
-    const rot = (now - t0) / 4200; g.clearRect(0, 0, S, S); g.strokeStyle = '#fff'; g.fillStyle = '#fff'; g.lineWidth = 1;
-    g.globalAlpha = .9; g.beginPath(); g.arc(S / 2, S / 2, R, 0, 7); g.stroke();
-    g.globalAlpha = .3; for (let la = -60; la <= 60; la += 30) { g.beginPath(); for (let k = 0; k <= 64; k++) { const lo = k / 64 * Math.PI * 2, [x, y, z] = proj(Math.cos(la * Math.PI / 180) * Math.cos(lo), Math.sin(la * Math.PI / 180), Math.cos(la * Math.PI / 180) * Math.sin(lo), rot, .35); if (z > 0) g.lineTo(S / 2 + x * R, S / 2 - y * R); else g.moveTo(S / 2 + x * R, S / 2 - y * R); } g.stroke(); }
-    pts.forEach(p => { const [x, y, z] = proj(p[0], p[1], p[2], rot, .35); if (z > 0) { g.globalAlpha = .25 + .6 * z; g.fillRect(S / 2 + x * R - 1, S / 2 - y * R - 1, 2, 2); } });
-    globeRAF = requestAnimationFrame(draw);
-  };
-  globeRAF = requestAnimationFrame(draw);
-}
 function setStrip(p, i) {
-  stopGlobe(); $('#tGlobe')?.remove();
-  if (p.globe) { const cv = document.createElement('canvas'); cv.id = 'tGlobe'; cv.className = 't-globe'; cv.setAttribute('aria-label', 'Globo girando'); $('#tStrip').appendChild(cv); if (!RM) startGlobe(cv); else startGlobe(cv); }
   const el = $('#tImg'); el.className = 't-img' + (p.logo ? ' logo' : '') + (p.pipeline ? ' pipe' : ''); el.innerHTML = p.pipeline ? pipeHTML() : '';
   el.style.filter = p.pipeline || p.logo ? 'none' : p.filter || 'none';
-  el.classList.remove('slide'); void el.offsetWidth; el.classList.add('slide');
   const set = k => { el.style.backgroundImage = p.imgs.length ? `url(img/${p.imgs[k % p.imgs.length]}.jpg)` : 'none'; };
   set(0); clearInterval(imgTimer); if (p.imgs.length > 1) { let k = 0; imgTimer = setInterval(() => { k++; el.style.opacity = 0; setTimeout(() => { set(k); el.style.opacity = 1; }, 450); }, 3600); }
 }
@@ -253,25 +235,16 @@ async function ignite(replay) {
 }
 $('#btnReignite').onclick = () => { Sfx.play('click', { vol: .5 }); ignite(true); };
 function maybeRevert() {
-  const top = $('#tech').offsetTop;
+  const top = $('#ach').offsetTop;
   if (lit && !igniting && scrollY < top - innerHeight * 1.1) { lit = false; document.body.classList.remove('color'); document.body.classList.add('bw'); $$('.lit').forEach(e => e.classList.remove('lit')); layout(); }
 }
 
 /* ═════════ Layout por scroll ═════════ */
 const hero = $('#hero'), heroSt = n => { ['st1', 'st2', 'st3'].forEach((c, i) => hero.classList.toggle(c, i + 1 === n)); };
 let heroNow = 1, ticking = false, lastY = -1;
-const HERO_SIMPLE = true;   // hero só com o vídeo (pedido do Heitor); estágios 2 e 3 ficam guardados no código
-if (HERO_SIMPLE) hero.classList.add('simple');
-(async () => { // vídeo do hero: coloque em video/hero.mp4 (ele olhando o cursor e depois trabalhando). Sem arquivo, fica a foto.
-  try {
-    const r = await fetch('video/hero.mp4', { method: 'HEAD' }); if (!r.ok || !/video/.test(r.headers.get('content-type') || '')) return;
-    const v = $('#heroVideo'); v.src = 'video/hero.mp4'; v.hidden = false; hero.classList.add('has-video');
-    v.play().catch(() => {}); v.addEventListener('error', () => { v.hidden = true; hero.classList.remove('has-video'); });
-  } catch (e) {}
-})();
 function sectionAt() {
   const mid = scrollY + innerHeight * .5;
-  for (const id of ['contact', 'me', 'proj', 'tech', 'hero']) { const el = $('#' + id); if (mid >= el.offsetTop) return id; }
+  for (const id of ['contact', 'tech', 'proj', 'ach', 'hero']) { const el = $('#' + id); if (mid >= el.offsetTop) return id; }
   return 'hero';
 }
 function updateNav() {
@@ -286,8 +259,8 @@ function layout() {
   $('#progress i').style.transform = `scaleX(${clamp(y / (document.documentElement.scrollHeight - H), 0, 1)})`;
   const sec = sectionAt();
   // hero em estágios
-  const span = Math.max(1, hero.offsetHeight - H), p = HERO_SIMPLE ? 0 : clamp(y / span, 0, 1);
-  const st = HERO_SIMPLE ? 1 : p < .2 ? 1 : p < .5 ? 2 : 3;
+  const span = hero.offsetHeight - H, p = clamp(y / span, 0, 1);
+  const st = p < .2 ? 1 : p < .5 ? 2 : 3;
   if (st !== heroNow) { heroNow = st; heroSt(st); if (document.body.classList.contains('in')) { Sfx.play(st === 1 ? 'whooshdown' : 'whoosh', { vol: .35 }); } }
   $('#heroStep').textContent = `0${st} / 03`;
   $('#blurwin').style.setProperty('--wx', (-6 + clamp((p - .2) / .3, 0, 1) * 14) + 'vh');
@@ -310,7 +283,7 @@ function layout() {
 function onScroll() { if (ticking) return; ticking = true; requestAnimationFrame(() => { ticking = false; layout(); }); }
 addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { layoutTech(techIdx); layout(); });
 // acender ao chegar na seção 02
-new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && document.body.classList.contains('in') && !document.body.classList.contains('building')) ignite(); }), { threshold: .0, rootMargin: '0px 0px -45% 0px' }).observe($('#tech'));
+new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && document.body.classList.contains('in') && !document.body.classList.contains('building')) ignite(); }), { threshold: .0, rootMargin: '0px 0px -45% 0px' }).observe($('#ach .ach-top'));
 
 /* ═════════ Nav ═════════ */
 $$('.links a, .logo').forEach(a => a.addEventListener('click', e => {
@@ -353,25 +326,22 @@ async function buildWithCursors(opts = {}) {
   document.body.classList.add('building', 'locked'); scrollTo(0, 0);
   S.start({ sound: Sfx.on, speed: opts.speed || 1.6, agents: opts.agents || 14, tour: false });
   grayscaleSwarm();
-  { const hh = document.querySelector('[data-swarm-ignore]'); if (hh) hh.style.pointerEvents = 'none'; const sr0 = hh && hh.shadowRoot; if (sr0) { const st = document.createElement('style'); st.textContent = '.hud,.intro{display:none!important}.root,.root.on{pointer-events:none!important}'; sr0.appendChild(st); } }
   // fecha sozinho quando termina (botão "Go live" aparece)
   const host = document.querySelector('[data-swarm-ignore]'); const sr = host && host.shadowRoot;
   let tries = 0;
   await new Promise(res => {
     const iv = setInterval(() => {
       tries++; const live = sr && sr.querySelector('[data-a="live"]'); const gone = !document.querySelector('[data-swarm-ignore]');
-      if (gone || (live && !live.hidden) || tries > 180) { clearInterval(iv); if (live && !live.hidden) live.click(); res(); }
+      if (gone || (live && !live.hidden) || tries > 180) { clearInterval(iv); res(); }
     }, 400);
   });
-  await wait(500); S.stop(); await wait(600);
-  document.documentElement.classList.remove('swarm-hide'); $$('[data-swarm-ignore]').forEach(e => e.remove()); // garante que nada fica na frente da página
-  document.body.classList.remove('building', 'locked'); layout();
+  await wait(500); S.stop(); document.body.classList.remove('building', 'locked'); layout();
 }
 function loadFx(list) {
   return Promise.all(list.map(n => new Promise(res => { const s = document.createElement('script'); s.src = `fx/${n}.js`; s.onload = s.onerror = res; document.body.appendChild(s); })));
 }
 async function boot() {
-  $$('#proj').forEach(s => { s.dataset.clickSpark = ''; s.dataset.color = '#ff4a1c'; });
+  $$('#ach, #proj').forEach(s => { s.dataset.clickSpark = ''; s.dataset.color = '#ff4a1c'; });
   $$('.glassbtn,.t-btn').forEach(b => b.dataset.magnet = '');
   await loadFx(['circular-text', 'glare-hover', 'magnet', 'click-spark', 'noise', 'curved-loop', 'cubes', 'swarm-build']);
   mkCubes(); if (cubes) cubes.update({ faceColor: TECH[Math.max(techIdx, 0)].theme.face, edgeColor: TECH[Math.max(techIdx, 0)].theme.edge, faceOpacity: TECH[Math.max(techIdx, 0)].theme.fo });
@@ -393,26 +363,3 @@ if (FAST || qs.get('l')) {
 }
 const bs=$('#btnSwarm'); bs&&bs.addEventListener('click',async()=>{ if(document.body.classList.contains('building'))return; Sfx.play('click'); await buildWithCursors(); layout(); });
 window.__hi = { ignite, setProject, ink, ink2, layout };
-
-/* ═════════ Websites na tela do Mac (liquid glass) ═════════ */
-(() => {
-  const X = window.SITE_EXTRAS || {}, list = X.sites || []; const tabs = $('#macTabs'), fr = $('#macFrame'), url = $('#macUrl');
-  if (!tabs || !list.length) return;
-  tabs.innerHTML = list.map((s, i) => `<button class="${i ? '' : 'on'}" data-i="${i}">${s.name}</button>`).join('');
-  const go = i => { fr.src = list[i].url; url.textContent = list[i].url.replace(/^https?:\/\//, ''); $$('button', tabs).forEach((b, k) => b.classList.toggle('on', k === i)); };
-  $$('button', tabs).forEach(b => b.addEventListener('click', () => { Sfx.play('click', { vol: .5 }); go(+b.dataset.i); }));
-  new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { go(0); o.disconnect(); } }, { rootMargin: '300px' }).observe($('#macpanel'));
-})();
-
-/* ═════════ Contato: apps do iPhone ═════════ */
-(() => {
-  const X = window.SITE_EXTRAS || {}, apps = $('#ipApps'); if (!apps) return;
-  const ic = {
-    instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg>',
-    whatsapp: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8 1-.3.2-.5.1a6.600 6.600 0 0 1-3.300-2.900c-.2-.4.2-.4.700-1.300.1-.2 0-.3 0-.4s-.5-1.300-.7-1.800c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.800 2.800 0 0 0-.9 2.100 4.900 4.900 0 0 0 1 2.600 11.200 11.200 0 0 0 4.300 3.800c1.600.7 2.200.7 3 .6a2.500 2.500 0 0 0 1.700-1.200 2 2 0 0 0 .1-1.200c-.1-.1-.2-.2-.5-.3Z"/></svg>',
-    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
-    linkedin: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M4.500 3A2 2 0 1 0 4.500 7 2 2 0 0 0 4.500 3ZM3 9h3v12H3Zm6 0h2.900v1.700c.5-.9 1.700-2 3.600-2 3.500 0 4 2.300 4 5.300V21h-3v-6c0-1.400 0-3.200-2-3.200s-2.300 1.500-2.300 3.100V21H9Z"/></svg>'
-  };
-  const items = [['instagram', 'Instagram', X.instagram, 'linear-gradient(45deg,#f9a03c,#e1306c,#6b3cff)'], ['whatsapp', 'WhatsApp', X.whatsapp, '#25d366'], ['mail', 'E-mail', 'mailto:himidio@nd.edu', '#3b82f6'], ['linkedin', 'LinkedIn', 'https://www.linkedin.com/in/heitor-imidio/', '#0a66c2']];
-  apps.innerHTML = items.map(([k, n, href, bg]) => `<${href ? `a href="${href}" ${href.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}` : 'span aria-disabled="true"'} class="ip-app${href ? '' : ' off'}"><i style="background:${bg}">${ic[k]}</i><em>${n}</em></${href ? 'a' : 'span'}>`).join('');
-})();

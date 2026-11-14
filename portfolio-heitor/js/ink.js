@@ -219,7 +219,7 @@ export class Ink {
     el.addEventListener('pointermove', e => { if (!this.drag) return; this.userAz -= (e.clientX - this.drag.x) * 0.45; this.userEl = Math.max(-50, Math.min(50, this.userEl + (e.clientY - this.drag.y) * 0.3)); this.drag = { x: e.clientX, y: e.clientY }; });
     const up = () => { this.drag = null; };
     el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
-    el.addEventListener('wheel', e => { if (!e.ctrlKey) return; /* só com Ctrl: a roda normal rola a página */ e.preventDefault(); this.zoom = Math.max(0.55, Math.min(1.8, this.zoom * (1 + e.deltaY * 0.001))); }, { passive: false });
+    el.addEventListener('wheel', e => { if (!e.ctrlKey && Math.abs(e.deltaY) < 1) return; e.preventDefault(); this.zoom = Math.max(0.55, Math.min(1.8, this.zoom * (1 + e.deltaY * 0.001))); }, { passive: false });
   }
   _loop() {
     requestAnimationFrame(this._loop);

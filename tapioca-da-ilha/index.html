@@ -48,23 +48,6 @@ h2{font-size:clamp(2.2rem,5.6vw,4.6rem);font-weight:800}
 body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;opacity:.06;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* ---------- na chapa (vídeos) ---------- */
-.chapa{background:var(--noite);color:var(--goma);padding:110px 0 120px;overflow:hidden}
-.chapa .linha{display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:center}
-.chapa .linha+.linha{margin-top:70px}
-.chapa .linha.inversa{grid-template-columns:1fr 1.1fr}
-.chapa .tela{margin:0;position:relative}
-.chapa video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--noite);
-  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%)}
-.chapa figcaption{font-size:.8rem;opacity:.55;text-align:center;margin-top:4px}
-.chapa h2{font-size:clamp(2.1rem,4.4vw,3.8rem)}
-.chapa h3{font-size:clamp(1.7rem,3vw,2.6rem);font-weight:800;margin:6px 0 12px}
-.passos-chapa{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px;counter-reset:p}
-.passos-chapa li{counter-increment:p;position:relative;padding-left:44px;opacity:.88}
-.passos-chapa li::before{position:absolute;left:0;top:-4px;content:"0" counter(p);font-family:var(--fs);color:#ffb3bf;font-size:1.5rem;text-shadow:0 0 10px var(--neon)}
-.chapa .btn{margin-top:20px}
-@media (max-width:860px){.chapa{padding:80px 0 90px}.chapa .linha,.chapa .linha.inversa{grid-template-columns:1fr;gap:18px}.chapa .linha.inversa .tela{order:-1}}
-
 /* ---------- topo fixo ---------- */
 .topo{position:fixed;inset:12px 12px auto;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:10px 12px 10px 18px;border-radius:999px;background:rgba(22,18,60,.78);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
@@ -150,7 +133,7 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 .cardapio{padding:110px 0;background:var(--noite);color:var(--goma);position:relative;overflow:hidden}
 .cardapio .raios{position:absolute;inset:0 0 auto;height:min(900px,100%);pointer-events:none;opacity:.85}
 .cardapio .wrap{position:relative;z-index:1}
-.abertura h1 .gira{display:inline-block;min-width:8ch}
+.abertura h1 .gira{display:inline-block;min-width:8ch}@media (min-width:700px){.abertura h1 .gira{white-space:nowrap}}
 .cardapio::before{content:"";position:absolute;inset:-20% -10% auto;height:520px;background:radial-gradient(50% 50% at 50% 50%,rgba(255,45,75,.18),transparent 70%);pointer-events:none}
 .cab{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:20px;margin-bottom:34px;position:relative}
 .cab p{max-width:46ch;opacity:.78;margin:12px 0 0}
@@ -295,6 +278,103 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 .cur-p{width:6px;height:6px;background:var(--neon)}
 @media (hover:none),(pointer:coarse){.cur,.cur-p{display:none}}
 
+/* ===================== LIQUID GLASS (17/11) ===================== */
+body{background:var(--noite)}
+.fundo-vivo{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.abertura,.corrido{position:relative;z-index:1}
+.massas,.cardapio,.provas,.pedir,.onde{background:transparent!important;color:var(--goma)}
+.cardapio::before{display:none}
+.dia{background:transparent}
+.dia .ceu{opacity:.78}
+.rodape-site{background:rgba(14,11,41,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.glass-surface.vidro>.glass-surface__content{display:block;width:100%;height:100%;padding:0;text-align:left;border-radius:inherit}
+.vidro{color:var(--goma)}
+/* massas */
+.vitrine{min-height:380px;padding:40px;display:block}
+.vitrine>.glass-surface__content{display:flex!important;flex-direction:column;justify-content:flex-end;gap:8px}
+.vit-k{margin:0;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
+.vit-nome{margin:0;font-family:var(--fs);font-size:clamp(4rem,10vw,8rem);line-height:.9;color:#ffe9ec;text-shadow:0 0 4px #fff,0 0 18px var(--neon),0 0 50px var(--neon)}
+.vit-sub{margin:0;opacity:.75}
+.massas .grade{align-items:stretch}
+.troca{background:transparent;border:0;color:var(--goma);padding:0;min-height:46px}
+.troca>.glass-surface__content{gap:10px;padding:0 16px 0 12px;white-space:nowrap}
+.troca[aria-pressed="true"]{background:transparent;box-shadow:0 0 0 2px var(--neon),0 0 24px rgba(255,45,75,.55);color:#fff}
+.desde div{background:transparent;border:0;padding:0}
+.desde .vidro>.glass-surface__content{padding:16px 16px 14px}
+.massa-txt{opacity:.85}
+/* cardápio */
+.item{background:rgba(255,255,255,.05);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 18px 40px -24px rgba(0,0,0,.6)}
+.item h3{margin-top:4px}
+/* dia */
+.momento{padding:30px;color:inherit}
+.momento.glass-surface>.glass-surface__content{padding:0}
+.momento .glass-surface__content{color:inherit}
+@media (max-width:760px){.momento{padding:22px}}
+/* provas */
+.velo{font-family:var(--fs);font-size:clamp(34px,5vw,56px);color:#ffd5db;filter:drop-shadow(0 0 8px rgba(255,45,75,.85));margin:6px 0 30px;white-space:nowrap;overflow:hidden}
+.fala{background:transparent;border:0;padding:0;display:block}
+.fala>.glass-surface__content{display:flex!important;flex-direction:column;gap:14px;padding:24px!important}
+/* pedir */
+.passo{background:transparent;border:0;padding:0}
+.passo>.glass-surface__content{padding:28px 24px 26px!important}
+.btn-vidro{color:#fff;background:transparent;padding:0;min-height:54px;border:0}
+.btn-vidro>.glass-surface__content{padding:0 24px;white-space:nowrap;font-weight:700}
+/* onde */
+.onde .painel{padding:0;margin-top:28px}
+.onde .painel>.glass-surface__content{display:grid!important;gap:18px;padding:26px!important}
+/* topo */
+.topo.glass-surface{position:fixed;background:transparent;border:0;padding:0;min-height:60px;overflow:hidden}
+.topo>.glass-surface__content{justify-content:space-between;gap:12px;padding:0 8px 0 20px}
+/* enxame */
+.enxame{background:none;border:0;color:inherit;text-decoration:underline;text-underline-offset:3px;padding:0;font:inherit;cursor:pointer}
+
+/* foto na chapa */
+.foto-chapa{position:relative;min-height:92svh;display:grid;align-items:end;overflow:hidden;color:var(--goma)}
+.fc-fig{position:absolute;inset:0;margin:0}
+.fc-fig img{width:100%;height:115%;object-fit:cover;object-position:50% 40%;display:block}
+.fc-fig::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,11,41,.35),rgba(14,11,41,.05) 40%,rgba(14,11,41,.75))}
+.fc-fig figcaption{position:absolute;right:16px;bottom:12px;z-index:2;font-size:.78rem;opacity:.75}
+.fc-wrap{position:relative;z-index:2;padding:0 0 70px}
+.fc-card{max-width:520px;padding:0}
+.fc-card>.glass-surface__content{padding:30px!important}
+.fc-card h2{font-size:clamp(2rem,4vw,3.4rem);margin:8px 0 12px}
+.fc-card p{margin:0 0 18px;opacity:.88}
+/* vitrine com foto */
+.vit-foto{position:relative;margin:0;border-radius:34px;overflow:hidden;min-height:560px;display:flex;align-items:flex-end;padding:18px}
+.vit-foto>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vit-foto .vitrine{position:relative;min-height:0;width:100%;padding:0}
+.vit-foto .vitrine>.glass-surface__content{padding:22px 24px!important}
+.vit-foto .vit-nome{font-size:clamp(3.2rem,6vw,5rem)}
+.vit-foto figcaption{position:absolute;left:20px;top:16px;font-size:.78rem;background:rgba(14,11,41,.6);padding:6px 10px;border-radius:10px}
+@media (max-width:900px){.vit-foto{min-height:460px}}
+/* mercado */
+.busca{display:block;min-height:54px;margin:0 0 16px;max-width:560px}
+.busca>.glass-surface__content{padding:0 20px!important;display:flex!important}
+.busca input{width:100%;background:transparent;border:0;outline:0;color:var(--goma);font:inherit;font-size:1rem;height:54px}
+.busca input::placeholder{color:rgba(245,237,220,.6)}
+.cat-tag{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#ff8a9c}
+.preco{font-weight:800;font-size:1.02rem;margin-top:6px}
+.obs a{color:#ffb3be}
+/* carrinho em vidro */
+.gaveta{background:rgba(22,18,60,.78);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);color:var(--goma);border-left:1px solid rgba(255,255,255,.14)}
+.gaveta header,.gaveta form{border-color:rgba(255,255,255,.12)}
+.gaveta .fecha{background:rgba(255,255,255,.1)!important;color:var(--goma)}
+.gaveta input[type=text]{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:var(--goma)}
+.gaveta input::placeholder{color:rgba(245,237,220,.5)}
+.gaveta .op{border:0;padding:0;margin:0}
+.gaveta .op legend{font-size:.82rem;font-weight:700;margin-bottom:6px}
+.gaveta .chip span{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18);color:var(--goma)}
+.gaveta .chip input:checked+span{background:var(--neon);border-color:var(--neon);color:#fff}
+.gaveta .lista{max-height:none}
+.linha-item{border-color:rgba(255,255,255,.14)}
+.gaveta .tira{color:var(--goma)}
+.total{margin:4px 0 0;font-weight:700;font-size:.92rem;opacity:.9}
+.gaveta form{overflow:auto;max-height:62svh}
+
+.gaveta [hidden]{display:none!important}
+.fc-card{background:rgba(14,11,41,.42)}
+.vit-foto .vitrine{background:rgba(14,11,41,.38)}
+.fc-fig figcaption{right:auto;left:16px}
 /* revelação */
 .js .rev{opacity:0;transform:translateY(28px)}
 @media (prefers-reduced-motion:reduce){
@@ -307,14 +387,15 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 <body>
 <a class="sr" href="#cardapio">Pular para o cardápio</a>
 
-<div class="topo" id="topo">
+<div class="topo" id="topo" data-glass data-border-radius="999" data-distortion-scale="-150" data-blur="10" data-brightness="40" data-opacity="0.9" data-saturation="1.3">
   <a class="marca" href="#inicio" aria-label="Tapioca da Ilha, início">Tapioca da Ilha</a>
   <nav aria-label="Seções">
-    <a href="#massas">Massas</a><a href="#cardapio">Cardápio</a><a href="#dia">O dia todo</a><a href="#onde">Onde estamos</a>
+    <a href="#massas">Massas</a><a href="#cardapio">Pedir online</a><a href="#dia">O dia todo</a><a href="#onde">Onde estamos</a>
   </nav>
   <button class="pilula" type="button" data-abre-gaveta>Pedido <span class="n" data-contador>0</span></button>
 </div>
 
+<div class="fundo-vivo" aria-hidden="true" data-grainient data-colors='["#0e0b29","#1d1650","#4b1240","#c4213f","#ff7a6b"]' data-angle="40" data-silk="0.6" data-softness="1.2" data-flow="0.55" data-speed="0.45" data-grain-amount="0.07" data-contrast="1.05"></div>
 <main>
 <!-- 1. ABERTURA: o letreiro de neon da loja -->
 <section class="abertura" id="inicio" aria-labelledby="h1">
@@ -331,7 +412,7 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
       <a class="btn btn-neon mag" href="https://wa.me/559892418434?text=Ol%C3%A1!%20Quero%20fazer%20um%20pedido%20na%20Tapioca%20da%20Ilha%20Tech%20Office." target="_blank" rel="noopener" data-zap-direto data-starborder data-radius="999" data-duration="3.2" data-color="#ffe3e7" data-glow=".9" data-stars="2">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
         Pedir no WhatsApp</a>
-      <a class="btn btn-linha mag" href="#cardapio">Montar minha tapioca</a>
+      <a class="btn btn-vidro" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-180" data-magnet data-padding="60" data-strength="4" href="#cardapio">Montar minha tapioca</a>
     </div>
     <p class="local rev-h">Unidade Tech Office · Av. dos Holandeses, 06 · Ponta d'Areia · São Luís</p>
   </div>
@@ -342,58 +423,47 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
   <div data-curved-loop data-text="tapioca na chapa ✦ cuscuz ✦ café cremoso ✦ chocolate quente ✦ Ponta d'Areia ✦ " data-curve="60" data-speed="1.6" data-direction="left" data-interactive="true"></div>
 </div>
 
-<!-- 1b. NA CHAPA (vídeos) -->
-<section class="chapa" id="chapa" aria-labelledby="t-chapa">
-  <div class="wrap linha">
-    <figure class="tela">
-      <video src="midia/na-chapa.mp4" poster="midia/na-chapa.jpg" muted loop playsinline preload="metadata" aria-label="Animação: a goma é peneirada na chapa, firma, recebe queijo coalho e carne de sol e é dobrada"></video>
-      <figcaption>Animação ilustrativa: a goma peneirada firma na chapa, recebe o recheio e dobra.</figcaption>
-    </figure>
-    <div class="texto">
-      <p class="kicker rev">Na chapa, na sua frente</p>
-      <h2 id="t-chapa" class="rev">Peneirou, firmou, recheou, dobrou.</h2>
-      <ol class="passos-chapa rev">
-        <li><b>Peneira</b> a goma fresca direto na chapa quente.</li>
-        <li><b>Firma</b> em segundos, macia por dentro.</li>
-        <li><b>Recheia</b> com o que você escolheu.</li>
-        <li><b>Dobra</b> e sai quentinha pro balcão.</li>
-      </ol>
+<!-- 1b. NA CHAPA (foto) -->
+<section class="foto-chapa" aria-labelledby="t-chapa">
+  <figure class="fc-fig">
+    <img src="img/na-chapa.jpg" alt="Mãos peneirando goma de tapioca sobre uma chapa de ferro quente, com o vapor subindo" width="1376" height="768" loading="lazy" data-parallax>
+    <figcaption>Foto ilustrativa: a goma peneirada direto na chapa quente.</figcaption>
+  </figure>
+  <div class="wrap fc-wrap">
+    <div class="fc-card vidro" data-glass data-border-radius="26" data-background-opacity="0.06" data-blur="12" data-brightness="45" data-saturation="1.3">
+      <p class="kicker"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Na chapa, na sua frente</span></p>
+      <h2 id="t-chapa" data-blur-text data-by="words" data-delay="90">Peneirou, firmou, recheou, dobrou.</h2>
+      <p>Goma fresca peneirada na hora. Em poucos minutos sai quentinha pro balcão, ou chega até você.</p>
+      <a class="btn btn-neon" href="#cardapio" data-magnet data-padding="50" data-strength="4">Pedir online</a>
     </div>
-  </div>
-  <div class="wrap linha inversa">
-    <div class="texto">
-      <p class="kicker rev">Pra acompanhar</p>
-      <h3 class="rev">Café cremoso, do jeito maranhense.</h3>
-      <p class="lead rev">Batido até virar creme, servido na xícara. Combina com qualquer tapioca da casa.</p>
-      <button class="btn btn-neon rev" type="button" data-pede="cafe-cremoso">Pedir um café cremoso</button>
-    </div>
-    <figure class="tela menor">
-      <video src="midia/cafe-cremoso.mp4" poster="midia/cafe-cremoso.jpg" muted loop playsinline preload="metadata" aria-label="Animação: xícara de café cremoso vista de cima, com a espuma girando e vapor subindo"></video>
-      <figcaption>Animação ilustrativa: café cremoso servido na xícara.</figcaption>
-    </figure>
   </div>
 </section>
 
 <!-- 2. MASSAS -->
 <section class="massas" id="massas" aria-labelledby="t-massas">
   <div class="wrap grade">
-    <figure class="rev">
-      <svg id="tap-grande" viewBox="0 0 400 270" role="img" aria-labelledby="leg-massa"></svg>
-      <figcaption id="leg-massa">Ilustração: a tapioca dobrada com a massa escolhida ao lado.</figcaption>
+    <figure class="vit-foto rev">
+      <img src="img/dobrando.jpg" alt="Tapioca recheada com queijo coalho grelhado e carne de sol sendo dobrada com espátula de madeira numa chapa de ferro" width="896" height="1200" loading="lazy">
+    <div class="vitrine vidro" data-glass data-border-radius="34" data-background-opacity="0.06" data-blur="12" data-brightness="45" data-saturation="1.3" data-distortion-scale="-170">
+        <p class="vit-k" data-shiny-text data-color="#ffb3be" data-shine="#ffffff" data-speed="3">Massa escolhida</p>
+        <p class="vit-nome" id="vit-nome">Tradicional</p>
+        <p class="vit-sub">peneirada na hora · chapa quente · recheio do seu jeito</p>
+      </div>
+      <figcaption>Foto ilustrativa: tapioca de queijo coalho com carne de sol dobrada na chapa.</figcaption>
     </figure>
     <div>
-      <p class="kicker rev">Comida típica maranhense desde 2010</p>
+      <p class="kicker rev"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Comida típica maranhense desde 2010</span></p>
       <h2 id="t-massas" class="rev">Escolha a massa. A chapa faz o resto.</h2>
       <div class="trocas rev" role="group" aria-label="Massas">
-        <button class="troca" type="button" data-massa="tradicional" aria-pressed="true"><i style="background:#f6eedb"></i>Tradicional</button>
-        <button class="troca" type="button" data-massa="light" aria-pressed="false"><i style="background:#efe7d2"></i>Light</button>
-        <button class="troca" type="button" data-massa="beterraba" aria-pressed="false"><i style="background:#c9416a"></i>Beterraba</button>
+        <button class="troca" type="button" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-160" data-massa="tradicional" aria-pressed="true"><i style="background:#f6eedb"></i>Tradicional</button>
+        <button class="troca" type="button" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-160" data-massa="light" aria-pressed="false"><i style="background:#efe7d2"></i>Light</button>
+        <button class="troca" type="button" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-160" data-massa="beterraba" aria-pressed="false"><i style="background:#c9416a"></i>Beterraba</button>
       </div>
       <p class="massa-txt rev" id="massa-txt" aria-live="polite">Goma de mandioca peneirada na hora e espalhada na chapa quente até firmar. Fica macia por dentro, com as bordas levemente tostadas.</p>
       <div class="desde rev">
-        <div><b data-conta="2010">2010</b><span>tapioca maranhense desde</span></div>
-        <div><b>8h–21h</b><span>chapa ligada o dia todo</span></div>
-        <div><b>4,4★</b><span>256 avaliações da rede no cardapio.menu</span></div>
+        <div class="vidro" data-glass data-border-radius="20" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b data-conta="2010">2010</b><span>tapioca maranhense desde</span></div>
+        <div class="vidro" data-glass data-border-radius="20" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b>8h–21h</b><span>chapa ligada o dia todo</span></div>
+        <div class="vidro" data-glass data-border-radius="20" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b>4,4★</b><span>256 avaliações da rede no cardapio.menu</span></div>
       </div>
     </div>
   </div>
@@ -401,23 +471,24 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 
 <!-- 3. CARDÁPIO -->
 <section class="cardapio" id="cardapio" aria-labelledby="t-cardapio" data-click-spark data-color="#ff2d4b" data-count="9" data-radius="22">
-  <div class="raios" aria-hidden="true" data-lightrays data-rays-origin="top-center" data-rays-color="#ff2d4b" data-rays-speed="0.7" data-light-spread="0.7" data-ray-length="2.2" data-glow="0.5" data-haze="0.18" data-intensity="0.9" data-follow-mouse="true"></div>
   <div class="wrap">
     <div class="cab">
       <div>
-        <p class="kicker">Cardápio</p>
-        <h2 id="t-cardapio" class="rev">Do queijo coalho ao Romeu e Julieta.</h2>
-        <p class="rev">Toque num sabor, escolha a massa e os adicionais, e ele vai para o seu pedido. No fim, tudo chega pronto no WhatsApp da loja.</p>
+        <p class="kicker"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Mercado online · retire ou receba</span></p>
+        <h2 id="t-cardapio" data-blur-text data-by="words" data-delay="90">Do queijo coalho ao <span data-highlighter data-action="underline" data-color="#ff2d4b" data-stroke-width="3">Romeu e Julieta.</span></h2>
+        <p class="rev">Monte sua tapioca, junte café, suco e cuscuz no carrinho e escolha: retirar no balcão do Tech Office ou receber. O pedido chega pronto no WhatsApp da loja.</p>
       </div>
     </div>
+    <div class="busca vidro" data-glass data-border-radius="999" data-background-opacity="0.06" data-blur="12" data-brightness="45" data-saturation="1.3"><label class="sr" for="busca">Buscar no cardápio</label><input id="busca" type="search" placeholder="Buscar sabor: coalho, frango, chocolate..." autocomplete="off"></div>
     <div class="abas" role="tablist" aria-label="Categorias">
       <button class="aba" role="tab" aria-selected="true" data-aba="salgadas">Salgadas</button>
       <button class="aba" role="tab" aria-selected="false" data-aba="doces">Doces</button>
       <button class="aba" role="tab" aria-selected="false" data-aba="tapioquinhas">Tapioquinhas</button>
-      <button class="aba" role="tab" aria-selected="false" data-aba="acompanha">Pra acompanhar</button>
+      <button class="aba" role="tab" aria-selected="false" data-aba="acompanha">Bebidas e cuscuz</button>
     </div>
     <div class="itens" id="itens"></div>
-    <p class="obs">Sabores do cardápio da Tapioca da Ilha. Valores e disponibilidade do dia são confirmados pela loja no WhatsApp.</p>
+    <p class="vazio" id="sem-res" hidden>Nenhum sabor com esse nome. Tente outra palavra ou pergunte no WhatsApp.</p>
+    <p class="obs">Sabores do cardápio da Tapioca da Ilha. Valores e disponibilidade do dia são confirmados pela loja no WhatsApp. Prefere app? <a href="https://www.ifood.com.br/delivery/sao-luis-ma/tapioca-da-ilha---tech-office-ponta-d39areia/471c4d95-a650-4602-8d97-2e8c20147769" target="_blank" rel="noopener">iFood</a> · <a href="https://pedido.anota.ai/loja/tapioca-da-ilha-tech-office" target="_blank" rel="noopener">cardápio online</a>.</p>
   </div>
 </section>
 
@@ -425,32 +496,31 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 <section class="dia" id="dia" aria-labelledby="t-dia">
   <div class="palco">
     <div class="ceu" aria-hidden="true"></div>
-    <div class="astro" aria-hidden="true"></div>
     <p class="placa-noite" aria-hidden="true">aberto até as 21h</p>
     <div class="conteudo">
       <div class="relogio" aria-hidden="true"><span data-hora>08h</span><small>Av. dos Holandeses, 06</small></div>
       <div>
         <h2 id="t-dia" class="sr">Do café ao fim do expediente</h2>
         <div class="momentos">
-          <article class="momento" data-m="0">
+          <article class="momento vidro" data-m="0" data-glass data-border-radius="28" data-background-opacity="0.08" data-blur="12" data-brightness="48" data-saturation="1.2">
             <p class="kicker">08h · antes do expediente</p>
             <h3>Café cremoso e tapioquinha completa.</h3>
             <p>Dá tempo de sentar dois minutos antes da primeira reunião, ou de levar no copo e subir.</p>
             <button class="btn btn-escuro" type="button" data-pede="tapioquinha-completa">Pedir a tapioquinha</button>
           </article>
-          <article class="momento" data-m="1">
+          <article class="momento vidro" data-m="1" data-glass data-border-radius="28" data-background-opacity="0.08" data-blur="12" data-brightness="48" data-saturation="1.2">
             <p class="kicker">12h · almoço que não pesa</p>
             <h3>Carne de sol com queijo coalho.</h3>
             <p>O sabor mais pedido da casa, ou um cuscuz marroquino pra variar. Sai rápido e cabe na hora do almoço.</p>
             <button class="btn btn-escuro" type="button" data-pede="carne-de-sol-coalho">Pedir esta</button>
           </article>
-          <article class="momento" data-m="2">
+          <article class="momento vidro" data-m="2" data-glass data-border-radius="28" data-background-opacity="0.08" data-blur="12" data-brightness="48" data-saturation="1.2">
             <p class="kicker">16h · a pausa das quatro</p>
             <h3>Coco com leite condensado e um suco de morango.</h3>
             <p>A tapioca doce de sempre pra atravessar a tarde.</p>
             <button class="btn btn-escuro" type="button" data-pede="coco-leite-condensado">Pedir esta</button>
           </article>
-          <article class="momento" data-m="3">
+          <article class="momento vidro" data-m="3" data-glass data-border-radius="28" data-background-opacity="0.08" data-blur="12" data-brightness="48" data-saturation="1.2">
             <p class="kicker">20h · depois do último e-mail</p>
             <h3>Chocolate quente com o letreiro aceso.</h3>
             <p>A chapa segue ligada até as 21h. Passa na volta pra casa.</p>
@@ -466,14 +536,15 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 <!-- 5. AVALIAÇÕES REAIS -->
 <section class="provas" aria-labelledby="t-provas">
   <div class="wrap">
-    <p class="kicker rev">Quem prova, volta</p>
+    <p class="kicker rev"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Quem prova, volta</span></p>
     <h2 id="t-provas" data-scroll-float>O que dizem da Tapioca da Ilha.</h2>
     <div class="nota rev"><b><span data-count-up data-from="0" data-to="4.4" data-decimals="1" data-duration="1.6">4,4</span></b><span>de 5, em <span data-count-up data-to="256" data-duration="2">256</span> avaliações das lojas da rede no cardapio.menu</span></div>
+    <div data-scroll-velocity data-text="fresquinhas e saborosas ✦ chocolate quente divino ✦ cuscuz excelente ✦ " data-velocity="50" class="velo" aria-hidden="true"></div>
     <div class="falas">
-      <figure class="fala rev" data-spotlight-card data-color="rgba(255,45,75,.18)" data-size="260"><blockquote>As tapiocas são excelentes. Fresquinhas e saborosas.</blockquote><figcaption>William · set. 2026</figcaption></figure>
-      <figure class="fala rev" data-spotlight-card data-color="rgba(255,45,75,.18)" data-size="260"><blockquote>Um simples chocolate quente é divino.</blockquote><figcaption>Andresson · out. 2026</figcaption></figure>
-      <figure class="fala rev" data-spotlight-card data-color="rgba(255,45,75,.18)" data-size="260"><blockquote>Excelente cuscuz marroquino!</blockquote><figcaption>Leo · out. 2026</figcaption></figure>
-      <figure class="fala rev" data-spotlight-card data-color="rgba(255,45,75,.18)" data-size="260"><blockquote>Um lugar simples, mas bem agradável.</blockquote><figcaption>Mats · set. 2026</figcaption></figure>
+      <figure class="fala vidro" data-glass data-border-radius="22" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-blur-in="true"><blockquote>As tapiocas são excelentes. Fresquinhas e saborosas.</blockquote><figcaption>William · set. 2026</figcaption></figure>
+      <figure class="fala vidro" data-glass data-border-radius="22" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-blur-in="true"><blockquote>Um simples chocolate quente é divino.</blockquote><figcaption>Andresson · out. 2026</figcaption></figure>
+      <figure class="fala vidro" data-glass data-border-radius="22" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-blur-in="true"><blockquote>Excelente cuscuz marroquino!</blockquote><figcaption>Leo · out. 2026</figcaption></figure>
+      <figure class="fala vidro" data-glass data-border-radius="22" data-background-opacity="0.05" data-blur="10" data-brightness="42" data-fade-content data-blur-in="true"><blockquote>Um lugar simples, mas bem agradável.</blockquote><figcaption>Mats · set. 2026</figcaption></figure>
     </div>
   </div>
 </section>
@@ -481,17 +552,17 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 <!-- 6. COMO PEDIR -->
 <section class="pedir" aria-labelledby="t-pedir">
   <div class="wrap">
-    <p class="kicker rev">Como pedir</p>
-    <h2 id="t-pedir" class="rev">Três toques e a chapa já esquenta.</h2>
+    <p class="kicker rev"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Como pedir</span></p>
+    <h2 id="t-pedir" data-blur-text data-by="words" data-delay="90">Três toques e a chapa já esquenta.</h2>
     <div class="passos">
-      <div class="passo rev"><b></b><h3>Monte</h3><p>Escolha o sabor, a massa e os adicionais no cardápio acima.</p></div>
-      <div class="passo rev"><b></b><h3>Mande</h3><p>O pedido vai pronto para o WhatsApp da loja, com seu nome e o horário que você passa.</p></div>
-      <div class="passo rev"><b></b><h3>Retire ou receba</h3><p>Pegue no balcão do Tech Office ou peça a entrega pelos apps.</p></div>
+      <div class="passo vidro rev" data-glass data-border-radius="24" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b></b><h3>Monte</h3><p>Escolha o sabor, a massa e os adicionais no cardápio acima.</p></div>
+      <div class="passo vidro rev" data-glass data-border-radius="24" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b></b><h3>Mande</h3><p>O pedido vai pronto para o WhatsApp da loja, com seu nome e o horário que você passa.</p></div>
+      <div class="passo vidro rev" data-glass data-border-radius="24" data-background-opacity="0.05" data-blur="10" data-brightness="42"><b></b><h3>Retire ou receba</h3><p>Pegue no balcão do Tech Office ou peça a entrega pelos apps.</p></div>
     </div>
     <div class="apps rev">
       <a class="btn btn-neon mag" href="#cardapio">Ver o cardápio</a>
-      <a class="btn btn-escuro mag" href="https://www.ifood.com.br/delivery/sao-luis-ma/tapioca-da-ilha---tech-office-ponta-d39areia/471c4d95-a650-4602-8d97-2e8c20147769" target="_blank" rel="noopener">Pedir pelo iFood</a>
-      <a class="btn btn-escuro mag" href="https://pedido.anota.ai/loja/tapioca-da-ilha-tech-office" target="_blank" rel="noopener">Cardápio online</a>
+      <a class="btn btn-vidro" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-180" data-magnet data-padding="50" data-strength="4" href="https://www.ifood.com.br/delivery/sao-luis-ma/tapioca-da-ilha---tech-office-ponta-d39areia/471c4d95-a650-4602-8d97-2e8c20147769" target="_blank" rel="noopener">Pedir pelo iFood</a>
+      <a class="btn btn-vidro" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-180" data-magnet data-padding="50" data-strength="4" href="https://pedido.anota.ai/loja/tapioca-da-ilha-tech-office" target="_blank" rel="noopener">Cardápio online</a>
     </div>
   </div>
 </section>
@@ -500,16 +571,16 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 <section class="onde" id="onde" aria-labelledby="t-onde">
   <div class="wrap grade">
     <div>
-      <p class="kicker rev">Onde estamos</p>
+      <p class="kicker rev"><span data-shiny-text data-color="#ff8a9c" data-shine="#ffffff" data-speed="3.5">Onde estamos</span></p>
       <h2 id="t-onde" class="rev">Unidade Tech Office.</h2>
-      <dl class="rev">
+      <dl class="rev vidro painel" data-glass data-border-radius="26" data-background-opacity="0.05" data-blur="10" data-brightness="42">
         <div><dt>Endereço</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Av.+dos+Holandeses,+06+Ponta+d'Areia+S%C3%A3o+Lu%C3%ADs+MA+65075-650" target="_blank" rel="noopener">Av. dos Holandeses, 06<br>Ponta d'Areia, São Luís · MA · 65075-650</a></dd></div>
         <div><dt>Horário</dt><dd>Das 8h às 21h · <span data-aberto-curto>aberto agora</span></dd></div>
         <div><dt>WhatsApp</dt><dd><a href="https://wa.me/559892418434" target="_blank" rel="noopener">(98) 99241-8434</a></dd></div>
       </dl>
       <div class="ctas" style="justify-content:flex-start">
         <a class="btn btn-neon mag" href="https://www.google.com/maps/dir/?api=1&destination=Av.+dos+Holandeses,+06+Ponta+d'Areia+S%C3%A3o+Lu%C3%ADs+MA" target="_blank" rel="noopener">Como chegar</a>
-        <a class="btn btn-linha mag" href="https://wa.me/559892418434?text=Ol%C3%A1!%20Voc%C3%AAs%20est%C3%A3o%20abertos%20agora%3F" target="_blank" rel="noopener">Perguntar no WhatsApp</a>
+        <a class="btn btn-vidro" data-glass data-border-radius="999" data-blur="8" data-brightness="38" data-saturation="1.4" data-distortion-scale="-180" href="https://wa.me/559892418434?text=Ol%C3%A1!%20Voc%C3%AAs%20est%C3%A3o%20abertos%20agora%3F" target="_blank" rel="noopener">Perguntar no WhatsApp</a>
       </div>
     </div>
     <figure class="mapa rev" style="margin:0">
@@ -525,7 +596,7 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
   <div class="wrap linha">
     <span>Tapioca da Ilha · Unidade Tech Office · Av. dos Holandeses, 06, Ponta d'Areia, São Luís-MA</span>
     <a class="topo-link" href="#inicio">Voltar ao topo ↑</a>
-    <span>Ilustrações próprias do site. Site por HEsites.</span>
+    <span>Site por HEsites · <button class="enxame" id="enxame" type="button">ver o site sendo construído</button></span>
   </div>
 </footer>
 
@@ -541,7 +612,6 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
   <button class="fecha" type="button" data-fecha aria-label="Fechar">×</button>
   <h3 id="f-nome">Sabor</h3>
   <p class="desc" id="f-desc"></p>
-  <div class="previa"><svg id="tap-folha" viewBox="0 0 400 270" role="img" aria-label="Ilustração da tapioca montada"></svg></div>
   <fieldset id="f-massas"><legend>Massa</legend><div class="chips"></div></fieldset>
   <fieldset id="f-adic"><legend>Adicionais</legend><div class="chips"></div></fieldset>
   <div class="rodape">
@@ -551,15 +621,26 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:90;
 </div>
 
 <aside class="gaveta" id="gaveta" aria-labelledby="g-tit" aria-hidden="true">
-  <header><h3 id="g-tit">Seu pedido</h3><button class="fecha" type="button" data-fecha aria-label="Fechar" style="position:static;width:40px;height:40px;border-radius:50%;border:0;background:rgba(26,21,48,.07);font-size:1.3rem">×</button></header>
+  <header><h3 id="g-tit">Seu carrinho</h3><button class="fecha" type="button" data-fecha aria-label="Fechar" style="position:static;width:40px;height:40px;border-radius:50%;border:0;background:rgba(26,21,48,.07);font-size:1.3rem">×</button></header>
   <div class="lista" id="g-lista"></div>
   <form id="g-form">
     <label>Seu nome<input type="text" name="nome" autocomplete="given-name" placeholder="Como te chamamos no balcão" required></label>
-    <label>Como prefere
-      <select name="modo"><option>Vou retirar no balcão</option><option>Quero saber da entrega</option><option>Vou comer aí</option></select>
-    </label>
+    <fieldset class="op"><legend>Como você quer receber</legend><div class="chips">
+      <label class="chip"><input type="radio" name="modo" value="Retirada no balcão do Tech Office" checked><span>Retirar no balcão</span></label>
+      <label class="chip"><input type="radio" name="modo" value="Entrega"><span>Receber em casa ou no trabalho</span></label>
+      <label class="chip"><input type="radio" name="modo" value="Comer na loja"><span>Comer aí</span></label>
+    </div></fieldset>
+    <label data-so-entrega hidden>Endereço de entrega<input type="text" name="end" autocomplete="street-address" placeholder="Rua, número, sala ou apartamento, bairro"></label>
+    <fieldset class="op"><legend>Pagamento</legend><div class="chips">
+      <label class="chip"><input type="radio" name="pag" value="Pix" checked><span>Pix</span></label>
+      <label class="chip"><input type="radio" name="pag" value="Cartão"><span>Cartão</span></label>
+      <label class="chip"><input type="radio" name="pag" value="Dinheiro"><span>Dinheiro</span></label>
+    </div></fieldset>
+    <label data-so-dinheiro hidden>Troco para quanto?<input type="text" name="troco" inputmode="decimal" placeholder="Ex.: 50"></label>
     <label>Horário<input type="text" name="hora" placeholder="Agora, 12h30, depois das 18h..."></label>
-    <button class="btn btn-neon" type="submit">Mandar pedido no WhatsApp</button>
+    <label>Observações<input type="text" name="obs" placeholder="Sem cebola, bem tostada, talher..."></label>
+    <p class="total" id="g-total"></p>
+    <button class="btn btn-neon" type="submit">Finalizar pedido no WhatsApp</button>
   </form>
 </aside>
 
@@ -614,61 +695,6 @@ const CONFIG = {
   ]
 };
 
-/* ====== desenho da tapioca (SVG próprio) ====== */
-const NS="http://www.w3.org/2000/svg";
-function rnd(seed){let s=seed%2147483647; if(s<=0)s+=2147483646; return()=>((s=s*16807%2147483647)-1)/2147483646;}
-function hash(t){let h=7;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return h||1}
-function desenhaTapioca(svg,{massa="tradicional",recheios=[],tipo,cor,mini}={}){
-  const m=CONFIG.massas[massa]||CONFIG.massas.tradicional;
-  const R=rnd(hash(massa+recheios.join()));
-  let s="";
-  if(tipo==="copo"){
-    s+=`<ellipse cx="200" cy="238" rx="96" ry="14" fill="rgba(0,0,0,.12)"/>
-    <path d="M128 70 L272 70 L254 232 Q200 246 146 232 Z" fill="#fffaf0" stroke="#1a1530" stroke-opacity=".12" stroke-width="2"/>
-    <ellipse cx="200" cy="70" rx="72" ry="16" fill="${cor}"/>
-    <ellipse cx="200" cy="70" rx="72" ry="16" fill="none" stroke="#1a1530" stroke-opacity=".15" stroke-width="2"/>
-    <rect x="132" y="120" width="136" height="40" fill="${cor}" opacity=".9" transform="skewX(0)"/>
-    <path d="M178 40 q10 -16 0 -30 M204 44 q10 -18 0 -34 M228 40 q10 -16 0 -30" stroke="#1a1530" stroke-opacity=".25" stroke-width="4" fill="none" stroke-linecap="round"/>`;
-    svg.innerHTML=s;return;
-  }
-  if(tipo==="cuscuz"){
-    s+=`<ellipse cx="206" cy="150" rx="128" ry="124" fill="rgba(20,16,50,.13)"/><circle cx="200" cy="140" r="126" fill="#fffdf7"/><circle cx="200" cy="140" r="98" fill="none" stroke="#1a1530" stroke-opacity=".06" stroke-width="2"/>
-    <path d="M118 150 Q112 92 170 76 Q232 62 270 92 Q300 122 280 168 Q252 214 186 208 Q126 200 118 150Z" fill="#ecd38f"/>`;
-    const veg=["#e2b65a","#f6e3a8","#5d8a3a","#d2452f","#f08a2c","#e2b65a","#f6e3a8"];
-    for(let i=0;i<150;i++){const a=R()*Math.PI*2,r=Math.sqrt(R())*72,x=200+Math.cos(a)*r*1.1,y=142+Math.sin(a)*r*.9;const c=veg[i%veg.length];s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(c==="#5d8a3a"||c==="#d2452f"||c==="#f08a2c"?2.6+R()*2.2:1.4+R()*1.8).toFixed(1)}" fill="${c}"/>`}
-    svg.innerHTML=s;return;
-  }
-  // vista de cima: prato + tapioca dobrada em meia-lua, recheio aparecendo na borda reta
-  const esc=mini?0.82:1, cx=200, cy=140, w=112*esc, top=cy-30*esc;
-  s+=`<ellipse cx="${cx+6}" cy="${cy+10}" rx="128" ry="124" fill="rgba(20,16,50,.13)"/>`;
-  s+=`<circle cx="${cx}" cy="${cy}" r="126" fill="#fffdf7"/><circle cx="${cx}" cy="${cy}" r="126" fill="none" stroke="#1a1530" stroke-opacity=".09" stroke-width="2"/>`;
-  s+=`<circle cx="${cx}" cy="${cy}" r="98" fill="none" stroke="#1a1530" stroke-opacity=".06" stroke-width="2"/>`;
-  s+=`<g transform="rotate(-12 ${cx} ${cy})">`;
-  const cores=recheios.length?recheios.map(k=>CONFIG.ingr[k]||"#eee"):["#f3e6c6"];
-  // faixa de recheio
-  let band=`M${cx-w+8} ${top+6} `;
-  for(let i=0;i<=14;i++){const x=cx-w+8+i*((2*w-16)/14);band+=`Q${(x-5).toFixed(1)} ${(top-12-R()*7).toFixed(1)} ${x.toFixed(1)} ${(top-3).toFixed(1)} `}
-  band+=`L${cx+w-8} ${top+8} Z`;
-  s+=`<path d="${band}" fill="${cores[0]}" stroke="rgba(0,0,0,.06)"/>`;
-  for(let i=0;i<Math.min(80,22*cores.length);i++){
-    const c=cores[i%cores.length];const x=cx-w+16+R()*(2*w-32),y=top-9+R()*10,r=3+R()*5.5;
-    const claro=["#ffffff","#fff6dd","#fff4dc","#f6e3a1"].includes(c);
-    s+=`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${r.toFixed(1)}" ry="${(r*.72).toFixed(1)}" fill="${c}"${claro?' stroke="rgba(0,0,0,.1)"':''}/>`;
-  }
-  // a meia-lua
-  const d=`M${cx-w} ${top} L${cx+w} ${top} A${w} ${w} 0 0 1 ${cx-w} ${top} Z`;
-  s+=`<path d="${d}" fill="${m.cor}"/>`;
-  s+=`<path d="M${cx-w+3} ${top+1} A${w-3} ${w-3} 0 0 0 ${cx+w-3} ${top+1}" fill="none" stroke="${m.sombra}" stroke-width="5" stroke-opacity=".9"/>`;
-  for(let i=0;i<30;i++){
-    const a=Math.PI*(0.06+R()*0.88), rr=0.18+R()*0.72;
-    const x=cx+Math.cos(a)*w*rr, y=top+Math.sin(a)*w*rr;
-    s+=`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${(1.6+R()*4.6).toFixed(1)}" ry="${(1.2+R()*3).toFixed(1)}" fill="${m.ponto}" opacity="${(.35+R()*.45).toFixed(2)}" transform="rotate(${(R()*180).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`;
-  }
-  s+=`<path d="M${cx-w+2} ${top+1.5} L${cx+w-2} ${top+1.5}" stroke="${m.sombra}" stroke-width="3" stroke-linecap="round"/>`;
-  s+=`<path d="M${cx-w*0.5} ${top+w*0.5} Q${cx-w*0.1} ${top+w*0.78} ${cx+w*0.35} ${top+w*0.62}" stroke="#fff" stroke-opacity=".3" stroke-width="5" fill="none" stroke-linecap="round"/>`;
-  s+=`</g>`;
-  svg.innerHTML=s;
-}
 
 /* ====== aberto agora? ====== */
 function horaLocal(){try{const p=new Intl.DateTimeFormat("pt-BR",{timeZone:CONFIG.fuso,hour:"numeric",minute:"numeric",hour12:false}).formatToParts(new Date());const h=+p.find(x=>x.type==="hour").value,mi=+p.find(x=>x.type==="minute").value;return h+mi/60}catch(e){return new Date().getHours()}}
@@ -681,18 +707,23 @@ function atualizaAberto(){
   document.querySelectorAll("[data-aberto-curto]").forEach(e=>e.textContent=aberto?"aberto agora":"fechado agora");
 }
 
-/* ====== cardápio ====== */
+/* ====== cardápio / mercado ====== */
+const CATS={salgadas:"Salgada",doces:"Doce",tapioquinhas:"Tapioquinha",acompanha:"Pra acompanhar"};
+// preços: preencher em CONFIG.itens[].preco (número em reais). Sem preço, a loja confirma no WhatsApp.
+const brl=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const precoTxt=v=>typeof v==="number"?brl(v):"preço no WhatsApp";
 const itensEl=document.getElementById("itens");
 function montaCardapio(){
   itensEl.innerHTML="";
   for(const it of CONFIG.itens){
     const b=document.createElement("button");
     b.type="button";b.className="item rev-item";b.dataset.cat=it.cat;b.dataset.id=it.id;
-    b.innerHTML=`<svg class="mini" viewBox="0 0 400 270" aria-hidden="true"></svg><h3>${it.nome}</h3><p>${it.desc}</p><span class="add">${it.tipo?"Adicionar":"Montar"}<b aria-hidden="true">+</b></span>`;
-    desenhaTapioca(b.querySelector("svg"),{recheios:it.r,tipo:it.tipo,cor:it.cor,mini:it.mini});
+    b.innerHTML=`<span class="cat-tag">${CATS[it.cat]||""}</span><h3>${it.nome}</h3><p>${it.desc}</p><span class="preco">${precoTxt(it.preco)}</span><span class="add">${it.tipo?"Adicionar ao carrinho":"Montar e adicionar"}<b aria-hidden="true">+</b></span>`;
+    b.setAttribute("data-border-glow","");b.dataset.color="#ff2d4b";b.dataset.size="220";
     b.addEventListener("click",()=>abreFolha(it.id));
     itensEl.appendChild(b);
   }
+  if(window.HeluBorderGlow)HeluBorderGlow.init(itensEl);
   filtra("salgadas");
 }
 function filtra(cat){
@@ -701,7 +732,15 @@ function filtra(cat){
   itensEl.querySelectorAll(".item").forEach(i=>{const on=i.dataset.cat===cat;i.hidden=!on;if(on)vis.push(i)});
   if(window.gsap&&!reduz){gsap.fromTo(vis,{y:18,opacity:0},{y:0,opacity:1,duration:.5,stagger:.04,ease:"power2.out"})}
 }
-document.querySelectorAll(".aba").forEach(a=>a.addEventListener("click",()=>filtra(a.dataset.aba)));
+document.querySelectorAll(".aba").forEach(a=>a.addEventListener("click",()=>{document.getElementById("busca").value="";filtra(a.dataset.aba)}));
+const norm=t=>t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+document.getElementById("busca").addEventListener("input",e=>{
+  const q=norm(e.target.value.trim());
+  if(!q){filtra(document.querySelector('.aba[aria-selected="true"]').dataset.aba);return}
+  document.querySelectorAll(".aba").forEach(a=>a.setAttribute("aria-selected","false"));
+  let n=0;itensEl.querySelectorAll(".item").forEach(i=>{const it=CONFIG.itens.find(x=>x.id===i.dataset.id);const on=norm(it.nome+" "+it.desc).includes(q);i.hidden=!on;if(on)n++});
+  document.getElementById("sem-res").hidden=n>0;
+});
 
 /* ====== folha de montar ====== */
 const folha=document.getElementById("folha"),veu=document.getElementById("veu");
@@ -732,7 +771,7 @@ function escolhas(){
 }
 function previa(){
   if(!atual)return;const {massa,adic}=escolhas();
-  desenhaTapioca(document.getElementById("tap-folha"),{massa,recheios:[...atual.r,...adic],tipo:atual.tipo,cor:atual.cor,mini:atual.mini});
+
 }
 function fechaTudo(){
   folha.classList.remove("on");gaveta.classList.remove("on");veu.classList.remove("on");gaveta.setAttribute("aria-hidden","true");
@@ -755,17 +794,21 @@ const gaveta=document.getElementById("gaveta");
 let pedido=[];
 try{pedido=JSON.parse(localStorage.getItem("tdi-pedido")||"[]")}catch(e){pedido=[]}
 function salva(){try{localStorage.setItem("tdi-pedido",JSON.stringify(pedido))}catch(e){} renderPedido()}
+function totalPedido(){let t=0;for(const p of pedido){const it=CONFIG.itens.find(x=>x.id===p.id);if(!it||typeof it.preco!=="number")return null;t+=it.preco*p.qtd}return t}
+const gf=document.getElementById("g-form");
+gf.addEventListener("change",()=>{const f=new FormData(gf);gf.querySelector("[data-so-entrega]").hidden=f.get("modo")!=="Entrega";gf.querySelector("[data-so-dinheiro]").hidden=f.get("pag")!=="Dinheiro"});
 function renderPedido(){
   const n=pedido.reduce((a,b)=>a+b.qtd,0);
   document.querySelectorAll("[data-contador]").forEach(e=>e.textContent=n);
   document.querySelector(".sacola").classList.toggle("on",n>0);
   const l=document.getElementById("g-lista");
-  if(!pedido.length){l.innerHTML=`<p class="vazio">Seu pedido está vazio. Escolha um sabor no cardápio.</p>`;return}
+  const tot=totalPedido(),gt=document.getElementById("g-total");
+  gt.textContent=!pedido.length?"":tot!==null?`Total dos itens: ${brl(tot)}`:"Total confirmado pela loja no WhatsApp, com a taxa de entrega se houver.";
+  if(!pedido.length){l.innerHTML=`<p class="vazio">Seu carrinho está vazio. Escolha um sabor no cardápio.</p>`;return}
   l.innerHTML="";
   pedido.forEach((p,i)=>{
     const d=document.createElement("div");d.className="linha-item";
-    d.innerHTML=`<svg viewBox="0 0 400 270" aria-hidden="true"></svg><div><b>${p.qtd}× ${p.nome}</b><small>${p.massa?("Massa "+CONFIG.massas[p.massa].nome.toLowerCase()):""}${p.adic.length?" · + "+p.adic.join(", "):""}</small></div><button type="button" class="tira">tirar</button>`;
-    desenhaTapioca(d.querySelector("svg"),{massa:p.massa||"tradicional",recheios:[...(p.r||[]),...p.adic],tipo:p.tipo,cor:p.cor,mini:p.mini});
+    d.innerHTML=`<span></span><div><b>${p.qtd}× ${p.nome}</b><small>${p.massa?("Massa "+CONFIG.massas[p.massa].nome.toLowerCase()):""}${p.adic.length?" · + "+p.adic.join(", "):""}</small></div><button type="button" class="tira">tirar</button>`;
     d.querySelector(".tira").addEventListener("click",()=>{pedido.splice(i,1);salva()});
     l.appendChild(d);
   });
@@ -776,19 +819,22 @@ document.getElementById("g-form").addEventListener("submit",e=>{
   if(!pedido.length){fechaTudo();document.getElementById("cardapio").scrollIntoView();return}
   let t=`Olá! Pedido pelo site da Tapioca da Ilha (Tech Office):\n\n`;
   pedido.forEach(p=>{t+=`• ${p.qtd}× ${p.nome}`;if(p.massa)t+=` (massa ${CONFIG.massas[p.massa].nome.toLowerCase()})`;if(p.adic.length)t+=` + ${p.adic.join(", ")}`;t+="\n"});
-  t+=`\nNome: ${f.get("nome")}\n${f.get("modo")}`;if(f.get("hora"))t+=`\nHorário: ${f.get("hora")}`;
+  const tot=totalPedido();if(tot!==null)t+=`\nTotal dos itens: ${brl(tot)}`;
+  t+=`\nNome: ${f.get("nome")}\nRecebimento: ${f.get("modo")}`;if(f.get("modo")==="Entrega"&&f.get("end"))t+=`\nEndereço: ${f.get("end")}`;
+  t+=`\nPagamento: ${f.get("pag")}`;if(f.get("pag")==="Dinheiro"&&f.get("troco"))t+=` (troco para ${f.get("troco")})`;
+  if(f.get("hora"))t+=`\nHorário: ${f.get("hora")}`;if(f.get("obs"))t+=`\nObservações: ${f.get("obs")}`;
   window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(t)}`,"_blank","noopener");
 });
 document.querySelectorAll("[data-pede]").forEach(b=>b.addEventListener("click",()=>abreFolha(b.dataset.pede)));
 
 /* ====== massas (seção 2) ====== */
-const tapG=document.getElementById("tap-grande");
+const vitNome=document.getElementById("vit-nome");
 function trocaMassa(k){
   document.querySelectorAll(".troca").forEach(t=>t.setAttribute("aria-pressed",t.dataset.massa===k));
   document.getElementById("massa-txt").textContent=CONFIG.massas[k].txt;
   document.getElementById("leg-massa").textContent=`Ilustração: tapioca de queijo coalho dobrada, massa ${CONFIG.massas[k].nome.toLowerCase()}.`;
-  desenhaTapioca(tapG,{massa:k,recheios:["queijo coalho","carne de sol"]});
-  if(window.gsap&&!reduz)gsap.fromTo(tapG,{scale:.94,rotate:-3},{scale:1,rotate:0,duration:.6,ease:"back.out(2)"});
+  vitNome.textContent=CONFIG.massas[k].nome;
+  if(window.gsap&&!reduz)gsap.fromTo(vitNome,{y:24,opacity:0,filter:"blur(8px)"},{y:0,opacity:1,filter:"blur(0px)",duration:.6,ease:"power3.out"});
 }
 document.querySelectorAll(".troca").forEach(t=>t.addEventListener("click",()=>trocaMassa(t.dataset.massa)));
 
@@ -797,7 +843,7 @@ const reduz=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const toque=matchMedia("(hover: none), (pointer: coarse)").matches;
 let lenis=null;
 document.documentElement.classList.add("js");
-desenhaTapioca(tapG,{massa:"tradicional",recheios:["queijo coalho","carne de sol"]});
+
 montaCardapio();renderPedido();atualizaAberto();setInterval(atualizaAberto,60000);
 
 // letreiro acende
@@ -819,10 +865,27 @@ if(!toque&&!reduz){
   document.querySelectorAll("a,button,.item").forEach(el=>{el.addEventListener("pointerenter",()=>c.classList.add("grande"));el.addEventListener("pointerleave",()=>c.classList.remove("grande"))});
   document.querySelectorAll(".mag").forEach(b=>{b.addEventListener("pointermove",e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.18}px,${(e.clientY-r.top-r.height/2)*.28}px)`});b.addEventListener("pointerleave",()=>b.style.transform="")});
 }
+
+// enxame de cursores (swarm-build): botão no rodapé e Alt+Shift+S
+addEventListener("DOMContentLoaded",function(){const b=document.getElementById("enxame");if(!b)return;
+  if(!window.SwarmBuild||reduz||toque){b.hidden=true;return}
+  const P=["#ff2d4b","#ff8a9c","#ffd5db","#f5eddc","#c4213f","#ffb38a","#7b6cff","#4b1240"];
+  window.SwarmBuild.COLORS.splice(0,window.SwarmBuild.COLORS.length);P.forEach(c=>window.SwarmBuild.COLORS.push(c));
+  b.addEventListener("click",()=>window.SwarmBuild.toggle({sound:true,tour:true}));
+});
 </script>
 <script src="vendor/curved-loop.js" defer></script>
+<script src="vendor/glass-artifact.js" defer></script>
+<script src="vendor/grainient.js" defer></script>
+<script src="vendor/blur-text.js" defer></script>
+<script src="vendor/shiny-text.js" defer></script>
+<script src="vendor/magnet.js" defer></script>
+<script src="vendor/border-glow.js" defer></script>
+<script src="vendor/fade-content.js" defer></script>
+<script src="vendor/highlighter.js" defer></script>
+<script src="vendor/scroll-velocity.js" defer></script>
+<script src="vendor/swarm-build.js" defer></script>
 <script src="vendor/click-spark.js" defer></script>
-<script src="vendor/light-rays.js" defer></script>
 <script src="vendor/rotating-text.js" defer></script>
 <script src="vendor/count-up.js" defer></script>
 <script src="vendor/spotlight-card.js" defer></script>
@@ -835,12 +898,7 @@ if(!toque&&!reduz){
 addEventListener("DOMContentLoaded",()=>{
   const reduz=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const toque=matchMedia("(hover: none), (pointer: coarse)").matches;
-  // vídeos: tocam só quando aparecem na tela; com movimento reduzido fica o pôster
-  document.querySelectorAll(".chapa video").forEach(v=>{
-    if(reduz){v.removeAttribute("autoplay");return}
-    if(!("IntersectionObserver" in window)){v.play().catch(()=>{});return}
-    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){v.play().catch(()=>{})}else v.pause()}),{threshold:.25}).observe(v);
-  });
+
   if(!window.gsap||!window.ScrollTrigger||reduz){document.querySelectorAll(".rev").forEach(e=>{e.style.opacity=1;e.style.transform="none"});return}
   gsap.registerPlugin(ScrollTrigger);
   if(window.Lenis&&!toque){lenis=new Lenis({lerp:.1});lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
@@ -850,9 +908,8 @@ addEventListener("DOMContentLoaded",()=>{
   gsap.from(".abertura .rev-h",{y:30,opacity:0,duration:.9,stagger:.12,delay:.9,ease:"power3.out"});
   gsap.to(".abertura .palco",{yPercent:-12,opacity:.2,ease:"none",scrollTrigger:{trigger:".abertura",start:"top top",end:"bottom top",scrub:true}});
 
-  // vídeos da chapa: abrem de dentro pra fora
-  gsap.utils.toArray(".chapa .tela").forEach(t=>gsap.fromTo(t,{clipPath:"inset(18% 22% 18% 22% round 40px)",scale:.92},{clipPath:"inset(0% 0% 0% 0% round 0px)",scale:1,ease:"none",scrollTrigger:{trigger:t,start:"top 92%",end:"top 40%",scrub:true}}));
-
+  gsap.to(".fc-fig img",{yPercent:-12,ease:"none",scrollTrigger:{trigger:".foto-chapa",start:"top bottom",end:"bottom top",scrub:true}});
+  gsap.from(".vit-foto>img",{scale:1.15,ease:"none",scrollTrigger:{trigger:".vit-foto",start:"top bottom",end:"center center",scrub:true}});
   // revelações
   gsap.utils.toArray(".rev").forEach(el=>gsap.to(el,{opacity:1,y:0,duration:.9,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 88%"}}));
 
@@ -862,7 +919,7 @@ addEventListener("DOMContentLoaded",()=>{
 
   // o dia todo: palco preso, relógio de 8h às 21h
   const dia=document.querySelector(".dia");dia.classList.add("ligado");
-  const ms=gsap.utils.toArray(".momento"),hora=document.querySelector("[data-hora]"),ceu=document.querySelector(".dia .ceu"),astro=document.querySelector(".dia .astro"),pino=document.querySelector(".trilho i"),placa=document.querySelector(".placa-noite"),palco=document.querySelector(".dia .palco");
+  const ms=gsap.utils.toArray(".momento"),hora=document.querySelector("[data-hora]"),ceu=document.querySelector(".dia .ceu"),astro=document.createElement("i"),pino=document.querySelector(".trilho i"),placa=document.querySelector(".placa-noite"),palco=document.querySelector(".dia .palco");
   gsap.set(ms,{opacity:0,y:30});gsap.set(ms[0],{opacity:1,y:0});
   const cores=[["#fff3d6","#f5eddc","#1a1530"],["#ffe9a8","#ffd98a","#1a1530"],["#ffc58a","#f28d6b","#1a1530"],["#2a2470","#16123c","#f5eddc"]];
   const mix=(a,b,t)=>gsap.utils.interpolate(a,b,t);

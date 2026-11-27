@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>REDE · Quartel de Networking</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#222124">
+<link rel="stylesheet" href="css/rede.css">
+</head>
+<body>
+<div class="fundo" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<section id="gate">
+  <div class="cx" data-glass data-border-radius="34" data-blur="12" data-brightness="38" data-opacity="0.9" data-saturation="1.25" data-distortion-scale="-150">
+    <p class="mini">Acesso privado</p>
+    <h1>REDE</h1>
+    <p class="lead">Seu quartel de networking. Cinco agentes cuidando de quem importa na sua rede.</p>
+    <form id="g-form" autocomplete="off">
+      <input id="g-senha" type="password" placeholder="Senha" aria-label="Senha" autofocus>
+      <button class="b" type="submit">Entrar</button>
+    </form>
+    <p id="g-msg" class="nota" role="status"></p>
+  </div>
+</section>
+
+<div id="app" hidden>
+  <header class="topo">
+    <div class="topo-in" data-glass-later data-border-radius="28" data-blur="12" data-brightness="40" data-opacity="0.9" data-saturation="1.3" data-distortion-scale="-120">
+      <div class="marca"><span class="logo">R</span><div><b>REDE</b><small>Quartel de networking</small></div></div>
+      <nav class="abas" aria-label="Seções">
+        <button class="aba on" data-tab="salas">Salas</button>
+        <button class="aba" data-tab="catalogo">Catálogo</button>
+        <button class="aba" data-tab="hoje">Hoje</button>
+        <button class="aba" data-tab="plano">Plano</button>
+      </nav>
+      <div id="kpis" class="kpis"></div>
+    </div>
+  </header>
+
+  <main>
+    <section id="tab-salas" class="tab on">
+      <div class="cab"><p class="mini">Os cinco agentes</p><h2>Cada bot tem a sua sala. Clique para abrir o perfil.</h2></div>
+      <div id="salas" class="salas"></div>
+    </section>
+
+    <section id="tab-catalogo" class="tab">
+      <div class="cab"><p class="mini">Catálogo</p><h2>Todas as conexões em um lugar.</h2></div>
+      <div class="filtros">
+        <input id="f-q" type="search" placeholder="Buscar por nome, empresa ou contexto" aria-label="Buscar">
+        <select id="f-origem" aria-label="Origem"><option value="">Todas as origens</option></select>
+        <select id="f-ord" aria-label="Ordenar"><option value="score">Maior score</option><option value="prazo">Prazo mais próximo</option><option value="nome">Nome</option></select>
+      </div>
+      <div class="chips">
+        <button data-fc="camada" data-v="Núcleo">Núcleo · 30 d</button><button data-fc="camada" data-v="Ativos">Ativos · 90 d</button><button data-fc="camada" data-v="Distantes">Distantes · 180 d</button>
+        <span class="sep"></span>
+        <button data-fc="status" data-v="atrasado">Atrasados</button><button data-fc="status" data-v="semana">Esta semana</button><button data-fc="status" data-v="ok">Em dia</button>
+        <small id="f-cont"></small>
+      </div>
+      <div id="lista" class="lista"></div>
+    </section>
+
+    <section id="tab-hoje" class="tab">
+      <div class="cab"><p class="mini">Lembretes</p><h2>Quem falar hoje e esta semana.</h2><p id="hoje-sub" class="lead"></p></div>
+      <div id="hoje-lista" class="lems"></div>
+    </section>
+
+    <section id="tab-plano" class="tab">
+      <div class="cab"><p class="mini">Plano</p><h2>Como a REDE funciona e como ajustar.</h2></div>
+      <div class="plano">
+        <article class="card">
+          <h3>Situações das salas</h3>
+          <p class="nota">Cada sala representa uma situação. Os textos abaixo valem como provisórios até o áudio com as situações finais. Edite aqui e a mudança aparece nas salas.</p>
+          <div id="sit-edit" class="edit"></div>
+        </article>
+        <article class="card">
+          <h3>Regras do catálogo</h3>
+          <p class="nota">Score de 0 a 100 = 40% laço + 35% utilidade + 25% acessibilidade. Camadas: núcleo (30 dias), ativos (90 dias), distantes (180 dias). O prazo conta a partir do último contato.</p>
+          <p class="nota">Nada é enviado nem agendado sozinho. A REDE escreve o rascunho, sugere o horário, e você aprova.</p>
+        </article>
+        <article class="card">
+          <h3>De onde vêm os dados</h3>
+          <p class="nota">Gmail: enviados e recebidos dos últimos meses, só assunto e destinatário. Pessoas administrativas (contas, impressão, secretaria) ficam de fora. As notas de laço, utilidade e acessibilidade são uma estimativa inicial, e você ajusta.</p>
+          <p class="nota">Os dados ficam cifrados no site e só abrem com a senha. Nada é indexado.</p>
+        </article>
+        <article class="card">
+          <h3>Próximos passos</h3>
+          <ul class="lista-pontos"><li>Ouvir o áudio com as situações e reorganizar as salas.</li><li>Ligar a extensão ao Google Calendar (criar evento só após seu OK).</li><li>Trocar os bonecos em voxel por modelos GLB gerados no Antigravity (o perfil já carrega GLB se o arquivo existir).</li><li>Importar as 200 pessoas (planilha, LinkedIn, contatos).</li></ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="veu" class="veu"></div>
+
+  <aside id="perfil" class="gaveta" aria-hidden="true" aria-label="Perfil do agente">
+    <button class="x" aria-label="Fechar">×</button>
+    <div class="vista"><canvas id="p-canvas"></canvas>
+      <div class="gestos"><button data-gesto="wave">Acenar</button><button data-gesto="think">Pensar</button><button data-gesto="dance">Dançar</button><button data-gesto="jump">Pular</button></div>
+      <small class="dica">Arraste para girar · role para aproximar</small></div>
+    <div class="g-corpo">
+      <p class="mini" id="p-sala"></p><h2 id="p-nome"></h2><p class="lead" id="p-papel"></p>
+      <p class="sitchip"><span>Situação</span><b id="p-sit"></b></p>
+      <h4>O que faz</h4><ul id="p-habil" class="lista-pontos"></ul>
+      <div id="p-corpo"></div>
+    </div>
+  </aside>
+
+  <aside id="contato" class="gaveta" aria-hidden="true" aria-label="Contato">
+    <button class="x" aria-label="Fechar">×</button>
+    <div class="g-corpo"><p class="mini" id="c-org"></p><h2 id="c-nome"></h2><div id="c-corpo"></div></div>
+  </aside>
+</div>
+
+<script src="js/three.min.js"></script>
+<script src="fx/glass-artifact.js"></script>
+<script src="js/bots.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

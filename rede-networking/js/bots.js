@@ -418,5 +418,154 @@ function ProfileView(canvas) {
   LOOP.push(this); start();
 }
 
-root.REDE3D = { RoomView: RoomView, ProfileView: ProfileView, CORES: CORES };
+
+/* ---------- O Hotel: corte do prédio, uma sala por ramo, um boneco por pessoa ---------- */
+var PELE = ['#f1c9a5', '#e0ac82', '#c68a62', '#a56b45', '#7a4a2e', '#5a3420'];
+var CABELO = ['#1b1410', '#3b2616', '#6b4423', '#a87a3d', '#d4b06a', '#2a2a30', '#7a3a2a'];
+function hash(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+
+function makePerson(p) {
+  var h = hash(p.id), g = new T.Group(), body = new T.Group(); g.add(body);
+  var pele = PELE[h % PELE.length], cab = CABELO[(h >>> 3) % CABELO.length], estilo = (h >>> 6) % 4;
+  var calca = shade('#2f3a52', 0.9 + ((h >>> 9) % 5) * 0.06);
+  var legL = new T.Group(), legR = new T.Group(); legL.position.set(-0.1, 0.4, 0); legR.position.set(0.1, 0.4, 0);
+  box(legL, 0.14, 0.4, 0.15, 0, -0.2, 0, calca); box(legR, 0.14, 0.4, 0.15, 0, -0.2, 0, calca);
+  box(legL, 0.16, 0.07, 0.24, 0, -0.38, 0.03, '#1b1c20'); box(legR, 0.16, 0.07, 0.24, 0, -0.38, 0.03, '#1b1c20');
+  body.add(legL, legR);
+  var torso = new T.Group(); torso.position.y = 0.4; body.add(torso);
+  box(torso, 0.5, 0.5, 0.3, 0, 0.25, 0, p.cor);
+  box(torso, 0.5, 0.06, 0.31, 0, 0.5, 0, shade(p.cor, 0.7));
+  var armL = new T.Group(), armR = new T.Group(); armL.position.set(-0.34, 0.46, 0); armR.position.set(0.34, 0.46, 0);
+  box(armL, 0.12, 0.38, 0.13, 0, -0.18, 0, p.cor); box(armL, 0.12, 0.1, 0.13, 0, -0.4, 0, pele);
+  box(armR, 0.12, 0.38, 0.13, 0, -0.18, 0, p.cor); box(armR, 0.12, 0.1, 0.13, 0, -0.4, 0, pele);
+  torso.add(armL, armR);
+  var head = new T.Group(); head.position.y = 0.92; body.add(head);
+  box(head, 0.12, 0.1, 0.12, 0, 0, 0, shade(pele, 0.85));
+  var rosto = box(head, 0.44, 0.4, 0.4, 0, 0.28, 0, pele);
+  box(head, 0.06, 0.07, 0.03, -0.1, 0.3, 0.205, '#17142b'); box(head, 0.06, 0.07, 0.03, 0.1, 0.3, 0.205, '#17142b');
+  box(head, 0.12, 0.03, 0.03, 0, 0.17, 0.205, shade(pele, 0.6));
+  box(head, 0.46, 0.12, 0.42, 0, 0.5, 0, cab);
+  if (estilo === 0) { box(head, 0.46, 0.34, 0.1, 0, 0.36, -0.2, cab); }
+  else if (estilo === 1) { box(head, 0.1, 0.3, 0.42, -0.24, 0.34, 0, cab); box(head, 0.1, 0.3, 0.42, 0.24, 0.34, 0, cab); box(head, 0.46, 0.3, 0.1, 0, 0.34, -0.2, cab); }
+  else if (estilo === 2) { box(head, 0.5, 0.1, 0.46, 0, 0.58, 0, cab); }
+  else { box(head, 0.46, 0.2, 0.1, 0, 0.42, -0.2, cab); }
+  g.scale.setScalar(1.0);
+  var o = { g: g, body: body, legL: legL, legR: legR, armL: armL, armR: armR, head: head, mesh: [], p: p, seed: (h % 1000) / 100, walk: 0, act: 'idle', actT: 0 };
+  g.traverse(function (m) { if (m.isMesh) { m.userData.cid = p.id; o.mesh.push(m); } });
+  return o;
+}
+function animPerson(o, t, dt, moving) {
+  o.actT = Math.max(0, o.actT - dt); if (!o.actT) o.act = 'idle';
+  o.walk += moving ? dt * 8 : 0;
+  var sw = moving ? Math.sin(o.walk) * 0.7 : 0, bob = moving ? Math.abs(Math.sin(o.walk)) * 0.04 : Math.sin(t * 1.7 + o.seed) * 0.015;
+  o.legL.rotation.x = sw; o.legR.rotation.x = -sw;
+  o.armL.rotation.x = -sw * 0.6; o.armR.rotation.x = sw * 0.6; o.armL.rotation.z = 0; o.armR.rotation.z = 0; o.head.rotation.x = 0;
+  var hop = 0;
+  if (o.act === 'wave') { o.armR.rotation.x = 0; o.armR.rotation.z = -2.5 + Math.sin(t * 9) * 0.4; }
+  else if (o.act === 'cafe') { o.armR.rotation.x = -1.7; o.head.rotation.x = -0.1 + Math.sin(t * 2) * 0.05; }
+  else if (o.act === 'alongar') { o.armL.rotation.z = 2.6; o.armR.rotation.z = -2.6; o.armL.rotation.x = 0; o.armR.rotation.x = 0; }
+  else if (o.act === 'pular') { hop = Math.abs(Math.sin(t * 10)) * 0.25; o.armL.rotation.z = 2; o.armR.rotation.z = -2; }
+  o.body.position.y = bob + hop;
+  o.head.rotation.y = moving ? 0 : Math.sin(t * 0.7 + o.seed) * 0.4;
+}
+
+function Hotel(canvas, layer, onPick) {
+  var self = this;
+  var sc = new T.Scene();
+  sc.add(new T.HemisphereLight(0xffffff, 0x2a2b30, 0.95));
+  var dl = new T.DirectionalLight(0xfff1de, 0.6); dl.position.set(6, 12, 14); sc.add(dl);
+  var rend = makeRenderer(canvas);
+  var cam = new T.OrthographicCamera(-10, 10, 6, -6, 0.1, 120);
+  cam.position.set(0, 4.5, 40); cam.lookAt(0, 0, 0);
+  var RW = 6.2, RH = 3.5, RD = 3.8, GX = 0.45, GY = 0.5, COLS = 4, ROWS = 2;
+  var world = new T.Group(); sc.add(world);
+  var pessoas = [], salas = [], elems = {}, ray = new T.Raycaster(), mp = new T.Vector2(), hov = null, sized = false;
+  this.visible = false;
+
+  function slot(i) {
+    var c = i % COLS, r = Math.floor(i / COLS), H = ROWS * RH + (ROWS - 1) * GY;
+    return { x: (c - (COLS - 1) / 2) * (RW + GX), y: H / 2 - RH - r * (RH + GY) };
+  }
+  function sala(i, nome, cor, ehLobby) {
+    var s = slot(i), g = new T.Group(); g.position.set(s.x, s.y, 0); world.add(g);
+    box(g, RW, 0.16, RD, 0, -0.08, 0, '#2d2e33');
+    for (var a = 0; a < 6; a++) for (var b = 0; b < 3; b++) box(g, RW / 6 - 0.02, 0.02, RD / 3 - 0.02, -RW / 2 + RW / 12 + a * RW / 6, 0.01, -RD / 2 + RD / 6 + b * RD / 3, (a + b) % 2 ? '#3a3b42' : '#33343a');
+    box(g, RW, RH, 0.14, 0, RH / 2, -RD / 2, '#3a3b42');
+    box(g, 0.14, RH, RD, -RW / 2, RH / 2, 0, '#2a2b30'); box(g, 0.14, RH, RD, RW / 2, RH / 2, 0, '#2a2b30');
+    box(g, RW + 0.3, 0.2, RD + 0.2, 0, RH + 0.1, 0, '#1b1c20');
+    box(g, RW, 0.06, 0.16, 0, RH - 0.45, -RD / 2 + 0.1, null, glow(cor));
+    box(g, 0.06, 0.06, RD, -RW / 2 + 0.1, RH - 0.45, 0, null, glow(cor, 0.7)); box(g, 0.06, 0.06, RD, RW / 2 - 0.1, RH - 0.45, 0, null, glow(cor, 0.7));
+    box(g, 1.7, 1.1, 0.06, -1.7, 1.9, -RD / 2 + 0.08, '#10131a'); box(g, 1.55, 0.95, 0.04, -1.7, 1.9, -RD / 2 + 0.1, null, glow(shade(cor, 0.9), 0.35));
+    box(g, 0.04, 1.1, 0.07, -1.7, 1.9, -RD / 2 + 0.12, '#1b1c20');
+    box(g, 0.36, 0.3, 0.36, 2.4, 0.15, -RD / 2 + 0.5, '#5a3d2b'); box(g, 0.5, 0.5, 0.5, 2.4, 0.55, -RD / 2 + 0.5, '#3f6b5c'); box(g, 0.3, 0.3, 0.3, 2.4, 0.95, -RD / 2 + 0.5, '#4f857d');
+    box(g, 1.6, 0.04, 1.2, 0.4, 0.04, 0.2, shade(cor, 0.22));
+    if (ehLobby) { box(g, 2.2, 0.8, 0.7, 0.6, 0.4, -0.5, '#5a3d2b'); box(g, 2.3, 0.08, 0.8, 0.6, 0.84, -0.5, '#D1A584'); }
+    return { g: g, x: s.x, y: s.y, nome: nome, cor: cor, ehLobby: ehLobby };
+  }
+  function limpar() {
+    while (world.children.length) world.remove(world.children[0]);
+    layer.innerHTML = ''; pessoas = []; salas = []; elems = {};
+  }
+  this.setData = function (rooms) {
+    limpar();
+    rooms.forEach(function (r, i) {
+      var s = sala(i, r.nome, r.cor, false); s.n = r.pessoas.length; salas.push(s);
+      var el = document.createElement('div'); el.className = 'h-rot'; el.style.setProperty('--c', r.cor);
+      el.innerHTML = '<b>' + r.nome + '</b><small>' + r.pessoas.length + (r.pessoas.length === 1 ? ' pessoa' : ' pessoas') + '</small>'; layer.appendChild(el); s.el = el;
+      var N = r.pessoas.length;
+      r.pessoas.forEach(function (p, k) {
+        var o = makePerson(p); o.room = s;
+        o.pos = new T.Vector2(-RW / 2 + 0.8 + (RW - 1.6) * ((k + 0.5) / Math.max(N, 1)), -RD / 2 + 0.7 + ((k * 7) % 3) * 0.8);
+        o.tgt = o.pos.clone(); o.wait = Math.random() * 3;
+        o.g.position.set(s.x + o.pos.x, s.y, o.pos.y); world.add(o.g);
+        var ic = document.createElement('button'); ic.className = 'h-ico s-' + p.status; ic.style.setProperty('--c', p.cor); ic.style.setProperty('--p', p.score + '%');
+        ic.setAttribute('aria-label', p.nome);
+        ic.innerHTML = '<span class="h-ring"><i>' + p.ini + '</i></span><span class="h-dado"><b>' + p.score + '</b><small>' + p.prazo + '</small></span>' + (p.status === 'atrasado' ? '<em class="h-ex">!</em>' : p.status === 'semana' ? '<em class="h-rel">●</em>' : '');
+        ic.onclick = function () { onPick(p.id); }; layer.appendChild(ic); o.el = ic; elems[p.id] = o; pessoas.push(o);
+      });
+    });
+    var lob = sala(rooms.length, 'Recepção', '#D1A584', true); lob.el = document.createElement('div'); lob.el.className = 'h-rot'; lob.el.style.setProperty('--c', '#D1A584');
+    lob.el.innerHTML = '<b>Recepção</b><small>passe o mouse nas pessoas</small>'; layer.appendChild(lob.el); salas.push(lob);
+    var rec = makeBot('organizador'); rec.group.scale.setScalar(0.62); rec.group.position.set(lob.x - 1.6, lob.y, -0.2); rec.group.rotation.y = 0.5; world.add(rec.group); this.rec = rec;
+    sized = false;
+  };
+  function proj(v) { var p = v.clone().project(cam); return [(p.x * 0.5 + 0.5) * canvas.clientWidth, (-p.y * 0.5 + 0.5) * canvas.clientHeight]; }
+  canvas.addEventListener('pointermove', function (e) { var r = canvas.getBoundingClientRect(); mp.set((e.clientX - r.left) / r.width * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1); self._hover = true; });
+  canvas.addEventListener('pointerleave', function () { self._hover = false; if (hov) { hov.el.classList.remove('hot'); hov = null; } });
+  canvas.addEventListener('click', function () { if (hov) onPick(hov.p.id); });
+  this.frame = function (t, dt) {
+    if (!sized || canvas._rs) {
+      var w = canvas.clientWidth, h = canvas.clientHeight;
+      if (w && h) { rend.setSize(w, h, false); var a = w / h, hh = 4.7; var hw = Math.max(hh * a, 13.5); hh = hw / a; cam.left = -hw; cam.right = hw; cam.top = hh; cam.bottom = -hh; cam.updateProjectionMatrix(); sized = true; canvas._rs = false; }
+    }
+    pessoas.forEach(function (o) {
+      var s = o.room, moving = false;
+      if (o.wait > 0) o.wait -= dt;
+      else {
+        var dx = o.tgt.x - o.pos.x, dz = o.tgt.y - o.pos.y, d = Math.hypot(dx, dz);
+        if (d < 0.05) { o.wait = 1.5 + Math.random() * 4; o.tgt.set(-RW / 2 + 0.7 + Math.random() * (RW - 1.4), -RD / 2 + 0.8 + Math.random() * (RD - 1.3)); if (Math.random() < 0.5) { o.act = ['wave', 'cafe', 'alongar'][Math.floor(Math.random() * 3)]; o.actT = 2.2; } }
+        else { o.pos.x += dx / d * 0.55 * dt; o.pos.y += dz / d * 0.55 * dt; o.g.rotation.y = Math.atan2(dx, dz); moving = true; }
+      }
+      if (!moving && o.actT === 0) o.g.rotation.y += (0 - o.g.rotation.y) * Math.min(1, dt * 3);
+      o.g.position.set(s.x + o.pos.x, s.y, o.pos.y);
+      animPerson(o, t, dt, moving);
+      var q = proj(new T.Vector3(s.x + o.pos.x, s.y + 1.75, o.pos.y));
+      o.el.style.transform = 'translate(' + q[0].toFixed(1) + 'px,' + q[1].toFixed(1) + 'px) translate(-50%,-100%)';
+    });
+    salas.forEach(function (s) { var q = proj(new T.Vector3(s.x - RW / 2 + 0.2, s.y + RH - 0.12, 0)); s.el.style.transform = 'translate(' + q[0].toFixed(1) + 'px,' + q[1].toFixed(1) + 'px)'; });
+    if (this.rec) this.rec.update(t, dt, false);
+    if (this._hover) {
+      ray.setFromCamera(mp, cam);
+      var all = []; pessoas.forEach(function (o) { all = all.concat(o.mesh); });
+      var hit = ray.intersectObjects(all, false)[0], o2 = hit ? elems[hit.object.userData.cid] : null;
+      if (o2 !== hov) { if (hov) hov.el.classList.remove('hot'); hov = o2; if (hov) { hov.el.classList.add('hot'); hov.act = 'wave'; hov.actT = 1.6; } canvas.style.cursor = hov ? 'pointer' : 'default'; }
+    }
+    rend.render(sc, cam);
+  };
+  new IntersectionObserver(function (es) { self.visible = es[0].isIntersecting; }, { threshold: 0.02 }).observe(canvas);
+  new ResizeObserver(function () { canvas._rs = true; }).observe(canvas);
+  LOOP.push(this); start();
+}
+
+root.REDE3D = { RoomView: RoomView, ProfileView: ProfileView, Hotel: Hotel, CORES: CORES };
 })(window);

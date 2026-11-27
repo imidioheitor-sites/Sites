@@ -22,6 +22,20 @@ var SALAS = [
     papel: 'Lista do dia com a mensagem já escrita. Você revisa e envia, nunca é automático.',
     habil: ['Lista o que venceu e o que vence nos próximos dias', 'Escreve um rascunho humano em português ou inglês', 'Marca como enviado e recalcula o prazo', 'Nunca manda nada sozinho'] }
 ];
+
+/* ===== O HOTEL: uma sala por ramo (edite o mapa para mover alguém de sala) ===== */
+var RAMOS = [
+  { id: 'eng', nome: 'Engenharia e Ciências', cor: '#A9BACB' },
+  { id: 'hum', nome: 'Humanidades e Escrita', cor: '#DCC48F' },
+  { id: 'pes', nome: 'Pesquisa, Saúde e IA', cor: '#8DBDB4' },
+  { id: 'neg', nome: 'Negócios e Produto', cor: '#D1A584' },
+  { id: 'ori', nome: 'Orientação e Mentoria', cor: '#E59474' },
+  { id: 'ami', nome: 'Amigos e Comunidade', cor: '#C7B8EA' },
+  { id: 'hw', nome: 'Hardware e IoT', cor: '#7FB0D8' }
+];
+var RAMO_DE = { c08: 'eng', c09: 'eng', c10: 'eng', c11: 'eng', c14: 'eng', c19: 'eng', c07: 'hum', c13: 'hum', c15: 'hum', c16: 'hum', c17: 'hum',
+  c06: 'pes', c25: 'pes', c28: 'pes', k01: 'pes', k02: 'pes', c26: 'neg', c27: 'neg', k03: 'neg', c01: 'ori', c02: 'ori', c03: 'ori', c04: 'ori', c05: 'ori', c12: 'ori', c29: 'ori',
+  c18: 'ami', c20: 'ami', c21: 'ami', c22: 'ami', c23: 'ami', c24: 'ami', k04: 'hw', k05: 'hw' };
 var CAMADAS = { 'Núcleo': { dias: 30, cor: '#D1A584' }, 'Ativos': { dias: 90, cor: '#8DBDB4' }, 'Distantes': { dias: 180, cor: '#8C8F94' } };
 var PESOS = { laco: 0.40, util: 0.35, acess: 0.25 };
 var CORTES = { nucleo: 68, ativos: 45 };
@@ -260,11 +274,28 @@ function renderKpis() {
   var L = catalogo(), atr = L.filter(function (c) { return c.falta < 0; }).length, sem = L.filter(function (c) { return c.falta >= 0 && c.falta <= 7; }).length, nuc = L.filter(function (c) { return c.camada === 'Núcleo'; }).length;
   $('#kpis').innerHTML = '<span class="pill"><b>' + L.length + '</b> pessoas</span><span class="pill' + (atr ? ' alerta' : '') + '"><b>' + atr + '</b> atrasadas</span><span class="pill"><b>' + sem + '</b> esta semana</span><span class="pill"><b>' + nuc + '</b> no núcleo</span>';
 }
-function tudo() { renderKpis(); renderSalas(); renderCatalogo(); renderHoje(); renderPlano(); }
+
+/* ===== hotel ===== */
+var hotel = null;
+function renderHotel() {
+  var L = catalogo();
+  var salas = RAMOS.map(function (r) {
+    var ps = L.filter(function (c) { return RAMO_DE[c.id] === r.id; }).sort(function (x, y) { return y.score - x.score; });
+    return { nome: r.nome, cor: r.cor, pessoas: ps.map(function (c) {
+      return { id: c.id, nome: c.nome, ini: iniciais(c.nome), score: c.score, status: c.status, cor: CAMADAS[c.camada].cor,
+        prazo: c.falta < 0 ? (-c.falta) + ' d atraso' : c.falta === 0 ? 'hoje' : 'em ' + c.falta + ' d' };
+    }) };
+  });
+  var leg = $('#h-leg'); if (leg) leg.innerHTML = salas.map(function (s) { return '<span class="pill" style="--c:' + s.cor + '"><i style="background:' + s.cor + '"></i>' + esc(s.nome) + ' <b>' + s.pessoas.length + '</b></span>'; }).join('');
+  if (!$('#tab-hotel').classList.contains('on')) { hotel && (hotel._dirty = salas); return; }
+  if (!hotel) hotel = new REDE3D.Hotel($('#h-canvas'), $('#h-layer'), abrirContato);
+  hotel.setData(salas); hotel._dirty = null;
+}
+function tudo() { renderHotel(); renderKpis(); renderSalas(); renderCatalogo(); renderHoje(); renderPlano(); }
 
 /* ===== eventos ===== */
 function ligar() {
-  $$('.aba').forEach(function (b) { b.onclick = function () { $$('.aba').forEach(function (x) { x.classList.toggle('on', x === b); }); $$('.tab').forEach(function (t) { t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab); }); window.scrollTo(0, 0); }; });
+  $$('.aba').forEach(function (b) { b.onclick = function () { $$('.aba').forEach(function (x) { x.classList.toggle('on', x === b); }); $$('.tab').forEach(function (t) { t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab); }); window.scrollTo(0, 0); if (b.dataset.tab === 'hotel') { hotel && hotel._dirty ? (hotel.setData(hotel._dirty), hotel._dirty = null) : (hotel || renderHotel()); } }; });
   $('#f-q').oninput = function () { F.q = this.value.toLowerCase(); renderCatalogo(); };
   $('#f-origem').onchange = function () { F.origem = this.value; renderCatalogo(); };
   $('#f-ord').onchange = function () { F.ord = this.value; renderCatalogo(); };

@@ -32,6 +32,7 @@
         <button class="aba on" data-tab="salas">Salas</button>
         <button class="aba" data-tab="catalogo">Catálogo</button>
         <button class="aba" data-tab="hoje">Hoje</button>
+        <button class="aba" data-tab="hotel">O Hotel</button>
         <button class="aba" data-tab="plano">Plano</button>
       </nav>
       <div id="kpis" class="kpis"></div>
@@ -63,6 +64,14 @@
     <section id="tab-hoje" class="tab">
       <div class="cab"><p class="mini">Lembretes</p><h2>Quem falar hoje e esta semana.</h2><p id="hoje-sub" class="lead"></p></div>
       <div id="hoje-lista" class="lems"></div>
+    </section>
+
+    <section id="tab-hotel" class="tab">
+      <div class="cab"><p class="mini">O Hotel</p><h2>Cada pessoa mora na sala do seu ramo.</h2>
+        <p class="lead">O anel é o score, o número embaixo é o prazo do próximo contato. Vermelho é atrasado, amarelo é desta semana. Clique em alguém para abrir o perfil.</p></div>
+      <div id="h-leg" class="chips"></div>
+      <div class="h-rolo"><div class="h-palco"><canvas id="h-canvas"></canvas><div id="h-layer" class="h-layer"></div></div></div>
+      <p class="nota peq">As fotos de perfil do e-mail não chegam pelo Google conectado, então cada boneco tem aparência própria gerada pelo nome. Se você enviar as fotos, elas entram no ícone.</p>
     </section>
 
     <section id="tab-plano" class="tab">

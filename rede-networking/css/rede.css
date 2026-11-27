@@ -116,3 +116,29 @@ textarea{width:100%;padding:14px;border-radius:18px;border:1px solid rgba(255,25
   .kpis{margin-left:0}.abas{overflow-x:auto}.lems{grid-template-columns:1fr}.gaveta{top:0;right:0;bottom:0;width:100vw;border-radius:0}.vista{border-radius:0;height:300px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* hotel */
+.h-rolo{overflow-x:auto;border-radius:30px;border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.2));box-shadow:0 30px 60px -28px #000,inset 0 1px 0 rgba(255,255,255,.2)}
+.h-palco{position:relative;min-width:1000px;aspect-ratio:27/10}
+.h-palco canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.h-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.h-rot{position:absolute;left:0;top:0;display:flex;align-items:baseline;gap:8px;padding:5px 12px;border-radius:999px;background:rgba(20,20,22,.6);border:1px solid color-mix(in srgb,var(--c) 60%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);white-space:nowrap;will-change:transform}
+.h-rot b{color:var(--texto);font-size:13px}.h-rot small{color:var(--sutil);font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.h-ico{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;padding:3px 9px 3px 3px;border-radius:999px;background:rgba(20,20,22,.72);border:1px solid rgba(255,255,255,.2);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);cursor:pointer;pointer-events:auto;will-change:transform;transition:background .2s}
+.h-ico.hot,.h-ico:hover{background:rgba(60,50,45,.9);z-index:3;border-color:var(--c)}
+.h-ring{position:relative;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--c) var(--p),rgba(255,255,255,.15) 0)}
+.h-ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#26262a}
+.h-ring i{position:relative;font:900 10px/1 var(--display);font-style:normal;color:var(--texto)}
+.h-dado{display:grid;line-height:1;text-align:left}.h-dado b{color:var(--texto);font-size:12px}.h-dado small{font:500 9px/1.3 var(--mono);color:var(--sutil);white-space:nowrap}
+.h-ico.s-atrasado{border-color:var(--coral);animation:treme 1.6s infinite}.h-ico.s-atrasado .h-dado small{color:var(--coral)}
+.h-ico.s-semana .h-dado small{color:var(--latao3)}
+.h-ex{position:absolute;right:-5px;top:-8px;width:16px;height:16px;border-radius:50%;background:var(--coral);color:#1e1511;font:900 11px/16px var(--display);text-align:center;font-style:normal;animation:pulsa 1.2s infinite}
+.h-rel{position:absolute;right:-3px;top:-6px;color:var(--latao3);font-size:11px;font-style:normal;animation:pulsa 1.8s infinite}
+@keyframes pulsa{50%{transform:scale(1.35);opacity:.7}}
+@keyframes treme{0%,88%,100%{margin-left:0}92%{margin-left:-2px}96%{margin-left:2px}}
+.chips .pill i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+
+.h-ico{padding:3px}.h-dado{display:none;padding-right:8px}.h-ico.hot .h-dado,.h-ico:hover .h-dado,.h-ico.s-atrasado .h-dado{display:grid}
+.h-ico.s-atrasado .h-dado b,.h-ico:not(.hot):not(:hover) .h-dado b{display:none}
+.h-ico.hot,.h-ico:hover{z-index:5}.h-ico.hot .h-dado b,.h-ico:hover .h-dado b{display:block}
+.h-ring{width:28px;height:28px}

@@ -23,15 +23,22 @@ var SALAS = [
     habil: ['Lista o que venceu e o que vence nos próximos dias', 'Escreve um rascunho humano em português ou inglês', 'Marca como enviado e recalcula o prazo', 'Nunca manda nada sozinho'] }
 ];
 
-/* ===== O HOTEL: uma sala por ramo (edite o mapa para mover alguém de sala) ===== */
+/* ===== O HOTEL: um quarto por ramo (edite RAMO_DE para mudar alguém de quarto) ===== */
 var RAMOS = [
-  { id: 'eng', nome: 'Engenharia e Ciências', cor: '#A9BACB' },
-  { id: 'hum', nome: 'Humanidades e Escrita', cor: '#DCC48F' },
-  { id: 'pes', nome: 'Pesquisa, Saúde e IA', cor: '#8DBDB4' },
-  { id: 'neg', nome: 'Negócios e Produto', cor: '#D1A584' },
-  { id: 'ori', nome: 'Orientação e Mentoria', cor: '#E59474' },
-  { id: 'ami', nome: 'Amigos e Comunidade', cor: '#C7B8EA' },
-  { id: 'hw', nome: 'Hardware e IoT', cor: '#7FB0D8' }
+  { id: 'eng', nome: 'Engenharia e Ciências', cor: '#A9BACB', cena: 'Oficina de protótipos',
+    uso: 'Quem abre portas de projeto, laboratório e recomendação técnica. Chegue com algo construído, não com uma pergunta aberta.' },
+  { id: 'hum', nome: 'Humanidades e Escrita', cor: '#DCC48F', cena: 'Biblioteca',
+    uso: 'Quem lê o que você escreve e assina carta de recomendação humanista. Mande o texto antes de pedir a reunião.' },
+  { id: 'pes', nome: 'Pesquisa, Saúde e IA', cor: '#8DBDB4', cena: 'Laboratório',
+    uso: 'Onde mora o verão de 2027 e a pesquisa. Pergunta curta, anexo pequeno, resposta fácil de dar.' },
+  { id: 'neg', nome: 'Negócios e Produto', cor: '#D1A584', cena: 'Sala de reunião',
+    uso: 'Processos seletivos e visão de produto. Peça feedback concreto, que é o favor mais barato de conceder.' },
+  { id: 'ori', nome: 'Orientação e Mentoria', cor: '#E59474', cena: 'Sala de conversa',
+    uso: 'As pessoas que apresentam você a outras. Mantenha quente mesmo sem precisar de nada.' },
+  { id: 'ami', nome: 'Amigos e Comunidade', cor: '#C7B8EA', cena: 'Lounge',
+    uso: 'Laço forte, utilidade indireta. Aqui o custo de sumir é alto e o de voltar é baixo.' },
+  { id: 'hw', nome: 'Hardware e IoT', cor: '#7FB0D8', cena: 'Sala de máquinas',
+    uso: 'Prospecção fria que ainda não respondeu. Um follow-up, depois deixe esfriar.' }
 ];
 var RAMO_DE = { c08: 'eng', c09: 'eng', c10: 'eng', c11: 'eng', c14: 'eng', c19: 'eng', c07: 'hum', c13: 'hum', c15: 'hum', c16: 'hum', c17: 'hum',
   c06: 'pes', c25: 'pes', c28: 'pes', k01: 'pes', k02: 'pes', c26: 'neg', c27: 'neg', k03: 'neg', c01: 'ori', c02: 'ori', c03: 'ori', c04: 'ori', c05: 'ori', c12: 'ori', c29: 'ori',
@@ -276,30 +283,56 @@ function renderKpis() {
 }
 
 /* ===== hotel ===== */
-var hotel = null;
-function renderHotel() {
+var hotel = null, hotelDados = null;
+function dadosHotel() {
   var L = catalogo();
-  var salas = RAMOS.map(function (r) {
+  return RAMOS.map(function (r) {
     var ps = L.filter(function (c) { return RAMO_DE[c.id] === r.id; }).sort(function (x, y) { return y.score - x.score; });
-    return { nome: r.nome, cor: r.cor, pessoas: ps.map(function (c) {
-      return { id: c.id, nome: c.nome, ini: iniciais(c.nome), score: c.score, status: c.status, cor: CAMADAS[c.camada].cor,
-        prazo: c.falta < 0 ? (-c.falta) + ' d atraso' : c.falta === 0 ? 'hoje' : 'em ' + c.falta + ' d' };
+    return { id: r.id, nome: r.nome, cor: r.cor, cena: r.cena, uso: r.uso, pessoas: ps.map(function (c) {
+      return { id: c.id, nome: c.nome, ini: iniciais(c.nome), score: c.score, status: c.status, camada: c.camada, org: c.org,
+        cor: CAMADAS[c.camada].cor, prazo: c.falta < 0 ? (-c.falta) + ' d de atraso' : c.falta === 0 ? 'hoje' : 'em ' + c.falta + ' d' };
     }) };
   });
-  var leg = $('#h-leg'); if (leg) leg.innerHTML = salas.map(function (s) { return '<span class="pill" style="--c:' + s.cor + '"><i style="background:' + s.cor + '"></i>' + esc(s.nome) + ' <b>' + s.pessoas.length + '</b></span>'; }).join('');
-  if (!$('#tab-hotel').classList.contains('on')) { hotel && (hotel._dirty = salas); return; }
-  if (!hotel) hotel = new REDE3D.Hotel($('#h-canvas'), $('#h-layer'), abrirContato);
-  hotel.setData(salas); hotel._dirty = null;
+}
+function fichaQuarto(i, s) {
+  var el = $('#h-foco');
+  if (i < 0 || !s) { el.classList.remove('on'); $('#h-dica').classList.remove('off'); return; }
+  var r = hotelDados[i];
+  $('#h-dica').classList.add('off');
+  if (!r) { el.innerHTML = '<button class="h-volta">Ver o prédio inteiro</button><p class="mini">Recepção</p><h3>Entrada do Hotel</h3><p class="nota">O Organizador recebe quem chega. Toda pessoa nova passa por aqui antes de ganhar um quarto.</p>'; }
+  else {
+    var atr = r.pessoas.filter(function (p) { return p.status === 'atrasado'; }).length;
+    el.innerHTML = '<button class="h-volta">Ver o prédio inteiro</button>' +
+      '<p class="mini">' + esc(r.cena) + '</p><h3>' + esc(r.nome) + '</h3>' +
+      '<p class="nota">' + esc(r.uso) + '</p>' +
+      '<p class="h-tot"><b>' + r.pessoas.length + '</b> no quarto' + (atr ? ' · <span class="atr">' + atr + ' em atraso</span>' : ' · tudo em dia') + '</p>' +
+      '<div class="h-gente">' + (r.pessoas.length ? r.pessoas.map(function (p) {
+        return '<button class="h-chip s-' + p.status + '" data-c="' + p.id + '"><span class="av" style="--c:' + p.cor + '">' + esc(p.ini) + '</span><span><b>' + esc(p.nome) + '</b><small>' + esc(p.org) + ' · ' + p.score + ' · ' + esc(p.prazo) + '</small></span></button>';
+      }).join('') : '<p class="nota">Quarto vazio. Quando o Expansor adicionar alguém desse ramo, ele aparece aqui.</p>') + '</div>';
+  }
+  el.classList.add('on');
+  $('.h-volta', el).onclick = function () { hotel.verTudo(); };
+}
+function renderHotel(forcar) {
+  hotelDados = dadosHotel();
+  var leg = $('#h-leg');
+  if (leg) leg.innerHTML = hotelDados.map(function (s, i) {
+    return '<button class="pill" data-quarto="' + i + '"><i style="background:' + s.cor + '"></i>' + esc(s.nome) + ' <b>' + s.pessoas.length + '</b></button>';
+  }).join('') + '<button class="pill" data-quarto="-1">Ver tudo</button>';
+  if (!$('#tab-hotel').classList.contains('on') && !forcar) { if (hotel) hotel._sujo = true; return; }
+  if (!hotel) hotel = new REDE3D.Hotel($('#h-canvas'), $('#h-layer'), abrirContato, fichaQuarto);
+  hotel.setData(hotelDados); hotel._sujo = false; fichaQuarto(-1, null);
 }
 function tudo() { renderHotel(); renderKpis(); renderSalas(); renderCatalogo(); renderHoje(); renderPlano(); }
 
 /* ===== eventos ===== */
 function ligar() {
-  $$('.aba').forEach(function (b) { b.onclick = function () { $$('.aba').forEach(function (x) { x.classList.toggle('on', x === b); }); $$('.tab').forEach(function (t) { t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab); }); window.scrollTo(0, 0); if (b.dataset.tab === 'hotel') { hotel && hotel._dirty ? (hotel.setData(hotel._dirty), hotel._dirty = null) : (hotel || renderHotel()); } }; });
+  $$('.aba').forEach(function (b) { b.onclick = function () { $$('.aba').forEach(function (x) { x.classList.toggle('on', x === b); }); $$('.tab').forEach(function (t) { t.classList.toggle('on', t.id === 'tab-' + b.dataset.tab); }); window.scrollTo(0, 0); if (b.dataset.tab === 'hotel') { if (!hotel || hotel._sujo) renderHotel(true); } }; });
   $('#f-q').oninput = function () { F.q = this.value.toLowerCase(); renderCatalogo(); };
   $('#f-origem').onchange = function () { F.origem = this.value; renderCatalogo(); };
   $('#f-ord').onchange = function () { F.ord = this.value; renderCatalogo(); };
   $$('[data-fc]').forEach(function (b) { b.onclick = function () { var k = b.dataset.fc, v = b.dataset.v; F[k] = F[k] === v ? '' : v; $$('[data-fc="' + k + '"]').forEach(function (x) { x.classList.toggle('on', x.dataset.v === F[k]); }); renderCatalogo(); }; });
+  document.addEventListener('click', function (e) { var q = e.target.closest('[data-quarto]'); if (q && hotel) hotel.focar(parseInt(q.dataset.quarto, 10)); });
   $('#veu').onclick = fechar; $$('.x').forEach(function (b) { b.onclick = fechar; });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fechar(); });
   $$('[data-gesto]').forEach(function (b) { b.onclick = function () { if (pv) pv.say(b.dataset.gesto, b.dataset.gesto === 'jump' ? 1 : 3.2); }; });

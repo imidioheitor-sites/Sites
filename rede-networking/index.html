@@ -67,11 +67,16 @@
     </section>
 
     <section id="tab-hotel" class="tab">
-      <div class="cab"><p class="mini">O Hotel</p><h2>Cada pessoa mora na sala do seu ramo.</h2>
-        <p class="lead">O anel é o score, o número embaixo é o prazo do próximo contato. Vermelho é atrasado, amarelo é desta semana. Clique em alguém para abrir o perfil.</p></div>
-      <div id="h-leg" class="chips"></div>
-      <div class="h-rolo"><div class="h-palco"><canvas id="h-canvas"></canvas><div id="h-layer" class="h-layer"></div></div></div>
-      <p class="nota peq">As fotos de perfil do e-mail não chegam pelo Google conectado, então cada boneco tem aparência própria gerada pelo nome. Se você enviar as fotos, elas entram no ícone.</p>
+      <div class="cab"><p class="mini">O Hotel</p><h2>Oito quartos, um por ramo da sua rede.</h2>
+        <p class="lead">Cada pessoa mora no quarto do seu ramo e tem personalidade própria: o anel é o score e a cor é a camada. Clique num quarto para entrar nele, e numa pessoa para abrir o perfil.</p></div>
+      <div id="h-leg" class="chips quartos"></div>
+      <div class="h-rolo"><div class="h-palco">
+        <canvas id="h-canvas"></canvas>
+        <div id="h-layer" class="h-layer"></div>
+        <p id="h-dica" class="h-dica">Clique num quarto para entrar · dois cliques para voltar</p>
+        <aside id="h-foco" class="h-foco"></aside>
+      </div></div>
+      <p class="nota peq">As fotos de perfil do e-mail não chegam pelo Google conectado, então cada pessoa ganhou aparência e temperamento gerados pelo nome. Se você mandar as fotos, elas entram no ícone.</p>
     </section>
 
     <section id="tab-plano" class="tab">
@@ -124,6 +129,7 @@
 <script src="js/three.min.js"></script>
 <script src="fx/glass-artifact.js"></script>
 <script src="js/bots.js"></script>
+<script src="js/hotel.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
